@@ -1,0 +1,1 @@
+These are all from ISO/IEC 9899 (http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1124.pdf)
