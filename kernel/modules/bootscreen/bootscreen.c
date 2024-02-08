@@ -1,6 +1,7 @@
 #include <bootscreen.h>
 #include <screen.h>
 #include <string.h>
+#include <gui.h>
 
 
 void bootscreen() {
