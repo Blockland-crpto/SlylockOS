@@ -19,9 +19,17 @@
 #define HELP_APP_ID 1
 #define HELP_APP_ID_TW 2
 #define ABOUT_APP_ID 3
-#define LS_APP_ID 4
-#define CAT_APP_ID 5
-#define CREDITS "Made Possible by:\n1. Abrid OS\n2. OSDEV.org\nThank you!\nPress Enter To Continue..."
+#define ABOUT_APP_ID_TW 4
+
+// LS app ID's
+#define LS_APP_ID 5
+#define LS_APP_ID_TW 6
+#define LS_APP_ID_TH 7
+#define LS_APP_ID_FR 8
+#define LS_APP_ID_SL 9
+
+#define CAT_APP_ID 10
+
 
 
 extern int enable_shell;
@@ -42,5 +50,14 @@ void shell(char s[], int i);
 
 void avaliable_commands();
 void avaliable_commands_two();
+
+void about();
+void about_two();
+
+void ls();
+void ls_two();
+void ls_three();
+void ls_four();
+void ls_select(char file, int y);
 
 #endif

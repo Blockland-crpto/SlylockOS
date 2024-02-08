@@ -34,7 +34,7 @@ unsigned char ascii_values[128] =
     0,	/* 69 - Num lock*/
     0,	/* Scroll Lock */
     0,	/* Home key */
-    0,	/* Up Arrow */
+    '{',	/* Up Arrow */
     0,	/* Page Up */
   '-',
     '<',	/* Left Arrow */
@@ -42,7 +42,7 @@ unsigned char ascii_values[128] =
     '>',	/* Right Arrow */
   '+',
     0,	/* 79 - End key*/
-    0,	/* Down Arrow */
+    '}',	/* Down Arrow */
     0,	/* Page Down */
     0,	/* Insert Key */
     0,	/* Delete Key */
@@ -149,7 +149,41 @@ void track_input(char c){
               //Do nothing
             }
           } else if (userinputmode == ABOUT_APP_ID) {
-			 //do nothing
+			  if (c == '<') {
+				//Do nothing
+			  } else if (c == '>') {
+				about_two();
+			  }
+		  } else if (userinputmode == ABOUT_APP_ID_TW) {
+			  if (c == '<') {
+				about();
+			  } else if (c == '>') {
+				//Do nothing
+			  }
+		  } else if (userinputmode == LS_APP_ID) {
+			  if (c == '<') {
+				//Do nothing
+			  } else if (c == '>') {
+				ls_two();
+			  }
+		  } else if (userinputmode == LS_APP_ID_TW) {
+			  if (c == '<') {
+				ls();
+			  } else if (c == '>') {
+				ls_three();
+			  }
+		  } else if (userinputmode == LS_APP_ID_TH) {
+			  if (c == '<') {
+				ls_two();
+			  } else if (c == '>') {
+				ls_four();
+			  }
+		  } else if (userinputmode == LS_APP_ID_FR) {
+			  if (c == '<') {
+				ls_three();
+			  } else if (c == '>') {
+				//Do Nothing
+			  }
 		  }
           
           if (c == '\n') {
