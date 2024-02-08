@@ -1,5 +1,6 @@
 #include <memory.h>
 #include <multibootinfo.h>
+#include <string.h>
 uintptr_t current_break;
 int has_initialized = 0;
 void *managed_memory_start;
@@ -15,6 +16,8 @@ mem_control_block pmcb;
 int ram_size() {
 	return (mbi->mem_lower + mbi->mem_upper)+513;
 }
+
+
 
 unsigned char *memcpy(unsigned char *dest, const unsigned char *src, int count)
 {

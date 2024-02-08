@@ -148,7 +148,9 @@ void track_input(char c){
             } else if (c == '>') {
               //Do nothing
             }
-          }
+          } else if (userinputmode == ABOUT_APP_ID) {
+			 //do nothing
+		  }
           
           if (c == '\n') {
             clear(COLOR_WHT, COLOR_BLK);
@@ -159,8 +161,6 @@ void track_input(char c){
             userinputmode = 0;
           } 
         }
-        
-          
 }
 
 void keyboard_install(){

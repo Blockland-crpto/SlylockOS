@@ -14,14 +14,16 @@
 #include <fs.h>
 
 #define NULL ((char *)0)
-#define sizeof(type) (char *)(&type+1)-(char*)(&type)
+//#define sizeof(type) (char *)(&type+1)-(char*)(&type)
 #define SHELL_VERSION "1.0.0\n"
 #define HELP_APP_ID 1
 #define HELP_APP_ID_TW 2
 #define ABOUT_APP_ID 3
 #define LS_APP_ID 4
 #define CAT_APP_ID 5
-  
+#define CREDITS "Made Possible by:\n1. Abrid OS\n2. OSDEV.org\nThank you!\nPress Enter To Continue..."
+
+
 extern int enable_shell;
 
 fs_node_t blank;

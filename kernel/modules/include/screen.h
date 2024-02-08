@@ -194,7 +194,7 @@ void scroll_line();
 void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start);
 
 //A gui template
-void make_gui(char *appname, int winfg, int winbg, int multipage, int backpage);
+void make_gui(int winfg, int winbg, int multipage, int backpage);
 
 //gui pop up
 void make_gui_windows(char *title, char *cont, int beginx, int beginy, int endx, int endy);

@@ -74,24 +74,24 @@ void reboot(){
 //Help main page
 void avaliable_commands(){
   userinputmode = HELP_APP_ID;
-  char helpstr[350] = "`help` Shows this screen.\n\n`clear` Clears the screen\n\n`about` Shows information about the OS.\n\n`reboot` Reboots the computer.\n\n`cat <[Any] file>` Prints the contents of the file `file`.\n\nPress tab to continue";
+  char helpstr[235] ="Avaliable Commands\n\n`help` Shows this screen.\n\n`clear` Clears the screen\n\n`about` Shows information about the OS.\n\n`reboot` Reboots the computer.\n\n`cat <[Any] file>` Prints the contents of the file `file`.\n\nPress enter to continue";
   
-  make_gui("Help", 3, 3, 1, 0);
-  make_gui_windows("Avaliable Commands:", helpstr, 3, 3, 70, 22);
+  make_gui(3, 3, 1, 0);
+  make_gui_windows("", helpstr, 3, 3, 70, 22);
 }
 
 //Help second page
 void avaliable_commands_two(){
   userinputmode = HELP_APP_ID_TW;
-  char helpstr[300] = "`ls` Prints a list of all the files and directories\n in the current directory.\n\n`shutdown` Shuts down the computer.\n\nPress tab to continue";
+  char helpstr[200] = "Avaliable Commands\n\n`ls` Prints a list of all the files and directories\n in the current directory.\n\n`shutdown` Shuts down the computer.\n\nPress enter to continue";
 
-  make_gui("Help", 3, 3, 1, 1);
-  make_gui_windows("Avaliable Commands:", helpstr, 3, 3, 70, 22);
+  make_gui(3, 3, 1, 1);
+  make_gui_windows("", helpstr, 3, 3, 70, 22);
 }
 
 void about() {
-  char *buf;
-  char aboutstr[300];
+  char buf;
+  char aboutstr[280]; 
   userinputmode = ABOUT_APP_ID;
   strcat(aboutstr, "MiniOS\nA Operating System written in C\nand ASM for lightweight computers.\n");
   
@@ -113,10 +113,9 @@ void about() {
   
   clear_scr();
  
-  make_gui("About", 3, 3, 0, 0);
+  make_gui(3, 3, 0, 0);
 
   make_gui_windows("About OS:", aboutstr, 4, 3, 70, 22);
-  
   for (int i = 0; i < strlen(aboutstr); i++) {
     aboutstr[i] = '\0';
   }
@@ -125,7 +124,7 @@ void about() {
 void shutdown() {
   clear_scr();
 
-  make_gui("Shutdown", 3, 3, 0, 0);
+  make_gui(3, 3, 0, 0);
 
   make_gui_windows("Shutting Down...", "Its safe to turn off your computer now", 19, 10, 60, 20);
   

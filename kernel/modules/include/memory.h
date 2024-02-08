@@ -11,12 +11,15 @@
 #ifndef __MEM_H
 #define __MEM_H
 
+
+
 /**
 	\brief Gets RAM installed
 
 	Gets the amount of RAM installed in the computer.
 */
 int ram_size();
+
 
 /**
   \typedef unsigned long uintptr_t

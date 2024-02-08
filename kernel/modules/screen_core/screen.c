@@ -259,23 +259,22 @@ void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned ch
   }
 }
 
-void make_gui(char *appname, int winfg, int winbg, int multipage, int backpage) {
+void make_gui(int winfg, int winbg, int multipage, int backpage) {
   for(int y = 0; y<2; y++) {
     for(int x = 0; x<80; x++) {
       putpos("#", 7, 7, x, y);
     }
   }
-  putstr(appname, 8, 7);
   for(int y = 25; y > 1; y--) {
     for(int x = 0; x<80; x++) {
       putpos("#", winfg, winbg, x, y);
     }
   }
   if (multipage == 1) {
-    putpos("<", 8, 7, 50, 1);
+    putpos("<", 8, 7, 49, 1);
   }
   if (backpage == 1) {
-    putpos("<", 8, 7, 48, 1);
+    putpos("<", 8, 7, 50, 1);
   }
 }
 
@@ -296,5 +295,4 @@ void make_gui_windows(char *title, char *cont, int beginx, int beginy, int endx,
   }
   putstrpos(title, beginx+1, beginy+1, 8, 7, beginx+1);
   putstrpos(cont, beginx+1, beginy+3, 8, 7, beginx+1);
-  
 }
