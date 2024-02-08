@@ -26,7 +26,7 @@
 #define LS_APP_ID_TW 6
 #define LS_APP_ID_TH 7
 #define LS_APP_ID_FR 8
-#define LS_APP_ID_SL 9
+#define LS_APP_ID_FV 9
 
 #define CAT_APP_ID 10
 
@@ -58,6 +58,6 @@ void ls();
 void ls_two();
 void ls_three();
 void ls_four();
-void ls_select(char file, int y);
+void ls_five();
 
 #endif

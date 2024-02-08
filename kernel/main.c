@@ -14,6 +14,7 @@
 #include <multibootinfo.h>
 #include <execute.h>
 #include <usermode.h>
+#include <bootscreen.h>
 
 #define MB_MAGIC 0x1BADB002
 
@@ -47,6 +48,7 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   
   //execute_program("./test");
   
+  
 
   gdt_install();
   idt_install();
@@ -65,9 +67,12 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 
   libc_init();
 
+  bootscreen();
   
   __asm__ __volatile__("sti");
-  
+
+
+	
   // print the welcome message
   putstr("Welcome to ", COLOR_GRY, COLOR_BLK);
   putstr("MiniOS\n", COLOR_CYN, COLOR_BLK);

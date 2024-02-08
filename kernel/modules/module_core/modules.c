@@ -15,9 +15,9 @@ module_t MODULE(char* name, char* description) {
 }
 
 void INIT(module_t module) {
-	kprintf("---initializing module ");
-	kprintf(module.name);
-	kprintf("\n");
+	//kprintf("---initializing module ");
+	//kprintf(module.name);
+	//kprintf("\n");
 	modules[count] = module;
 	if(count == NULL) {
 		count = 1;
@@ -25,8 +25,8 @@ void INIT(module_t module) {
 		count++;
 	}
 	module.initialized = true;
-	kprintf(" \\->");
-	putstr("done.\n", COLOR_GRN, COLOR_BLK);
+	//kprintf(" \\->");
+	//putstr("done.\n", COLOR_GRN, COLOR_BLK);
 }
 void DISABLE(module_t module) {
 	kprintf("---disabling module");

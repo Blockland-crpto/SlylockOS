@@ -136,6 +136,7 @@ void track_input(char c){
             i++;
           }
         } else if(userinputmode > 0) {
+		  //This is a patch to coordinate program responces to key input
           if (userinputmode == HELP_APP_ID) {
             if (c == '<') {
               //Do nothing
@@ -181,6 +182,12 @@ void track_input(char c){
 		  } else if (userinputmode == LS_APP_ID_FR) {
 			  if (c == '<') {
 				ls_three();
+			  } else if (c == '>') {
+				ls_five();
+			  }
+		  } else if (userinputmode == LS_APP_ID_FV) {
+			  if (c == '<') {
+				ls_four();
 			  } else if (c == '>') {
 				//Do Nothing
 			  }

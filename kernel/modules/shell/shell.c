@@ -222,7 +222,28 @@ void ls_four() {
   //kprintf("Press Tab To Continue...");
 }
 
-
+void ls_five() {
+  userinputmode = LS_APP_ID_FV;
+  struct dirent *node = 0;
+  int i=60;
+  make_gui(3, 3, 5);
+  make_gui_windows("LS", " ", 4, 3, 70, 22);
+  for (int j = 5; j < 21; j++) {
+	while ( (node = readdir_fs(fs_root, i)) != 0 && j < 21)
+	{
+		fs_node_t *fsnode = finddir_fs(fs_root, node->name);
+		putstrpos(node->name, 7, j, 8, 7, 7);
+		if(((fsnode->flags&0x7) == FS_DIRECTORY)) 
+		{
+			putstrpos("/", 7, j, 8, 7, 7);
+		}
+		putstrpos("\n", 7, j, 8, 7, 7);
+		i++;
+		j++;
+	} 
+  }
+  //kprintf("Press Tab To Continue...");
+}
 
 
 void cat(char s[]) {
