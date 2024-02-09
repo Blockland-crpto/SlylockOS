@@ -48,8 +48,7 @@ void shell_init();
 */
 void shell(char s[], int i);
 
-void avaliable_commands();
-void avaliable_commands_two();
+void avaliable_commands(int page);
 
 void about();
 void about_two();

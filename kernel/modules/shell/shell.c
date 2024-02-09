@@ -34,7 +34,7 @@ void shell(char s[], int i){
   if(strcmp(s, "clear")==0){
   	clear_scr();
   } else if(strcmp(s, "help")==0){ // print help information
-    avaliable_commands();
+    avaliable_commands(1);
   } else if(strcmp(s, "about")==0){ // print info about computer
   	about();
   } else if(strcmp(s, "reboot")==0){ // reboot computer
@@ -73,22 +73,21 @@ void reboot(){
 }
 
 //Help main page
-void avaliable_commands(){
-  userinputmode = HELP_APP_ID;
-  char helpstr[235] ="Avaliable Commands\n\n`help` Shows this screen.\n\n`clear` Clears the screen\n\n`about` Shows information about the OS.\n\n`reboot` Reboots the computer.\n\n`cat <[Any] file>` Prints the contents of the file `file`.\n\nPress enter to continue";
-  
-  make_gui(3, 3, 1);
-  make_gui_windows("", helpstr, 3, 3, 70, 22);
+void avaliable_commands(int page){
+  char helpstrpgo[235] ="Avaliable Commands\n\n`help` Shows this screen.\n\n`clear` Clears the screen\n\n`about` Shows information about the OS.\n\n`reboot` Reboots the computer.\n\n`cat <[Any] file>` Prints the contents of the file `file`.\n\nPress enter to continue";
+  char helpstrpgt[200] = "Avaliable Commands\n\n`ls` Prints a list of all the files and directories\n in the current directory.\n\n`shutdown` Shuts down the computer.\n\nPress enter to continue";
+  if (page == 1) {
+	userinputmode = HELP_APP_ID;
+	make_gui(3, 3, 1);
+	make_gui_windows("", helpstrpgo, 3, 3, 70, 22);
+  } else if (page == 2) {
+	userinputmode = HELP_APP_ID_TW;
+	make_gui(3, 3, 2);
+	make_gui_windows("", helpstrpgt, 3, 3, 70, 22);
+  }
+
 }
 
-//Help second page
-void avaliable_commands_two(){
-  userinputmode = HELP_APP_ID_TW;
-  char helpstr[200] = "Avaliable Commands\n\n`ls` Prints a list of all the files and directories\n in the current directory.\n\n`shutdown` Shuts down the computer.\n\nPress enter to continue";
-
-  make_gui(3, 3, 2);
-  make_gui_windows("", helpstr, 3, 3, 70, 22);
-}
 
 void about() {
   char aboutstr[220] = "MiniOS\nA Operating System written in C\nand ASM for lightweight computers.\n\nKernel Version: v1.0.0\nShell Version: v1.0.0\n\nMade Possible by:\n1. Abrid OS\n2. OSDEV.org\nThank you!\nPress Enter To Continue..."; 

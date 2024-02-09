@@ -141,11 +141,11 @@ void track_input(char c){
             if (c == '<') {
               //Do nothing
             } else if (c == '>') {
-              avaliable_commands_two();
+              avaliable_commands(2);
             }
           } else if(userinputmode == HELP_APP_ID_TW) {
             if (c == '<') {
-              avaliable_commands();
+              avaliable_commands(1);
             } else if (c == '>') {
               //Do nothing
             }
