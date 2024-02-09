@@ -50,8 +50,7 @@ void shell(char s[], int i);
 
 void avaliable_commands(int page);
 
-void about();
-void about_two();
+void about(int page);
 
 void ls(int start, int id, int page);
 

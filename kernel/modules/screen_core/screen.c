@@ -274,7 +274,7 @@ void make_gui(int winfg, int winbg, int multipage) {
   }
 
   for (int i = 0; i < multipage; i++) {
-	  putpos("\n", 8, 7, 49 + i, 1);
+	  putpos("=", 8, 7, 49 + i, 1);
   }
   return 0;
 }

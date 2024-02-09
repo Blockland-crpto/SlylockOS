@@ -36,7 +36,7 @@ void shell(char s[], int i){
   } else if(strcmp(s, "help")==0){ // print help information
     avaliable_commands(1);
   } else if(strcmp(s, "about")==0){ // print info about computer
-  	about();
+  	about(1);
   } else if(strcmp(s, "reboot")==0){ // reboot computer
   	reboot();
   } else if(strcmp(s, "shutdown")==0){ // shutdown computer
@@ -89,33 +89,28 @@ void avaliable_commands(int page){
 }
 
 
-void about() {
+void about(int page) {
   char aboutstr[220] = "MiniOS\nA Operating System written in C\nand ASM for lightweight computers.\n\nKernel Version: v1.0.0\nShell Version: v1.0.0\n\nMade Possible by:\n1. Abrid OS\n2. OSDEV.org\nThank you!\nPress Enter To Continue..."; 
-  userinputmode = ABOUT_APP_ID;
-  
-  clear_scr();
- 
-  make_gui(3, 3, 1);
+  char buf;
 
-  make_gui_windows("About OS:", aboutstr, 4, 3, 70, 22);
+
+  if (page == 1) {
+	userinputmode = ABOUT_APP_ID;
+	clear_scr();
+	make_gui(3, 3, 1);
+	make_gui_windows("About OS:", aboutstr, 4, 3, 70, 22);
+  } else if (page == 2) {
+	 char aboutstrt[180] = "Hardware:\n\nRAM: "; 
+	 strcat(aboutstrt, itoa(ram_size(), buf, 10));
+	 strcat(aboutstrt, "\nUptime: ");
+	 strcat(aboutstrt, itoa(get_tracked_seconds(), buf, 10));
+     userinputmode = ABOUT_APP_ID_TW;
+	 make_gui(3, 3, 2);
+	 make_gui_windows("About OS:", aboutstrt, 4, 3, 70, 22);
+  }
   return 0;
 }
 
-void about_two() {
-	char buf;
-	char aboutstrt[180] = "Hardware:\n\nRAM: "; 
-	userinputmode = ABOUT_APP_ID_TW;
-
-	strcat(aboutstrt, itoa(ram_size(), buf, 10));
-
-	strcat(aboutstrt, "\nUptime: ");
-	strcat(aboutstrt, itoa(get_tracked_seconds(), buf, 10));
-
-	make_gui(3, 3, 2);
-
-	make_gui_windows("About OS:", aboutstrt, 4, 3, 70, 22);
-	return 0;
-}
 
 void shutdown() {
   clear_scr();
@@ -149,8 +144,6 @@ void ls(int start, int id, int page) {
 		j++;
 	} 
   }
-  
-  //kprintf("Press Tab To Continue...");
 }
 
 void cat(char s[]) {
@@ -165,7 +158,4 @@ void cat(char s[]) {
   for (j = 0; j < sz; j++) {
 	  putstrpos(buf[j], 7, 6, 8, 7, 7);
   }
-	
-
- 
 }

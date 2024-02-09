@@ -153,11 +153,11 @@ void track_input(char c){
 			  if (c == '<') {
 				//Do nothing
 			  } else if (c == '>') {
-				about_two();
+				about(2);
 			  }
 		  } else if (userinputmode == ABOUT_APP_ID_TW) {
 			  if (c == '<') {
-				about();
+				about(1);
 			  } else if (c == '>') {
 				//Do nothing
 			  }
