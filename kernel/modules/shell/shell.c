@@ -9,7 +9,7 @@
 #include <screen.h>
 #include <kernel.h>
 #include <keyboard.h>
-#include <gui.h>
+#include <screen.h>
 
 #define NULL ((char *)0)
 
