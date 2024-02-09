@@ -54,10 +54,6 @@ void avaliable_commands_two();
 void about();
 void about_two();
 
-void ls();
-void ls_two();
-void ls_three();
-void ls_four();
-void ls_five();
+void ls(int start, int id, int page);
 
 #endif

@@ -165,29 +165,29 @@ void track_input(char c){
 			  if (c == '<') {
 				//Do nothing
 			  } else if (c == '>') {
-				ls_two();
+				ls(15, LS_APP_ID_TW, 2);
 			  }
 		  } else if (userinputmode == LS_APP_ID_TW) {
 			  if (c == '<') {
-				ls();
+				ls(0, LS_APP_ID, 1);
 			  } else if (c == '>') {
-				ls_three();
+				ls(30, LS_APP_ID_TH, 3);
 			  }
 		  } else if (userinputmode == LS_APP_ID_TH) {
 			  if (c == '<') {
-				ls_two();
+				ls(15, LS_APP_ID_TW, 2);
 			  } else if (c == '>') {
-				ls_four();
+				ls(45, LS_APP_ID_FR, 4);
 			  }
 		  } else if (userinputmode == LS_APP_ID_FR) {
 			  if (c == '<') {
-				ls_three();
+				ls(30, LS_APP_ID_TH, 3);
 			  } else if (c == '>') {
-				ls_five();
+				ls(60, LS_APP_ID_FV, 5);
 			  }
 		  } else if (userinputmode == LS_APP_ID_FV) {
 			  if (c == '<') {
-				ls_four();
+				ls(45, LS_APP_ID_FR, 4);
 			  } else if (c == '>') {
 				//Do Nothing
 			  }
