@@ -76,6 +76,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   putstr("Welcome to ", COLOR_GRY, COLOR_BLK);
   putstr("MiniOS\n", COLOR_CYN, COLOR_BLK);
 
+  //textbox("test", "test"); 
+	
   kprintf(">");
   return 0;
 }

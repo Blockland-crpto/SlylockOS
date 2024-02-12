@@ -7,8 +7,9 @@
 #include <modules.h>
 
 #define sizeof(type) (char *)(&type+1)-(char*)(&type)
-leftarrowpressed = 0;
-rightarrowpressed = 0;
+
+
+	
 //shamelessly copied this from bkerndev
 int enable_shell=0;
 char *buffer="";
@@ -70,10 +71,21 @@ void keyboard_handler(struct regs *r){
         if(i==0 && c=='\b'){
           //do nothing
           //this prevents clearing the '>' character on the screen
-        }
-        else{
+        } else {
           if (userinputmode > 0) { 
-          } else {
+          } else if(textboxactive == 1) {
+			if (i==0 && c=='\b') {
+				//do nothing
+				//prevents the backspace from clearing the textbox
+			
+			} else if (i >= 33) {
+				//do nothing
+				//prevents the textbox from overflowing
+			} else {
+				putchar(c, 8, 7);
+			}
+			
+		  } else {
             putchar(c, COLOR_WHT, COLOR_BLK);
             //printf("User Prog %d", userinputmode);
           }
@@ -109,7 +121,7 @@ char get_key(){
 	}
 }*/
 void track_input(char c){
-        if(userinputmode == 0) {
+        if(userinputmode == 0 && textboxactive == 0) {
           //If user hits enter, we can execute the command
           if(c == '\n'){
             //handle shell support here
@@ -201,7 +213,38 @@ void track_input(char c){
             i=0;
             userinputmode = 0;
           } 
-        }
+        } else if (textboxactive == 1) {
+		 /* 
+		 if (i >= 33) {
+			  timesfilled + 1;
+			  
+			  for(int j = 22; j < 56; j++) {
+				  putpos('#', 7, 7, j, 15);
+			  }
+			  set_cursor_pos(22, 15);
+			  for(int r = 0; r < 33; r++) {
+				  putchar(input_buffer[r + timesfilled], 8, 7);
+			  }
+			  putchar(c, 8, 7);
+			  input_buffer[i] = c;
+			  i++;
+		  } 
+		 */
+			
+		  if (c == '\n') {
+			clear(COLOR_WHT, COLOR_BLK);
+			set_cursor_pos(0,0);
+			textboxactive = 0;
+			textinputhandler(input_buffer);
+		  } else if(c == '\b'){
+			 input_buffer[i-1]='\0';
+			 i--;
+		  } else {
+			input_buffer[i] = c;
+			i++;
+		  }
+		  
+		}
 }
 
 void keyboard_install(){

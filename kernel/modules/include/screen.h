@@ -70,6 +70,10 @@
 */
 #define CURSOR_PORT_DATA (unsigned short) 0x3d5
 
+//textbox id's
+#define TEXTBOX_ID_0 0
+
+
 /**
   \struct fs_node
   \brief VGA char typedef struct
@@ -203,5 +207,16 @@ void make_gui_windows(char *title, char *cont, int beginx, int beginy, int endx,
 //bootscren function
 void bootscreen();
 
+//textbox active variable
+int textboxactive;
+
+//textbox id
+int textboxid;
+
+//text box function
+void textbox(char *title, char *cont);
+
+//hander for textinput
+void textinputhandler(char *input[]);
 
 #endif

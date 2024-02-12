@@ -290,7 +290,8 @@ void make_gui_windows(char *title, char *cont, int beginx, int beginy, int endx,
 	putpos("#", 8, 7, x, endy);
 	putpos("#", 8, 7, x, beginy);
   }
-  for(int y = beginy; y < endy+1; y++) {
+  for(int y = beginy; y < endy+1; y++) 
+  {
 	putpos("#", 8, 7, beginx, y);
 	putpos("#", 8, 7, endx, y);
   }
@@ -308,4 +309,26 @@ void bootscreen() {
 	}
 	clear(COLOR_WHT, COLOR_BLK);
 	set_cursor_pos(0,0);
+}
+
+void textbox(char *title, char *cont) {
+
+	textboxactive = 1;
+	
+	make_gui_windows(title, "", 19, 10, 60, 20);
+	for (int x = 21; x < 58; x++) {
+		putpos('#', 8, 7, x, 14);
+		putpos('#', 8, 7, x, 16);
+	}
+
+	for (int y = 14; y < 16; y++) {
+		putpos('#', 8, 7, 21, y);
+		putpos('#', 8, 7, 57, y);
+	}
+
+	set_cursor_pos(22, 15);
+}
+
+void textinputhandler(char *input[]) {
+	printf("%s", input);
 }

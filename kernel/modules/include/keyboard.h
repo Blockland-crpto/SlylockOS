@@ -36,7 +36,8 @@ void track_input(char c);
 
 //used as sort of "event" triggers for program keyboard access
 int userinputmode;
-int leftarrowpressed;
-int rightarrowpressed;
+
+//for the text box input
+int timesfilled;
 
 #endif
