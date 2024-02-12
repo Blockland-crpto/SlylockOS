@@ -178,29 +178,29 @@ void track_input(char c){
 			  if (c == '<') {
 				//Do nothing
 			  } else if (c == '>') {
-				ls(15, LS_APP_ID_TW, 2);
+				ls(16, LS_APP_ID_TW, 2);
 			  }
 		  } else if (userinputmode == LS_APP_ID_TW) {
 			  if (c == '<') {
 				ls(0, LS_APP_ID, 1);
 			  } else if (c == '>') {
-				ls(30, LS_APP_ID_TH, 3);
+				ls(32, LS_APP_ID_TH, 3);
 			  }
 		  } else if (userinputmode == LS_APP_ID_TH) {
 			  if (c == '<') {
-				ls(15, LS_APP_ID_TW, 2);
+				ls(16, LS_APP_ID_TW, 2);
 			  } else if (c == '>') {
-				ls(45, LS_APP_ID_FR, 4);
+				ls(48, LS_APP_ID_FR, 4);
 			  }
 		  } else if (userinputmode == LS_APP_ID_FR) {
 			  if (c == '<') {
-				ls(30, LS_APP_ID_TH, 3);
+				ls(32, LS_APP_ID_TH, 3);
 			  } else if (c == '>') {
-				ls(60, LS_APP_ID_FV, 5);
+				ls(64, LS_APP_ID_FV, 5);
 			  }
 		  } else if (userinputmode == LS_APP_ID_FV) {
 			  if (c == '<') {
-				ls(45, LS_APP_ID_FR, 4);
+				ls(48, LS_APP_ID_FR, 4);
 			  } else if (c == '>') {
 				//Do Nothing
 			  }
