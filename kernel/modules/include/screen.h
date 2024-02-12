@@ -135,11 +135,8 @@ void hide_cursor();
 /**
 	\brief Advances the cursor
 */
-void advance_cursor();
-/**
-	\brief Moves the cursor back
-*/
-void move_back_cursor();
+void advance_cursor(int mode);
+
 /**
 	\brief Sets the cursor position
 	\param{in} x X coordinate of the cursor position to set
@@ -180,11 +177,6 @@ void printf(char *format, ...);
 	\param{in} y Y position of character
 */
 void putpos(unsigned char c, unsigned char forecolour, unsigned char backcolour, int x, int y);
-
-/**
-	\brief Sets the screen to a green color, and blank.
-*/
-void green_screen();
 
 
 void color_screen(int fg, int bg);

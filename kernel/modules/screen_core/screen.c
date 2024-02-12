@@ -35,14 +35,6 @@ void putpos(unsigned char c, unsigned char forecolour, unsigned char backcolour,
      *where = c | (attrib << 8);
 }
 
-void green_screen() {
-	for(int y=0; y<25; y++) {
-		for(int x=0; x<80; x++) {
-			putpos("#", 2, 2, x,y);
-		}
-	}
-}
-
 void color_screen(int fg, int bg) {
   for(int y = 0; y<25; y++) {
     for(int x = 0; x<80; x++) {
@@ -67,9 +59,9 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
         }
     }
     else if(character == '\b'){ // If the character is a backspace, then move the cursor position to (x-1, y), set the character to a blank character, and then move the character back again.
-        move_back_cursor();
+        advance_cursor(1);
         putchar(' ', fg_color, bg_color);
-        move_back_cursor();
+        advance_cursor(1);
     }
     else if (character == '\r'){ // If the character is a carriage return, then set the cursor position to (0, pos/vga_width), usually (0, pos/80)
         unsigned char current_row = (unsigned char) (position / VGA_WIDTH);
@@ -82,7 +74,7 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
         for (unsigned char i = 0; i < 4; i++){
             putchar(' ', fg_color, bg_color);
         }
-        advance_cursor();
+        advance_cursor(0);
     }
 
     else { // If the character is just a regular character, no escape character, then simply print the colored character, and advance the cursor.
@@ -94,7 +86,7 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
 
         TEXT_AREA[position] = printed;
 
-        advance_cursor();
+        advance_cursor(0);
     }
 }
 
@@ -178,27 +170,23 @@ void hide_cursor(){ // Sends a couple out port byte commands to hide the cursor
 }
 
 
-void advance_cursor(){
+void advance_cursor(int mode){
     unsigned short pos = get_cursor_pos(); // Gets the cursor position
-    pos++; // and increments it by 1
+    
+	if (mode == 0) {
+		pos++; // and increments it by 1
+	} else if (mode == 1) {
+		pos--; // and decrements it by 1
+	}
+	
+	if (mode == 0) {
+		if (pos >= VGA_EXTENT){ // If the positon >= VGA_EXTENT, scroll
+			scroll_line();
+		}
+	}
 
-    if (pos >= VGA_EXTENT){ // If the positon >= VGA_EXTENT, scroll
-        scroll_line();
-    }
 
 	// This just sends a bunch of out port byte commands to set the cursor position forward
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0F);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
-
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0E);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
-}
-
-void move_back_cursor(){
-    unsigned short pos = get_cursor_pos(); // Gets the cursor position
-    pos--; // and decrements it by 1
-
-	// This just sends a bunch of out port byte commands to set the cursor position backward
     out_port_byte(CURSOR_PORT_COMMAND, 0x0F);
     out_port_byte(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
 
