@@ -59,9 +59,9 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
         }
     }
     else if(character == '\b'){ // If the character is a backspace, then move the cursor position to (x-1, y), set the character to a blank character, and then move the character back again.
-        advance_cursor(1);
+        advance_cursor(MOVE_BACK);
         putchar(' ', fg_color, bg_color);
-        advance_cursor(1);
+        advance_cursor(MOVE_BACK);
     }
     else if (character == '\r'){ // If the character is a carriage return, then set the cursor position to (0, pos/vga_width), usually (0, pos/80)
         unsigned char current_row = (unsigned char) (position / VGA_WIDTH);
@@ -74,7 +74,7 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
         for (unsigned char i = 0; i < 4; i++){
             putchar(' ', fg_color, bg_color);
         }
-        advance_cursor(0);
+        advance_cursor(ADVANCE);
     }
 
     else { // If the character is just a regular character, no escape character, then simply print the colored character, and advance the cursor.
@@ -86,7 +86,7 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
 
         TEXT_AREA[position] = printed;
 
-        advance_cursor(0);
+        advance_cursor(ADVANCE);
     }
 }
 

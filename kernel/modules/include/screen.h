@@ -73,6 +73,9 @@
 //textbox id's
 #define TEXTBOX_ID_0 0
 
+// the cursor modes
+#define ADVANCE 0
+#define MOVE_BACK 1
 
 /**
   \struct fs_node
