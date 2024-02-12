@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include <string.h>
 #include <types.h>
+#include <shell.h>
+#include <keyboard.h>
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 
@@ -311,10 +313,11 @@ void bootscreen() {
 	set_cursor_pos(0,0);
 }
 
-void textbox(char *title, char *cont) {
+void textbox(char *title, char *cont, int callerid) {
 
 	textboxactive = 1;
-	
+	userinputmode = callerid;
+	make_gui(3, 3, 0);
 	make_gui_windows(title, "", 19, 10, 60, 20);
 	for (int x = 21; x < 58; x++) {
 		putpos('#', 8, 7, x, 14);
@@ -329,6 +332,9 @@ void textbox(char *title, char *cont) {
 	set_cursor_pos(22, 15);
 }
 
-void textinputhandler(char *input[]) {
-	printf("%s", input);
+void textinputhandler(char *input[], int uim) {
+	//printf("%s", input);
+	if (uim == CAT_APP_ID) {
+		cat(input);
+	}
 }

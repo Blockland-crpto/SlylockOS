@@ -54,4 +54,6 @@ void about(int page);
 
 void ls(int start, int id, int page);
 
+void cat(char s[]);
+
 #endif

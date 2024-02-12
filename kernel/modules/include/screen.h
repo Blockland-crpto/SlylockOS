@@ -214,9 +214,9 @@ int textboxactive;
 int textboxid;
 
 //text box function
-void textbox(char *title, char *cont);
+void textbox(char *title, char *cont, int callerid);
 
 //hander for textinput
-void textinputhandler(char *input[]);
+void textinputhandler(char *input[], int uim);
 
 #endif

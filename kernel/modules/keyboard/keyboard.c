@@ -72,7 +72,7 @@ void keyboard_handler(struct regs *r){
           //do nothing
           //this prevents clearing the '>' character on the screen
         } else {
-          if (userinputmode > 0) { 
+          if (userinputmode > 0 && textboxactive == 0) { 
           } else if(textboxactive == 1) {
 			if (i==0 && c=='\b') {
 				//do nothing
@@ -147,7 +147,7 @@ void track_input(char c){
             input_buffer[i]=c;
             i++;
           }
-        } else if(userinputmode > 0) {
+        } else if(userinputmode > 0 && textboxactive == 0) {
 		  //This is a patch to coordinate program responces to key input
           if (userinputmode == HELP_APP_ID) {
             if (c == '<') {
@@ -235,7 +235,8 @@ void track_input(char c){
 			clear(COLOR_WHT, COLOR_BLK);
 			set_cursor_pos(0,0);
 			textboxactive = 0;
-			textinputhandler(input_buffer);
+			textinputhandler(input_buffer, userinputmode);
+			i = 0;
 		  } else if(c == '\b'){
 			 input_buffer[i-1]='\0';
 			 i--;
