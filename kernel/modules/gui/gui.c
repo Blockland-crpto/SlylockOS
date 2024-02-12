@@ -2,6 +2,13 @@
 #include <screen.h>
 #include <keyboard.h>
 #include <shell.h>
+#include <modules.h>
+
+
+void gui_init() {
+	module_t modules_gui_gui = MODULE("kernel.modules.gui.gui", "GUI for the kernel (CORE)");
+	INIT(modules_gui_gui);
+}
 
 void make_gui_windows(char *title, char *cont, int beginx, int beginy, int endx, int endy) {
   for(int y = beginy; y < endy; y++) {

@@ -5,6 +5,9 @@
 //textbox id's
 #define TEXTBOX_ID_0 0
 
+//The GUI init
+void gui_init();
+
 //A gui template
 void make_gui(int winfg, int winbg, int multipage);
 
