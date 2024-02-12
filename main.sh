@@ -39,4 +39,4 @@ done
 ./initrdgen test test $res
 mv ./initrd.img ./iso/boot/os.initrd
 grub-mkrescue --output=os.iso iso
-qemu-system-i386 -cdrom os.iso -m 256M -hda floppy.img
+qemu-system-i386 -cdrom os.iso -m 512M -hda floppy.img
