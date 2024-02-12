@@ -70,8 +70,7 @@
 */
 #define CURSOR_PORT_DATA (unsigned short) 0x3d5
 
-//textbox id's
-#define TEXTBOX_ID_0 0
+
 
 // the cursor modes
 #define ADVANCE 0
@@ -194,20 +193,5 @@ void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned ch
 
 
 
-
-//bootscren function
-void bootscreen();
-
-//textbox active variable
-int textboxactive;
-
-//textbox id
-int textboxid;
-
-//text box function
-void textbox(char *title, char *cont, int callerid);
-
-//hander for textinput
-void textinputhandler(char *input[], int uim);
 
 #endif

@@ -14,6 +14,7 @@
 #include <multibootinfo.h>
 #include <execute.h>
 #include <usermode.h>
+#include <bootscreen.h>
 
 #define MB_MAGIC 0x1BADB002
 

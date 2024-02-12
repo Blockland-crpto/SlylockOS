@@ -1,5 +1,7 @@
 #include <gui.h>
 #include <screen.h>
+#include <keyboard.h>
+#include <shell.h>
 
 void make_gui_windows(char *title, char *cont, int beginx, int beginy, int endx, int endy) {
   for(int y = beginy; y < endy; y++) {
@@ -38,4 +40,30 @@ void make_gui(int winfg, int winbg, int multipage) {
 	  putpos("=", 8, 7, 49 + i, 1);
   }
   return 0;
+}
+
+void textbox(char *title, char *cont, int callerid) {
+
+	textboxactive = 1;
+	userinputmode = callerid;
+	make_gui(3, 3, 0);
+	make_gui_windows(title, "", 19, 10, 60, 20);
+	for (int x = 21; x < 58; x++) {
+		putpos('#', 8, 7, x, 14);
+		putpos('#', 8, 7, x, 16);
+	}
+
+	for (int y = 14; y < 16; y++) {
+		putpos('#', 8, 7, 21, y);
+		putpos('#', 8, 7, 57, y);
+	}
+
+	set_cursor_pos(22, 15);
+}
+
+void textinputhandler(char *input[], int uim) {
+	//printf("%s", input);
+	if (uim == CAT_APP_ID) {
+		cat(input);
+	}
 }

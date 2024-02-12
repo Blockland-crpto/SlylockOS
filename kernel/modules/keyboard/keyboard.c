@@ -5,6 +5,7 @@
 #include <keyboard.h>
 #include <shell.h>
 #include <modules.h>
+#include <gui.h>
 
 #define sizeof(type) (char *)(&type+1)-(char*)(&type)
 
