@@ -13,7 +13,7 @@ objb="${objb} ${ta}"
 gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./kernel/modules/include -fno-stack-protector -c -o $ta $tb
 done
 objb="${objb:1}"
-export LD_LIBRARY_PATH=/home/runner/abrid-main/
+export LD_LIBRARY_PATH=/home/runner/MiniOS/
 ld -T link.ld --verbose -m elf_i386 -o os.bin $objb ./bin/boot.o
 rm -r iso
 mkdir iso
