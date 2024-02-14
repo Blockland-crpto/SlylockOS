@@ -22,4 +22,8 @@ void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, uns
 */
 void idt_install();
 
+//controls the non-maskable interrupt
+void nmi_enable();
+void nmi_disable();
+
 #endif

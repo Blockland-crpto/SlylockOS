@@ -2,6 +2,7 @@
 #include <memory.h>
 #include <idt.h>
 #include <modules.h>
+#include <ports.h>
 
 //define a structure for the IDT entry
 struct idt_entry
@@ -42,6 +43,8 @@ void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, uns
     idt[num].flags = flags;
 }
 
+
+
 //to install the IDT, we can use the following function
 void idt_install(){
 	module_t modules_idt_idt = MODULE("kernel.modules.idt.idt", "IDT for the kernel (CORE)");
@@ -55,4 +58,14 @@ void idt_install(){
     //tell the processor to point the internal register to the new IDT
     load_idt();
     INIT(modules_idt_idt);
+}
+
+void nmi_enable() {
+	out_port_byte(0x70, in_port_byte(0x70) & 0x7F);
+	in_port_byte(0x71);
+}
+
+void nmi_disable() {
+	out_port_byte(0x70, in_port_byte(0x70) | 0x80);
+	in_port_byte(0x71);
 }
