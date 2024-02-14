@@ -14,6 +14,7 @@
 #define __DRIVERS_H
 
 #include <types.h>
+#include <stdint.h>
 
 /**
   \def STATUS_BSY
@@ -82,5 +83,18 @@ static void wait_ata_bsy();
 	Contains a while() loop that waits until the hard drive is requesting data.
 */
 static void wait_ata_drq();
+
+
+
+/** THE VIDEO DRIVER **/
+
+enum video_type {
+	VIDEO_TYPE_NONE = 0x00,
+	VIDEO_TYPE_COLOR = 0x20,
+	VIDEO_TYPE_MONOCHROME = 0x30,
+};
+
+uint16_t detect_bios_area_hardware();
+enum video_type get_bios_area_video_type();
 
 #endif
