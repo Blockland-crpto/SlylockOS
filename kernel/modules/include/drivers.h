@@ -87,11 +87,4 @@ void acpi_init();
 int acpiEnabled;
 /** ACPI DRIVER END **/
 
-
-
-/** PCI DRIVER START **/
-uint16_t pciConfigReadWord(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offset);
-uint16_t pciCheckVendor(uint8_t bus, uint8_t slot);
-/** PCI DRIVER END **/
-
 #endif
