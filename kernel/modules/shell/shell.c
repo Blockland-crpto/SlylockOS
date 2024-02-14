@@ -10,8 +10,8 @@
 #include <kernel.h>
 #include <keyboard.h>
 #include <screen.h>
-#include <gui.h>
 #include <drivers.h>
+#include <gui.h>
 
 #define NULL ((char *)0)
 
@@ -123,13 +123,11 @@ void about(int page) {
 
 
 void shutdown() {
-  clear_scr();
-
-  make_gui(3, 3, 0);
-
-  make_gui_windows("Shutting Down...", "Its safe to turn off your computer now", 19, 10, 60, 20);
-  
-  asm volatile("hlt");
+  acpiPowerOff();
+  //clear_scr();
+  //make_gui(3, 3, 0);
+  //make_gui_windows("Shutting Down...", "Its safe to turn off your computer now", 19, 10, 60, 20);
+  //asm volatile("hlt");
 }
 
 

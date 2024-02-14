@@ -68,9 +68,10 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 
   libc_init();
   gui_init();
-	
+
   bootscreen();
-  
+  acpi_init();
+	
   __asm__ __volatile__("sti");
 
 
