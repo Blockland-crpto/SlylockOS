@@ -100,4 +100,17 @@ void mmioWrite32 (uint64_t p_address,uint32_t p_value);
 void mmioWrite64 (uint64_t p_address,uint64_t p_value);
 /** MMIO DRIVER END **/
 
+
+
+/** KEYBOARD DRIVER START **/
+unsigned char ascii_values[128];
+char *inbuf;
+char *buffer;
+char get_key();
+void keyboard_install();
+void track_input(char c);
+int userinputmode;
+int timesfilled;
+/** KEYBOARD DRIVER END **/
+
 #endif

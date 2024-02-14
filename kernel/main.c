@@ -5,7 +5,6 @@
 #include <isr.h>
 #include <irq.h>
 #include <timer.h>
-#include <keyboard.h>
 #include <fs.h>
 #include <string.h>
 #include <multiboot.h>

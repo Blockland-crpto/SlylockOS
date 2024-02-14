@@ -4,8 +4,8 @@
 #include <string.h>
 #include <types.h>
 #include <shell.h>
-#include <keyboard.h>
 #include <modules.h>
+#include <drivers.h>
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 
