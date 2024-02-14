@@ -14,7 +14,6 @@
 #include <multibootinfo.h>
 #include <execute.h>
 #include <usermode.h>
-#include <bootscreen.h>
 #include <gui.h>
 #include <drivers.h>
 

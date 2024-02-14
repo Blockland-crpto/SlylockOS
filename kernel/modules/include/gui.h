@@ -26,4 +26,7 @@ void textbox(char *title, char *cont, int callerid);
 //hander for textinput
 void textinputhandler(char *input[], int uim);
 
+//the bootscreen
+void bootscreen();
+
 #endif 
