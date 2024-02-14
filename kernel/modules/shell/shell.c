@@ -11,6 +11,7 @@
 #include <keyboard.h>
 #include <screen.h>
 #include <gui.h>
+#include <drivers.h>
 
 #define NULL ((char *)0)
 
@@ -103,10 +104,16 @@ void about(int page) {
 	make_gui(3, 3, 1);
 	make_gui_windows("About OS:", aboutstr, 4, 3, 70, 22);
   } else if (page == 2) {
-	 char aboutstrt[180] = "Hardware:\n\nRAM: "; 
+	 char aboutstrt[180] = "Hardware:\n\nRAM: ";
 	 strcat(aboutstrt, itoa(ram_size(), buf, 10));
 	 strcat(aboutstrt, "\nUptime: ");
 	 strcat(aboutstrt, itoa(get_tracked_seconds(), buf, 10));
+	 strcat(aboutstrt, "\nScreen Type: ");
+     if (get_bios_area_video_type() == VIDEO_TYPE_COLOR) {
+		 strcat(aboutstrt, "Color\nPress enter to continue");
+	 } else if (get_bios_area_video_type() == VIDEO_TYPE_MONOCHROME) {
+		 strcat(aboutstrt, "Monochrome\nPress enter to continue");
+	 }
      userinputmode = ABOUT_APP_ID_TW;
 	 make_gui(3, 3, 2);
 	 make_gui_windows("About OS:", aboutstrt, 4, 3, 70, 22);
