@@ -251,6 +251,8 @@ void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned ch
   return 0;
 }
 
+/** GUI **/
+
 void gui_init() {
 	module_t modules_gui_gui = MODULE("kernel.modules.gui.gui", "GUI for the kernel (CORE)");
 	INIT(modules_gui_gui);

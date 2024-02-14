@@ -191,6 +191,7 @@ void scroll_line();
 //put a string with a specific location
 void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start);
 
+/** GUI **/
 //textbox id's
 #define TEXTBOX_ID_0 0
 
