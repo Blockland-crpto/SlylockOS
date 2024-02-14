@@ -40,6 +40,7 @@ enum video_type {
 };
 uint16_t detect_bios_area_hardware();
 enum video_type get_bios_area_video_type();
+void video_init();
 /** VIDEO DRIVER END **/
 
 

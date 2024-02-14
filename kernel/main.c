@@ -66,11 +66,12 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   malloc_init();
 
   libc_init();
-  gui_init();
-
-  bootscreen();
   acpi_init();
+  gui_init();
+  video_init();
 	
+  bootscreen();
+ 	
   __asm__ __volatile__("sti");
 
 
