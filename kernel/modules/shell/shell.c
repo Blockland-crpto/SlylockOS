@@ -11,7 +11,6 @@
 #include <keyboard.h>
 #include <screen.h>
 #include <drivers.h>
-#include <gui.h>
 
 #define NULL ((char *)0)
 
