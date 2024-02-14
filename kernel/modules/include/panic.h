@@ -34,6 +34,11 @@
 	\brief Happens if the user creates a panic with the `panic` command
 */
 #define USER_CREATED_PANIC 4
+/**
+	\def ACPI_ERROR
+	\brief Happens if the ACPI driver fails to initialize
+*/
+#define ACPI_ERROR 5
 
 void panic(char* reason, int errno);
 #endif

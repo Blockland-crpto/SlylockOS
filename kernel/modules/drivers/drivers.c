@@ -4,6 +4,7 @@
 #include <ports.h>
 #include <types.h>
 #include <screen.h> //temp
+#include <panic.h>
 
 void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint8_t sector_count) {
 
@@ -196,13 +197,16 @@ int acpiEnable(void)
 			}
 		 if (i<300) {
 			kprintf("enabled acpi.\n");
+		    acpiEnabled = 1;
 			return 0;
 		 } else {
 			kprintf("couldn't enable acpi.\n");
+			acpiEnabled = 2;
 			return -1;
 		 }
 	  } else {
 		 kprintf("no known way to enable acpi.\n");
+		 acpiEnabled = 0;
 		 return -1;
 	  }
    } else {
@@ -286,7 +290,7 @@ int initAcpi(void)
 		 }
 		 ptr++;
 	  }
-	   kprintf("no valid FACP present.\n");
+	   panic("acpi table not found.\n", ACPI_ERROR);
    } else {
 	   kprintf("no acpi.\n");
    }

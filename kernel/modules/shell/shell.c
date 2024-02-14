@@ -110,9 +110,16 @@ void about(int page) {
 	 strcat(aboutstrt, itoa(get_tracked_seconds(), buf, 10));
 	 strcat(aboutstrt, "\nScreen Type: ");
      if (get_bios_area_video_type() == VIDEO_TYPE_COLOR) {
-		 strcat(aboutstrt, "Color\nPress enter to continue");
+		 strcat(aboutstrt, "Color\nACPI: ");
 	 } else if (get_bios_area_video_type() == VIDEO_TYPE_MONOCHROME) {
-		 strcat(aboutstrt, "Monochrome\nPress enter to continue");
+		 strcat(aboutstrt, "Monochrome\nACPI: ");
+	 }
+	 if (acpiEnabled == 1) {
+		 strcat(aboutstrt, "Enabled\nPress enter to continue...");
+	 } else if (acpiEnabled == 0) {
+		 strcat(aboutstrt, "Disabled\nPress enter to continue...");
+	 } else if (acpiEnabled == 2) {
+		 strcat(aboutstrt, "Unavaliable\nPress enter to continue...");
 	 }
      userinputmode = ABOUT_APP_ID_TW;
 	 make_gui(3, 3, 2);

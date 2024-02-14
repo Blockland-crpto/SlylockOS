@@ -161,4 +161,6 @@ void acpiPowerOff(void);
 
 void acpi_init();
 
+int acpiEnabled;
+
 #endif
