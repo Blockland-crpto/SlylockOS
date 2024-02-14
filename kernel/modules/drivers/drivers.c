@@ -6,6 +6,9 @@
 #include <screen.h> //temp
 #include <panic.h>
 
+
+
+/** ATA DRIVER START **/
 void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint8_t sector_count) {
 
 	wait_ata_bsy();
@@ -54,44 +57,34 @@ void sect_write_atapio(uint32_t LBA, uint8_t sector_count, uint32_t* bytes) {
 		}
 	}
 }
-
 static void wait_ata_bsy() {
 	while(in_port_byte(0x1F7)&STATUS_BSY);
 }
 static void wait_ata_drq() {
 	while(!(in_port_byte(0x1F7)&STATUS_RDY));
 }
-
 void ata_init() {
 	module_t modules_ata_ata = MODULE("kernel.modules.ata.ata", "Provides ATA support for the kernel, read/write (CORE)");
 	INIT(modules_ata_ata);
 }
-
 /** ATA DRIVER END **/
 
 
-/** Video driver **/
 
-uint16_t detect_bios_area_hardware()
-{
+/** VIDEO DRIVER START **/
+uint16_t detect_bios_area_hardware() {
 	const uint16_t* bda_detected_hardware_ptr = (const uint16_t*) 0x410;
 	return *bda_detected_hardware_ptr;
 }
-
-enum video_type get_bios_area_video_type()
-{
+enum video_type get_bios_area_video_type() {
 	return (enum video_type) (detect_bios_area_hardware() & 0x30);
 }
-
 /** VIDEO DRIVER END **/
 
 
 
-/** ACPI driver **/
-
-// Thanks to OSDEV.org for the code
-unsigned int *acpiCheckRSDPtr(unsigned int *ptr)
-{
+/** ACPI DRIVER START **/
+unsigned int *acpiCheckRSDPtr(unsigned int *ptr) {
    char *sig = "RSD PTR ";
    struct RSDPtr *rsdp = (struct RSDPtr *) ptr;
    byte *bptr;
@@ -122,12 +115,7 @@ unsigned int *acpiCheckRSDPtr(unsigned int *ptr)
 
    return NULL;
 }
-
-
-
-// finds the acpi header and returns the address of the rsdt
-unsigned int *acpiGetRSDPtr(void)
-{
+unsigned int *acpiGetRSDPtr(void) {
    unsigned int *addr;
    unsigned int *rsdp;
 
@@ -154,12 +142,7 @@ unsigned int *acpiGetRSDPtr(void)
 
    return NULL;
 }
-
-
-
-// checks for a given header and validates checksum
-int acpiCheckHeader(unsigned int *ptr, char *sig)
-{
+int acpiCheckHeader(unsigned int *ptr, char *sig) {
    if (memcmp(ptr, sig, 4) == 0)
    {
 	  char *checkPtr = (char *) ptr;
@@ -175,11 +158,7 @@ int acpiCheckHeader(unsigned int *ptr, char *sig)
    }
    return -1;
 }
-
-
-
-int acpiEnable(void)
-{
+int acpiEnable(void) {
    // check if acpi is enabled
    if ( (inw((unsigned int) PM1a_CNT) &SCI_EN) == 0 )
    {
@@ -219,10 +198,7 @@ int acpiEnable(void)
 	  return 0;
    }
 }
-
-
-int initAcpi(void)
-{
+int initAcpi(void) {
    unsigned int *ptr = acpiGetRSDPtr();
 
    // check if address is correct  ( if acpi is available on this pc )
@@ -302,11 +278,7 @@ int initAcpi(void)
 
    return -1;
 }
-
-
-
-void acpiPowerOff(void)
-{
+void acpiPowerOff(void) {
    // SCI_EN is set to 1 if acpi shutdown is possible
    if (SCI_EN == 0)
 	  return;
@@ -320,21 +292,17 @@ void acpiPowerOff(void)
 
    kprintf("acpi poweroff failed.\n");
 }
-
 void acpi_init() {
 	module_t modules_acpi_acpi = MODULE("kernel.modules.acpi.acpi", "Provides ACPI support for the kernel (CORE)");
 	initAcpi();
 	acpiEnable();
 	INIT(modules_acpi_acpi);
 }
-
 /** ACPI DRIVER END **/
 
 
 
-
-/** PCI driver **/
-// Thanks again to OSDEV.org for the code
+/** PCI DRIVER START **/
 uint16_t pciConfigReadWord(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offset) {
 	uint32_t address;
 	uint32_t lbus  = (uint32_t)bus;
@@ -353,7 +321,6 @@ uint16_t pciConfigReadWord(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offs
 	tmp = (uint16_t)((inl(0xCFC) >> ((offset & 2) * 8)) & 0xFFFF);
 	return tmp;
 }
-
 uint16_t pciCheckVendor(uint8_t bus, uint8_t slot) {
 	uint16_t vendor, device;
 	/* Try and read the first configuration register. Since there are no
@@ -362,3 +329,4 @@ uint16_t pciCheckVendor(uint8_t bus, uint8_t slot) {
 	   device = pciConfigReadWord(bus, slot, 0, 2);
 	} return (vendor);
 }
+/** PCI DRVIER END **/
