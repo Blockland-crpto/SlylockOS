@@ -57,6 +57,7 @@ void idt_install(){
 
     //tell the processor to point the internal register to the new IDT
     load_idt();
+	nmi_enable();
     INIT(modules_idt_idt);
 }
 

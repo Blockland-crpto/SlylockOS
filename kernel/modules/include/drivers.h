@@ -1,6 +1,6 @@
 /**
-  \file      ata.h
-  \brief     ATA driver.
+  \file      drivers.h
+  \brief     drivers
   \details   This header file is used as an ATA driver.
   \author    matthyno
   \version   1.0.0
@@ -9,9 +9,9 @@
 */
  
 
-#ifndef __ATA_H
+#ifndef __DRIVERS_H
 
-#define __ATA_H
+#define __DRIVERS_H
 
 #include <types.h>
 

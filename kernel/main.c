@@ -16,6 +16,7 @@
 #include <usermode.h>
 #include <bootscreen.h>
 #include <gui.h>
+#include <drivers.h>
 
 #define MB_MAGIC 0x1BADB002
 
