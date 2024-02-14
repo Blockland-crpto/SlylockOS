@@ -1,7 +1,7 @@
 /**
   \file      drivers.h
   \brief     drivers
-  \details   This header file is used as an ATA driver.
+  \details   This header file is used as a general compilations of the drivers
   \author    matthyno
   \version   1.0.0
   \date      2021
@@ -86,7 +86,7 @@ static void wait_ata_bsy();
 */
 static void wait_ata_drq();
 
-
+/** ATA DRIVER END **/
 
 
 
@@ -103,7 +103,7 @@ enum video_type {
 uint16_t detect_bios_area_hardware();
 enum video_type get_bios_area_video_type();
 
-
+/** VIDEO DRIVER END **/
 
 
 
@@ -162,5 +162,15 @@ void acpiPowerOff(void);
 void acpi_init();
 
 int acpiEnabled;
+
+/** ACPI DRIVER END **/
+
+
+
+
+
+/** PCI driver **/
+uint16_t pciConfigReadWord(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offset);
+uint16_t pciCheckVendor(uint8_t bus, uint8_t slot);
 
 #endif
