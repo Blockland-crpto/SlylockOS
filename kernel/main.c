@@ -1,9 +1,7 @@
 #include <ports.h>
 #include <screen.h>
 #include <gdt.h>
-#include <idt.h>
-#include <isr.h>
-#include <irq.h>
+#include <interrupts.h>
 #include <timer.h>
 #include <fs.h>
 #include <string.h>

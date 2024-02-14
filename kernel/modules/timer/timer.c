@@ -1,6 +1,5 @@
 #include <screen.h>
-#include <isr.h>
-#include <irq.h>
+#include <interrupts.h>
 #include <timer.h>
 #include <ports.h>
 #include <string.h>

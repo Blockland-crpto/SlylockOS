@@ -5,8 +5,7 @@
 #include <types.h>
 #include <screen.h>
 #include <panic.h>
-#include <isr.h>
-#include <irq.h>
+#include <interrupts.h>
 #include <shell.h>
 
 
