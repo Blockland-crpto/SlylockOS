@@ -6,33 +6,20 @@
 
 
 /** INTERRUPT DESCRIPTOR TABLE START **/
-//define a structure for the IDT entry
-struct idt_entry
-{
+struct idt_entry {
 	unsigned short base_lo;
 	unsigned short sel; //this where our kernel segment goes in
 	unsigned char always0; //as the name suggests, it is always 0
 	unsigned char flags; //these are set using the above table
 	unsigned short base_hi;
 } __attribute__((packed));
-
-//now define an IDT pointer to load it
-struct idt_ptr
-{
+struct idt_ptr {
 	unsigned short limit;
 	unsigned int base;
 } __attribute__((packed));
-
-//Now we declare an IDT of 256 entries but we will only use first 
-//32 entries for now and represent them as unhandled interrupt
 struct idt_entry idt[256];
-//define an IDT pointer
 struct idt_ptr idtp;
-
-//we call the following function in boot.asm
 extern void load_idt();
-
-//to set an entry in the IDT, we can use the following function
 void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, unsigned char flags){
 	/* The interrupt routine's base address */
 	idt[num].base_lo = (base & 0xFFFF);
@@ -44,10 +31,6 @@ void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, uns
 	idt[num].always0 = 0;
 	idt[num].flags = flags;
 }
-
-
-
-//to install the IDT, we can use the following function
 void idt_install(){
 	module_t modules_idt_idt = MODULE("kernel.modules.idt.idt", "IDT for the kernel (CORE)");
 	//set the special IDT pointer just like we did in gdt.c
@@ -65,19 +48,19 @@ void idt_install(){
 /** INTERRUPT DESCRIPTOR TABLE END **/
 
 
+/** NON MASKABLE INTERRUPT START **/
 void nmi_enable() {
 	out_port_byte(0x70, in_port_byte(0x70) & 0x7F);
 	in_port_byte(0x71);
 }
-
 void nmi_disable() {
 	out_port_byte(0x70, in_port_byte(0x70) | 0x80);
 	in_port_byte(0x71);
 }
+/** NON MASKABLE INTERRUPT END **/
 
 
 /** INTERRUPT SERVICE ROUTINES START **/
-//define our ISRs here
 extern void _isr0();
 extern void _isr1();
 extern void _isr2();
@@ -110,11 +93,7 @@ extern void _isr28();
 extern void _isr29();
 extern void _isr30();
 extern void _isr31();
-
-//we'll set sel to 0x08 and flags to 0x8e
-//This means that the entry is present, is running kernel level, and has the lower 5 bits
-void isr_install()
-{
+void isr_install() {
 	module_t modules_isr_isr = MODULE("kernel.modules.isr.isr", "Provides ISR support for the kernel (CORE)");
 	char** deps;
 	deps[0] = "kernel.modules.idt.idt";
@@ -156,10 +135,7 @@ void isr_install()
 	idt_set_gate(31, (unsigned)_isr31, 0x08, 0x8E);
 	INIT(modules_isr_isr);
 }
-
-// Let's define an array of strings to represent the exception messages for our ISRs
-char *exception_messages[] =
-{
+char *exception_messages[] = {
 	"Division By Zero",
 	"Debug",
 	"Non Maskable Interrupt",
@@ -196,13 +172,7 @@ char *exception_messages[] =
 	"Reserved",
 	"Reserved"
 };
-
-// The following function is the fault_handler.
-// This tells us what exception occured during the run-time.
-// As we declared in boot.asm, all ISRs point to this function
-// and this function will check the registers and find the exception message
-void fault_handler(struct regs *r)
-{
+void fault_handler(struct regs *r) {
 	if (r->int_no < 32)
 	{
 		putstr(exception_messages[r->int_no], COLOR_RED, COLOR_BLK);
@@ -230,33 +200,16 @@ extern void _irq12();
 extern void _irq13();
 extern void _irq14();
 extern void _irq15();
-
-//Following is an array of function pointers, we use this to handle
-//custom IRQ handlers for a particular IRQ
-
 void *irq_routines[16] = {
 	0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0
 };
-
-//following function installs a custom IRQ handler for the given IRQ
 void irq_install_handler(int irq, void(*handler)(struct regs *r)){
 	irq_routines[irq] = handler;
 }
-
-//to clear or uninstall a IRQ handler
 void irq_uninstall_handler(int irq){
 	irq_routines[irq] = 0;
 }
-
-//Generally, IRQs 0 to 7 are mapped to IDT entries 8 to 15.
-//But we already used those IDT entries and the IDT entry 8 is a Double Fault
-//So, if we did not map these IRQs to other empty IDT entries, then everytime
-//an IRQ0 occurs we get a Double Fault Exception, which is not what we want.
-//So, we need to map these IRQs somewhere else
-//To do this, we send commands to PICs in order to map them to other unused IDT entries
-//for now let's map these to IDT entries 32 to 47
-
 void irq_remap(void){
 	out_port_byte(0x20, 0x11);
 	out_port_byte(0xA0, 0x11);
@@ -269,10 +222,6 @@ void irq_remap(void){
 	out_port_byte(0x21, 0x0);
 	out_port_byte(0xA1, 0x0);
 }
-
-//Let's first remap the interrupt controllers and then install them 
-//into the correct IDT entries
-
 void irq_install(){
 	module_t modules_irq_irq = MODULE("kernel.modules.irq.irq", "Provides IRQ support for the kernel (CORE)");
 	char** deps;
@@ -300,16 +249,6 @@ void irq_install(){
 	idt_set_gate(47, (unsigned)_irq15, 0x08, 0x8E);
 	INIT(modules_irq_irq);
 }
-
-//now we use a irq_handler instead of fault_handler
-//because for every IRQ a device might want to communicate with the CPU
-//like writing a buffer or putting a character on CPU, 
-//once the CPU executes what a device needs, it should tell the device
-//that the process is completed. To do this it sends an "End Of Interrupt" or EOI
-//command which is "0x20" in hex. Most of the modern CPUs have two PICs
-//one is Master and the other is Slave. Master has the EOI at 0x20 and the Slave
-//has the EOI at 0xA0
-
 void irq_handler(struct regs *r){
 
 	//blank function pointer
