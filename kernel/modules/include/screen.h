@@ -190,34 +190,4 @@ void scroll_line();
 
 //put a string with a specific location
 void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start);
-
-/** GUI **/
-//textbox id's
-#define TEXTBOX_ID_0 0
-
-//The GUI init
-void gui_init();
-
-//A gui template
-void make_gui(int winfg, int winbg, int multipage);
-
-//gui pop up
-void make_gui_windows(char *title, char *cont, int beginx, int beginy, int endx, int endy);
-
-//textbox active variable
-int textboxactive;
-
-//textbox id
-int textboxid;
-
-//text box function
-void textbox(char *title, char *cont, int callerid);
-
-//hander for textinput
-void textinputhandler(char *input[], int uim);
-
-//the bootscreen
-void bootscreen();
-
-
 #endif

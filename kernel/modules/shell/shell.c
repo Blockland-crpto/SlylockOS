@@ -7,6 +7,7 @@
 #include <fs.h>
 #include <panic.h>
 #include <screen.h>
+#include <gui.h>
 #include <kernel.h>
 #include <drivers.h>
 #include <keyboard.h>

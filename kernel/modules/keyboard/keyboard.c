@@ -1,5 +1,6 @@
 #include <ports.h>
 #include <screen.h>
+#include <gui.h>
 #include <isr.h>
 #include <irq.h>
 #include <keyboard.h>

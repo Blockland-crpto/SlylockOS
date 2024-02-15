@@ -17,6 +17,7 @@
 #include <screen.h>
 #include <drivers.h>
 #include <keyboard.h>
+#include <gui.h>
 
 #define MB_MAGIC 0x1BADB002
 
