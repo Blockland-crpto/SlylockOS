@@ -4,8 +4,6 @@ bin/
 .replit
 replt.nix
 
-changelog.txt
-
 floppy.img
 
 initrdgen
