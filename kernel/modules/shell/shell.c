@@ -8,8 +8,8 @@
 #include <panic.h>
 #include <screen.h>
 #include <kernel.h>
-#include <screen.h>
 #include <drivers.h>
+#include <keyboard.h>
 
 #define NULL ((char *)0)
 

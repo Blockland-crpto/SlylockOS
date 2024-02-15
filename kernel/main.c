@@ -1,7 +1,10 @@
 #include <ports.h>
 #include <screen.h>
 #include <gdt.h>
-#include <interrupts.h>
+#include <idt.h>
+#include <isr.h>
+#include <irq.h>
+#include <nmi.h>
 #include <timer.h>
 #include <fs.h>
 #include <string.h>
@@ -13,6 +16,7 @@
 #include <usermode.h>
 #include <screen.h>
 #include <drivers.h>
+#include <keyboard.h>
 
 #define MB_MAGIC 0x1BADB002
 

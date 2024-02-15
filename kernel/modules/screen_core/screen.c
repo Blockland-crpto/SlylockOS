@@ -6,6 +6,7 @@
 #include <shell.h>
 #include <modules.h>
 #include <drivers.h>
+#include <keyboard.h>
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 
