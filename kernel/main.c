@@ -20,6 +20,7 @@
 #include <drivers/ata.h>
 #include <drivers/video.h>
 #include <drivers/acpi.h>
+#include <drivers/pci.h>
 
 #define MB_MAGIC 0x1BADB002
 
@@ -74,8 +75,9 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   acpi_init();
   gui_init();
   video_init();
-	
-  bootscreen();
+  //bootscreen();
+  pci_init();
+  
  	
   __asm__ __volatile__("sti");
 
