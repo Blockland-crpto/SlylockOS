@@ -206,21 +206,6 @@ int initAcpi(void) {
    return -1;
 }
 
-void acpiPowerOff(void) {
-   // SCI_EN is set to 1 if acpi shutdown is possible
-   if (SCI_EN == 0)
-	  return;
-
-   acpiEnable();
-
-   // send the shutdown command
-   outw((unsigned int) PM1a_CNT, SLP_TYPa | SLP_EN );
-   if ( PM1b_CNT != 0 )
-	  outw((unsigned int) PM1b_CNT, SLP_TYPb | SLP_EN );
-
-   kprintf("acpi poweroff failed.\n");
-}
-
 void acpi_init() {
 	module_t modules_acpi_acpi = MODULE("kernel.modules.acpi.acpi", "Provides ACPI support for the kernel (CORE)");
 	initAcpi();

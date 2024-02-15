@@ -1,4 +1,4 @@
-#include <nmi.h>
+#include <drivers/nmi.h>
 #include <ports.h>
 #include <modules.h>
 

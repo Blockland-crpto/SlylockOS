@@ -4,7 +4,6 @@
 #include <idt.h>
 #include <isr.h>
 #include <irq.h>
-#include <nmi.h>
 #include <timer.h>
 #include <fs.h>
 #include <string.h>
@@ -15,9 +14,9 @@
 #include <execute.h>
 #include <usermode.h>
 #include <screen.h>
-#include <drivers.h>
 #include <keyboard.h>
 #include <gui.h>
+#include <drivers/nmi.h>
 #include <drivers/ata.h>
 #include <drivers/video.h>
 #include <drivers/acpi.h>
