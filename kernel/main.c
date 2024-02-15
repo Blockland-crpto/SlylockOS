@@ -18,6 +18,7 @@
 #include <drivers.h>
 #include <keyboard.h>
 #include <gui.h>
+#include <drivers/ata.h>
 
 #define MB_MAGIC 0x1BADB002
 
