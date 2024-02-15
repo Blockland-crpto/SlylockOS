@@ -30,7 +30,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="./readme ${sources} ${headers}"
+inp="./readme ${headers}"
 res=''
 for word in $inp; do
 res="${res} ${word}"
