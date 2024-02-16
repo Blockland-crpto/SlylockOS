@@ -193,7 +193,7 @@ int initAcpi(void) {
 				   kprintf("\\_S5 not present.\n");
 			   }
 			} else {
-				kprintf("DSDT invalid.\n");
+				panic("DSDT invalid", ACPI_DSDT_ERROR);
 			}
 		 }
 		 ptr++;

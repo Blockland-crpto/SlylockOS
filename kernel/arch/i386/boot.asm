@@ -317,6 +317,8 @@ _isr31:
 ; now we'll call the external c function fault handler
 extern fault_handler
 
+
+
 ;This is our isr_common_stub, this will save the processor state
 ;kernel registers, push other stuff onto the stack and then calls the fault_handler function
 ;after that it will restore the CPU state.
@@ -523,3 +525,4 @@ SECTION .bss
     resb 8192               ; This reserves 8KBytes of memory here
 _sys_stack:
 
+	

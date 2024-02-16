@@ -62,7 +62,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 
   isr_install();
   irq_install();
-
+  nmi_init();
+	
   timer_install();
   filesystem_init();
 
@@ -75,8 +76,9 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   acpi_init();
   gui_init();
   video_init();
-  //bootscreen();
+  
   pci_init();
+  bootscreen();
   
  	
   __asm__ __volatile__("sti");

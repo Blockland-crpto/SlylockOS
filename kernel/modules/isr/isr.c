@@ -2,6 +2,7 @@
 #include <idt.h>
 #include <isr.h>
 #include <modules.h>
+#include <drivers/nmi.h>
 
 extern void _isr0();
 extern void _isr1();
@@ -120,8 +121,14 @@ char *exception_messages[] = {
 void fault_handler(struct regs *r) {
 	if (r->int_no < 32)
 	{
-		putstr(exception_messages[r->int_no], COLOR_RED, COLOR_BLK);
-		putstr(" Exception.\n", COLOR_RED, COLOR_BLK);
+		if (r->int_no == 2) {
+			printf("NMI exception:\nPort a: 0x%d\nPort b: 0x%d", retrive_nmi_data_a(), retrive_nmi_data_b());
+		} else {
+			putstr(exception_messages[r->int_no], COLOR_RED, COLOR_BLK);
+			putstr(" Exception.\n", COLOR_RED, COLOR_BLK);
+			
+		}
 		for(;;);
+
 	}
 }

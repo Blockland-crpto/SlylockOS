@@ -250,6 +250,3 @@ void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned ch
   }
   return 0;
 }
-
-/** GUI **/
-

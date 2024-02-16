@@ -39,6 +39,17 @@
 	\brief Happens if the ACPI driver fails to initialize
 */
 #define ACPI_ERROR 5
+/**
+	\def ACPI_DSDT_ERROR
+	\brief Happens if the PCI driver fails to initialize because the DSDT table is invalid
+*/
+#define ACPI_DSDT_ERROR 6
+/**
+	\def VIDEO_RETRIV_ERROR
+	\brief Happens if the video driver fails to retrive video data
+*/
+#define VIDEO_RETRIV_ERROR 7
+
 
 void panic(char* reason, int errno);
 #endif

@@ -16,7 +16,7 @@ enum video_type get_bios_area_video_type() {
 void video_init() {
 	module_t modules_video_video = MODULE("kernel.modules.video.video", "Provides video support for the kernel (CORE)");
 	if (get_bios_area_video_type() != VIDEO_TYPE_COLOR && get_bios_area_video_type() != VIDEO_TYPE_MONOCHROME) {
-		panic("Unable to find screen type", 0x1);
+		panic("Unable to find screen type", VIDEO_RETRIV_ERROR);
 	}
 	INIT(modules_video_video);
 
