@@ -2,6 +2,7 @@
 #define __DRIVERS_ACPI_H__
 
 #include <stddef.h>
+#include <types.h>
 
 dword *SMI_CMD;
 byte ACPI_ENABLE;
@@ -38,9 +39,9 @@ struct FACP {
    byte PM1_CNT_LEN;
 };
 
-unsigned int *acpiCheckRSDPtr(unsigned int *ptr);
+unsigned int *acpiCheckRSDPtr(uint32_t *ptr);
 unsigned int *acpiGetRSDPtr(void);
-int acpiCheckHeader(unsigned int *ptr, char *sig);
+int acpiCheckHeader(uint32_t *ptr, char *sig);
 int acpiEnable(void);
 int initAcpi(void);
 void acpiPowerOff(void);

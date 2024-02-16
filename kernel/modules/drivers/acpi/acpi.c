@@ -7,7 +7,7 @@
 #include <panic.h>
 
 
-unsigned int *acpiCheckRSDPtr(unsigned int *ptr) {
+unsigned int *acpiCheckRSDPtr(uint32_t *ptr) {
    char *sig = "RSD PTR ";
    struct RSDPtr *rsdp = (struct RSDPtr *) ptr;
    byte *bptr;
@@ -44,7 +44,7 @@ unsigned int *acpiGetRSDPtr(void) {
    unsigned int *rsdp;
 
    // search below the 1mb mark for RSDP signature
-   for (addr = (unsigned int *) 0x000E0000; (int) addr<0x00100000; addr += 0x10/sizeof(addr))
+   for (addr = (uint32_t *) 0x000E0000; (int) addr<0x00100000; addr += 0x10/sizeof(addr))
    {
 	  rsdp = acpiCheckRSDPtr(addr);
 	  if (rsdp != NULL)
@@ -57,7 +57,7 @@ unsigned int *acpiGetRSDPtr(void) {
    ebda = ebda*0x10 &0x000FFFFF;   // transform segment into linear address
 
    // search Extended BIOS Data Area for the Root System Description Pointer signature
-   for (addr = (unsigned int *) ebda; (int) addr<ebda+1024; addr+= 0x10/sizeof(addr))
+   for (addr = (uint32_t *) ebda; (int) addr<ebda+1024; addr+= 0x10/sizeof(addr))
    {
 	  rsdp = acpiCheckRSDPtr(addr);
 	  if (rsdp != NULL)
@@ -67,7 +67,7 @@ unsigned int *acpiGetRSDPtr(void) {
    return NULL;
 }
 
-int acpiCheckHeader(unsigned int *ptr, char *sig) {
+int acpiCheckHeader(uint32_t *ptr, char *sig) {
    if (memcmp(ptr, sig, 4) == 0)
    {
 	  char *checkPtr = (char *) ptr;
@@ -86,23 +86,23 @@ int acpiCheckHeader(unsigned int *ptr, char *sig) {
 
 int acpiEnable(void) {
    // check if acpi is enabled
-   if ( (inw((unsigned int) PM1a_CNT) &SCI_EN) == 0 )
+   if ( (inw((uint32_t) PM1a_CNT) &SCI_EN) == 0 )
    {
 	  // check if acpi can be enabled
 	  if (SMI_CMD != 0 && ACPI_ENABLE != 0)
 	  {
-		 out_port_byte((unsigned int) SMI_CMD, ACPI_ENABLE); // send acpi enable command
+		 out_port_byte((uint32_t) SMI_CMD, ACPI_ENABLE); // send acpi enable command
 		 // give 3 seconds time to enable acpi
 		 int i;
 		 for (i=0; i<300; i++ )
 		 {
-			if ( (inw((unsigned int) PM1a_CNT) &SCI_EN) == 1 )
+			if ( (inw((uint32_t) PM1a_CNT) &SCI_EN) == 1 )
 			   break;
 		 }
 		 if (PM1b_CNT != 0)
 			for (; i<300; i++ )
 			{
-			   if ( (inw((unsigned int) PM1b_CNT) &SCI_EN) == 1 )
+			   if ( (inw((uint32_t) PM1b_CNT) &SCI_EN) == 1 )
 				  break;
 			}
 		 if (i<300) {
@@ -120,13 +120,13 @@ int acpiEnable(void) {
 		 return -1;
 	  }
    } else {
-	  //wrstr("acpi was already enabled.\n");
+	  kprintf("acpi was already enabled.\n");
 	  return 0;
    }
 }
 
 int initAcpi(void) {
-   unsigned int *ptr = acpiGetRSDPtr();
+   uint32_t *ptr = acpiGetRSDPtr();
 
    // check if address is correct  ( if acpi is available on this pc )
    if (ptr != NULL && acpiCheckHeader(ptr, "RSDT") == 0)
@@ -139,11 +139,11 @@ int initAcpi(void) {
 	  while (0<entrys--)
 	  {
 		 // check if the desired table is reached
-		 if (acpiCheckHeader((unsigned int *) *ptr, "FACP") == 0)
+		 if (acpiCheckHeader((uint32_t *) *ptr, "FACP") == 0)
 		 {
 			entrys = -2;
 			struct FACP *facp = (struct FACP *) *ptr;
-			if (acpiCheckHeader((unsigned int *) facp->DSDT, "DSDT") == 0)
+			if (acpiCheckHeader((uint32_t *) facp->DSDT, "DSDT") == 0)
 			{
 			   // search the \_S5 package in the DSDT
 			   char *S5Addr = (char *) facp->DSDT +36; // skip header
@@ -193,7 +193,7 @@ int initAcpi(void) {
 				   kprintf("\\_S5 not present.\n");
 			   }
 			} else {
-				panic("DSDT invalid", ACPI_DSDT_ERROR);
+				kprintf("DSDT parse error.\n");
 			}
 		 }
 		 ptr++;
