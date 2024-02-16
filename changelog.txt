@@ -23,4 +23,6 @@
 			Added NMI control (Thanks OSDEV)
 			Added a basic (not tested) MMIO driver (Thanks OSDEV)
 			Added a color screen detection function (Thanks OSDEV!)
+			Added a CPUID function (Thanks OSDEV!)
+			Added a Brute force PCI scan (Thanks OSDEV!)
         
