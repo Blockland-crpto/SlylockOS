@@ -11,6 +11,7 @@
 #include <kernel.h>
 #include <drivers/acpi.h>
 #include <drivers/video.h>
+#include <drivers/cpuid.h>
 #include <keyboard.h>
 
 #define NULL ((char *)0)
@@ -104,7 +105,7 @@ void about(int page) {
 	make_gui(3, 3, 1);
 	make_gui_windows("About OS:", aboutstr, 4, 3, 70, 22);
   } else if (page == 2) {
-	 char aboutstrt[180] = "Hardware:\n\nRAM: ";
+	 char aboutstrt[150] = "Hardware:\n\nRAM: ";
 	 strcat(aboutstrt, itoa(ram_size(), buf, 10));
 	 strcat(aboutstrt, "\nUptime: ");
 	 strcat(aboutstrt, itoa(get_tracked_seconds(), buf, 10));
@@ -115,12 +116,13 @@ void about(int page) {
 		 strcat(aboutstrt, "Monochrome\nACPI: ");
 	 }
 	 if (acpiEnabled == 1) {
-		 strcat(aboutstrt, "Enabled\nPress enter to continue...");
+		 strcat(aboutstrt, "Enabled\nCPUID: ");
 	 } else if (acpiEnabled == 0) {
-		 strcat(aboutstrt, "Disabled\nPress enter to continue...");
+		 strcat(aboutstrt, "Disabled\nCPUID: ");
 	 } else if (acpiEnabled == 2) {
-		 strcat(aboutstrt, "Unavaliable\nPress enter to continue...");
+		 strcat(aboutstrt, "Unavaliable\nCPUID: ");
 	 }
+	 strcat(aboutstrt, cpu_string());
      userinputmode = ABOUT_APP_ID_TW;
 	 make_gui(3, 3, 2);
 	 make_gui_windows("About OS:", aboutstrt, 4, 3, 70, 22);

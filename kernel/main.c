@@ -21,6 +21,7 @@
 #include <drivers/video.h>
 #include <drivers/acpi.h>
 #include <drivers/pci.h>
+#include <drivers/cpuid.h>
 
 #define MB_MAGIC 0x1BADB002
 
@@ -78,6 +79,7 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   video_init();
   
   pci_init();
+  cpuid_init();
   bootscreen();
   
  	
