@@ -9,9 +9,6 @@
 #include <screen.h>
 #include <gui.h>
 #include <kernel.h>
-#include <drivers/acpi.h>
-#include <drivers/video.h>
-#include <drivers/cpuid.h>
 #include <keyboard.h>
 
 #define NULL ((char *)0)

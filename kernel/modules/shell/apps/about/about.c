@@ -4,6 +4,7 @@
 #include <keyboard.h>
 #include <drivers/video.h>
 #include <drivers/acpi.h>
+#include <drivers/cpuid.h>
 
 void about(int page) {
   char aboutstr[220] = "MiniOS\nA Operating System written in C\nand ASM for lightweight computers.\n\nKernel Version: v1.0.0\nShell Version: v1.0.0\n\nMade Possible by:\n1. Abrid OS\n2. OSDEV.org\nThank you!\nPress Enter To Continue..."; 
