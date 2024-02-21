@@ -6,6 +6,7 @@
 #include <screen.h>
 #include <panic.h>
 
+#define NULL ((char * ) 0)
 
 unsigned int *acpiCheckRSDPtr(uint32_t *ptr) {
    char *sig = "RSD PTR ";

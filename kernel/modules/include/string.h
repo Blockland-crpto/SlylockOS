@@ -11,6 +11,9 @@
 #ifndef __STRING_H
 #define __STRING_H
 
+static char *olds;
+
+
 /**
 	\brief Swaps 2 strings
 */

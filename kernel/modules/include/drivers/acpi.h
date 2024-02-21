@@ -1,7 +1,6 @@
 #ifndef __DRIVERS_ACPI_H__
 #define __DRIVERS_ACPI_H__
 
-#include <stddef.h>
 #include <types.h>
 
 dword *SMI_CMD;

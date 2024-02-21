@@ -6,7 +6,6 @@
 #include <irq.h>
 #include <timer.h>
 #include <fs.h>
-#include <string.h>
 #include <multiboot.h>
 #include <panic.h>
 #include <types.h>

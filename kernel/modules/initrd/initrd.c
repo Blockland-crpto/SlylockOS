@@ -6,6 +6,7 @@
 #include <types.h>
 #include <modules.h>
 
+
 initrd_header_t *initrd_header;     // The header.
 initrd_file_header_t *file_headers; // The list of file headers.
 fs_node_t *initrd_dev;              // We also add a directory node for /dev, so we can mount devfs later on.
