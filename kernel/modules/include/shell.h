@@ -36,6 +36,8 @@ extern int enable_shell;
 
 fs_node_t blank;
 
+void clear_scr();
+
 /**
 	\brief Initializes the shell
 */
@@ -48,6 +50,8 @@ void shell_init();
 */
 void shell(char s[], int i);
 
+void reboot();
+
 void avaliable_commands(int page);
 
 void about(int page);
@@ -55,5 +59,7 @@ void about(int page);
 void ls(int start, int id, int page);
 
 void cat(char s[]);
+
+void shutdown();
 
 #endif

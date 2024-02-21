@@ -36,7 +36,7 @@ for word in $inp; do
 res="${res} ${word}"
 res="${res} ${word}"
 done
-./initrdgen test test $res
+./initrdgen $res
 mv ./initrd.img ./iso/boot/os.initrd
-grub-mkrescue --output=os.iso iso
-qemu-system-i386 -cdrom os.iso -m 512M -hda floppy.img
+grub-mkrescue --output=minios.iso iso
+qemu-system-i386 -cdrom minios.iso -m 512M -hda floppy.img
