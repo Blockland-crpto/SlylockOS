@@ -160,9 +160,7 @@ void track_input(char c){
 			  app_info("Help\nthe Help app for MINIOS\nVersion 1.0.0", HELP_APP_ID_TH, 2);
 			}
 		  } else if(userinputmode == HELP_APP_ID_TH) {
-			if (c == '\n') {
-				reset();
-			} else if (c == 'b') {
+			if (c == 'b') {
 				avaliable_commands(1);
 			}
 		  } else if (userinputmode == ABOUT_APP_ID) {
@@ -182,9 +180,7 @@ void track_input(char c){
 				app_info("About\nthe system info for MINIOS\nVersion 1.0.0", ABOUT_APP_ID_TH, 2);
 			  }
 		  } else if (userinputmode == ABOUT_APP_ID_TH) {
-			  if (c == '\n') {
-				  reset();
-			  } else if (c == 'b') {
+			  if (c == 'b') {
 				  about(1);
 			  }
 		  } else if (userinputmode == LS_APP_ID) {
@@ -211,40 +207,13 @@ void track_input(char c){
 			  } else if (c == 'a') {
 				app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_SX, 2);
 			  }
-		  /*
-		  } else if (userinputmode == LS_APP_ID_FR) {
-			  if (c == '<') {
-				ls(32, LS_APP_ID_TH, 3);
-			  } else if (c == '>') {
-				ls(64, LS_APP_ID_FV, 5);
-			  } else if (c == 'a') {
-				ls_info();
-			  }
-		  } else if (userinputmode == LS_APP_ID_FV) {
-			  if (c == '<') {
-				ls(48, LS_APP_ID_FR, 4);
-			  } else if (c == '>') {
-				//Do Nothing
-			  } else if (c == 'a') {
-				ls_info();
-			  }
-		 */
 		  } else if (userinputmode == LS_APP_ID_SX)  {
-			  if (c == '\n') {
-				  reset();
-			  } else if (c == 'b') {
+			  if (c == 'b') {
 				  ls(0, LS_APP_ID, 1);
 			  }
-			
 		  } else if (userinputmode == CAT_APP_ID) {
-			  if (c == '\n') {
-				  reset();
-			  } else if (c == 'a') {
+			  if (c == 'a') {
 				  app_info("Cat\nthe text file viewer for MINIOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
-			  }
-		  } else if (userinputmode == CAT_APP_ID_TW) {
-			  if (c == '\n') {
-				  reset();
 			  }
 		  }
 
@@ -252,23 +221,6 @@ void track_input(char c){
 			reset();
 		  } 
 		} else if (textboxactive == 1) {
-		 /* 
-		 if (i >= 33) {
-			  timesfilled + 1;
-
-			  for(int j = 22; j < 56; j++) {
-				  putpos('#', 7, 7, j, 15);
-			  }
-			  set_cursor_pos(22, 15);
-			  for(int r = 0; r < 33; r++) {
-				  putchar(input_buffer[r + timesfilled], 8, 7);
-			  }
-			  putchar(c, 8, 7);
-			  input_buffer[i] = c;
-			  i++;
-		  } 
-		 */
-
 		  if (c == '\n') {
 			clear(COLOR_WHT, COLOR_BLK);
 			set_cursor_pos(0,0);
