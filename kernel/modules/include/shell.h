@@ -68,18 +68,17 @@ void shell_init();
 */
 void shell(char s[], int i);
 
+void app_info(char *desc, int appid, int box);
+
 void reboot();
 
 void avaliable_commands(int page);
 
 void about(int page);
-void about_info();
 
 void ls(int start, int id, int page);
-void ls_info();
 
 void cat(char s[]);
-void cat_info();
 
 void shutdown();
 
