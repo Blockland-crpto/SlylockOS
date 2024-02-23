@@ -16,8 +16,10 @@
 #define NULL ((char *)0)
 //#define sizeof(type) (char *)(&type+1)-(char*)(&type)
 #define SHELL_VERSION "1.0.0\n"
+
 #define HELP_APP_ID 1
 #define HELP_APP_ID_TW 2
+
 #define ABOUT_APP_ID 3
 #define ABOUT_APP_ID_TW 4
 
@@ -30,7 +32,15 @@
 
 #define CAT_APP_ID 10
 
+#define CALC_APP_ID 11
+#define CALC_APP_ID_TW 12
+#define CALC_APP_ID_TH 13
+#define CALC_APP_ID_FR 14
 
+//the calculator holding variables
+int calc_num1;
+int calc_num2;
+int calc_op;
 
 extern int enable_shell;
 
@@ -61,5 +71,7 @@ void ls(int start, int id, int page);
 void cat(char s[]);
 
 void shutdown();
+
+void calc(int num1, int num2, int op);
 
 #endif

@@ -43,9 +43,9 @@ void shell(char s[], int i){
   } else if(strcmp(cmdnamee, "ls")==0) { // list files and kprintf it
     ls(0, LS_APP_ID, 1);
   } else if(strcmp(cmdnamee, "cat")==0) { // read file and kprintf it
-	
 	textbox("cat", "Enter the file location", CAT_APP_ID);
-	//cat(cmdnamee_dup);
+  } else if(strcmp(cmdnamee, "calc")==0) {
+	textbox("Enter the first number", "", CALC_APP_ID);
   } else if(strcmp(cmdnamee, "\\\/")==0 || strcmp(s, "")==0) { // comment
   } else { // unknown command 
   }
