@@ -21,5 +21,5 @@ void calc(int num1, int num2, int op) {
 	}
 
 	strcat(restr, itoa(result, buf, 10));
-	infobox("Calc", restr, CALC_APP_ID_FR);
+	infobox("Calc", restr, CALC_APP_ID_FR, 1);
 }

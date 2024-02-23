@@ -3,9 +3,14 @@
 #include <gui.h>
 #include <shell.h>
 
-void infobox(char *title, char *cont, int callerid) {
+void infobox(char *title, char *cont, int callerid, int opts) {
 	userinputmode = callerid;
-	make_gui(3, 3, 0, 0);
+	if (opts == 1) {
+		make_gui(3, 3, 0, 1);
+	} else {
+		make_gui(3, 3, 0, 0);
+	}
+	
 	make_gui_windows(title, cont, 19, 10, 60, 20);
 	set_cursor_pos(22, 15);
 }

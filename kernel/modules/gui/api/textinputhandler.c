@@ -18,7 +18,7 @@ void textinputhandler(char *input[], int uim) {
 		calc_op = atoi(input);
 		if (calc_op > 3) {
 			//todo: alert user that the input is invalid
-			infobox("Calc", "invalid operand", CALC_APP_ID_FV);
+			infobox("Calc", "invalid operand", CALC_APP_ID_FV, 1);
 		} else {
 			calc(calc_num1, calc_num2, calc_op);
 		}

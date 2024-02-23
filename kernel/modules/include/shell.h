@@ -17,26 +17,31 @@
 //#define sizeof(type) (char *)(&type+1)-(char*)(&type)
 #define SHELL_VERSION "1.0.0\n"
 
+// HELP app ID's
 #define HELP_APP_ID 1
 #define HELP_APP_ID_TW 2
 
+// ABOUT app ID's
 #define ABOUT_APP_ID 3
 #define ABOUT_APP_ID_TW 4
+#define ABOUT_APP_ID_TH 5
 
 // LS app ID's
-#define LS_APP_ID 5
-#define LS_APP_ID_TW 6
-#define LS_APP_ID_TH 7
-#define LS_APP_ID_FR 8
-#define LS_APP_ID_FV 9
+#define LS_APP_ID 6
+#define LS_APP_ID_TW 7
+#define LS_APP_ID_TH 8
+#define LS_APP_ID_FR 9
+#define LS_APP_ID_FV 10
 
-#define CAT_APP_ID 10
+// CAT app ID's
+#define CAT_APP_ID 11
 
-#define CALC_APP_ID 11
-#define CALC_APP_ID_TW 12
-#define CALC_APP_ID_TH 13
-#define CALC_APP_ID_FR 14
-#define CALC_APP_ID_FV 15
+// CALC app ID's
+#define CALC_APP_ID 12
+#define CALC_APP_ID_TW 13
+#define CALC_APP_ID_TH 14
+#define CALC_APP_ID_FR 15
+#define CALC_APP_ID_FV 16
 
 //the calculator holding variables
 int calc_num1;
@@ -66,6 +71,7 @@ void reboot();
 void avaliable_commands(int page);
 
 void about(int page);
+void about_info();
 
 void ls(int start, int id, int page);
 

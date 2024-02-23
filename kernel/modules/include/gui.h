@@ -36,6 +36,6 @@ void loading_bar(int len, int startx, int starty, int delay);
 void loading_bar_two(int len, int startx, int starty);
 
 //info box function
-void info_box(char *title, char *cont, int callerid);
+void info_box(char *title, char *cont, int callerid, int opts);
 
 #endif

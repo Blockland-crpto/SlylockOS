@@ -9,6 +9,8 @@ void make_gui(int winfg, int winbg, int multipage, int exitopt) {
   }
   if (exitopt == 1) {
 	  putstrpos("Enter = Exit", 2, 1, 8, 7, 2);
+  } else if (exitopt == 2) {
+	  putstrpos("Enter = Exit | A = About", 2, 1, 8, 7, 2);
   }
   
 	
