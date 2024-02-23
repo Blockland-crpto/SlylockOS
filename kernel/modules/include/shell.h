@@ -20,30 +20,31 @@
 // HELP app ID's
 #define HELP_APP_ID 1
 #define HELP_APP_ID_TW 2
+#define HELP_APP_ID_TH 3
 
 // ABOUT app ID's
-#define ABOUT_APP_ID 3
-#define ABOUT_APP_ID_TW 4
-#define ABOUT_APP_ID_TH 5
+#define ABOUT_APP_ID 4
+#define ABOUT_APP_ID_TW 5
+#define ABOUT_APP_ID_TH 6
 
 // LS app ID's
-#define LS_APP_ID 6
-#define LS_APP_ID_TW 7
-#define LS_APP_ID_TH 8
-//#define LS_APP_ID_FR 9
-//#define LS_APP_ID_FV 10
-#define LS_APP_ID_SX 11
+#define LS_APP_ID 7
+#define LS_APP_ID_TW 8
+#define LS_APP_ID_TH 9
+//#define LS_APP_ID_FR 10
+//#define LS_APP_ID_FV 11
+#define LS_APP_ID_SX 12
 
 // CAT app ID's
-#define CAT_APP_ID 12
-#define CAT_APP_ID_TW 13
+#define CAT_APP_ID 13
+#define CAT_APP_ID_TW 14
 
 // CALC app ID's
-#define CALC_APP_ID 14
-#define CALC_APP_ID_TW 15
-#define CALC_APP_ID_TH 16
-#define CALC_APP_ID_FR 17
-#define CALC_APP_ID_FV 18
+#define CALC_APP_ID 15
+#define CALC_APP_ID_TW 16
+#define CALC_APP_ID_TH 17
+#define CALC_APP_ID_FR 18
+#define CALC_APP_ID_FV 19
 
 //the calculator holding variables
 int calc_num1;

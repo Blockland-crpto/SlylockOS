@@ -148,12 +148,27 @@ void track_input(char c){
 			  //Do nothing
 			} else if (c == '>') {
 			  avaliable_commands(2);
+			} else if (c == 'a') {
+			  app_info("Help\nthe Help app for MINIOS\nVersion 1.0.0", HELP_APP_ID_TH, 2);
 			}
 		  } else if(userinputmode == HELP_APP_ID_TW) {
 			if (c == '<') {
 			  avaliable_commands(1);
 			} else if (c == '>') {
 			  //Do nothing
+			} else if (c == 'a') {
+			  app_info("Help\nthe Help app for MINIOS\nVersion 1.0.0", HELP_APP_ID_TH, 2);
+			}
+		  } else if(userinputmode == HELP_APP_ID_TH) {
+			if (c == '\n') {
+				clear(COLOR_WHT, COLOR_BLK);
+				set_cursor_pos(0,0);
+				shell(input_buffer, i);
+				memset(input_buffer, 0, sizeof(input_buffer));
+				i=0;
+				userinputmode = 0;
+			} else if (c == 'b') {
+				avaliable_commands(1);
 			}
 		  } else if (userinputmode == ABOUT_APP_ID) {
 			  if (c == '<') {
@@ -238,7 +253,7 @@ void track_input(char c){
 			
 		  } else if (userinputmode == CAT_APP_ID) {
 			  if (c == '\n') {
-			      clear(COLOR_WHT, COLOR_BLK);
+				  clear(COLOR_WHT, COLOR_BLK);
 				  set_cursor_pos(0,0);
 				  shell(input_buffer, i);
 				  memset(input_buffer, 0, sizeof(input_buffer));
