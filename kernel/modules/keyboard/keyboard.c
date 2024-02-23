@@ -161,12 +161,7 @@ void track_input(char c){
 			}
 		  } else if(userinputmode == HELP_APP_ID_TH) {
 			if (c == '\n') {
-				clear(COLOR_WHT, COLOR_BLK);
-				set_cursor_pos(0,0);
-				shell(input_buffer, i);
-				memset(input_buffer, 0, sizeof(input_buffer));
-				i=0;
-				userinputmode = 0;
+				reset();
 			} else if (c == 'b') {
 				avaliable_commands(1);
 			}
@@ -188,12 +183,7 @@ void track_input(char c){
 			  }
 		  } else if (userinputmode == ABOUT_APP_ID_TH) {
 			  if (c == '\n') {
-				  clear(COLOR_WHT, COLOR_BLK);
-				  set_cursor_pos(0,0);
-				  shell(input_buffer, i);
-				  memset(input_buffer, 0, sizeof(input_buffer));
-				  i=0;
-				  userinputmode = 0;
+				  reset();
 			  } else if (c == 'b') {
 				  about(1);
 			  }
@@ -241,45 +231,25 @@ void track_input(char c){
 		 */
 		  } else if (userinputmode == LS_APP_ID_SX)  {
 			  if (c == '\n') {
-				  clear(COLOR_WHT, COLOR_BLK);
-				  set_cursor_pos(0,0);
-				  shell(input_buffer, i);
-				  memset(input_buffer, 0, sizeof(input_buffer));
-				  i=0;
-				  userinputmode = 0;
+				  reset();
 			  } else if (c == 'b') {
 				  ls(0, LS_APP_ID, 1);
 			  }
 			
 		  } else if (userinputmode == CAT_APP_ID) {
 			  if (c == '\n') {
-				  clear(COLOR_WHT, COLOR_BLK);
-				  set_cursor_pos(0,0);
-				  shell(input_buffer, i);
-				  memset(input_buffer, 0, sizeof(input_buffer));
-				  i=0;
-				  userinputmode = 0;
+				  reset();
 			  } else if (c == 'a') {
 				  app_info("Cat\nthe text file viewer for MINIOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
 			  }
 		  } else if (userinputmode == CAT_APP_ID_TW) {
 			  if (c == '\n') {
-				  clear(COLOR_WHT, COLOR_BLK);
-				  set_cursor_pos(0,0);
-				  shell(input_buffer, i);
-				  memset(input_buffer, 0, sizeof(input_buffer));
-				  i=0;
-				  userinputmode = 0;
+				  reset();
 			  }
 		  }
 
 		  if (c == '\n') {
-			clear(COLOR_WHT, COLOR_BLK);
-			set_cursor_pos(0,0);
-			shell(input_buffer, i);
-			memset(input_buffer, 0, sizeof(input_buffer));
-			i=0;
-			userinputmode = 0;
+			reset();
 		  } 
 		} else if (textboxactive == 1) {
 		 /* 
@@ -314,6 +284,15 @@ void track_input(char c){
 		  }
 
 		}
+}
+
+void reset() {
+	clear(COLOR_WHT, COLOR_BLK);
+	set_cursor_pos(0,0);
+	shell(input_buffer, i);
+	memset(input_buffer, 0, sizeof(input_buffer));
+	i=0;
+	userinputmode = 0;
 }
 
 void keyboard_install(){
