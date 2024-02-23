@@ -179,6 +179,8 @@ void track_input(char c){
 				  memset(input_buffer, 0, sizeof(input_buffer));
 				  i=0;
 				  userinputmode = 0;
+			  } else if (c == 'b') {
+				  about(1);
 			  }
 		  } else if (userinputmode == LS_APP_ID) {
 			  if (c == '<') {

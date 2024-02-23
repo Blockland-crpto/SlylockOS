@@ -7,6 +7,8 @@ void infobox(char *title, char *cont, int callerid, int opts) {
 	userinputmode = callerid;
 	if (opts == 1) {
 		make_gui(3, 3, 0, 1);
+	} else if (opts == 2) {
+		make_gui(3, 3, 0, 3);	
 	} else {
 		make_gui(3, 3, 0, 0);
 	}
