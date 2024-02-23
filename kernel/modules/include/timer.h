@@ -27,4 +27,7 @@ void timer_wait(int val);
 */
 int get_tracked_seconds();
 
+//fixed timer
+void time_sleep(int time);
+
 #endif

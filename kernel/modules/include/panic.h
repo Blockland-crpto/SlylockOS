@@ -49,7 +49,15 @@
 	\brief Happens if the video driver fails to retrive video data
 */
 #define VIDEO_RETRIV_ERROR 7
+/**
+ 	\def APP_ERROR
+	\brief Happens if the application calls panic
+*/
+#define APP_ERROR 8
 
 
 void panic(char* reason, int errno);
+
+//warn function
+void warn(char* reason);
 #endif

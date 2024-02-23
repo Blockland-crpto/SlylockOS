@@ -1,5 +1,6 @@
 #include <screen.h>
 
+
 void panic(char* reason, int errno) {
 	char* buf;
 	color_screen(3, 3);
@@ -9,4 +10,10 @@ void panic(char* reason, int errno) {
 	putstr("\nREASON: ", COLOR_WHT, COLOR_GRN);
 	putstr(reason, COLOR_LBU, COLOR_GRN);
 	while(1);
+}
+
+void warn(char* reason) {
+	putstr("WARN: ", COLOR_RED, COLOR_BLK);
+	putstr(reason, COLOR_WHT, COLOR_BLK);
+	putstr("\n", COLOR_WHT, COLOR_BLK);
 }

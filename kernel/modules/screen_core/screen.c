@@ -9,10 +9,6 @@
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 
-unsigned char vga_color(const unsigned char fg_color, const unsigned char bg_color){
-    // Put bg color in the higher 4 bits and mask those of fg
-    return (bg_color << 4) | (fg_color & 0x0F);
-}
 
 
 void clear(unsigned char fg_color, unsigned char bg_color){
@@ -28,23 +24,6 @@ void clear(unsigned char fg_color, unsigned char bg_color){
         TEXT_AREA[i] = clear_char; // and sets every character to the previously defined clear_char
     }
 }
-
-void putpos(unsigned char c, unsigned char forecolour, unsigned char backcolour, int x, int y) {
-     uint16_t attrib = (backcolour << 4) | (forecolour & 0x0F);
-     volatile uint16_t * where;
-     where = (volatile uint16_t *)0xB8000 + (y * 80 + x) ;
-     *where = c | (attrib << 8);
-}
-
-void color_screen(int fg, int bg) {
-  for(int y = 0; y<25; y++) {
-    for(int x = 0; x<80; x++) {
-      putpos("#", fg, bg, x, y);
-    }
-  }
-}
-
-
 
 void putchar(const char character, const unsigned char fg_color, const unsigned char bg_color){
     unsigned short position = get_cursor_pos(); // Get the cursor position
@@ -92,92 +71,6 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
 }
 
 
-void putstr(const char *string, const unsigned char fg_color, const unsigned char bg_color){
-    while (*string != '\0'){ // Get each character of the string until the \0 character and print it
-        putchar(*string++, fg_color, bg_color);
-    }
-}
-void kprintc(const char *ch) {
-	putchar(ch, COLOR_WHT, COLOR_BLK); // Print 1 character, but white
-} 
-void kprintf(const char *string){
-    while(*string != '\0'){ // Print string, but white
-        putchar(*string++, COLOR_WHT, COLOR_BLK);
-    }
-}
-
-unsigned short get_cursor_pos(){
-    unsigned short position = 0;
-
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0F); // Out port byte 0x0F
-    position |= in_port_byte(CURSOR_PORT_DATA);
-
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0E); // Out port byte 0x0E
-    position |= in_port_byte(CURSOR_PORT_DATA) << 8; // Combine the two so that they can be factored out easily, but are still 1 number
-
-    return position;
-}
-
-
-void show_cursor(){ // Sends a bunch of out port byte commands to show the cursor
-    unsigned char current;
-
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0A);
-    current = in_port_byte(CURSOR_PORT_DATA);
-    out_port_byte(CURSOR_PORT_DATA, current & 0xC0);
-
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0B);
-    current = in_port_byte(CURSOR_PORT_DATA);
-    out_port_byte(CURSOR_PORT_DATA, current & 0xE0);
-}
-
-
-void hide_cursor(){ // Sends a couple out port byte commands to hide the cursor
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0A);
-    out_port_byte(CURSOR_PORT_DATA, 0x20);
-}
-
-
-void advance_cursor(int mode){
-    unsigned short pos = get_cursor_pos(); // Gets the cursor position
-    
-	if (mode == 0) {
-		pos++; // and increments it by 1
-	} else if (mode == 1) {
-		pos--; // and decrements it by 1
-	}
-	
-	if (mode == 0) {
-		if (pos >= VGA_EXTENT){ // If the positon >= VGA_EXTENT, scroll
-			scroll_line();
-		}
-	}
-
-
-	// This just sends a bunch of out port byte commands to set the cursor position forward
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0F);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
-
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0E);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
-}
-
-void set_cursor_pos(unsigned char x, unsigned char y){
-    unsigned short pos = (unsigned short) x + ((unsigned short) VGA_WIDTH * y); // Factors the cursor position together like get_cursor_pos
-
-    if (pos >= VGA_EXTENT){ // If pos >= VGA_EXTENT, set pos to VGA_EXTENT minus 1
-        pos = VGA_EXTENT - 1;
-    }
-
-	// This just sends a bunch of out port byte commands to set the cursor position
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0F);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
-
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0E);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
-}
-
-
 void scroll_line(){
     // Moves all the lines up one
     for(unsigned short i = 1; i < VGA_HEIGHT; i++){
@@ -204,16 +97,4 @@ void scroll_line(){
     }
 	// then sets the cursor y to the second-to-bottommost row
     set_cursor_pos(0, VGA_HEIGHT - 1);
-}
-
-void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start) {
-  for (int i = 0; i < strlen(string); i++) {
-    if (string[i] == '\n') {
-      x = start;
-      y++;
-    }
-    x++;
-    putpos(string[i], fg_color, bg_color, x, y);
-  }
-  return 0;
 }

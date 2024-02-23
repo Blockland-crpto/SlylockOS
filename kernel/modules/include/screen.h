@@ -161,14 +161,6 @@ void kprintc(const char *ch);
 */
 void kprintf(const char *string);
 /**
-	\brief Prints a string with formatting
-
-	Prints a string with the foreground being white and the background being black, and with formatting. This formatting allows for adding things like %s, %x, and %d.
-	\param{in} string String to print, with formatting
-*/
-void printf(char *format, ...);
-
-/**
 	\brief Puts a character at a position
 
 	Puts a character at position (x,y) with the foreground being forecolour and the background being backcolour.

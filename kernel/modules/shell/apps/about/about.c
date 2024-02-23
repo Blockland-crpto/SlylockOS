@@ -10,7 +10,6 @@ void about(int page) {
   char aboutstr[220] = "MiniOS\nA Operating System written in C\nand ASM for lightweight computers.\n\nKernel Version: v1.0.0\nShell Version: v1.0.0\n\nMade Possible by:\n1. Abrid OS\n2. OSDEV.org\nThank you!\nPress Enter To Continue..."; 
   char buf;
 
-
   if (page == 1) {
 	userinputmode = ABOUT_APP_ID;
 	clear_scr();

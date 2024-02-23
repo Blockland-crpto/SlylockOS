@@ -10,6 +10,7 @@
 			Added multiple pages to 'ls' command
 			Added a bootscreen
 			Added a GUI to the 'cat' command
+			Added a experimental loading bar function
           Shell:
             Removed Developer Commands
             Added ID's to diffrent apps

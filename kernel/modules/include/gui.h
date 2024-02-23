@@ -29,6 +29,10 @@ void textinputhandler(char *input[], int uim);
 //the bootscreen
 void bootscreen();
 
+//loading bar
+void loading_bar(int len, int startx, int starty, int delay);
 
+//loading bar two (bouncing bar)
+void loading_bar_two(int len, int startx, int starty);
 
 #endif

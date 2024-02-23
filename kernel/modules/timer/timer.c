@@ -64,3 +64,9 @@ void timer_wait(int val){
 int get_tracked_seconds() {
 	return seconds;
 }
+
+void time_sleep(int time) {
+	for(int i = 0; i < time; i++) {
+		__asm__ __volatile__("sti");
+	}
+}
