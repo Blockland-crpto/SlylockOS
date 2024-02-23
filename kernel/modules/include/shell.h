@@ -36,6 +36,7 @@
 #define CALC_APP_ID_TW 12
 #define CALC_APP_ID_TH 13
 #define CALC_APP_ID_FR 14
+#define CALC_APP_ID_FV 15
 
 //the calculator holding variables
 int calc_num1;

@@ -14,8 +14,14 @@ void textinputhandler(char *input[], int uim) {
 		calc_num2 = atoi(input);
 		textbox("[0].add, [1].sub, [2].mult, [3].div", "", CALC_APP_ID_TH);
 	} else if (uim == CALC_APP_ID_TH) {
+		//todo: check if the input is valid
 		calc_op = atoi(input);
-		calc(calc_num1, calc_num2, calc_op);
+		if (calc_op > 3) {
+			//todo: alert user that the input is invalid
+			infobox("Calc", "invalid operand", CALC_APP_ID_FV);
+		} else {
+			calc(calc_num1, calc_num2, calc_op);
+		}
 	}
 	
 }
