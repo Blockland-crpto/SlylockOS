@@ -32,16 +32,17 @@
 #define LS_APP_ID_TH 8
 #define LS_APP_ID_FR 9
 #define LS_APP_ID_FV 10
+#define LS_APP_ID_SX 11
 
 // CAT app ID's
-#define CAT_APP_ID 11
+#define CAT_APP_ID 12
 
 // CALC app ID's
-#define CALC_APP_ID 12
-#define CALC_APP_ID_TW 13
-#define CALC_APP_ID_TH 14
-#define CALC_APP_ID_FR 15
-#define CALC_APP_ID_FV 16
+#define CALC_APP_ID 13
+#define CALC_APP_ID_TW 14
+#define CALC_APP_ID_TH 15
+#define CALC_APP_ID_FR 16
+#define CALC_APP_ID_FV 17
 
 //the calculator holding variables
 int calc_num1;
@@ -74,6 +75,7 @@ void about(int page);
 void about_info();
 
 void ls(int start, int id, int page);
+void ls_info();
 
 void cat(char s[]);
 

@@ -187,31 +187,55 @@ void track_input(char c){
 				//Do nothing
 			  } else if (c == '>') {
 				ls(16, LS_APP_ID_TW, 2);
+			  } else if (c == 'a') {
+				ls_info();
 			  }
 		  } else if (userinputmode == LS_APP_ID_TW) {
 			  if (c == '<') {
 				ls(0, LS_APP_ID, 1);
 			  } else if (c == '>') {
 				ls(32, LS_APP_ID_TH, 3);
+			  } else if (c == 'a') {
+				ls_info();
 			  }
 		  } else if (userinputmode == LS_APP_ID_TH) {
 			  if (c == '<') {
 				ls(16, LS_APP_ID_TW, 2);
 			  } else if (c == '>') {
-				ls(48, LS_APP_ID_FR, 4);
+				//ls(48, LS_APP_ID_FR, 4);
+			  } else if (c == 'a') {
+				ls_info();
 			  }
+		  /*
 		  } else if (userinputmode == LS_APP_ID_FR) {
 			  if (c == '<') {
 				ls(32, LS_APP_ID_TH, 3);
 			  } else if (c == '>') {
 				ls(64, LS_APP_ID_FV, 5);
+			  } else if (c == 'a') {
+				ls_info();
 			  }
 		  } else if (userinputmode == LS_APP_ID_FV) {
 			  if (c == '<') {
 				ls(48, LS_APP_ID_FR, 4);
 			  } else if (c == '>') {
 				//Do Nothing
+			  } else if (c == 'a') {
+				ls_info();
 			  }
+		 */
+		  } else if (userinputmode == LS_APP_ID_SX)  {
+			  if (c == '\n') {
+				  clear(COLOR_WHT, COLOR_BLK);
+				  set_cursor_pos(0,0);
+				  shell(input_buffer, i);
+				  memset(input_buffer, 0, sizeof(input_buffer));
+				  i=0;
+				  userinputmode = 0;
+			  } else if (c == 'b') {
+				  ls(0, LS_APP_ID, 1);
+			  }
+			
 		  }
 
 		  if (c == '\n') {
