@@ -236,6 +236,26 @@ void track_input(char c){
 				  ls(0, LS_APP_ID, 1);
 			  }
 			
+		  } else if (userinputmode == CAT_APP_ID) {
+			  if (c == '\n') {
+			      clear(COLOR_WHT, COLOR_BLK);
+				  set_cursor_pos(0,0);
+				  shell(input_buffer, i);
+				  memset(input_buffer, 0, sizeof(input_buffer));
+				  i=0;
+				  userinputmode = 0;
+			  } else if (c == 'a') {
+				  cat_info();
+			  }
+		  } else if (userinputmode == CAT_APP_ID_TW) {
+			  if (c == '\n') {
+				  clear(COLOR_WHT, COLOR_BLK);
+				  set_cursor_pos(0,0);
+				  shell(input_buffer, i);
+				  memset(input_buffer, 0, sizeof(input_buffer));
+				  i=0;
+				  userinputmode = 0;
+			  }
 		  }
 
 		  if (c == '\n') {
