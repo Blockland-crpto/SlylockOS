@@ -11,6 +11,7 @@
 			Added a bootscreen
 			Added a GUI to the 'cat' command
 			Added a experimental loading bar function
+			Added a Calc command with a GUI
           Shell:
             Removed Developer Commands
             Added ID's to diffrent apps
@@ -26,4 +27,5 @@
 			Added a color screen detection function (Thanks OSDEV!)
 			Added a CPUID function (Thanks OSDEV!)
 			Added a Brute force PCI scan (Thanks OSDEV!)
+			Heavily reorganized the files
         
