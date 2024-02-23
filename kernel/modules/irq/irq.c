@@ -1,5 +1,4 @@
 #include <screen.h>
-#include <memory.h>
 #include <idt.h>
 #include <isr.h>
 #include <irq.h>

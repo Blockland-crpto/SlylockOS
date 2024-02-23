@@ -1,4 +1,4 @@
-#include <memory.h>
+#include <string.h>
 
 unsigned short *memsetw(unsigned short *dest, unsigned short val, int count)
 {

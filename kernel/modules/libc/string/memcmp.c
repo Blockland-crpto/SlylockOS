@@ -1,4 +1,4 @@
-#include <memory.h>
+#include <string.h>
 
 int memcmp(const void *s1, const void *s2, int len) {
 	unsigned char *p = s1;

@@ -96,6 +96,27 @@ int atoi(char* str);
 */
 int octtodec(int n);
 
+/**
+  \brief Copies first `count` bytes of data from src to dest
+*/
+unsigned char *memcpy(unsigned char *dest, const unsigned char *src, int count);
+/**
+  \brief Sets first `count` bytes of data from val to dest
+*/
+unsigned char *memset(unsigned char *dest, unsigned char val, int count);
+/**
+  \brief Same as memset, but with short*s instead of char*s
+*/
+unsigned short *memsetw(unsigned short *dest, unsigned short val, int count);
+/**
+  \brief Compares first `len` bytes of data of s1 and s2
+*/
+int memcmp(const void *s1, const void *s2, int len);
+
+
+
+
+
 // Non-standarized utility functions:
 
 /**

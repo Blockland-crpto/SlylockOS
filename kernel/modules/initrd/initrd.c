@@ -5,6 +5,7 @@
 #include <memory.h>
 #include <types.h>
 #include <modules.h>
+#include <string.h>
 
 
 initrd_header_t *initrd_header;     // The header.

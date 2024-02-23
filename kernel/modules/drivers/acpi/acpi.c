@@ -5,6 +5,7 @@
 #include <types.h>
 #include <screen.h>
 #include <panic.h>
+#include <string.h>
 
 #define NULL ((char * ) 0)
 

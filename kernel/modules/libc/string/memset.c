@@ -1,4 +1,4 @@
-#include <memory.h>
+#include <string.h>
 
 unsigned char *memset(unsigned char *dest, unsigned char val, int count)
 {

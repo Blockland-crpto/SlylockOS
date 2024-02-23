@@ -1,4 +1,4 @@
-#include <memory.h>
+#include <string.h>
 
 unsigned char *memcpy(unsigned char *dest, const unsigned char *src, int count)
 {

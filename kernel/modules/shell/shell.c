@@ -3,7 +3,6 @@
 #include <timer.h>
 #include <ports.h>
 #include <string.h>
-#include <memory.h>
 #include <fs.h>
 #include <panic.h>
 #include <screen.h>
