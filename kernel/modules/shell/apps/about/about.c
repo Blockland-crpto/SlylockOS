@@ -13,7 +13,7 @@ void about(int page) {
   if (page == 1) {
 	userinputmode = ABOUT_APP_ID;
 	clear_scr();
-	make_gui(3, 3, 1);
+	make_gui(3, 3, 1, 1);
 	make_gui_windows("About OS:", aboutstr, 4, 3, 70, 22);
   } else if (page == 2) {
 	 char aboutstrt[150] = "Hardware:\n\nRAM: ";
@@ -35,7 +35,7 @@ void about(int page) {
 	 }
 	 strcat(aboutstrt, cpu_string());
 	 userinputmode = ABOUT_APP_ID_TW;
-	 make_gui(3, 3, 2);
+	 make_gui(3, 3, 2, 1);
 	 make_gui_windows("About OS:", aboutstrt, 4, 3, 70, 22);
   }
   return 0;

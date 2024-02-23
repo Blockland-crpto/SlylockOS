@@ -8,11 +8,11 @@ void avaliable_commands(int page){
   char helpstrpgt[200] = "Avaliable Commands\n\n`ls` Prints a list of all the files and directories\n in the current directory.\n\n`shutdown` Shuts down the computer.\n\nPress enter to continue";
   if (page == 1) {
 	userinputmode = HELP_APP_ID;
-	make_gui(3, 3, 1);
+	make_gui(3, 3, 1, 1);
 	make_gui_windows("", helpstrpgo, 3, 3, 70, 22);
   } else if (page == 2) {
 	userinputmode = HELP_APP_ID_TW;
-	make_gui(3, 3, 2);
+	make_gui(3, 3, 2, 1);
 	make_gui_windows("", helpstrpgt, 3, 3, 70, 22);
   }
 
