@@ -9,6 +9,7 @@ floppy.img
 initrdgen
 
 os.bin
+minios.iso
 os.iso
 
 1.1.0/
