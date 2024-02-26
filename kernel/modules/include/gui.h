@@ -38,4 +38,7 @@ void loading_bar_two(int len, int startx, int starty);
 //info box function
 void info_box(char *title, char *cont, int callerid, int opts);
 
+//the shutdown screen
+void shutdown_screen();
+
 #endif
