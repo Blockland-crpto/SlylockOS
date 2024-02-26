@@ -28,4 +28,7 @@
 			Added a CPUID function (Thanks OSDEV!)
 			Added a Brute force PCI scan (Thanks OSDEV!)
 			Heavily reorganized the files
-        
+
+TODO:
+- add support for negatives in calculator
+- add automatic indentation in cat
