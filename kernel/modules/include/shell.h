@@ -31,20 +31,18 @@
 #define LS_APP_ID 7
 #define LS_APP_ID_TW 8
 #define LS_APP_ID_TH 9
-//#define LS_APP_ID_FR 10
-//#define LS_APP_ID_FV 11
-#define LS_APP_ID_SX 12
+#define LS_APP_ID_FR 10
 
 // CAT app ID's
-#define CAT_APP_ID 13
-#define CAT_APP_ID_TW 14
+#define CAT_APP_ID 12
+#define CAT_APP_ID_TW 13
 
 // CALC app ID's
-#define CALC_APP_ID 15
-#define CALC_APP_ID_TW 16
-#define CALC_APP_ID_TH 17
-#define CALC_APP_ID_FR 18
-#define CALC_APP_ID_FV 19
+#define CALC_APP_ID 14
+#define CALC_APP_ID_TW 15
+#define CALC_APP_ID_TH 16
+#define CALC_APP_ID_FR 17
+#define CALC_APP_ID_FV 18
 
 //the calculator holding variables
 int calc_num1;

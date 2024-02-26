@@ -189,7 +189,7 @@ void track_input(char c){
 			  } else if (c == '>') {
 				ls(16, LS_APP_ID_TW, 2);
 			  } else if (c == 'a') {
-				app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_SX, 2);
+				app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
 			  }
 		  } else if (userinputmode == LS_APP_ID_TW) {
 			  if (c == '<') {
@@ -197,7 +197,7 @@ void track_input(char c){
 			  } else if (c == '>') {
 				ls(32, LS_APP_ID_TH, 3);
 			  } else if (c == 'a') {
-				app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_SX, 2);
+				app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
 			  }
 		  } else if (userinputmode == LS_APP_ID_TH) {
 			  if (c == '<') {
@@ -205,9 +205,9 @@ void track_input(char c){
 			  } else if (c == '>') {
 				//ls(48, LS_APP_ID_FR, 4);
 			  } else if (c == 'a') {
-				app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_SX, 2);
+				app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
 			  }
-		  } else if (userinputmode == LS_APP_ID_SX)  {
+		  } else if (userinputmode == LS_APP_ID_FR)  {
 			  if (c == 'b') {
 				  ls(0, LS_APP_ID, 1);
 			  }
