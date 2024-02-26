@@ -1,7 +1,7 @@
 #ifndef __DRIVERS_ACPI_H__
 #define __DRIVERS_ACPI_H__
 
-#include <types.h>
+#include <system/types.h>
 
 dword *SMI_CMD;
 byte ACPI_ENABLE;

@@ -1,6 +1,6 @@
-#include <ports.h>
-#include <screen.h>
-#include <types.h>
+#include <drivers/io/ports.h>
+#include <drivers/vga.h>
+#include <system/types.h>
 #include <drivers/acpi.h>
 
 

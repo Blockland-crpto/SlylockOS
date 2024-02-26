@@ -1,10 +1,10 @@
 #include <drivers/acpi.h>
-#include <memory.h>
-#include <modules.h>
-#include <ports.h>
-#include <types.h>
-#include <screen.h>
-#include <panic.h>
+#include <system/mem.h>
+#include <system/mod.h>
+#include <drivers/io/ports.h>
+#include <system/types.h>
+#include <drivers/vga.h>
+#include <system/panic.h>
 #include <string.h>
 
 #define NULL ((char * ) 0)

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <screen.h>
+#include <drivers/vga.h>
 #include <stdarg.h>
 
 void printf(char *format, ...) {

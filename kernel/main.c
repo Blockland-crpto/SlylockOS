@@ -1,26 +1,24 @@
-#include <ports.h>
-#include <screen.h>
-#include <gdt.h>
-#include <idt.h>
-#include <isr.h>
-#include <irq.h>
-#include <timer.h>
-#include <fs.h>
-#include <multiboot.h>
-#include <panic.h>
-#include <types.h>
-#include <multibootinfo.h>
-#include <execute.h>
-#include <usermode.h>
-#include <screen.h>
-#include <keyboard.h>
-#include <gui.h>
-#include <drivers/nmi.h>
-#include <drivers/ata.h>
-#include <drivers/video.h>
+#include <drivers/fs/fs.h>
+#include <system/mltb/multiboot.h>
+#include <system/panic.h>
+#include <system/types.h>
+#include <system/mltb/multibootinfo.h>
+#include <system/exec.h>
+#include <system/usermode.h>
+#include <drivers/perip/keybrd.h>
+#include <slibaries/gui.h>
+#include <drivers/x86/isr.h>
+#include <drivers/x86/irq.h>
+#include <drivers/io/ports.h>
+#include <drivers/x86/gdt.h>
+#include <drivers/x86/idt.h>
+#include <drivers/cpu/nmi.h>
+#include <drivers/io/ata.h>
+#include <drivers/vga.h>
 #include <drivers/acpi.h>
-#include <drivers/pci.h>
-#include <drivers/cpuid.h>
+#include <drivers/perip/pci.h>
+#include <drivers/cpu/cpuid.h>
+#include <drivers/perip/timer.h>
 
 #define MB_MAGIC 0x1BADB002
 
@@ -71,11 +69,12 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   
   keyboard_install();
   malloc_init();
+  vga_init();
 
   libc_init();
   acpi_init();
   gui_init();
-  video_init();
+  
   
   pci_init();
   cpuid_init();

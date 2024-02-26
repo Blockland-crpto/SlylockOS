@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stddef.h>
-#include <memory.h>
+#include <system/mem.h>
 
 #define DICT_LEN 256
 
