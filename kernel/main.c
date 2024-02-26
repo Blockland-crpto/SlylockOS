@@ -79,7 +79,7 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   
   pci_init();
   cpuid_init();
-  bootscreen();
+  loadingscreen("Starting Up", "MiniOS is starting...");
   
  	
   __asm__ __volatile__("sti");

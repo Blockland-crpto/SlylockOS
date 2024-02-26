@@ -3,6 +3,6 @@
 #include <gui.h>
 
 void shutdown() {
-  shutdown_screen();
+  loadingscreen("Shutting Down", "MiniOS is Shutting down...");
   acpiPowerOff();
 }

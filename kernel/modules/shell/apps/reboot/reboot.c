@@ -5,7 +5,7 @@
 
 void reboot(){
 	clear_scr();
-	kprintf("Rebooting...\n");
+	loadingscreen("Restarting", "MiniOS is Restarting...");
 	//using 8042 keyboard controller to pulse the CPU's RESET Pin
 	unsigned char temp = 0x02;
 	while(temp & 0x02)

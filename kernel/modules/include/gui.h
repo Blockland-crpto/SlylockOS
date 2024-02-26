@@ -26,9 +26,6 @@ void textbox(char *title, char *cont, int callerid);
 //hander for textinput
 void textinputhandler(char *input[], int uim);
 
-//the bootscreen
-void bootscreen();
-
 //loading bar
 void loading_bar(int len, int startx, int starty, int delay);
 
@@ -38,7 +35,7 @@ void loading_bar_two(int len, int startx, int starty);
 //info box function
 void info_box(char *title, char *cont, int callerid, int opts);
 
-//the shutdown screen
-void shutdown_screen();
+//loading screen function
+void loadingscreen(char *title, char* desc);
 
 #endif
