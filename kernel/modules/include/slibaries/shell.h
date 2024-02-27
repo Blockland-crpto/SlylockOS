@@ -52,6 +52,12 @@
 #define CALC_APP_ID_FR 24
 #define CALC_APP_ID_FV 25
 
+//Shell app ID's
+#define SHELL_APP_ID 26
+#define SHELL_APP_ID_TW 27
+#define SHELL_APP_ID_TH 28
+#define SHELL_APP_ID_FR 29
+
 //the calculator holding variables
 int calc_num1;
 int calc_num2;
@@ -91,4 +97,7 @@ void shutdown();
 
 void calc(int num1, int num2, int op);
 
+void tui_shell();
+
+void app_menu(int selected, int uim);
 #endif

@@ -170,10 +170,11 @@ void track_input(char c){
 void reset() {
 	clear(COLOR_WHT, COLOR_BLK);
 	set_cursor_pos(0,0);
-	shell(input_buffer, i);
+	//shell(input_buffer, i);
 	memset(input_buffer, 0, sizeof(input_buffer));
 	i=0;
-	userinputmode = 0;
+	userinputmode = SHELL_APP_ID;
+	tui_shell();
 }
 
 void keyboard_install(){

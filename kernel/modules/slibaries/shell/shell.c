@@ -57,6 +57,8 @@ void shell(char s[], int i){
   kprintf(">");
 }
 
+
+
 void clear_scr(){
   clear(COLOR_WHT, COLOR_BLK);
   set_cursor_pos(0,0);

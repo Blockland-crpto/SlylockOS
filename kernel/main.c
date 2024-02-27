@@ -83,13 +83,13 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   __asm__ __volatile__("sti");
 
 
-	
+  tui_shell();
   // print the welcome message
-  putstr("Welcome to ", COLOR_GRY, COLOR_BLK);
-  putstr("MiniOS\n", COLOR_CYN, COLOR_BLK);
+  //putstr("Welcome to ", COLOR_GRY, COLOR_BLK);
+  //putstr("MiniOS\n", COLOR_CYN, COLOR_BLK);
 
   //textbox("test", "test"); 
 	
-  kprintf(">");
+  //kprintf(">");
   return 0;
 }

@@ -103,69 +103,89 @@ void appinput_handler(char c, int userinputmode) {
 		  } else if (c == 'm') {
 			center_menu(LS_APP_ID_FV, 2);
 		  }
-	  } else if (userinputmode == LS_APP_ID_TW) {
-		  //ls second screen
-		  if (c == '<') {
+	} else if (userinputmode == LS_APP_ID_TW) {
+		//ls second screen
+		if (c == '<') {
 			ls(0, LS_APP_ID, 1);
-		  } else if (c == '>') {
+		} else if (c == '>') {
 			ls(32, LS_APP_ID_TH, 3);
-		  } else if (c == 'm') {
+		} else if (c == 'm') {
 			center_menu(LS_APP_ID_FV, 2);
-		  }
-	  } else if (userinputmode == LS_APP_ID_TH) {
-		  //ls third screen
-		  if (c == '<') {
+		}
+	} else if (userinputmode == LS_APP_ID_TH) {
+		//ls third screen
+		if (c == '<') {
 			ls(16, LS_APP_ID_TW, 2);
-		  } else if (c == '>') {
-			//Do nothing
-		  } else if (c == 'm') {
+		} else if (c == '>') {
+		//Do nothing
+		} else if (c == 'm') {
 			center_menu(LS_APP_ID_FV, 2);
-		  }
-	  } else if (userinputmode == LS_APP_ID_FR)  {
-		  //ls about menu
-		  if (c == 'b') {
+		}
+	} else if (userinputmode == LS_APP_ID_FR)  {
+		//ls about menu
+		if (c == 'b') {
+			ls(0, LS_APP_ID, 1);
+		} else if (c == 'm') {
+			center_menu(LS_APP_ID_SX, 4);
+		}
+	} else if (userinputmode == LS_APP_ID_FV) {
+		//ls menu
+		if (c == 'b') {
 			  ls(0, LS_APP_ID, 1);
-		  } else if (c == 'm') {
-			  center_menu(LS_APP_ID_SX, 4);
+		} else if (c == 'a') {
+			app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
 		  }
-	  } else if (userinputmode == LS_APP_ID_FV) {
-		  //ls menu
-		  if (c == 'b') {
-			  ls(0, LS_APP_ID, 1);
-		  } else if (c == 'a') {
-			  app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
-		  }
-	  } else if (userinputmode == LS_APP_ID_SX) {
-		  //ls about menu
-		  if (c == 'b') {
-			  app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
-		  } else if (c == 'p') {
-			  ls(0, LS_APP_ID, 1);
-		  }
-	  } 
+	} else if (userinputmode == LS_APP_ID_SX) {
+		//ls about menu
+		if (c == 'b') {
+			app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
+		} else if (c == 'p') {
+			ls(0, LS_APP_ID, 1);
+		}
+	} 
 	
 
-	   //CAT registry
-	   else if (userinputmode == CAT_APP_ID) {
-	      //cat screen
-		  if (c == 'm') {
-			  center_menu(CAT_APP_ID_TH, 2);
-		  }
-	  } else if (userinputmode == CAT_APP_ID_TW) {
-		  //about cat screen
-		  if (c == 'm') {
-			  center_menu(CAT_APP_ID_FR, 3);
-		  }
-	  } else if (userinputmode == CAT_APP_ID_TH) {
-		  //cat menu
-		  if (c == 'a') {
-			  app_info("Cat\nthe text file viewer for MINIOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
-		  } 
-	  } else if (userinputmode == CAT_APP_ID_FR) {
-		  //cat about menu
-		  if (c == 'b') {
-			  app_info("Cat\nthe text file viewer for MINIOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
-		  }
-	  }
-	
+	//CAT registry
+	else if (userinputmode == CAT_APP_ID) {
+	    //cat screen
+		if (c == 'm') {
+			center_menu(CAT_APP_ID_TH, 2);
+		}
+	} else if (userinputmode == CAT_APP_ID_TW) {
+		//about cat screen
+		if (c == 'm') {
+			center_menu(CAT_APP_ID_FR, 3);
+		}
+	} else if (userinputmode == CAT_APP_ID_TH) {
+		//cat menu
+		if (c == 'a') {
+			app_info("Cat\nthe text file viewer for MINIOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
+		} 
+	} else if (userinputmode == CAT_APP_ID_FR) {
+		//cat about menu
+		if (c == 'b') {
+			app_info("Cat\nthe text file viewer for MINIOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
+		}
+	}
+
+
+	//Shell registry
+	else if (userinputmode == SHELL_APP_ID) {
+		//the "desktop"
+		if (c == 'm') {
+			center_menu(SHELL_APP_ID_TW, 5);
+		}
+	} else if (userinputmode == SHELL_APP_ID_TW) {
+		//the main menu
+		if (c == 'b') {
+			tui_shell();
+		} else if (c == 'a') {
+			app_menu(0, SHELL_APP_ID_TH);
+		}
+	} else if (userinputmode == SHELL_APP_ID_TH) {
+		//application menu
+		if (c == '}') {
+			app_menu(1, SHELL_APP_ID_FR);
+		}
+	}
 }

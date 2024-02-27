@@ -33,5 +33,9 @@ void center_menu(int uim, int opts) {
 		putstrpos("Enter: Exit App", 21, 2, 8, 7, 21);
 		putstrpos("B: Back", 21, 3, 8, 7, 21);
 		putstrpos("P: Back to previous menu", 21, 4, 8, 7, 21);
+	} else if (opts == 5) {
+		putstrpos("Enter: Power Options", 21, 2, 8, 7, 21);
+		putstrpos("A: Applications", 21, 3, 8, 7, 21);
+		putstrpos("B: Back", 21, 4, 8, 7, 21);
 	}
 }
