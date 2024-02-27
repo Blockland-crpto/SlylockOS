@@ -11,7 +11,6 @@ void keyboard_install();
 void track_input(char c);
 int userinputmode;
 int timesfilled;
-void appinfo_handler(char c, int appid);
 
 void appinput_handler(char c, int userinputmode);
 

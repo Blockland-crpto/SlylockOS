@@ -38,4 +38,7 @@ void info_box(char *title, char *cont, int callerid, int opts);
 //loading screen function
 void loadingscreen(char *title, char* desc);
 
+//center menu function
+void center_menu(int uim, int opts);
+
 #endif

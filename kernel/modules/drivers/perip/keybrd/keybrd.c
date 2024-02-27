@@ -142,8 +142,6 @@ void track_input(char c){
 			i++;
 		  }
 		} else if(userinputmode > 0 && textboxactive == 0) {
-			
-		  appinfo_handler(c, userinputmode);
 		  
 		  //This is a patch to coordinate program responces to key input
 		  appinput_handler(c, userinputmode);
