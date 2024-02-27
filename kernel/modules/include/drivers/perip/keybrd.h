@@ -12,6 +12,5 @@ void track_input(char c);
 int userinputmode;
 int timesfilled;
 
-void appinput_handler(char c, int userinputmode);
-
+void tui_reset();
 #endif

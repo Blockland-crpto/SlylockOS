@@ -8,7 +8,7 @@ void make_gui(int winfg, int winbg, int multipage, int exitopt) {
 	}
   }
   
-  putstrpos("|Main|", 35, 1, 8, 7, 35);
+  putstrpos("|Main|", 30, 1, 8, 7, 30);
   
   for(int y = 25; y > 1; y--) {
 	for(int x = 0; x<80; x++) {

@@ -51,12 +51,19 @@
 #define CALC_APP_ID_TH 23
 #define CALC_APP_ID_FR 24
 #define CALC_APP_ID_FV 25
+#define CALC_APP_ID_SX 26
+#define CALC_APP_ID_SV 27
+#define CALC_APP_ID_EI 28
 
 //Shell app ID's
-#define SHELL_APP_ID 26
-#define SHELL_APP_ID_TW 27
-#define SHELL_APP_ID_TH 28
-#define SHELL_APP_ID_FR 29
+#define SHELL_APP_ID 29
+#define SHELL_APP_ID_TW 30
+#define SHELL_APP_ID_TH 31
+#define SHELL_APP_ID_FR 32
+#define SHELL_APP_ID_FV 33
+#define SHELL_APP_ID_SX 34
+#define SHELL_APP_ID_SV 35
+#define SHELL_APP_ID_EI 36
 
 //the calculator holding variables
 int calc_num1;

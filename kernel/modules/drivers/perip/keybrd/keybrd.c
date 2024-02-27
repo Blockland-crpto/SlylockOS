@@ -6,6 +6,7 @@
 #include <drivers/perip/keybrd.h>
 #include <slibaries/shell.h>
 #include <system/mod.h>
+#include <system/im.h>
 
 
 
@@ -146,9 +147,6 @@ void track_input(char c){
 		  //This is a patch to coordinate program responces to key input
 		  appinput_handler(c, userinputmode);
 
-		  if (c == '\n') {
-			reset();
-		  } 
 		} else if (textboxactive == 1) {
 		  if (c == '\n') {
 			clear(COLOR_WHT, COLOR_BLK);
@@ -167,7 +165,7 @@ void track_input(char c){
 		}
 }
 
-void reset() {
+void tui_reset() {
 	clear(COLOR_WHT, COLOR_BLK);
 	set_cursor_pos(0,0);
 	//shell(input_buffer, i);
