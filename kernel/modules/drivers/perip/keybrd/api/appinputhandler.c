@@ -5,6 +5,8 @@
 
 
 void appinput_handler(char c, int userinputmode) {
+
+	//HELP registry
 	if (userinputmode == HELP_APP_ID) {
 		//help main page
 		if (c == '<') {
@@ -45,7 +47,11 @@ void appinput_handler(char c, int userinputmode) {
 			avaliable_commands(1);
 		}
 		
-	  } else if (userinputmode == ABOUT_APP_ID) {
+	  } 
+	
+		
+	  //ABOUT registry
+	  else if (userinputmode == ABOUT_APP_ID) {
 		  //about main page
 		  if (c == '<') {
 			//Do nothing
@@ -84,7 +90,11 @@ void appinput_handler(char c, int userinputmode) {
 		  } else if(c == 'p') {
 			  about(1);
 		  }
-	  } else if (userinputmode == LS_APP_ID) {
+	  }
+
+		  
+	  //LS registry
+	  else if (userinputmode == LS_APP_ID) {
 		  //ls first screen
 		  if (c == '<') {
 			//Do nothing
@@ -132,7 +142,11 @@ void appinput_handler(char c, int userinputmode) {
 		  } else if (c == 'p') {
 			  ls(0, LS_APP_ID, 1);
 		  }
-	  } else if (userinputmode == CAT_APP_ID) {
+	  } 
+	
+
+	   //CAT registry
+	   else if (userinputmode == CAT_APP_ID) {
 	      //cat screen
 		  if (c == 'm') {
 			  center_menu(CAT_APP_ID_TH, 2);
