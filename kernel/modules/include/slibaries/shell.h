@@ -65,6 +65,11 @@
 #define SHELL_APP_ID_SV 35
 #define SHELL_APP_ID_EI 36
 
+//Power app ID's
+#define POWER_APP_ID 37
+#define POWER_APP_ID_TW 38
+#define POWER_APP_ID_TH 39
+
 //the calculator holding variables
 int calc_num1;
 int calc_num2;
@@ -107,4 +112,6 @@ void calc(int num1, int num2, int op);
 void tui_shell();
 
 void app_menu(int selected, int uim);
+
+void power_menu(int selected, int uim);
 #endif

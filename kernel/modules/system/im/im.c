@@ -225,6 +225,8 @@ void appinput_handler(char c, int userinputmode) {
 			tui_shell();
 		} else if (c == 'a') {
 			app_menu(1, SHELL_APP_ID_TH);
+		} else if (c == '\n') {
+			power_menu(1, POWER_APP_ID);
 		}
 	} else if (userinputmode == SHELL_APP_ID_TH) {
 		//application menu
@@ -270,6 +272,29 @@ void appinput_handler(char c, int userinputmode) {
 			tui_reset();
 		} else if (c == '{') {
 			app_menu(5, SHELL_APP_ID_SV);
+		}
+	}
+
+	//POWER registry
+	else if (userinputmode == POWER_APP_ID) {
+		if (c == '\n') {
+			shutdown();
+		} else if (c == '}') {
+			power_menu(2, POWER_APP_ID_TW);
+		}
+	} else if (userinputmode == POWER_APP_ID_TW) {
+		if (c == '\n') {
+			reboot();
+		} else if (c == '}') {
+			power_menu(3, POWER_APP_ID_TH);
+		} else if (c == '{') {
+			power_menu(1, POWER_APP_ID);
+		}
+	} else if (userinputmode == POWER_APP_ID_TH) {
+		if (c == '\n') {
+			tui_reset();
+		} else if (c == '{') {
+			power_menu(2, POWER_APP_ID_TW);
 		}
 	}
 }
