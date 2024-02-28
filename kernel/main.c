@@ -5,6 +5,7 @@
 #include <system/mltb/multibootinfo.h>
 #include <system/exec.h>
 #include <system/usermode.h>
+#include <system/im.h>
 #include <drivers/perip/keybrd.h>
 #include <slibaries/gui.h>
 #include <drivers/x86/isr.h>
@@ -79,11 +80,12 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   pci_init();
   cpuid_init();
   loadingscreen("Starting Up", "MiniOS is starting...");
- 	
+  im_init();
+	
   __asm__ __volatile__("sti");
 
 
-  tui_shell();
+  
   // print the welcome message
   //putstr("Welcome to ", COLOR_GRY, COLOR_BLK);
   //putstr("MiniOS\n", COLOR_CYN, COLOR_BLK);

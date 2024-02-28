@@ -2,6 +2,7 @@
 #include <slibaries/shell.h>
 #include <drivers/perip/keybrd.h>
 #include <slibaries/gui.h>
+#include <system/mod.h>
 
 void appinput_handler(char c, int userinputmode) {
 
@@ -297,4 +298,9 @@ void appinput_handler(char c, int userinputmode) {
 			power_menu(2, POWER_APP_ID_TW);
 		}
 	}
+}
+
+void im_init() {
+	module_t modules_im_im = MODULE("kernel.modules.im.im", "the interaction manager for the kernel (CORE)");
+	tui_shell();
 }
