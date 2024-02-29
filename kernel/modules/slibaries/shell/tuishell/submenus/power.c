@@ -5,7 +5,8 @@
 
 void power_menu(int selected, int uim) {
 	userinputmode = uim;
-
+	clear(COLOR_WHT, COLOR_BLK);
+	hide_cursor();
 	make_gui_windows("Power", "\nShutdown\nReboot\nExit", 25, 10, 40, 20);
 	if (selected == 1) {
 		putstrpos("Shutdown", 27, 14, COLOR_BLU, COLOR_WHT, 37);
@@ -14,4 +15,5 @@ void power_menu(int selected, int uim) {
 	} else if (selected == 3) {
 		putstrpos("Exit", 27, 16, COLOR_BLU, COLOR_WHT, 37);
 	}
+
 }
