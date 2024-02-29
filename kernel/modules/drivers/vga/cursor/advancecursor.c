@@ -1,6 +1,6 @@
 #include <drivers/vga.h>
 #include <drivers/io/ports.h>
-#include <system/panic.h>
+#include <system/debug.h>
 
 void advance_cursor(int mode){
 	unsigned short pos = get_cursor_pos(); // Gets the cursor position

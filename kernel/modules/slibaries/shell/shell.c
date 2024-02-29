@@ -4,7 +4,7 @@
 #include <drivers/io/ports.h>
 #include <string.h>
 #include <drivers/fs/fs.h>
-#include <system/panic.h>
+#include <system/debug.h>
 #include <drivers/vga.h>
 #include <slibaries/gui.h>
 #include <system/kernel.h>
@@ -15,13 +15,22 @@
 int cf = 1;
 int dfs = 1;
 void shell_init(){
-	module_t modules_shell_shell = MODULE("kernel.modules.shell.shell", "User command line for the kernel (CORE)");
+	module_t modules_shell_shell = MODULE("kernel.modules.shell.shell", "User interface for the kernel (CORE)");
+	loadingscreen("Starting Up", "MiniOS is starting...");
+	tui_shell();
 	char** deps;
 	deps[0] = "kernel.modules.timer.timer";
+	deps[1] = "kernel.modules.im.im";
 	DEPS(modules_shell_shell, deps);
 	INIT(modules_shell_shell);
 }
 
+void tui_shell() {
+	make_gui(3, 3, 0, 2);
+	userinputmode = SHELL_APP_ID;
+}
+
+/**
 void shell(char s[], int i){
 	char* start = "";
 	char* two = "";
@@ -56,7 +65,7 @@ void shell(char s[], int i){
   // strcat(strcat(strcat(strcat("[", username), "("), errorcode), ")]$")
   kprintf(">");
 }
-
+**/
 
 
 void clear_scr(){

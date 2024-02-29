@@ -6,7 +6,7 @@
 #include <slibaries/shell.h>
 #include <system/mod.h>
 #include <drivers/perip/keybrd.h>
-#include <system/panic.h>
+#include <system/debug.h>
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 

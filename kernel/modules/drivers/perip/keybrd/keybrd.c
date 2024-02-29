@@ -121,7 +121,7 @@ void track_input(char c){
 		  if(c == '\n'){
 			//handle shell support here
 			//parse_input(input_buffer, i);
-			shell(input_buffer, i);
+			//shell(input_buffer, i);
 			memset(input_buffer, 0, sizeof(input_buffer));
 			i=0;
 		  }

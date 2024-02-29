@@ -4,7 +4,7 @@
 #include <drivers/io/ports.h>
 #include <system/types.h>
 #include <drivers/vga.h>
-#include <system/panic.h>
+#include <system/debug.h>
 #include <string.h>
 
 #define NULL ((char * ) 0)
