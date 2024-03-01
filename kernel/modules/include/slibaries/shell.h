@@ -19,6 +19,29 @@
 //#define sizeof(type) (char *)(&type+1)-(char*)(&type)
 #define SHELL_VERSION "1.0.0\n"
 
+/*
+typedef struct {
+	char* name;
+	char* desc;
+	int vers;
+	int appid;
+	int sceneid[15];
+} app_t;
+
+
+
+app_t current_app;
+app_t help_id;
+app_t about_id;
+app_t ls_id;
+app_t cat_id;
+app_t calc_id;
+app_t shell_id;
+app_t power_id;
+app_t home_id;
+
+*/
+
 // HELP app ID's
 #define HELP_APP_ID 1
 #define HELP_APP_ID_TW 2

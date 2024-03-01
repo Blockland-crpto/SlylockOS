@@ -5,6 +5,7 @@ uintptr_t current_break;
 int has_initialized = 0;
 void *managed_memory_start;
 void *last_valid_address;
+
 typedef struct mem_control_block {
   int is_available;
   int size;

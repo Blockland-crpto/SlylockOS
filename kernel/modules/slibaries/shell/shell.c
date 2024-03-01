@@ -18,6 +18,9 @@ void shell_init(){
 	module_t modules_shell_shell = MODULE("kernel.modules.shell.shell", "User interface for the kernel (CORE)");
 	loadingscreen("Starting Up", "MiniOS is starting...");
 	tui_shell();
+	//int help_scenes[]
+	//register_apps(help_id, "Help", "The help app for minios", 1, 1)
+	
 	char** deps;
 	deps[0] = "kernel.modules.timer.timer";
 	deps[1] = "kernel.modules.im.im";
@@ -29,6 +32,19 @@ void tui_shell() {
 	make_gui(3, 3, 0, 2);
 	userinputmode = SHELL_APP_ID;
 }
+
+/*
+void register_apps(app_t *app, char* name, char* desc, int vers, int appid, int sceneid[]) {
+	app->name = name;
+	app->desc = desc;
+	app->vers = vers;
+	app->appid = appid;
+	int len = sizeof(sceneid) / sizeof(sceneid[0]);
+	for (int i = 0; i == len; i++) {
+		app->sceneid[i] = sceneid[i];
+	}
+}
+*/
 
 /**
 void shell(char s[], int i){

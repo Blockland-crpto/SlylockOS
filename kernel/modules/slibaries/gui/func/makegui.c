@@ -1,7 +1,11 @@
 #include <slibaries/gui.h>
 #include <drivers/vga.h>
+#include <string.h>
+#include <drivers/perip/rtc.h>
 
 void make_gui(int winfg, int winbg, int multipage, int exitopt) {
+
+	
   for(int y = 0; y<2; y++) {
 	for(int x = 0; x<80; x++) {
 	  putpos("#", 7, 7, x, y);

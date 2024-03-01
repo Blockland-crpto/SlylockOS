@@ -3,7 +3,6 @@
 #include <system/debug.h>
 #include <system/types.h>
 #include <system/mltb/multibootinfo.h>
-#include <system/usermode.h>
 #include <system/im.h>
 #include <drivers/perip/keybrd.h>
 #include <slibaries/gui.h>
@@ -19,6 +18,7 @@
 #include <drivers/perip/pci.h>
 #include <drivers/cpu/cpuid.h>
 #include <drivers/perip/timer.h>
+#include <drivers/perip/rtc.h>
 
 #define MB_MAGIC 0x1BADB002
 
@@ -48,11 +48,12 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   acpi_init();	
 	
   timer_install();
+  rtc_init();
   filesystem_init();
 
   keyboard_install();
   malloc_init();
-  
+	
   libc_init();
 
   vga_init();
