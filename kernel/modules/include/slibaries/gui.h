@@ -24,21 +24,18 @@ int textboxid;
 void textbox(char *title, char *cont, int callerid);
 
 //hander for textinput
-void textinputhandler(char *input[], int uim);
+void textinputhandler(char *input, int uim);
 
 //loading bar
 void loading_bar(int len, int startx, int starty, int delay);
 
-//loading bar two (bouncing bar)
-void loading_bar_two(int len, int startx, int starty);
-
 //info box function
 void info_box(char *title, char *cont, int callerid, int opts);
 
+//warning box function
+void warning_box(char *title, char *cont);
+
 //loading screen function
 void loadingscreen(char *title, char* desc);
-
-//center menu function
-void center_menu(int uim, int opts);
 
 #endif

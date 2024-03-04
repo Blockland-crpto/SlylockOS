@@ -6,27 +6,27 @@
 
 void powerim(char c, int userinputmode) {
 	if (userinputmode == POWER_APP_ID) {		
-		if (c == '\n') {
+		if (c == ENTER_KEY) {
 			shutdown();
-		} else if (c == '}') {
+		} else if (c == ARROW_KEY_DOWN) {
 			power_menu(2, POWER_APP_ID_TW);
 		}
 	} else if (userinputmode == POWER_APP_ID_TW) {
-		if (c == '\n') {
+		if (c == ENTER_KEY) {
 			reboot();
-		} else if (c == '}') {
+		} else if (c == ARROW_KEY_DOWN) {
 			power_menu(3, POWER_APP_ID_TH);
-		} else if (c == '{') {
+		} else if (c == ARROW_KEY_UP) {
 			power_menu(1, POWER_APP_ID);
 		}
 	} else if (userinputmode == POWER_APP_ID_TH) {
-		if (c == '\n') {
+		if (c == ENTER_KEY) {
 			tui_reset();
-		} else if (c == '{') {
+		} else if (c == ARROW_KEY_UP) {
 			power_menu(2, POWER_APP_ID_TW);
 		}
 	} else {
-		//todo: send error box
-		warn("Error occured in powerim, unexpected UIM");
+		//report the error to end user
+		warning_box("IM Error", "Error occured in powerim, unexpected UIM");
 	}
 }
