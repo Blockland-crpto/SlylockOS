@@ -38,4 +38,8 @@ void warning_box(char *title, char *cont);
 //loading screen function
 void loadingscreen(char *title, char* desc);
 
+//button function
+void button(char* cont, int x, int y, int w, int h, int selected);
+
+
 #endif

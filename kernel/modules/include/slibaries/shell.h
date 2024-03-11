@@ -19,29 +19,6 @@
 //#define sizeof(type) (char *)(&type+1)-(char*)(&type)
 #define SHELL_VERSION "1.0.0\n"
 
-/*
-typedef struct {
-	char* name;
-	char* desc;
-	int vers;
-	int appid;
-	int sceneid[15];
-} app_t;
-
-
-
-app_t current_app;
-app_t help_id;
-app_t about_id;
-app_t ls_id;
-app_t cat_id;
-app_t calc_id;
-app_t shell_id;
-app_t power_id;
-app_t home_id;
-
-*/
-
 // HELP app ID's
 #define HELP_APP_ID 1
 #define HELP_APP_ID_TW 2
@@ -95,36 +72,82 @@ app_t home_id;
 #define CALC_APP_ID_SX 42
 #define CALC_APP_ID_SV 43
 #define CALC_APP_ID_EI 44
-#define CALC_APP_ID_NI 45
-#define CALC_APP_ID_TN 46
-#define CALC_APP_ID_EL 47
-#define CALC_APP_ID_TL 48
 
 //Shell app ID's
-#define SHELL_APP_ID 49
-#define SHELL_APP_ID_TW 50
-#define SHELL_APP_ID_TH 51
-#define SHELL_APP_ID_FR 52
-#define SHELL_APP_ID_FV 53
-#define SHELL_APP_ID_SX 54
-#define SHELL_APP_ID_SV 55
-#define SHELL_APP_ID_EI 56
-
+#define SHELL_APP_ID 45
+#define SHELL_APP_ID_TW 46
+#define SHELL_APP_ID_TH 47
+#define SHELL_APP_ID_FR 48
+#define SHELL_APP_ID_FV 49
+#define SHELL_APP_ID_SX 50
+#define SHELL_APP_ID_SV 51
+#define SHELL_APP_ID_EI 52
+#define SHELL_APP_ID_NI 53
+#define SHELL_APP_ID_TN 54
+#define SHELL_APP_ID_EL 55
 
 //Power app ID's
-#define POWER_APP_ID 57
-#define POWER_APP_ID_TW 58
-#define POWER_APP_ID_TH 59
+#define POWER_APP_ID 56
+#define POWER_APP_ID_TW 57
+#define POWER_APP_ID_TH 58
 
 //Home app ID's
-#define HOME_APP_ID 60
-#define HOME_APP_ID_TW 61
-#define HOME_APP_ID_TH 62
+#define HOME_APP_ID 59
+#define HOME_APP_ID_TW 60
+#define HOME_APP_ID_TH 61
+
+//Warning box ID
+#define WARN_BOX_ID 62
+
+//the cmd app ID's
+#define CMD_APP_ID 63
+#define CMD_APP_ID_TW 64
+#define CMD_APP_ID_TH 65
+#define CMD_APP_ID_FR 66
+#define CMD_APP_ID_FV 67
+#define CMD_APP_ID_SX 68
+#define CMD_APP_ID_SV 69
+#define CMD_APP_ID_EI 70
+
+//the caln app ID's
+#define CALN_APP_ID 71
+#define CALN_APP_ID_TW 72
+#define CALN_APP_ID_TH 73
+#define CALN_APP_ID_FR 74
+#define CALN_APP_ID_FV 75
+#define CALN_APP_ID_SX 76
+#define CALN_APP_ID_SV 77
+#define CALN_APP_ID_EI 78
+
+//the sett app ID's
+#define SETT_APP_ID 79
+#define SETT_APP_ID_TW 80
+#define SETT_APP_ID_TH 81
+#define SETT_APP_ID_FR 82
+#define SETT_APP_ID_FV 83
+#define SETT_APP_ID_SX 84
+#define SETT_APP_ID_SV 85
+#define SETT_APP_ID_EI 86
 
 //the calculator holding variables
+char calc_buffer[100];
+int calc_index;
 int calc_num1;
 int calc_num2;
-int calc_op;
+int calc_num1_negative;
+int calc_num2_negative;
+char calc_op;
+int input_counter;
+int calc_anwser;
+char calc_anwser_str;
+char prev_anwser_str;
+
+
+//the cat holding variables
+char* lastcatfile;
+
+//the calendar holding variables
+int calnpage;
 
 extern int enable_shell;
 
@@ -158,7 +181,15 @@ void cat(char s[]);
 
 void shutdown();
 
-void calc(int num1, int num2, int op);
+void calc(int uim, int selected);
+
+void cmd_init();
+
+void cmd(char* str[]);
+
+void caln(int uim, int selected);
+
+void sett(int uim, int selected);
 
 void tui_shell();
 

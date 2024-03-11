@@ -4,5 +4,6 @@
 //The OS kernel version
 #define KERNEL_VERSION "1.0.0\n"
 
+int themeindex;
 
 #endif

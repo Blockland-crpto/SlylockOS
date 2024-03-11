@@ -4,5 +4,6 @@
 
 void shutdown() {
   loadingscreen("Shutting Down", "MiniOS is Shutting down...");
+
   acpiPowerOff();
 }

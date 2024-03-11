@@ -16,11 +16,14 @@ int cf = 1;
 int dfs = 1;
 void shell_init(){
 	module_t modules_shell_shell = MODULE("kernel.modules.shell.shell", "User interface for the kernel (CORE)");
-	loadingscreen("Starting Up", "MiniOS is starting...");
-	tui_shell();
-	//int help_scenes[]
-	//register_apps(help_id, "Help", "The help app for minios", 1, 1)
+
 	
+	themeindex = 3;
+
+	loadingscreen("Starting Up", "MiniOS is starting...");
+	login_screen();
+	tui_shell();
+
 	char** deps;
 	deps[0] = "kernel.modules.timer.timer";
 	deps[1] = "kernel.modules.im.im";
@@ -28,61 +31,16 @@ void shell_init(){
 	INIT(modules_shell_shell);
 }
 
+void login_screen() {
+	make_gui(themeindex, themeindex, 0, 2);
+	putstrpos("Welcome to MiniOS!", 30, 12, COLOR_BLU, COLOR_WHT, 30);
+	time_sleep(7000000);
+}
+
 void tui_shell() {
-	make_gui(3, 3, 0, 2);
+	make_gui(themeindex, themeindex, 0, 2);
 	userinputmode = SHELL_APP_ID;
 }
-
-/*
-void register_apps(app_t *app, char* name, char* desc, int vers, int appid, int sceneid[]) {
-	app->name = name;
-	app->desc = desc;
-	app->vers = vers;
-	app->appid = appid;
-	int len = sizeof(sceneid) / sizeof(sceneid[0]);
-	for (int i = 0; i == len; i++) {
-		app->sceneid[i] = sceneid[i];
-	}
-}
-*/
-
-/**
-void shell(char s[], int i){
-	char* start = "";
-	char* two = "";
-	char* cmdnamee_dup = "";
-	strcpy(start, s);
-	strcpy(two, s);
-  char* cmdnamee = strtok(start, " ");
-	strcpy(cmdnamee_dup, cmdnamee);
-  if(strcmp(s, "clear")==0){
-  	clear_scr();
-  } else if(strcmp(s, "help")==0){ // print help information
-    avaliable_commands(1);
-  } else if(strcmp(s, "about")==0){ // print info about computer
-  	about(1);
-  } else if(strcmp(s, "reboot")==0){ // reboot computer
-  	reboot();
-  } else if(strcmp(s, "shutdown")==0){ // shutdown computer
-    shutdown();
-  } else if(strcmp(cmdnamee, "ls")==0) { // list files and kprintf it
-    ls(0, LS_APP_ID, 1);
-  } else if(strcmp(cmdnamee, "cat")==0) { // read file and kprintf it
-	textbox("cat", "Enter the file location", CAT_APP_ID);
-  } else if(strcmp(cmdnamee, "calc")==0) {
-	textbox("Enter the first number", "", CALC_APP_ID);
-  } else if(strcmp(cmdnamee, "\\\/")==0 || strcmp(s, "")==0) { // comment
-  } else { // unknown command 
-  }
-
-  for(int j=0; s[j]!='\0'; j++){
-  	s[j]='\0';
-  }
-  // strcat(strcat(strcat(strcat("[", username), "("), errorcode), ")]$")
-  kprintf(">");
-}
-**/
-
 
 void clear_scr(){
   clear(COLOR_WHT, COLOR_BLK);

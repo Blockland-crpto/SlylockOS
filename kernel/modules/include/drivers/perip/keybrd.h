@@ -16,6 +16,7 @@ void keyboard_install();
 void track_input(char c);
 int userinputmode;
 int timesfilled;
+int shellinput;
 
 void tui_reset();
 #endif

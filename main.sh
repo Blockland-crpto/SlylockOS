@@ -5,6 +5,7 @@ objb=''
 char=' '
 end=$(awk -F"${char}" '{print NF-1}' <<< "${objects}")
 end=$((end+1))
+mkdir bin
 nasm -f elf ./kernel/arch/i386/boot.asm -o ./bin/boot.o
 for i in $(seq 1 $end); do 
 ta=$(echo ./bin/$(basename $(echo $objects | cut -d" " -f$i )))
@@ -14,23 +15,24 @@ gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-func
 done
 objb="${objb:1}"
 export LD_LIBRARY_PATH=/home/runner/MiniOS/
-ld -T link.ld --verbose -m elf_i386 -o os.bin $objb ./bin/boot.o
+ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o
 rm -r iso
+
 mkdir iso
 mkdir iso/boot
 mkdir iso/boot/grub
 
-mv os.bin iso/boot/os.bin
+mv kernel.bin iso/boot/kernel.bin
 echo 'set timeout-0' >> iso/boot/grub/grub.cfg
 echo 'set default-0' >> iso/boot/grub/grub.cfg
 echo 'menuentry "MiniOS" {' >> iso/boot/grub/grub.cfg
-echo '  multiboot /boot/os.bin' >> iso/boot/grub/grub.cfg
+echo '  multiboot /boot/kernel.bin' >> iso/boot/grub/grub.cfg
 echo '  module  /boot/os.initrd' >> iso/boot/grub/grub.cfg
 echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="./readme ${headers}"
+inp="readme ${headers}"
 res=''
 for word in $inp; do
 res="${res} ${word}"
@@ -39,4 +41,5 @@ done
 ./initrdgen $res
 mv ./initrd.img ./iso/boot/os.initrd
 grub-mkrescue --output=minios.iso iso
+rm -r bin
 qemu-system-i386 -cdrom minios.iso -m 512M -hda floppy.img

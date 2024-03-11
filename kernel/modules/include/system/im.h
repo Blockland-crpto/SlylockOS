@@ -15,6 +15,10 @@ void calcim(char c, int userinputmode);
 void shellim(char c, int userinputmode);
 void powerim(char c, int userinputmode);
 void homeim(char c, int userinputmode);
+void warnim(char c, int userinputmode);
+void cmdim(char c, int userinputmode);
+void calnim(char c, int userinputmode);
+void settim(char c, int userinputmode);
 
 void im_init();
 

@@ -7,8 +7,6 @@
 #include <slibaries/gui.h>
 #include <system/mod.h>
 
-// { = up arrow
-// } = down arrow
 
 void appinput_handler(char c, int userinputmode) {
 
@@ -20,14 +18,22 @@ void appinput_handler(char c, int userinputmode) {
 		lsim(c, userinputmode);
 	} else if (userinputmode >= CAT_APP_ID && userinputmode <= CAT_APP_ID_EI) {
 		catim(c, userinputmode);
-	} else if (userinputmode >= CALC_APP_ID_FR && userinputmode <= CALC_APP_ID_TL) {
+	} else if (userinputmode >= CALC_APP_ID && userinputmode <= CALC_APP_ID_EI) {
 		calcim(c, userinputmode);
-	} else if (userinputmode >= SHELL_APP_ID && userinputmode <= SHELL_APP_ID_EI) {
+	} else if (userinputmode >= SHELL_APP_ID && userinputmode <= SHELL_APP_ID_EL) {
 		shellim(c, userinputmode);
 	} else if (userinputmode >= POWER_APP_ID && userinputmode <= POWER_APP_ID_TH) {
 		powerim(c, userinputmode);
 	} else if (userinputmode >= HOME_APP_ID && userinputmode <= HOME_APP_ID_TH) {
 		homeim(c, userinputmode);
+	} else if (userinputmode == WARN_BOX_ID) {
+		warnim(c, userinputmode);
+	} else if (userinputmode >= CMD_APP_ID && userinputmode <= CMD_APP_ID_EI) {
+		cmdim(c, userinputmode);
+	} else if (userinputmode >= CALN_APP_ID && userinputmode <= CALN_APP_ID_EI) {
+		calnim(c, userinputmode);
+	} else if (userinputmode >= SETT_APP_ID && userinputmode <= SETT_APP_ID_EI) {
+		settim(c, userinputmode);
 	}
 }
 

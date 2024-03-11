@@ -2,15 +2,16 @@
 #include <drivers/perip/keybrd.h>
 #include <slibaries/gui.h>
 #include <slibaries/shell.h>
+#include <system/kernel.h>
 
 void infobox(char *title, char *cont, int callerid, int opts) {
 	userinputmode = callerid;
 	if (opts == 1) {
-		make_gui(3, 3, 0, 1);
+		make_gui(themeindex, themeindex, 0, 1);
 	} else if (opts == 2) {
-		make_gui(3, 3, 0, 3);	
+		make_gui(themeindex, themeindex, 0, 3);	
 	} else {
-		make_gui(3, 3, 0, 0);
+		make_gui(themeindex, themeindex, 0, 0);
 	}
 	
 	make_gui_windows(title, cont, 19, 10, 60, 20);

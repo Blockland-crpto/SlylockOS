@@ -22,7 +22,7 @@ unsigned char ascii_values[128] = {
   '\t',			/* Tab */
   'q', 'w', 'e', 'r',	/* 19 */
   't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n',	/* Enter key */
-	0,			/* 29   - Control */
+	'?',			/* 29   - Control */
   'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',	/* 39 */
  '\'', '`',   0,		/* Left shift */
  '\\', 'z', 'x', 'c', 'v', 'b', 'n',			/* 49 */
@@ -74,7 +74,16 @@ void keyboard_handler(struct regs *r){
 		  //do nothing
 		  //this prevents clearing the '>' character on the screen
 		} else {
-		  if (userinputmode > 0 && textboxactive == 0) { 
+		  if (shellinput == 1) { 
+			  if (i==0 && c=='\b') {
+				  //do nothing
+				  //prevents the backspace from clearing the textbox
+
+			  } else if (i==43) {
+				  //do nothing prevents overflows
+			  }
+		  } else if (textboxactive == 0) { 
+		
 		  } else if(textboxactive == 1) {
 			if (i==0 && c=='\b') {
 				//do nothing
@@ -116,53 +125,43 @@ char get_key(){
 }
 
 void track_input(char c){
-		if(userinputmode == 0 && textboxactive == 0) {
-		  //If user hits enter, we can execute the command
-		  if(c == '\n'){
-			//handle shell support here
-			//parse_input(input_buffer, i);
-			//shell(input_buffer, i);
+	if (shellinput == 1) {
+
+		//This handles the shell input
+		if (c == ENTER_KEY) {
+			cmd(input_buffer);
 			memset(input_buffer, 0, sizeof(input_buffer));
 			i=0;
-		  }
-		  //handle backspace in input string buffer
-		  else if(c == '\b'){
-			input_buffer[i-1]='\0';
-			i--;
-		  }
-		  //handle the input buffer if the input is greater than 255
-		  else if(i >= 255){
-			input_buffer[0]='\0';
-			i = 0;
-		  }
-		  else if(c == '\t') {
-		  }
-		  //add new input characters from input to string buffer
-		  else{
-			input_buffer[i]=c;
+		} else if(c == MENU_KEY) {
+			shellinput = 0;
+			main_menu(1, CMD_APP_ID_TW, 1);
+		} else {
+			putchar(c, COLOR_WHT, COLOR_BLK);
+			input_buffer[i] = c;
 			i++;
-		  }
-		} else if(userinputmode > 0 && textboxactive == 0) {
+		}
+		
+	} else if(textboxactive == 0) {
 		  
 		  //This is a patch to coordinate program responces to key input
 		  appinput_handler(c, userinputmode);
 
-		} else if (textboxactive == 1) {
-		  if (c == '\n') {
+	} else if (textboxactive == 1) {
+		if (c == '\n') {
 			clear(COLOR_WHT, COLOR_BLK);
 			set_cursor_pos(0,0);
 			textboxactive = 0;
 			textinputhandler(input_buffer, userinputmode);
 			i = 0;
-		  } else if(c == '\b'){
+		} else if(c == '\b'){
 			 input_buffer[i-1]='\0';
 			 i--;
-		  } else {
+		} else {
 			input_buffer[i] = c;
 			i++;
-		  }
-
 		}
+
+	}
 }
 
 void tui_reset() {
@@ -177,6 +176,7 @@ void tui_reset() {
 
 void keyboard_install(){
 	module_t modules_keyboard_keyboard = MODULE("kernel.modules.keyboard.keyboard", "Provides PS/2 keyboard support for the kernel (CORE)");
+	shellinput = 0;
 	char** deps;
 	deps[0] = "shell";
 	DEPS(modules_keyboard_keyboard, deps);

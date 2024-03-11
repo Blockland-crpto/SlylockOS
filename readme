@@ -1,7 +1,7 @@
  ======MINIOS======
-Welcome to MiniOS, the all-new x86 operating system!
-This operating system is still a work-in-progress, but 
-expect to see a lot of new features coming around.
+Welcome to MiniOS, a operating system for X86
+This OS is still in its pre-alpha stages
+So expect crashes, bugs, and missing features
 ====Generating initial ramdisks=====
 You can use `./initrdgen <filename> <filename again>` 
 to add 1 file,
@@ -10,7 +10,3 @@ or `./initrdgen <filename #1> <filename #1 again> <filename #2>
 
 This file is bundled in Mini itself, use `cat` 
 to read it in the command line.
-
-some limitations:
-calculator only uses positive numbers
-cat 

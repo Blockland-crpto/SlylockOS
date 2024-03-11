@@ -2,7 +2,6 @@
 #include <drivers/vga.h>
 #include <drivers/io/ports.h>
 
-
 void reboot(){
 	clear_scr();
 	loadingscreen("Restarting", "MiniOS is Restarting...");
