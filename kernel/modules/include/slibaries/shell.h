@@ -136,11 +136,11 @@ int calc_num1;
 int calc_num2;
 int calc_num1_negative;
 int calc_num2_negative;
-char calc_op;
 int input_counter;
 int calc_anwser;
-char calc_anwser_str;
-char prev_anwser_str;
+char* calc_op;
+char* calc_anwser_str;
+char* prev_anwser_str;
 
 
 //the cat holding variables

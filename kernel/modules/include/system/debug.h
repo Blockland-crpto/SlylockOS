@@ -54,7 +54,11 @@
 	\brief Happens if the application calls panic
 */
 #define APP_ERROR 8
-
+/**
+	\def TASK_ERROR
+	\brief Happens if a kernel process dies
+*/
+#define TASK_ERROR 9
 
 void panic(char* reason, int errno);
 

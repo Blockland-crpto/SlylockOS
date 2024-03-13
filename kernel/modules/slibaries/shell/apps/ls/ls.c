@@ -9,7 +9,7 @@
 void ls(int start, int id, int page) {
   userinputmode = id;
   struct dirent *node = 0;
-  int i= start;
+  int i = start;
   make_gui(themeindex, themeindex, page, 2);
   make_gui_windows("Files", " ", 4, 3, 70, 22);
   for (int j = 5; j < 21; j++) {

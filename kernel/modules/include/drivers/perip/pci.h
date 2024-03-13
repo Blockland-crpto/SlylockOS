@@ -10,7 +10,9 @@ typedef struct pciDevice {
 	uint8_t bus;
 	uint8_t device;
 	uint8_t func;
-	//uint8_t pclass;
+	uint8_t classCode;
+	uint8_t subClass;
+	uint8_t progIF;
 	uint32_t vendor;
 } pciDevice_t;
 

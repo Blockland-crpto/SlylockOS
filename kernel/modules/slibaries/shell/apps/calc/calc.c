@@ -37,6 +37,7 @@ void calc(int uim, int selected) {
 		calc_num1_negative = 0;
 		calc_num2_negative = 0;
 		calc_index = 0;
+		strcpy(prev_anwser_str, calc_anwser_str);
 		calc(CALC_APP_ID, 22);
 	} else {
 		putstrpos(calc_buffer, 6, input_y+2, 8, 7, 6);
@@ -161,7 +162,7 @@ void calc(int uim, int selected) {
 		button("Add", 30, button_y, 4, 2, 1);
 		time_sleep(button_animate_delay);
 		calc_num1 = atoi(calc_buffer);
-		calc_op = '+';
+		calc_op = "add";
 		memset(calc_buffer, 0, sizeof(calc_buffer));
 		calc_index = 0;
 		calc(CALC_APP_ID, 22);
@@ -169,7 +170,7 @@ void calc(int uim, int selected) {
 		button("Mul", 36, button_y, 4, 2, 1);
 		time_sleep(button_animate_delay);
 		calc_num1 = atoi(calc_buffer);
-		calc_op = '*';
+		calc_op = "mul";
 		memset(calc_buffer, 0, sizeof(calc_buffer));
 		input_counter = 1;
 		calc_index = 0;
@@ -179,7 +180,7 @@ void calc(int uim, int selected) {
 		time_sleep(button_animate_delay);
 		calc_num1 = atoi(calc_buffer);
 		memset(calc_buffer, 0, sizeof(calc_buffer));
-		calc_op = '-';
+		calc_op = "sub";
 		input_counter = 1;
 		calc_index = 0;
 		calc(CALC_APP_ID, 22);
@@ -188,12 +189,12 @@ void calc(int uim, int selected) {
 		time_sleep(button_animate_delay);
 		calc_num1 = atoi(calc_buffer);
 		memset(calc_buffer, 0, sizeof(calc_buffer));
-		calc_op = '/';
+		calc_op = "div";
 		input_counter = 1;
 		calc_index = 0;
 		calc(CALC_APP_ID, 22);
 	} else if (selected == 14) {
-		button("Clr", 42, button_y+2, 4, 2, 1);
+		button("Clr", 42, button_y, 4, 2, 1);
 		time_sleep(button_animate_delay);
 		calc_index--;
 		calc_buffer[calc_index] = '\0';
@@ -234,13 +235,13 @@ void calc(int uim, int selected) {
 				calc_num2 = -calc_num2;
 			}	
 		
-			if (strcmp(calc_op, '+') == 0) {
+			if (strcmp(calc_op, "add") == 0) {
 				calc_anwser = calc_num1 + calc_num2;
-			} else if (strcmp(calc_op, '-') == 0) {
+			} else if (strcmp(calc_op, "sub") == 0) {
 				calc_anwser = calc_num1 - calc_num2;
-			} else if (strcmp(calc_op, '*') == 0) {
+			} else if (strcmp(calc_op, "mul") == 0) {
 				calc_anwser = calc_num1 * calc_num2;
-			} else if (strcmp(calc_op, '/') == 0) {
+			} else if (strcmp(calc_op, "div") == 0) {
 				calc_anwser = calc_num1 / calc_num2;
 			}
 

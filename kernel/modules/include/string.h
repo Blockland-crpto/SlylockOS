@@ -112,9 +112,10 @@ unsigned short *memsetw(unsigned short *dest, unsigned short val, int count);
   \brief Compares first `len` bytes of data of s1 and s2
 */
 int memcmp(const void *s1, const void *s2, int len);
-
-
-
+/**
+  \brief Duplicates a string
+*/
+char* strdup(const char *s);
 
 
 // Non-standarized utility functions:

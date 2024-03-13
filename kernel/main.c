@@ -1,24 +1,35 @@
-#include <drivers/fs/fs.h>
+//Mini OS Kernel
 #include <system/mltb/multiboot.h>
+#include <system/mltb/multibootinfo.h>
+
 #include <system/debug.h>
 #include <system/types.h>
-#include <system/mltb/multibootinfo.h>
 #include <system/im.h>
-#include <drivers/perip/keybrd.h>
+#include <system/task.h>
+
 #include <slibaries/gui.h>
-#include <drivers/x86/isr.h>
-#include <drivers/x86/irq.h>
-#include <drivers/io/ports.h>
-#include <drivers/x86/gdt.h>
-#include <drivers/x86/idt.h>
-#include <drivers/cpu/nmi.h>
-#include <drivers/io/ata.h>
+#include <slibaries/shell.h>
+
 #include <drivers/vga.h>
 #include <drivers/acpi.h>
-#include <drivers/perip/pci.h>
+
+#include <drivers/x86/isr.h>
+#include <drivers/x86/irq.h>
+#include <drivers/x86/gdt.h>
+#include <drivers/x86/idt.h>
+
+#include <drivers/io/ata.h>
+#include <drivers/io/ports.h>
+
+#include <drivers/fs/fs.h>
+
+#include <drivers/cpu/nmi.h>
 #include <drivers/cpu/cpuid.h>
+
+#include <drivers/perip/pci.h>
 #include <drivers/perip/timer.h>
 #include <drivers/perip/rtc.h>
+#include <drivers/perip/keybrd.h>
 
 #define MB_MAGIC 0x1BADB002
 
@@ -53,6 +64,7 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 
   keyboard_install();
   malloc_init();
+  task_init();
 	
   libc_init();
 
