@@ -2,6 +2,7 @@
 #include <drivers/io/ports.h>
 #include <system/types.h>
 #include <system/mod.h>
+#include <system/task.h>
 
 void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint8_t sector_count) {
 
@@ -62,6 +63,8 @@ static void wait_ata_drq() {
 }
 
 void ata_init() {
+	create_task("ata_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_ata_ata = MODULE("kernel.modules.ata.ata", "Provides ATA support for the kernel, read/write (CORE)");
 	INIT(modules_ata_ata);
+	modify_task(TASK_STATE_ENDED);
 }

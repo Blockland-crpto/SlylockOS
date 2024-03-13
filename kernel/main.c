@@ -44,11 +44,10 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   } 
   
   
-
+  task_init();
   gdt_install();
   idt_install();
-  ata_init();
-	
+  
   isr_install();
   irq_install();
   
@@ -56,16 +55,18 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   cpuid_init();
 	
   pci_init();
+ 
   acpi_init();	
+  ata_init();
 	
   timer_install();
   rtc_init();
   filesystem_init();
 
   keyboard_install();
-  malloc_init();
-  task_init();
-	
+  kalloc_init();
+
+  
   libc_init();
 
   vga_init();
@@ -74,7 +75,7 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   im_init();
   shell_init();
   
-	
+
   __asm__ __volatile__("sti");
 
   return 0;

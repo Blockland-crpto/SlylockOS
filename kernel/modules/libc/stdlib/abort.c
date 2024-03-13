@@ -3,6 +3,6 @@
 
 
 __attribute__((__noreturn__))
-void abort(task_t task) {
-	modify_task(task, TASK_STATE_ERRORED);
+void abort(void) {
+	modify_task(TASK_STATE_ERRORED);
 }

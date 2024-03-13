@@ -14,7 +14,7 @@ char* itoa(int value, char* buffer, int base)
 	while (n)
 	{
 		int r = n % base;
-
+		
 		if (r >= 10) 
 			buffer[i++] = 65 + (r - 10);
 		else

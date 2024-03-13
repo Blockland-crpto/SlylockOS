@@ -1,6 +1,6 @@
 #include <drivers/cpu/cpuid.h>
 #include <system/mod.h>
-
+#include <system/task.h>
 
 static inline int cpuid_string(int code, int where[4]) {
   __asm__ volatile ("cpuid":"=a"(*where),"=b"(*(where+0)), "=d"(*(where+1)),"=c"(*(where+2)):"a"(code));
@@ -14,6 +14,9 @@ const char * const cpu_string() {
 }
 
 void cpuid_init() {
+	create_task("cpuid_init", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_cpuid_cpuid = MODULE("kernel.modules.cpuid.cpuid", "identifies the Processor");
 	INIT(modules_cpuid_cpuid);
+	modify_task(TASK_STATE_ENDED);
+	
 }

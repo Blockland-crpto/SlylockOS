@@ -2,7 +2,7 @@
 #include <system/mod.h>
 #include <drivers/vga.h>
 #include <system/mem.h>
-
+#include <system/task.h>
 
 struct idt_entry {
 	unsigned short base_lo;
@@ -35,7 +35,8 @@ void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, uns
 }
 
 
-void idt_install(){
+void idt_install() {
+	create_task("idt_installer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_idt_idt = MODULE("kernel.modules.idt.idt", "IDT for the kernel (CORE)");
 	//set the special IDT pointer just like we did in gdt.c
 	idtp.limit = (sizeof(struct idt_entry)*256)-1;
@@ -47,4 +48,5 @@ void idt_install(){
 	//tell the processor to point the internal register to the new IDT
 	load_idt();
 	INIT(modules_idt_idt);
+	modify_task(TASK_STATE_ENDED);
 }

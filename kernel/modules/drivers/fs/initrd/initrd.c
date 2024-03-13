@@ -6,6 +6,7 @@
 #include <system/types.h>
 #include <system/mod.h>
 #include <string.h>
+#include <system/task.h>
 
 
 initrd_header_t *initrd_header;     // The header.
@@ -57,12 +58,13 @@ static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
 
 fs_node_t *initialise_initrd(uint32_t location)
 {
+	create_task("initrd_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_initrd_initrd = MODULE("kernel.modules.initrd.initrd", "Provides initrd support for the kernel");
    // Initialise the main and file header pointers and populate the root directory.
    initrd_header = (initrd_header_t *)location;
    file_headers = (initrd_file_header_t *) (location+sizeof(initrd_header_t)); 
       // Initialise the root directory.
-   initrd_root = (fs_node_t*)malloc(sizeof(fs_node_t));
+   initrd_root = (fs_node_t*)kalloc(sizeof(fs_node_t));
    strcpy(initrd_root->name, "initrd");
    initrd_root->mask = initrd_root->uid = initrd_root->gid = initrd_root->inode = initrd_root->length = 0;
    initrd_root->flags = FS_DIRECTORY;
@@ -75,7 +77,7 @@ fs_node_t *initialise_initrd(uint32_t location)
    initrd_root->ptr = 0;
    initrd_root->impl = 0; 
    // Initialise the /dev directory (required!)
-   initrd_dev = (fs_node_t*)malloc(sizeof(fs_node_t));
+   initrd_dev = (fs_node_t*)kalloc(sizeof(fs_node_t));
    strcpy(initrd_dev->name, "dev");
    initrd_dev->mask = initrd_dev->uid = initrd_dev->gid = initrd_dev->inode = initrd_dev->length = 0;
    initrd_dev->flags = FS_DIRECTORY;
@@ -87,7 +89,7 @@ fs_node_t *initialise_initrd(uint32_t location)
    initrd_dev->finddir = &initrd_finddir;
    initrd_dev->ptr = 0;
    initrd_dev->impl = 0; 
-   root_nodes = (fs_node_t*)malloc(sizeof(fs_node_t) * initrd_header->nfiles);
+   root_nodes = (fs_node_t*)kalloc(sizeof(fs_node_t) * initrd_header->nfiles);
    nroot_nodes = initrd_header->nfiles; 
    // For every file...
    int i;
@@ -112,5 +114,6 @@ fs_node_t *initialise_initrd(uint32_t location)
        root_nodes[i].impl = 0;
    } 
    INIT(modules_initrd_initrd);
+   modify_task(TASK_STATE_ENDED);
    return initrd_root;
 } 

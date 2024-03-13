@@ -1,12 +1,17 @@
 #include <system/task.h>
 
-task_t create_task(char* name, int priority, int caller, int id) {
+task_t create_task(char* name, int priority, int caller) {
 	task_t newTask;
 	newTask.name = name;
 	newTask.priority = priority;
 	newTask.caller = caller;
-	newTask.id = id;
 	newTask.state = TASK_STATE_STARTING;
-	taskpool[id] = newTask;
+	for (int i = 0; i < 256; i++) {
+		if (taskpool[i].state == TASK_STATE_FREE) {
+			newTask.id = i;
+			taskpool[i] = newTask;
+		}
+	}
+	current_task = newTask;
 	return newTask;
 }

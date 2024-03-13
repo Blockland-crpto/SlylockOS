@@ -1,6 +1,7 @@
 #ifndef __GUI_H
 #define __GUI_H
 
+#include <stdbool.h>
 
 //textbox id's
 #define TEXTBOX_ID_0 0
@@ -39,7 +40,7 @@ void warning_box(char *title, char *cont);
 void loadingscreen(char *title, char* desc);
 
 //button function
-void button(char* cont, int x, int y, int w, int h, int selected);
+void button(char* cont, int x, int y, int w, int h, bool selected);
 
 
 #endif

@@ -37,9 +37,9 @@ typedef long intptr_t;
 void *sbrk(intptr_t incr);
 
 /**
-  \brief Initializes malloc function
+  \brief Initializes kalloc function
 */
-void malloc_init();
+void kalloc_init();
 
 /**
   \brief Frees the memory of *firstbyte
@@ -48,6 +48,6 @@ void free(void *firstbyte);
 /**
   \brief Allocates memory with the size being numbytes
 */
-void *malloc(long numbytes);
+void *kalloc(long numbytes);
 
 #endif

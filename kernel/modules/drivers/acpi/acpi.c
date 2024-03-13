@@ -6,6 +6,7 @@
 #include <drivers/vga.h>
 #include <system/debug.h>
 #include <string.h>
+#include <system/task.h>
 
 #define NULL ((char * ) 0)
 
@@ -189,13 +190,15 @@ int initAcpi(void) {
 
 					 return 0;
 				  } else {
-					 kprintf("\\_S5 parse error.\n");
+					 //unable to parse S5
+					 panic("_S5 parse error.", ACPI_ERROR);
 				  }
 			   } else {
-				   kprintf("\\_S5 not present.\n");
+				   //S5 is not present
+				   panic("_S5 not present.", ACPI_ERROR);
 			   }
 			} else {
-				kprintf("DSDT parse error.\n");
+				panic("DSDT parse error.", ACPI_ERROR);
 			}
 		 }
 		 ptr++;
@@ -209,8 +212,10 @@ int initAcpi(void) {
 }
 
 void acpi_init() {
+	create_task("acpi_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_acpi_acpi = MODULE("kernel.modules.acpi.acpi", "Provides ACPI support for the kernel (CORE)");
 	initAcpi();
 	acpiEnable();
 	INIT(modules_acpi_acpi);
+	modify_task(TASK_STATE_ENDED);
 }

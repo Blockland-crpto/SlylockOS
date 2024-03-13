@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <drivers/perip/timer.h>
 #include <system/kernel.h>
+#include <stdbool.h>
 
 void caln(int uim, int selected) {
 	int daysinmonth;
@@ -53,8 +54,8 @@ void caln(int uim, int selected) {
 	}
 
 
-	button("<-", 3, 1, 3, 1, 0);
-	button("->", 67, 1, 3, 1, 0);
+	button("<-", 3, 1, 3, 1, false);
+	button("->", 67, 1, 3, 1, false);
 	
 	for (int x = 8; x < 65; x++) {
 		putpos('#', 8, 8, x, 8);
@@ -119,7 +120,7 @@ void caln(int uim, int selected) {
 	}
 
 	if (selected == 1) {
-		button("<-", 3, 1, 3, 1, 1);
+		button("<-", 3, 1, 3, 1, true);
 		time_sleep(600000);
 		if (calnpage == 0) {
 			calnpage = 11;
@@ -128,7 +129,7 @@ void caln(int uim, int selected) {
 		}
 		caln(uim, 0);
 	} else if (selected == 2) {
-		button("->", 67, 1, 3, 1, 1);
+		button("->", 67, 1, 3, 1, true);
 		time_sleep(600000);
 		if (calnpage == 11) {
 			calnpage = 0;

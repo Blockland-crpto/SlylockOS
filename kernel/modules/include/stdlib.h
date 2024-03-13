@@ -12,8 +12,10 @@ int rand(void);
 
 void srand(unsigned int seed);
 
+void *malloc(long numbytes);
+
 __attribute__((__noreturn__)) 
-void abort(task_t task);
+void abort(void);
 
 
 #endif

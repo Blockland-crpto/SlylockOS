@@ -6,7 +6,7 @@
 
 int *create_delim_dict(char *delim)
 {
-	int *d = (int*)malloc(sizeof(int)*DICT_LEN);
+	int *d = (int*)kalloc(sizeof(int)*DICT_LEN);
 	memset((void*)d, 0, sizeof(int)*DICT_LEN);
 
 	int i;

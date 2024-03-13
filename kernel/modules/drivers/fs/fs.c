@@ -4,6 +4,7 @@
 #include <system/mltb/multibootinfo.h>
 #include <drivers/vga.h>
 #include <system/mod.h>
+#include <system/task.h>
 
 fs_node_t *fs_root = 0; // The root of the filesystem.
 uint32_t read_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer)
@@ -59,6 +60,7 @@ fs_node_t *finddir_fs(fs_node_t *node, char *name)
 }
 void filesystem_init() 
 {
+	create_task("fs_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_fs_fs = MODULE("kernel.modules.fs.fs", "Filesystem for the initrd and kernel");
 	char** deps;
 	deps[0] = "kernel.modules.initrd.initrd";
@@ -68,4 +70,5 @@ void filesystem_init()
    	uint32_t placement_address = initrd_end;
 	fs_root = initialise_initrd(initrd_location);
 	INIT(modules_fs_fs);
+	modify_task(TASK_STATE_ENDED);
 }

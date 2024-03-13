@@ -4,7 +4,7 @@
 #include <drivers/x86/irq.h>
 #include <system/mod.h>
 #include <drivers/io/ports.h>
-
+#include <system/task.h>
 
 extern void _irq0();
 extern void _irq1();
@@ -29,10 +29,14 @@ void *irq_routines[16] = {
 };
 
 void irq_install_handler(int irq, void(*handler)(struct regs *r)){
+	create_task("irq_handler", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
+	irq_process_id[irq] = current_task.id;
 	irq_routines[irq] = handler;
 }
 
 void irq_uninstall_handler(int irq){
+	current_task = taskpool[irq_process_id[irq]];
+	modify_task(TASK_STATE_ENDED);
 	irq_routines[irq] = 0;
 }
 
@@ -50,6 +54,7 @@ void irq_remap(void){
 }
 
 void irq_install(){
+	create_task("irq_installer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_irq_irq = MODULE("kernel.modules.irq.irq", "Provides IRQ support for the kernel (CORE)");
 	char** deps;
 	deps[0] = "kernel.modules.idt.idt";
@@ -75,6 +80,7 @@ void irq_install(){
 	idt_set_gate(46, (unsigned)_irq14, 0x08, 0x8E);
 	idt_set_gate(47, (unsigned)_irq15, 0x08, 0x8E);
 	INIT(modules_irq_irq);
+	modify_task(TASK_STATE_ENDED);
 }
 
 void irq_handler(struct regs *r){

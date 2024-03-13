@@ -14,6 +14,7 @@
 #define __SLIBARIES_SHELL_H
 
 #include <drivers/fs/fs.h>
+#include <stdbool.h>
 
 #define NULL ((char *)0)
 //#define sizeof(type) (char *)(&type+1)-(char*)(&type)
@@ -130,14 +131,15 @@
 #define SETT_APP_ID_EI 86
 
 //the calculator holding variables
-char calc_buffer[100];
+char calc_buffer[200];
 int calc_index;
 int calc_num1;
 int calc_num2;
-int calc_num1_negative;
-int calc_num2_negative;
 int input_counter;
 int calc_anwser;
+bool calc_num1_negative;
+bool calc_num2_negative;
+bool negative_num;
 char* calc_op;
 char* calc_anwser_str;
 char* prev_anwser_str;
@@ -180,6 +182,8 @@ void ls(int start, int id, int page);
 void cat(char s[]);
 
 void shutdown();
+
+void calc_init();
 
 void calc(int uim, int selected);
 

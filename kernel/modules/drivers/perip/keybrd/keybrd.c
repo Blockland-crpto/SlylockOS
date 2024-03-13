@@ -7,6 +7,7 @@
 #include <slibaries/shell.h>
 #include <system/mod.h>
 #include <system/im.h>
+#include <system/task.h>
 
 
 
@@ -175,6 +176,7 @@ void tui_reset() {
 }
 
 void keyboard_install(){
+	create_task("keyboard_installer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_keyboard_keyboard = MODULE("kernel.modules.keyboard.keyboard", "Provides PS/2 keyboard support for the kernel (CORE)");
 	shellinput = 0;
 	char** deps;
@@ -182,4 +184,5 @@ void keyboard_install(){
 	DEPS(modules_keyboard_keyboard, deps);
 	irq_install_handler(1, keyboard_handler);
 	INIT(modules_keyboard_keyboard);
+	modify_task(TASK_STATE_ENDED);
 }

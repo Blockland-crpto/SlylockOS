@@ -42,4 +42,5 @@ done
 mv ./initrd.img ./iso/boot/os.initrd
 grub-mkrescue --output=minios.iso iso
 rm -r bin
-qemu-system-i386 -cdrom minios.iso -m 512M -hda floppy.img
+qemu-system-i386 -cdrom minios.iso -m 512M -hda floppy.img -device pci-bridge,chassis_nr=1,id=bridge1
+

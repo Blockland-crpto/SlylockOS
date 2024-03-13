@@ -1,13 +1,14 @@
 #include <slibaries/gui.h>
 #include <drivers/vga.h>
+#include <stdbool.h>
 
-void button(char* cont, int x, int y, int w, int h, int selected) {
+void button(char* cont, int x, int y, int w, int h, bool selected) {
 	int color1;
 	int color2;
-	if (selected == 0) {
+	if (selected == false) {
 		color1 =  COLOR_DGY;
 		color2 = COLOR_GRY;
-	} else if (selected == 1) {
+	} else if (selected == true) {
 		color1 = COLOR_BLU;
 		color2 = COLOR_WHT;
 	}

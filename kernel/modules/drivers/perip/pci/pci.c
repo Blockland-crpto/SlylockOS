@@ -4,6 +4,7 @@
 #include <drivers/vga.h>
 #include <system/mod.h>
 #include <stdio.h>
+#include <system/task.h>
 
 uint32_t config_addr = 0xCF8;
 uint32_t config_data = 0xCFC;
@@ -32,31 +33,45 @@ uint8_t pciReadProgif(uint8_t bus, uint8_t device, uint8_t func) {
 	return pciReadDevice(bus, device, func, 0xB) & 0xFF;
 }
 
-// PCI init
-void pci_init() {
-	module_t modules_pci_pci = MODULE("kernel.modules.pci.pci", "Provides PCI support for the kernel (CORE)");
-	
-	uint8_t bus, device, func;
+void pci_scan_bus(uint8_t bus) {
+	uint8_t device, func;
 	uint32_t data;
 	int i = 0;
-	for (bus = 0; bus != 0xff; bus++) {
-		for (device = 0; device < 32; device++) {
-			for (func = 0; func < 8; func++) {
-				data = pciReadDevice(bus, device, func, 0);
-				if(data != 0xFFFF) {
-					pciDevMap[i].bus = bus;
-					pciDevMap[i].device = device;
-					pciDevMap[i].func = func;
-					pciDevMap[i].vendor = data;
-					pciDevMap[i].classCode = pciReadClass(bus, device, func);
-					pciDevMap[i].subClass = pciReadSubclass(bus, device, func);
-					pciDevMap[i].progIF = pciReadProgif(bus, device, func);
-					//printf("bus %x, Device %x, Func %x, Vendor %x, Class %x, Subclass %x, progIF %x\n", bus, device, func, data, pciDevMap[i].classCode, pciDevMap[i].subClass, pciDevMap[i].progIF);
-					i++;
-				} 
+	for (device = 0; device < 32; device++) {
+		for (func = 0; func < 8; func++) {
+			data = pciReadDevice(bus, device, func, 0);
+			if(data != 0xFFFF) {
+				pciDevMap[i].bus = bus;
+				pciDevMap[i].device = device;
+				pciDevMap[i].func = func;
+				pciDevMap[i].vendor = data;
+				pciDevMap[i].classCode = pciReadClass(bus, device, func);
+				pciDevMap[i].subClass = pciReadSubclass(bus, device, func);
+				pciDevMap[i].progIF = pciReadProgif(bus, device, func);
+				//printf("bus %x, Device %x, Func %x, Vendor %x, Class %x, Subclass %x, progIF %x\n", bus, device, func, data, pciDevMap[i].classCode, pciDevMap[i].subClass, pciDevMap[i].progIF);
+				//time_sleep(1000000);
+				i++;
+			} 
+		}
+	}
+	// Recursively scan subordinate buses
+	for (device = 0; device < 32; device++) {
+		data = pciReadDevice(bus, device, 0, 0);
+		if(data != 0xFFFF && (pciReadClass(bus, device, 0) == 0x06) && (pciReadSubclass(bus, device, 0) == 0x04)) {
+			uint8_t secondary_bus = pciReadProgif(bus, device, 0);
+			if (secondary_bus != 0) { // Check if secondary bus is valid
+				pci_scan_bus(secondary_bus);
 			}
 		}
 	}
+}
+
+void pci_init() {
+	create_task("pci_mapper", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
+	module_t modules_pci_pci = MODULE("kernel.modules.pci.pci", "Provides PCI support for the kernel (CORE)");
+
+	pci_scan_bus(0); // Start scanning from bus 0
 
 	INIT(modules_pci_pci);
+	modify_task(TASK_STATE_ENDED);
 }

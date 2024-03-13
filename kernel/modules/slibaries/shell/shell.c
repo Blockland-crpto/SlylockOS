@@ -9,15 +9,17 @@
 #include <slibaries/gui.h>
 #include <system/kernel.h>
 #include <drivers/perip/keybrd.h>
+#include <system/task.h>
 
 #define NULL ((char *)0)
 
 int cf = 1;
 int dfs = 1;
 void shell_init(){
+	create_task("shell_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_shell_shell = MODULE("kernel.modules.shell.shell", "User interface for the kernel (CORE)");
 
-	
+	prev_anwser_str = "0";
 	themeindex = 3;
 
 	loadingscreen("Starting Up", "MiniOS is starting...");
@@ -29,6 +31,7 @@ void shell_init(){
 	deps[1] = "kernel.modules.im.im";
 	DEPS(modules_shell_shell, deps);
 	INIT(modules_shell_shell);
+	modify_task(TASK_STATE_ENDED);
 }
 
 void login_screen() {
@@ -38,6 +41,7 @@ void login_screen() {
 }
 
 void tui_shell() {
+	modify_task(TASK_STATE_ENDED);
 	make_gui(themeindex, themeindex, 0, 2);
 	userinputmode = SHELL_APP_ID;
 }
