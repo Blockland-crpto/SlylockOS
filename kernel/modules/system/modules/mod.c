@@ -1,6 +1,4 @@
 #include <system/mod.h>
- 
-#include <drivers/vga.h>
 
 #define NULL 0
 
@@ -26,18 +24,10 @@ void INIT(module_t module) {
 	
 }
 void DISABLE(module_t module) {
-	kprintf("---disabling module");
-	kprintf(module.name);
-	kprintf("\n");
 	module.enabled = false;
-	kprintf(" \\->done.\n");
 }
 void ENABLE(module_t module) {
-	kprintf("---enabling module");
-	kprintf(module.name);
-	kprintf("\n");
 	module.enabled = true;
-	kprintf(" \\->done.\n");
 }
 void DEPS(module_t module, char** dependencies) {
 	module.dependencies = dependencies;
