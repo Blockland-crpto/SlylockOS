@@ -6,7 +6,7 @@
 #include <system/types.h>
 #include <system/mod.h>
 #include <string.h>
-#include <system/task.h>
+ 
 
 
 initrd_header_t *initrd_header;     // The header.
@@ -58,7 +58,6 @@ static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
 
 fs_node_t *initialise_initrd(uint32_t location)
 {
-	create_task("initrd_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_initrd_initrd = MODULE("kernel.modules.initrd.initrd", "Provides initrd support for the kernel");
    // Initialise the main and file header pointers and populate the root directory.
    initrd_header = (initrd_header_t *)location;
@@ -114,6 +113,6 @@ fs_node_t *initialise_initrd(uint32_t location)
        root_nodes[i].impl = 0;
    } 
    INIT(modules_initrd_initrd);
-   modify_task(TASK_STATE_ENDED);
+    
    return initrd_root;
 } 

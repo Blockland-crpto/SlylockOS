@@ -1,11 +1,11 @@
 #include <slibaries/shell.h>
-#include <slibaries/gui.h>
+#include <libtui.h>
 #include <drivers/perip/keybrd.h>
 #include <drivers/vga.h>
 
 void app_menu(int selected, int uim) {
 	userinputmode = uim;
-	make_gui_windows("Applications", "\nAbout\nHelp\nFiles\nText\nCalculator\nCmd\nCalendar\nSettings\nExit", 8, 9, 24, 23);
+	make_tui_windows("Applications", "\nAbout\nHelp\nFiles\nText\nCalculator\nCmd\nCalendar\nSettings\nExit", 8, 9, 24, 23);
 	if (selected == 1) {
 		putstrpos("About", 10, 13, COLOR_BLU, COLOR_WHT, 10);
 	} else if (selected == 2) {

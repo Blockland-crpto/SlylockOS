@@ -4,7 +4,7 @@
 #include <drivers/vga.h>
 #include <system/mod.h>
 #include <stdio.h>
-#include <system/task.h>
+ 
 
 uint32_t config_addr = 0xCF8;
 uint32_t config_data = 0xCFC;
@@ -67,11 +67,10 @@ void pci_scan_bus(uint8_t bus) {
 }
 
 void pci_init() {
-	create_task("pci_mapper", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_pci_pci = MODULE("kernel.modules.pci.pci", "Provides PCI support for the kernel (CORE)");
 
 	pci_scan_bus(0); // Start scanning from bus 0
 
 	INIT(modules_pci_pci);
-	modify_task(TASK_STATE_ENDED);
+	 
 }

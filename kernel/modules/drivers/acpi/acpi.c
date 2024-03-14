@@ -6,7 +6,6 @@
 #include <drivers/vga.h>
 #include <system/debug.h>
 #include <string.h>
-#include <system/task.h>
 
 #define NULL ((char * ) 0)
 
@@ -212,10 +211,9 @@ int initAcpi(void) {
 }
 
 void acpi_init() {
-	create_task("acpi_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
+	
 	module_t modules_acpi_acpi = MODULE("kernel.modules.acpi.acpi", "Provides ACPI support for the kernel (CORE)");
 	initAcpi();
 	acpiEnable();
 	INIT(modules_acpi_acpi);
-	modify_task(TASK_STATE_ENDED);
 }

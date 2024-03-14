@@ -247,7 +247,7 @@ void scroll_line(){
     set_cursor_pos(0, VGA_HEIGHT - 1);
 }
 
-void make_gui(char *appname, int winfg, int winbg) {
+void make_tui(char *appname, int winfg, int winbg) {
   for(int y = 0; y<2; y++) {
     for(int x = 0; x<80; x++) {
       putpos("#", 7, 7, x, y);
@@ -261,6 +261,6 @@ void make_gui(char *appname, int winfg, int winbg) {
   }
 }
 
-void make_gui_windows(char *title, char *cont) {
+void make_tui_windows(char *title, char *cont) {
   for(int y = 10; y < 16; y++)
 }

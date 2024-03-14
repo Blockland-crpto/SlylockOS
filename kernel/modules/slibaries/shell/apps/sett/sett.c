@@ -1,5 +1,5 @@
 #include <drivers/vga.h>
-#include <slibaries/gui.h>
+#include <libtui.h>
 #include <drivers/perip/keybrd.h>
 #include <string.h>
 #include <slibaries/shell.h>
@@ -10,8 +10,8 @@
 
 void sett(int uim, int selected) {
 	userinputmode = uim;
-	make_gui(themeindex, themeindex, 0, 0);
-	make_gui_windows("SETT", "", 3, 3, 70, 20);
+	make_tui(themeindex, themeindex, 0, 0);
+	make_tui_windows("SETT", "", 3, 3, 70, 20);
 
 	// show the theme option
 	putstrpos("Theme", 7, 7, 8, 7, 7);

@@ -1,6 +1,6 @@
 #include <slibaries/shell.h>
 #include <string.h>
-#include <slibaries/gui.h>
+#include <libtui.h>
 #include <drivers/perip/keybrd.h>
 #include <drivers/vga.h>
 #include <drivers/acpi.h>
@@ -14,8 +14,8 @@ void about(int page) {
   if (page == 1) {
 	userinputmode = ABOUT_APP_ID;
 	clear_scr();
-	make_gui(themeindex, themeindex, 1, 2);
-	make_gui_windows("About OS:", aboutstr, 4, 3, 70, 20);
+	make_tui(themeindex, themeindex, 1, 2);
+	make_tui_windows("About OS:", aboutstr, 4, 3, 70, 20);
   } else if (page == 2) {
 	 char aboutstrt[150] = "Hardware:\n\nRAM: ";
 	 strcat(aboutstrt, itoa(ram_size(), buf, 10));
@@ -36,8 +36,8 @@ void about(int page) {
 	 }
 	 strcat(aboutstrt, cpu_string());
 	 userinputmode = ABOUT_APP_ID_TW;
-	 make_gui(themeindex, themeindex, 2, 2);
-	 make_gui_windows("About OS:", aboutstrt, 4, 3, 70, 20);
+	 make_tui(themeindex, themeindex, 2, 2);
+	 make_tui_windows("About OS:", aboutstrt, 4, 3, 70, 20);
   }
   return 0;
 }

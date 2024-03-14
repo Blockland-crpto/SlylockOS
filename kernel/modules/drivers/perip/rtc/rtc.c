@@ -2,7 +2,7 @@
 #include <system/types.h>
 #include <system/mod.h>
 #include <drivers/io/ports.h>
-#include <system/task.h>
+ 
 
 int century_register = 0x00;
 
@@ -102,9 +102,8 @@ void read_rtc() {
 }
 
 void rtc_init() {
-	create_task("rtc_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_rtc_rtc = MODULE("kernel.modules.rtc.rtc", "Adds support for the RTC Core");
 	read_rtc();
 	INIT(modules_rtc_rtc);
-	modify_task(TASK_STATE_ENDED);
+	 
 }

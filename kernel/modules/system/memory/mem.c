@@ -1,7 +1,7 @@
 #include <system/mem.h>
 #include <system/mltb/multibootinfo.h>
 #include <string.h>
-#include <system/task.h>
+ 
 uintptr_t current_break;
 int has_initialized = 0;
 void *managed_memory_start;
@@ -27,12 +27,10 @@ void *sbrk(intptr_t incr)
 }
 
 void kalloc_init() {
-  create_task("mm_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
+  
   last_valid_address = sbrk(0);
   managed_memory_start = last_valid_address;
-  has_initialized = 1;
-  modify_task(TASK_STATE_ENDED);
-  
+  has_initialized = 1;  
 }
 void free(void *firstbyte) {
   mem_control_block *mcb;

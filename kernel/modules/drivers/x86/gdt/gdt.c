@@ -1,7 +1,7 @@
 #include <drivers/x86/gdt.h>
 #include <drivers/vga.h>
 #include <system/mod.h>
-#include <system/task.h>
+ 
 
 /* Defines a GDT entry */
 struct gdt_entry
@@ -52,7 +52,6 @@ void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned cha
 *  new segment registers */
 void gdt_install()
 {
-	create_task("gdt_installer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_gdt_gdt = MODULE("kernel.modules.gdt.gdt", "GDT for the kernel (CORE)");
     /* Setup the GDT pointer and limit */
     gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
@@ -76,5 +75,5 @@ void gdt_install()
     /* Flush out the old GDT and install the new changes! */
     _gdt_flush();
 	INIT(modules_gdt_gdt);
-	modify_task(TASK_STATE_ENDED);
+	 
 }

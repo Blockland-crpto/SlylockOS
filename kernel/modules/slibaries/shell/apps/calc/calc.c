@@ -1,5 +1,5 @@
 #include <drivers/vga.h>
-#include <slibaries/gui.h>
+#include <libtui.h>
 #include <drivers/perip/keybrd.h>
 #include <string.h>
 #include <slibaries/shell.h>
@@ -15,8 +15,8 @@ void calc(int uim, int selected) {
 	int button_y = 13;
 	int button_animate_delay = 400000;
 	
-	make_gui(themeindex, themeindex, 0, 0);
-	make_gui_windows("CALC", "", 3, 3, 70, 21);
+	make_tui(themeindex, themeindex, 0, 0);
+	make_tui_windows("CALC", "", 3, 3, 70, 21);
 	
 	
 

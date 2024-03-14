@@ -7,7 +7,7 @@
 #include <system/mod.h>
 #include <drivers/perip/keybrd.h>
 #include <system/debug.h>
-#include <system/task.h>
+ 
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 
@@ -103,11 +103,11 @@ void scroll_line(){
 
 
 void vga_init() {
-	create_task("vga_initalizer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
+
 	module_t modules_vga_vga = MODULE("kernel.modules.vga.vga", "vga drivers for the kernel (CORE)");
 	if (get_bios_area_video_type() != VIDEO_TYPE_COLOR && get_bios_area_video_type() != VIDEO_TYPE_MONOCHROME) {
 		panic("Unable to find screen type", VIDEO_RETRIV_ERROR);
 	}
 	INIT(modules_vga_vga);
-	modify_task(TASK_STATE_ENDED);
+	 
 }

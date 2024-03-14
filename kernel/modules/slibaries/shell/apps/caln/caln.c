@@ -1,5 +1,5 @@
 #include <drivers/vga.h>
-#include <slibaries/gui.h>
+#include <libtui.h>
 #include <drivers/perip/keybrd.h>
 #include <string.h>
 #include <slibaries/shell.h>
@@ -12,8 +12,8 @@ void caln(int uim, int selected) {
 	int daysinmonth;
 	userinputmode = uim;
 
-	make_gui(themeindex, themeindex, 0, 0);
-	make_gui_windows("CALN", "", 3, 3, 70, 20);
+	make_tui(themeindex, themeindex, 0, 0);
+	make_tui_windows("CALN", "", 3, 3, 70, 20);
 
 	if (calnpage == 0) {
 		putstrpos("January", 32, 4, 8, 7, 32);

@@ -1,5 +1,5 @@
 #include <slibaries/shell.h>
-#include <slibaries/gui.h>
+#include <libtui.h>
 #include <drivers/perip/keybrd.h>
 #include <drivers/vga.h>
 #include <system/debug.h>
@@ -10,8 +10,8 @@
 
 void cmd_init() {
 	shellinput = 1;
-	make_gui(themeindex, themeindex, 1, 2);
-	make_gui_windows("Cmd:", "", 4, 3, 70, 20);
+	make_tui(themeindex, themeindex, 1, 2);
+	make_tui_windows("Cmd:", "", 4, 3, 70, 20);
 	for (int x = 5; x < 70; x++) {
 		for (int y = 5; y < 20; y++) {
 			putpos('#', COLOR_BLK, COLOR_BLK, x, y);

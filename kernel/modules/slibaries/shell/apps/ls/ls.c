@@ -1,7 +1,7 @@
 #include <slibaries/shell.h>
 #include <drivers/fs/fs.h>
 #include <drivers/vga.h>
-#include <slibaries/gui.h>
+#include <libtui.h>
 #include <drivers/perip/keybrd.h>
 #include <system/kernel.h>
 
@@ -10,8 +10,8 @@ void ls(int start, int id, int page) {
   userinputmode = id;
   struct dirent *node = 0;
   int i = start;
-  make_gui(themeindex, themeindex, page, 2);
-  make_gui_windows("Files", " ", 4, 3, 70, 22);
+  make_tui(themeindex, themeindex, page, 2);
+  make_tui_windows("Files", " ", 4, 3, 70, 22);
   for (int j = 5; j < 21; j++) {
 	while ( (node = readdir_fs(fs_root, i)) != 0 && j < 21)
 	{

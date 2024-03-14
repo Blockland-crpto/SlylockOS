@@ -3,7 +3,7 @@
 #include <drivers/x86/isr.h>
 #include <system/mod.h>
 #include <drivers/cpu/nmi.h>
-#include <system/task.h>
+ 
 
 extern void _isr0();
 extern void _isr1();
@@ -39,7 +39,6 @@ extern void _isr30();
 extern void _isr31();
 
 void isr_install() {
-	create_task("isr_installer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
 	module_t modules_isr_isr = MODULE("kernel.modules.isr.isr", "Provides ISR support for the kernel (CORE)");
 	char** deps;
 	deps[0] = "kernel.modules.idt.idt";
@@ -82,7 +81,7 @@ void isr_install() {
 	
 	INIT(modules_isr_isr);
 
-	modify_task(TASK_STATE_ENDED);
+	 
 }
 
 char *exception_messages[] = {

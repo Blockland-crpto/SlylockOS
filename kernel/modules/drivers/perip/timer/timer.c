@@ -4,7 +4,7 @@
 #include <drivers/io/ports.h>
 #include <string.h>
 #include <system/mod.h>
-#include <system/task.h>
+ 
 
 #define FREQ 100
 
@@ -32,7 +32,6 @@ void timer_handler(struct regs *r){
 
 //let's install timer handler into IRQ0
 void timer_install(){
-	create_task("timer_installer", TASK_PRIORITY_KERNEL, TASK_ID_KERNEL);
     module_t modules_timer_timer = MODULE("kernel.modules.timer.timer", "Adds PIT support for the kernel (CORE)");
 	char** deps;
 	deps[0] = "kernel.modules.isr.isr";
@@ -41,7 +40,7 @@ void timer_install(){
     timer_phase(FREQ);
     irq_install_handler(0, timer_handler);
     INIT(modules_timer_timer);
-	modify_task(TASK_STATE_ENDED);
+	 
 }
 
 void timer_wait(int val){

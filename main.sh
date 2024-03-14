@@ -1,5 +1,9 @@
+mkdir lib
+./libc_build.sh
+./libtui_build.sh
 sources=$(find ./kernel/* -type f -name "*.c")
-headers=$(find ./kernel/* -type f -name "*.h")
+headers=$(find ./include/* -type f -name "*.h")
+libaries=$(find ./lib/* -type f -name "*.a")
 objects=$(echo ${sources//\.c/.o})
 objb=''
 char=' '
@@ -11,11 +15,12 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $objects | cut -d" " -f$i )))
 tb=$(echo $sources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./kernel/modules/include -fno-stack-protector -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/libc -I./include/libtui -Llib -Wl,-rpath,lib -static -lmlibc -libtui -fno-stack-protector  -c -o $ta $tb
 done
 objb="${objb:1}"
 export LD_LIBRARY_PATH=/home/runner/MiniOS/
-ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o
+ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o $libaries
+
 rm -r iso
 
 mkdir iso
@@ -32,7 +37,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme ${headers}"
+inp="readme"
 res=''
 for word in $inp; do
 res="${res} ${word}"
@@ -42,5 +47,8 @@ done
 mv ./initrd.img ./iso/boot/os.initrd
 grub-mkrescue --output=minios.iso iso
 rm -r bin
+rm -r lib
+rm -r iso
+
 qemu-system-i386 -cdrom minios.iso -m 512M -hda floppy.img -device pci-bridge,chassis_nr=1,id=bridge1
 
