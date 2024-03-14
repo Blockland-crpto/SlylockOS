@@ -6,9 +6,5 @@
 typedef signed int ptrdiff_t;
 typedef unsigned int size_t;
 
-typedef unsigned long dword;
-typedef unsigned short word;
-
-typedef signed char byte;
 
 #endif

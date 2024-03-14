@@ -12,14 +12,14 @@
 unsigned int *acpiCheckRSDPtr(uint32_t *ptr) {
    char *sig = "RSD PTR ";
    struct RSDPtr *rsdp = (struct RSDPtr *) ptr;
-   byte *bptr;
-   byte check = 0;
+   signed char *bptr;
+   signed char check = 0;
    int i;
 
    if (memcmp(sig, rsdp, 8) == 0)
    {
 	  // check checksum rsdpd
-	  bptr = (byte *) ptr;
+	  bptr = (signed char  *) ptr;
 	  for (i=0; i<sizeof(struct RSDPtr); i++)
 	  {
 		 check += *bptr;

@@ -1,4 +1,4 @@
-sources=$(find ./libs/libc/* -type f -name "*.c")
+sources=$(find ./libs/flibc/* -type f -name "*.c")
 objects=$(echo ${sources//\.c/.o})
 objb=''
 char=' '
@@ -12,6 +12,6 @@ objb="${objb} ${ta}"
 gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/libc -fno-stack-protector -c -o $ta $tb
 done
 
-ar rcs lib/mlibc.a libcbin/*.o
+ar rcs lib/flibc.a libcbin/*.o
 
 rm -r libcbin

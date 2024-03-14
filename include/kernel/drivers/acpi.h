@@ -3,47 +3,47 @@
 
 #include <system/types.h>
 
-dword *SMI_CMD;
-byte ACPI_ENABLE;
-byte ACPI_DISABLE;
-dword *PM1a_CNT;
-dword *PM1b_CNT;
-word SLP_TYPa;
-word SLP_TYPb;
-word SLP_EN;
-word SCI_EN;
-byte PM1_CNT_LEN;
+unsigned long *SMI_CMD;
+signed char ACPI_ENABLE;
+signed char ACPI_DISABLE;
+unsigned long *PM1a_CNT;
+unsigned long *PM1b_CNT;
+uint16_t SLP_TYPa;
+uint16_t SLP_TYPb;
+uint16_t SLP_EN;
+uint16_t SCI_EN;
+signed char PM1_CNT_LEN;
 
 struct RSDPtr {
-   byte Signature[8];
-   byte CheckSum;
-   byte OemID[6];
-   byte Revision;
-   dword *RsdtAddress;
+   signed char Signature[8];
+   signed char CheckSum;
+   signed char OemID[6];
+   signed char Revision;
+   unsigned long *RsdtAddress;
 };
 
 struct FACP {
-   byte Signature[4];
-   dword Length;
-   byte unneded1[40 - 8];
-   dword *DSDT;
-   byte unneded2[48 - 44];
-   dword *SMI_CMD;
-   byte ACPI_ENABLE;
-   byte ACPI_DISABLE;
-   byte unneded3[64 - 54];
-   dword *PM1a_CNT_BLK;
-   dword *PM1b_CNT_BLK;
-   byte unneded4[89 - 72];
-   byte PM1_CNT_LEN;
+   signed char Signature[4];
+   unsigned long Length;
+   signed char unneded1[40 - 8];
+   unsigned long *DSDT;
+   signed char unneded2[48 - 44];
+   unsigned long *SMI_CMD;
+   signed char ACPI_ENABLE;
+   signed char ACPI_DISABLE;
+   signed char unneded3[64 - 54];
+   unsigned long *PM1a_CNT_BLK;
+   unsigned long *PM1b_CNT_BLK;
+   signed char unneded4[89 - 72];
+   signed char PM1_CNT_LEN;
 };
 
 struct MADT {
-   byte Signature[4];
-   dword Length;
-   byte Revision;
-   byte CheckSum;
-   byte OemID[6];
+   signed char Signature[4];
+   unsigned long Length;
+   signed char Revision;
+   signed char CheckSum;
+   signed char OemID[6];
    uint32_t localApicAddr;
 };
 

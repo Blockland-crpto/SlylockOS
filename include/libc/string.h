@@ -83,12 +83,7 @@ char* strcpy(char* destination, const char* source);
 	\returns The first instance of Y in X, or NULL
 */
 const char* strstr(const char* X, const char* Y);
-/**
-	\brief Converts a string to a integer
-	\param{in} str The string to convert
-	\returns The converted integer
-*/
-int atoi(char* str);
+
 /**
 	\brief Octal ASCII character to decimal converter
 	\param{in} n The character to convert

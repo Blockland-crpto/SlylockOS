@@ -37,7 +37,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme"
+inp="readme ./lib/flibc.a ./lib/libtui.a"
 res=''
 for word in $inp; do
 res="${res} ${word}"
