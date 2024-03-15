@@ -44,7 +44,7 @@ void kalloc_init();
 /**
   \brief Frees the memory of *firstbyte
 */
-void free(void *firstbyte);
+void kfree(void *firstbyte);
 /**
   \brief Allocates memory with the size being numbytes
 */

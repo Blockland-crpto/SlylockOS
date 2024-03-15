@@ -11,6 +11,11 @@
 #ifndef __STRING_H
 #define __STRING_H
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+
 static char *olds;
 
 
@@ -122,5 +127,9 @@ char* strdup(const char *s);
 	\returns 1 if it starts with `starts`, 0 otherwise
 */
 int starts_with(char* starts, char* s);
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
 
 #endif

@@ -3,6 +3,10 @@
 #ifndef __STDINT_H
 #define __STDINT_H
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 typedef char int8_t;
 typedef unsigned char uint8_t;
     
@@ -94,17 +98,28 @@ typedef unsigned long int uintmax_t;
 #define UINT_FAST32_MAX 4294967295
 #define UINT_FAST64_MAX 18446744073709551615
 
-
-
 #define INTPTR_MIN -32767
 #define INTPTR_MAX 32767
 
 #define UINTPTR_MAX 65535
 
-
 #define INTMAX_MIN -9223372036854775807
 #define INTMAX_MAX 9223372036854775807
 #define UINTMAX_MAX 18446744073709551615
 
+#define PTRDIFF_MIN -65535
+#define PTRDIFF_MAX 65535
+
+#define SIZE_MAX 65535
+
+#define WCHAR_MIN -127
+#define WCHAR_MAX 127
+
+#define WINT_MIN -32767
+#define WINT_MAX 32767
+
+#if defined(__cplusplus)
+} /* extern "C" */
 #endif
-    
+
+#endif

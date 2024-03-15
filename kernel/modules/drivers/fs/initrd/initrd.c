@@ -28,6 +28,21 @@ static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uin
    return size;
 } 
 
+static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer)
+{
+	if (node->flags & FS_DIRECTORY)
+		return 0; // Directories are read-only in this example
+
+	initrd_file_header_t *header = &file_headers[node->inode];
+	if (offset + size > header->length)
+		size = header->length - offset;
+
+	// Copy the data from the buffer to the initrd
+	memcpy((uint8_t *)(header->offset + offset), buffer, size);
+
+	return size;
+}
+
 static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index)
 {
    if (node == initrd_root && index == 0)
@@ -105,7 +120,7 @@ fs_node_t *initialise_initrd(uint32_t location)
        root_nodes[i].inode = i;
        root_nodes[i].flags = FS_FILE;
        root_nodes[i].read = &initrd_read;
-       root_nodes[i].write = 0;
+       root_nodes[i].write = &initrd_write;
        root_nodes[i].readdir = 0;
        root_nodes[i].finddir = 0;
        root_nodes[i].open = 0;

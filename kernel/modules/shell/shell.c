@@ -9,7 +9,7 @@
 #include <libtui.h>
 #include <system/kernel.h>
 #include <drivers/perip/keybrd.h>
- 
+#include <stdio.h>
 
 #define NULL ((char *)0)
 

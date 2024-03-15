@@ -1,6 +1,10 @@
 #ifndef __STDLIB_H
 #define __STDLIB_H
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
 
@@ -68,9 +72,17 @@ void *malloc(long numbytes);
 	\returns The random number
 */
 void *realloc(void *ptr, long numbytes);
+/**
+	\brief frees memory dynamicly
+	\param{in} ptr The pointer to free
+	\returns The random number
+*/
+void free(void *ptr);
 
 __attribute__((__noreturn__)) 
 void abort(void);
 
-
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
 #endif

@@ -32,7 +32,7 @@ void kalloc_init() {
   managed_memory_start = last_valid_address;
   has_initialized = 1;  
 }
-void free(void *firstbyte) {
+void kfree(void *firstbyte) {
   mem_control_block *mcb;
   mcb = firstbyte - asizeof(pmcb);
   mcb->is_available = 1;

@@ -4,6 +4,9 @@
 #define EDOM 2
 #define EILSEQ 3
 #define ERANGE 4
+#define EBADF 5
+#define EIO 6
+#define EINVAL 7
 
 int errno;
 
