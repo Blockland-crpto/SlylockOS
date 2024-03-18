@@ -55,6 +55,7 @@ typedef long long int int64_t;
 typedef unsigned long long int uint64_t;
 typedef unsigned int size_t;
 typedef size_t ssize_t;
+typedef long off_t;
 
 #endif
     

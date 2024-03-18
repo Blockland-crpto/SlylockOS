@@ -9,7 +9,6 @@
 
 
 void appinput_handler(char c, int userinputmode) {
-
 	if (userinputmode >= HELP_APP_ID && userinputmode <= HELP_APP_ID_NI) {
 		helpim(c, userinputmode);
 	} else if (userinputmode >= ABOUT_APP_ID && userinputmode <= ABOUT_APP_ID_NI) {

@@ -21,5 +21,6 @@ int fclose(FILE *stream) {
 		return EOF;
 	}
 	write_fs(stream->node, 0, size, buff);
+	free(stream);
 	return 0;
 }

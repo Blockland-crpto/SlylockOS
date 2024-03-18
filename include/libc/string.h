@@ -20,109 +20,29 @@ extern "C" {
 static char *olds;
 
 
-/**
-	\brief Swaps 2 strings
-*/
-void swap(char *x, char *y);
-/**
-	\brief Reverses a string
-	\param{in} buffer Buffer
-	\param{in} i Should most of the time be 0
-	\param{in} j Should most of the time be strlen(buffer);
-	\returns The reversed string
-*/
-char* reverse(char *buffer, int i, int j);
-/**
-	\brief Converts an integer into a string
-	\param{in} num The original number
-	\param{in} str Buffer
-	\param{in} base Should most of the time be 10. The base value of the number (e.g. 16 for hexadecimal).
-	\returns The converted string
-*/
 char *itoa(int num, char* str, int base);
-/**
-	\brief Gets the length of a string
-	\param{in} s The string
-	\returns The length of s
-*/
 int strlen(char s[]);
-/**
-	\brief Compares 2 strings
-
-	result == 0 if the contents are equal, 
-	result < 0 if the first character that does not match has a lower value in s1 than in s2,
-	result > 0 if the first character that does not match has a greater value in s1 than in s2.
-	\param{in} s1 String #1
-	\param{in} s2 String #2
-	\returns The resulting number (read the description)
-*/
 int strcmp(char s1[], char s2[]);
-/**
-	\brief Concatenates 2 strings
-
-	Destination is modified, the return value is not needed most of the time.
-	\param{in} destination The string to start with
-	\param{in} source The string to end with
-	\returns destination after the concatenation
-*/
 char* strcat(char* destination, const char* source);
-/**
-	\brief Gets the 1st token of a string if a string is passed, or the N-st element of the previous string if NULL is passed.
-	\param{in} str The string to tokenize
-	\param{in} delim The delimiter to split
-	\returns The first token of a string
-*/
 char *strtok(char* str, const char* delim);
-/**
-	\brief Duplicates a string
-
-	Destination is modified, the return value is not needed most of the time.
-	\param{in} destination The string to set to source
-	\param{in} source The string to be copied
-	\returns The value of destination, after the copying
-*/
 char* strcpy(char* destination, const char* source);
-/**
-	\brief Returns the first instance of Y in X, or NULL if Y is not found in X.
-	\param{in} X The string to get the first instance of
-	\param{in} Y The string that is the instance
-	\returns The first instance of Y in X, or NULL
-*/
 const char* strstr(const char* X, const char* Y);
-
-/**
-	\brief Octal ASCII character to decimal converter
-	\param{in} n The character to convert
-	\returns The resulting decimal
-*/
 int octtodec(int n);
 
-/**
-  \brief Copies first `count` bytes of data from src to dest
-*/
 unsigned char *memcpy(unsigned char *dest, const unsigned char *src, int count);
-/**
-  \brief Sets first `count` bytes of data from val to dest
-*/
 unsigned char *memset(unsigned char *dest, unsigned char val, int count);
-/**
-  \brief Same as memset, but with short*s instead of char*s
-*/
 unsigned short *memsetw(unsigned short *dest, unsigned short val, int count);
-/**
-  \brief Compares first `len` bytes of data of s1 and s2
-*/
 int memcmp(const void *s1, const void *s2, int len);
-/**
-  \brief Duplicates a string
-*/
 char* strdup(const char *s);
-
 char* strncpy(char* destination, const char* source, size_t num);
 
 
 // Non-standarized utility functions:
 
+//Exclusive library helper functions
+void swap(char *x, char *y);
+char* reverse(char *buffer, int i, int j);
+	
 /**
 	\brief Gets if a string starts with another string
 	\param{in} starts The string that it may/may not start with

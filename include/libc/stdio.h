@@ -9,12 +9,17 @@ extern "C" {
 #include <stddef.h>
 #include <stdbool.h>
 #include <drivers/fs/fs.h>
+#include <system/types.h>
 
 #define EOF -1
 #define BUFSIZ 1024
 
 #define FILENAME_MAX 512
 #define STREAM_MAX 8
+	
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
 
 //the file structure
 typedef struct {
@@ -36,6 +41,8 @@ typedef struct {
 FILE *stdin;   // Standard input stream
 FILE *stdout;  // Standard output stream
 FILE *stderr;  // Standard error stream
+
+
 	
 //clearerr implementation
 void clearerr(FILE *stream);
@@ -90,20 +97,80 @@ int fputs(const char *restrict s, FILE *restrict stream);
 
 //fread implementation
 size_t fread(void *restrict ptr, size_t size, size_t nitems, FILE *restrict stream);
-	
 
+//freopen implementation
+FILE *freopen(const char *restrict pathname, const char *restrict mode, FILE *restrict stream);
+
+//fscanf implementation
+int fscanf(FILE *restrict stream, const char *restrict format, ...);
+	
+//fseek implementation
+int fseek(FILE *stream, long offset, int whence);
+
+//fseeko implementation
+int fseeko(FILE *stream, off_t offset, int whence);
+
+//fsetpos implementation
+int fsetpos(FILE *stream, const fpos_t *pos);
+
+//ftell implementation
+long ftell(FILE *stream);
+
+//ftello implementation
+off_t ftello(FILE *stream);
+	
 //ftrylockfile implementation
 int ftrylockfile(FILE *file);
 
 //funlockfile implementation
 void funlockfile(FILE *file);
 
+//fwrite implementation
+size_t fwrite(const void *restrict ptr, size_t size, size_t nitems, FILE *restrict stream);
+
+//getc implementation
+int getc(FILE *stream);
+
+//getchar implementation
+int getchar(void);
+
+//getc_unlocked implementation
+int getc_unlocked(FILE *stream);
+
+//getchar_unlocked implementation
+int getchar_unlocked(void);
+
+//getdelim implementation
+ssize_t getdelim(char **restrict lineptr, size_t *restrict n, int delimiter, FILE *restrict stream);
+
+//gets implementation
+char *gets(char *s);
+
+
+	
+//getline implementation
+ssize_t getline(char **restrict lineptr, size_t *restrict n, FILE *restrict stream);
+	
+//putc_unlocked implementation
+int putc_unlocked(int c, FILE *stream);
+
+//putchar_unlocked implementation
+//To be added
+	
 //printf implementation
 int printf(const char *format, ...);
 
 //puts implementation
 int puts(const char *s);
 
+//scanf implementation
+int scanf(const char *restrict format, ...);
+
+//sscanf implementation
+int sscanf(const char *restrict str, const char *restrict format, ...);
+
+
+	
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif
