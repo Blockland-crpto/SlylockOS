@@ -8,6 +8,7 @@ lib/
 replt.nix
 
 floppy.img
+testdisk.img
 
 initrdgen
 

@@ -11,10 +11,11 @@
 #ifndef __STRING_H
 #define __STRING_H
 
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
+#include <stddef.h>
 
 static char *olds;
 
@@ -116,6 +117,8 @@ int memcmp(const void *s1, const void *s2, int len);
   \brief Duplicates a string
 */
 char* strdup(const char *s);
+
+char* strncpy(char* destination, const char* source, size_t num);
 
 
 // Non-standarized utility functions:

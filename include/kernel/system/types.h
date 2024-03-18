@@ -53,6 +53,8 @@ typedef long long int int64_t;
 	\brief Unsigned 64-bit integer type
 */
 typedef unsigned long long int uint64_t;
+typedef unsigned int size_t;
+typedef size_t ssize_t;
 
 #endif
     

@@ -1,6 +1,6 @@
 // initrd.c -- Defines the interface for and structures relating to the initial ramdisk.
 // Written for JamesM's kernel development tutorials.
-
+#include <system/mltb/multibootinfo.h>
 #include <drivers/fs/initrd.h>
 #include <system/mem.h>
 #include <system/types.h>
@@ -39,6 +39,48 @@ static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, ui
 
 	// Copy the data from the buffer to the initrd
 	memcpy((uint8_t *)(header->offset + offset), buffer, size);
+
+	return size;
+}
+
+
+static uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size)
+{
+	uint32_t location = *((uint32_t*)mbi->mods_addr);
+	if (nroot_nodes >= MAX_INITRD_FILES)
+		return 0; // Maximum number of files reached
+
+	// Create a new file header
+	initrd_file_header_t new_header;
+	strcpy(new_header.name, name);
+	new_header.length = size;
+	new_header.offset = new_header.length;
+	memcpy((uint8_t *)(location + sizeof(initrd_header_t) + (nroot_nodes * sizeof(initrd_file_header_t))), &new_header, sizeof(initrd_file_header_t));
+
+	// Copy the data from the buffer to the initrd
+	memcpy((uint8_t *)(location + new_header.offset), buffer, size);
+
+	// Update the initrd header
+	initrd_header->nfiles++;
+
+	// Update the file headers array
+	file_headers = (initrd_file_header_t *)(location + sizeof(initrd_header_t));
+
+	// Create a new file node
+	strcpy(root_nodes[nroot_nodes].name, name);
+	root_nodes[nroot_nodes].mask = root_nodes[nroot_nodes].uid = root_nodes[nroot_nodes].gid = 0;
+	root_nodes[nroot_nodes].length = size;
+	root_nodes[nroot_nodes].inode = nroot_nodes;
+	root_nodes[nroot_nodes].flags = FS_FILE;
+	root_nodes[nroot_nodes].read = &initrd_read;
+	root_nodes[nroot_nodes].write = &initrd_write;
+	root_nodes[nroot_nodes].readdir = 0;
+	root_nodes[nroot_nodes].finddir = 0;
+	root_nodes[nroot_nodes].open = 0;
+	root_nodes[nroot_nodes].close = 0;
+	root_nodes[nroot_nodes].impl = 0;
+
+	nroot_nodes++;
 
 	return size;
 }

@@ -33,17 +33,21 @@ typedef struct {
 	long offset;
 } fpos_t;
 
+FILE *stdin;   // Standard input stream
+FILE *stdout;  // Standard output stream
+FILE *stderr;  // Standard error stream
+	
 //clearerr implementation
 void clearerr(FILE *stream);
 
 //ctermid implementation (returns same thing irregardless of process)
 char *ctermid(char *s);
 
+//dprintf implementation
+int dprintf(fs_node_t *fd, const char *format, ...);
+
 //fclose implementation
 int fclose(FILE *stream);
-
-//fopen implementation (note this implementation only has R,A,W inputs for mode)
-FILE *fopen(const char *filename, const char *mode);
 
 //fdopen implementation (note this implementation only has R,A,W inputs for mode)
 FILE *fdopen(fs_node_t *fd, const char *mode);
@@ -59,7 +63,7 @@ int fflush(FILE *stream);
 
 //fgetc implementation
 int fgetc(FILE *stream);
-
+	
 //fgetpos implementation
 int fgetpos(FILE *restrict stream, fpos_t *restrict pos);
 
@@ -69,18 +73,33 @@ char *fgets(char *restrict s, int n, FILE *restrict stream);
 //flockfile implementation
 void flockfile(FILE *file);
 
+//fmemopen implementation
+FILE *fmemopen(void *restrict buf, size_t size, const char *restrict mode);
+	
+//fopen implementation (note this implementation only has R,A,W inputs for mode)
+FILE *fopen(const char *filename, const char *mode);
+
+//fprintf implementation
+int fprintf(FILE *stream, const char *format, ...);
+
+//fputc implementation
+int fputc(int c, FILE *stream);
+
+//fputs implementation
+int fputs(const char *restrict s, FILE *restrict stream);
+
+//fread implementation
+size_t fread(void *restrict ptr, size_t size, size_t nitems, FILE *restrict stream);
+	
+
 //ftrylockfile implementation
 int ftrylockfile(FILE *file);
 
 //funlockfile implementation
 void funlockfile(FILE *file);
 
-
-//fmemopen implementation
-//FILE *fmemopen(void *restrict buf, size_t size, const char *restrict mode);
-	
 //printf implementation
-void printf(char *format, ...);
+int printf(const char *format, ...);
 
 //puts implementation
 int puts(const char *s);

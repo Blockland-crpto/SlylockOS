@@ -23,6 +23,9 @@ ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o $libaries
 
 rm -r iso
 
+mkdir sys
+echo '' >> sys/membuf
+
 mkdir iso
 mkdir iso/boot
 mkdir iso/boot/grub
@@ -37,7 +40,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme ./lib/flibc.a ./lib/libtui.a"
+inp="readme ./lib/flibc.a ./lib/libtui.a ./sys/membuf"
 res=''
 for word in $inp; do
 res="${res} ${word}"
@@ -49,6 +52,8 @@ grub-mkrescue --output=minios.iso iso
 rm -r bin
 rm -r lib
 rm -r iso
+rm -r sys
 
-qemu-system-i386 -cdrom minios.iso -m 512M -hda floppy.img -device pci-bridge,chassis_nr=1,id=bridge1
+qemu-img create -f raw testdisk.img 32M
+qemu-system-i386 -cdrom minios.iso -m 512M -hda testdisk.img -device pci-bridge,chassis_nr=1,id=bridge1
 

@@ -11,13 +11,13 @@
 FILE *fdopen(fs_node_t* fd, const char *mode) {
 	FILE *file = (FILE *)malloc(sizeof(FILE));
 	if (file == NULL) {
-		errno = ENOMEM; // Out of memory error
+		// Out of memory error
 		return NULL;
 	}
 
 	file->stream = (char *)malloc(MAX_FILE_SIZE); // Allocate buffer for file content
 	if (file->stream == NULL) {
-		errno = ENOMEM; // Out of memory error
+		// Out of memory error
 		free(file);
 		return NULL;
 	}

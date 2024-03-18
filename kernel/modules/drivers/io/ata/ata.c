@@ -54,11 +54,11 @@ void sect_write_atapio(uint32_t LBA, uint8_t sector_count, uint32_t* bytes) {
 	}
 }
 
-static void wait_ata_bsy() {
+void wait_ata_bsy() {
 	while(in_port_byte(0x1F7)&STATUS_BSY);
 }
 
-static void wait_ata_drq() {
+void wait_ata_drq() {
 	while(!(in_port_byte(0x1F7)&STATUS_RDY));
 }
 

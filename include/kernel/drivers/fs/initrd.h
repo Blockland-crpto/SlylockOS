@@ -8,11 +8,15 @@
   \copyright MIT License.
 */
 
+
+
 #ifndef DRIVERS_FS_INITRD_H
 #define DRIVERS_FS_INITRD_H
 
 #include "fs.h"
 #include <system/types.h>
+
+#define MAX_INITRD_FILES 1000
 
 fs_node_t *initrd_root;             // Our root directory node.
 
@@ -49,6 +53,10 @@ typedef struct
    uint32_t offset;   // Offset in the initrd that the file starts.
    uint32_t length;   // Length of the file.
 } initrd_file_header_t;
+
+
+static uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size);
+static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 
 /**
    \brief       Standard initrd read function

@@ -22,6 +22,7 @@
 
 #include <drivers/fs/fs.h>
 
+
 #include <drivers/cpu/nmi.h>
 #include <drivers/cpu/cpuid.h>
 
@@ -67,8 +68,6 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	vga_init();
 	libc_init();
 	im_init();
-	
-	
   	//task_init();
 
   	__asm__ __volatile__("sti");

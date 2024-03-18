@@ -3,12 +3,12 @@
 #include <drivers/vga.h>
 #include <stdarg.h>
 
-void printf(char *format, ...) {
+int printf(const char *format, ...) {
 	va_list ap;
 	va_start(ap, format);
 
 	char *ptr = format;
-
+	int len = 0;
 	while(*ptr) {
 		if (*ptr == '%') {
 			ptr++;
@@ -23,11 +23,15 @@ void printf(char *format, ...) {
 				case 'x':
 					kprintf(itoa(va_arg(ap, char *), buf, 16));
 					break;
+				default:
+					return -1;
 			}
 		} else {
 			kprintc(*ptr++);
+			len++;
 		}
 	}
 
 	va_end(ap);
+	return len-1;
 }
