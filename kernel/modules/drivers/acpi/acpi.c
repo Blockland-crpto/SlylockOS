@@ -6,39 +6,30 @@
 #include <drivers/vga.h>
 #include <system/debug.h>
 #include <string.h>
-
-#define NULL ((char * ) 0)
+#include <stddef.h>
 
 unsigned int *acpiCheckRSDPtr(uint32_t *ptr) {
-   char *sig = "RSD PTR ";
-   struct RSDPtr *rsdp = (struct RSDPtr *) ptr;
-   signed char *bptr;
-   signed char check = 0;
-   int i;
+	const char *sig = "RSD PTR ";
+	struct RSDPtr *rsdp = (struct RSDPtr *) ptr;
 
-   if (memcmp(sig, rsdp, 8) == 0)
-   {
-	  // check checksum rsdpd
-	  bptr = (signed char  *) ptr;
-	  for (i=0; i<sizeof(struct RSDPtr); i++)
-	  {
-		 check += *bptr;
-		 bptr++;
-	  }
 
-	  // found valid rsdpd   
-	  if (check == 0) {
-		 /*
-		  if (desc->Revision == 0)
-			wrstr("acpi 1");
-		 else
-			wrstr("acpi 2");
-		 */
-		 return (unsigned int *) rsdp->RsdtAddress;
-	  }
-   }
+   	if (memcmp(sig, rsdp, 8) == 0) {
+		unsigned char check = 0;
+	  	if (sizeof(struct RSDPtr) <= sizeof(*ptr)) {
+			unsigned char *bptr = (unsigned char *)rsdp;
+			for (size_t i = 0; i < 20; i++) {
+				check += *bptr;
+			   	bptr++;
+			}
+	  	}
 
-   return NULL;
+	  	// found valid rsdpd   
+	  	if (check == 0) {
+			return (unsigned int *) rsdp->RsdtAddress;
+	  	}
+	}
+
+   	return NULL;
 }
 
 unsigned int *acpiGetRSDPtr(void) {
