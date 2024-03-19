@@ -13,7 +13,9 @@ int fseek(FILE *stream, long offset, int whence) {
 		stream->position += offset;
 		return 0;
 	} else if (whence == SEEK_END) {
-		stream->position -= offset;
+		stream->position = stream->length - offset;
 		return 0;
 	}
+
+	return 1;
 }

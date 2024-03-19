@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h>
 #include <stdbool.h>
-#include <errno.h>
-#include <drivers/fs/fs.h>
-
 
 void flockfile(FILE *file) {
-	file->locked = true;
-	return;
+	if (file != NULL) {
+		if (!file->locked) {
+			file->locked = true;
+		}
+	}
 }

@@ -94,6 +94,9 @@ int fscanf(FILE *restrict stream, const char *restrict format, ...) {
 				}
 				count++;
 			}
+			while (isspace(*ptr)) {
+				ptr++;
+			}
 			// Add more format specifiers as needed
 		}
 		ptr++;  // Move to next format specifier or character

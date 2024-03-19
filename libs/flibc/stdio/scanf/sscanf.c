@@ -2,7 +2,6 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-
 static int my_sscanf_int(const char **str, int *result) {
 	int value = 0;
 	int sign = 1;
@@ -14,7 +13,7 @@ static int my_sscanf_int(const char **str, int *result) {
 	}
 
 	// Read digits
-	while (**str != '\0' && isdigit(**str)) {
+	while (isdigit(**str)) {
 		value = value * 10 + (**str - '0');
 		(*str)++;  // Move to next character in input string
 	}
@@ -25,6 +24,11 @@ static int my_sscanf_int(const char **str, int *result) {
 
 static int my_sscanf_string(const char **str, char *result) {
 	int count = 0;
+
+	// Skip leading whitespace
+	while (isspace(**str)) {
+		(*str)++;  // Move to next character in input string
+	}
 
 	// Read characters until whitespace
 	while (**str != '\0' && !isspace(**str)) {
@@ -46,7 +50,7 @@ int sscanf(const char *restrict str, const char *restrict format, ...) {
 	int count = 0; // Number of successfully matched and assigned input items
 	const char *ptr = format;
 
-	while (*ptr != '\0') {
+	while (*ptr != '\0' && *str != '\0') {
 		if (*ptr != '%') {
 			// Regular character, match with input string
 			if (*str != *ptr) {

@@ -14,5 +14,6 @@ int fflush(FILE *stream) {
 		return EOF;
 	}
 	write_fs(stream->node, 0, size, buff);
+	stream->position = 0;
 	return 0;
 }

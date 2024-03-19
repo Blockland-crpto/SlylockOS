@@ -12,19 +12,26 @@ int printf(const char *format, ...) {
 	while(*ptr) {
 		if (*ptr == '%') {
 			ptr++;
-			char* buf;
+			int num;
+			char* str;
+			char buf[256];
 			switch (*ptr++) {
-				case 's':
-					kprintf(va_arg(ap, char *));
+				case 's': {
+					kprintf(va_arg(ap, const char *));
 					break;
-				case 'd':
-					kprintf(itoa(va_arg(ap, char *), buf, 10));
+				} case 'd': {
+					num = va_arg(ap, int);
+					str = itoa(num, buf, 10);
+					kprintf(str);
 					break;
-				case 'x':
-					kprintf(itoa(va_arg(ap, char *), buf, 16));
+				} case 'x': {
+					num = va_arg(ap, int);
+					str = itoa(num, buf, 16);
+					kprintf(str);
 					break;
-				default:
+				} default: {
 					return -1;
+				}
 			}
 		} else {
 			kprintc(*ptr++);
@@ -33,5 +40,5 @@ int printf(const char *format, ...) {
 	}
 
 	va_end(ap);
-	return len-1;
+	return len;
 }

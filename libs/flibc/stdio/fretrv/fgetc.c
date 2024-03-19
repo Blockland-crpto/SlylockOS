@@ -7,16 +7,24 @@
 #include <drivers/fs/fs.h>
 
 int fgetc(FILE *stream) {
-	uint8_t buf;
-	if (strchr(stream->mode, "r") == NULL) {
+	if (strchr(stream->mode, 'r') == NULL) {
 		errno = EBADF;
 		return EOF;
 	}
-	read_fs(stream->node, stream->position, 1, buf);
-	if (buf == EOF) {
-		strcat((char*)stream->stream, EOF);
-		return EOF;
+
+	if (stream->position >= stream->node->length) {
+		return EOF; // End of file
 	}
+	
+	uint8_t buf;
+	uint32_t sz = read_fs(stream->node, stream->position, 1, &buf);
+
+	
+	if (sz == 0xFFFFFFFF) {
+		return EOF; //File reading error
+	}
+
+	stream->position++;
 	return (int)buf; 
 	
 }

@@ -4,6 +4,8 @@
 #include <drivers/fs/fs.h>
 
 
+//REQUIRES REWRITE
+
 int dprintf(fs_node_t *fd, const char *format, ...) {
 	uint8_t *fbuf = (uint8_t*)malloc(fd->length);
 	uint32_t startsize = read_fs(fd, 0, fd->length, fbuf);

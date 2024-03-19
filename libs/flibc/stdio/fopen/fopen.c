@@ -28,19 +28,40 @@ FILE *fopen(const char *filename, const char *mode) {
 	}
 	
 	if (strchr(mode, 'r') != NULL) {
-		read_fs(fsnode, 0, fsnode->length, buff);
+		uint32_t sz = read_fs(fsnode, 0, fsnode->length, buff);
+		if (sz == 0xFFFFFFFF) {
+			//File does not exist 
+			free(buff);
+			free(file);
+			return NULL;
+		}
 		file->mode = 'r';
 		// Handle reading data into the buffer
+		fsetpos(file, (fpos_t*)0);
 	}
 
 	if (strchr(mode, 'w') != NULL) {
-		read_fs(fsnode, 0, fsnode->length, buff);
+		uint32_t sz = read_fs(fsnode, 0, fsnode->length, buff);
+		if (sz == 0xFFFFFFFF) {
+			//File does not exist 
+			free(buff);
+			free(file);
+			return NULL;
+		}
 		file->mode = 'w';
 		// Handle writing data
+		fsetpos(file, (fpos_t*)0);
 	}
 
 	if (strchr(mode, 'a') != NULL) {
-		read_fs(fsnode, 0, fsnode->length, buff);
+		uint32_t sz = read_fs(fsnode, 0, fsnode->length, buff);
+		if (sz == 0xFFFFFFFF) {
+			//File does not exist 
+			free(buff);
+			free(file);
+			return NULL;
+		}
+		fsetpos(file, (fpos_t*)fsnode->length);
 		file->mode = 'a';
 		// Handle appending data
 	}
@@ -49,6 +70,7 @@ FILE *fopen(const char *filename, const char *mode) {
 	file->node = fsnode;
 	file->mode = mode;
 	file->stream = buff; // Store the buffer in the file stream
-
+	
+	free(buff);
 	return file;
 }

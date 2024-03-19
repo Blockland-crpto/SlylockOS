@@ -1,20 +1,22 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
 
 char *gets(char *s) {
 	if (s == NULL) {
 		return NULL;
 	}
 
-	int c;
-	char *p = s;
-	while ((c = getchar()) != '\n' && c != EOF) {
-		*p++ = c;
+	// Use fgets to read at most one less than the size of the buffer
+	if (fgets(s, SIZE_MAX, stdin) == NULL) {
+		return NULL;  // Error or end of file
 	}
 
-	if (c == EOF && p == s) {
-		return NULL;  // No characters read, EOF reached
+	// Remove the newline character if it was read
+	size_t len = strlen(s);
+	if (len > 0 && s[len - 1] == '\n') {
+		s[len - 1] = '\0';
 	}
 
-	*p = '\0';  // Null-terminate the string
 	return s;
 }

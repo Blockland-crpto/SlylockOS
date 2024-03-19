@@ -1,10 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <stddef.h>
-#include <errno.h>
-#include <drivers/fs/fs.h>
 
 char *fgets(char *restrict s, int n, FILE *restrict stream) {
 	int c;
@@ -19,6 +13,10 @@ char *fgets(char *restrict s, int n, FILE *restrict stream) {
 		if (c == '\n') {
 			break;
 		}
+	}
+
+	if (i == 0 && c == EOF) {
+		return NULL; // No characters read and EOF reached
 	}
 
 	s[i] = '\0'; // Null-terminate the string

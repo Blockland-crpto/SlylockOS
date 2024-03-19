@@ -22,15 +22,35 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 		return NULL;
 	}
 
+	
 	if (strchr(mode, 'r') != NULL) {
-		read_fs(fd, 0, fd->length, file->stream);
+		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);
+		if (sz == 0xFFFFFFFF) {
+			//File does not exist 
+			free(file->stream);
+			free(file);
+			return NULL;
+		}
+		fsetpos(file, (fpos_t*)0);
 	} else if (strchr(mode, 'w') != NULL) {
-		// Clear the file content if opened in write mode
-		memset(file->stream, 0, MAX_FILE_SIZE);
+		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);
+		if (sz == 0xFFFFFFFF) {
+			//File does not exist 
+			free(file->stream);
+			free(file);
+			return NULL;
+		}
+		fsetpos(file, (fpos_t*)0);
 	} else if (strchr(mode, 'a') != NULL) {
 		// Append to the existing file content if opened in append mode
-		uint32_t offset = strlen(file->stream);
-		read_fs(fd, offset, fd->length - offset, file->stream + offset);
+		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);
+		if (sz == 0xFFFFFFFF) {
+			//File does not exist 
+			free(file->stream);
+			free(file);
+			return NULL;
+		}
+		fsetpos(file, (fpos_t*)fd->length);
 	} else {
 		errno = EINVAL; // Invalid mode error
 		free(file->stream);

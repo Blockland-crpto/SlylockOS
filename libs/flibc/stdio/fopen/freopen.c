@@ -1,20 +1,29 @@
-#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdint.h>
-#include <errno.h>
 #include <stddef.h>
-#include <drivers/fs/fs.h>
 
 //add error handling
 FILE *freopen(const char *restrict pathname, const char *restrict mode, FILE *restrict stream) {
-	fflush(stream);
+	if (stream == NULL) {
+		return NULL;
+	}
+	int result = fflush(stream);
+	if (result == EOF) {
+		return NULL;
+	}
 	if (pathname != NULL) {
-		fclose(stream);
+		int result = fclose(stream);
+		if (result == EOF) {
+			return NULL;
+		}
 		clearerr(stream);
 		FILE* newstream = fopen(pathname, mode);
+		if (newstream == NULL) {
+			return NULL;
+		}
 		return newstream;
 	} else {
+		//TODO: set the stream to be unbuffered
 		stream->mode = mode;
 	}
 	

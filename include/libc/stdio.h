@@ -23,6 +23,8 @@ extern "C" {
 
 //the file structure
 typedef struct {
+	int eof;
+	int error;
 	char* name;
 	char* mode;
 	bool locked;

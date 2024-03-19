@@ -1,12 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
-#include <drivers/fs/fs.h>
-
+#include <stdlib.h>
 
 int fprintf(FILE* stream, const char *format, ...) {
-	uint8_t *fbuf = (uint8_t*)malloc(stream->node->length);
-	uint32_t startsize = read_fs(stream->node, 0, stream->node->length, fbuf);
 	va_list ap;
 	va_start(ap, format);
 
@@ -15,26 +12,33 @@ int fprintf(FILE* stream, const char *format, ...) {
 	while(*ptr) {
 		if (*ptr == '%') {
 			ptr++;
-			char* buf;
+			char buf[256];
+			int num;
+			char* str;
 			switch (*ptr++) {
-				case 's':
-					write_fs(stream->node, startsize, stream->node->length, (uint8_t*)va_arg(ap, char *));
+				case 's': {
+					fputs(va_arg(ap, const char *), stream);
 					break;
-				case 'd':
-					write_fs(stream->node, startsize, stream->node->length, (uint8_t*)itoa(va_arg(ap, char *), buf, 10));
+				} case 'd': {
+					num = va_arg(ap, int);
+					str = itoa(num, buf, 10);
+					fputs(str, stream);
 					break;
-				case 'x':
-					write_fs(stream->node, startsize, stream->node->length, (uint8_t*)itoa(va_arg(ap, char *), buf, 16));
+				} case 'x':
+					num = va_arg(ap, int);
+					str = itoa(num, buf, 16);
+					fputs(str, stream);
 					break;
-				default:
+				default: {
 					return -1;
+				}
 			}
 		} else {
-			write_fs(stream->node, startsize, stream->node->length, (uint8_t*)*ptr++);
-			len++;
+			fputc(*ptr++, stream);
 		}
+		len++;
 	}
 
 	va_end(ap);
-	return len-1;
+	return len;
 }

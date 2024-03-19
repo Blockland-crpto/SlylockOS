@@ -7,9 +7,9 @@
 #include <drivers/fs/fs.h>
 
 int fgetpos(FILE *restrict stream, fpos_t *restrict pos) {
-	if (stream->node->length == NULL) {
+	if (stream == NULL || stream->node == NULL) {
 		errno = EBADF;
-		return 1;
+		return 1; // Invalid stream
 	}
 	pos->offset = stream->position;
 	pos->file = stream;

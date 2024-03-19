@@ -25,6 +25,7 @@ ssize_t getdelim(char **restrict lineptr, size_t *restrict n, int delimiter, FIL
 				return -1;  // Reallocation error
 			}
 			line = new_line;
+			*n = bufsize;
 		}
 
 		line[len++] = c;
@@ -41,5 +42,5 @@ ssize_t getdelim(char **restrict lineptr, size_t *restrict n, int delimiter, FIL
 	line[len] = '\0';  // Null-terminate the string
 	*lineptr = line;
 	*n = bufsize;
-	return len;
+	return (ssize_t)len;
 }
