@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-int isdigit(char c);
-int isspace(char c);
+	int isdigit(char c);
+	int isspace(char c);
 
 #if defined(__cplusplus)
 } /* extern "C" */

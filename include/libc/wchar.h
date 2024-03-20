@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-typedef int wint_t;
+	typedef int wint_t;
 
 #if defined(__cplusplus)
 } /* extern "C" */
