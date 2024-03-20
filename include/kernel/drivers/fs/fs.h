@@ -64,6 +64,12 @@
 #define FS_MOUNTPOINT  0x08
 
 /**
+  \typedef uint32_t (*rename_type_t)(struct fs_node*,char*)
+  \brief This is equal to read_type_t.
+*/
+typedef uint32_t (*rename_type_t)(struct fs_node*,char*);
+
+/**
   \typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*)
   \brief This is equal to write_type_t.
 */
@@ -74,18 +80,22 @@ typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
   \brief This is equal to read_type_t.
 */
 typedef uint32_t (*write_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+
 /**
   \typedef void (*open_type_t)(struct fs_node*)
   \brief This is equal to close_type_t.
 */
 typedef void (*open_type_t)(struct fs_node*);
+
 /**
   \typedef void (*close_type_t)(struct fs_node*)
   \brief This is equal to open_type_t.
 */
 typedef void (*close_type_t)(struct fs_node*);
 
+
 typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
+
 typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char *name); 
 
 /**
@@ -103,11 +113,12 @@ typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char *name);
 	VIII. An implementation-defined number
 	IX. read: Read function, if the node is a file
 	X. write: Write function, if the node is a file
-	XI. open: Open function, if the node is a file
-	XII. close: Close function, if the node is a file
-	XIII. readdir: Read function, if the node is a directory
-	XIV. finddir: Find directory function
-	XV. ptr: Used by mountpoints and symbolic links
+	XI. rename: Rename function, if the node is a file
+	XII. open: Open function, if the node is a file
+	XIII. close: Close function, if the node is a file
+	XIV. readdir: Read function, if the node is a directory
+	XV. finddir: Find directory function
+	XVI. ptr: Used by mountpoints and symbolic links
 */
 typedef struct fs_node
 {
@@ -121,6 +132,7 @@ typedef struct fs_node
    uint32_t impl;
    read_type_t read;
    write_type_t write;
+   rename_type_t rename;
    open_type_t open;
    close_type_t close;
    readdir_type_t readdir;
@@ -147,39 +159,22 @@ struct dirent
 
 extern fs_node_t *fs_root; // The root of the filesystem.
 
-/** 
-   \brief       Standard read function
+uint32_t create_file_fs(char *name, uint8_t *buffer, uint32_t size);
 
-   Standard read function. Note that these are all suffixed with _fs to distinguish them from the read/write/open/close which deal with file descriptors.
-   \param{in}   node The node to read from
-   \param{in}   offset The offset for `node`
-   \param{in}   size The amount of bytes to read after `offset`.
-   \param{out}  buffer The resulting buffer of characters, in uint8_t* form.
-   \returns The size of the buffer.
-*/
+uint32_t delete_file_fs(char *name);
+
+uint32_t rename_file_fs(fs_node_t *node, char *name);
+
 uint32_t read_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
-/**
-   \brief       Standard write function
 
-   Standard write function. Note that these are all suffixed with _fs to distinguish them from the read/write/open/close which deal with file descriptors.
-   \param{in}   node The node to write to
-   \param{in}   offset The offset for `node`
-   \param{in}   size The amount of bytes to read after `offset`.
-   \param{in}   buffer The buffer of characters to be written, in uint8_t* form.
-   \returns The size of the buffer.
-*/
 uint32_t write_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
-void open_fs(fs_node_t *node, uint8_t read, uint8_t write);
-void close_fs(fs_node_t *node);
-struct dirent *readdir_fs(fs_node_t *node, uint32_t index);
-/** 
-   \brief      Finds a file in a path with the name `name`.
 
-   This function finds a file in the provided path with the name being `name`. 
-   \param{in}  node The directory to find in
-   \param{in}  name The name of the file
-   \returns    The fs_node_t version of the filename.
-*/
+void open_fs(fs_node_t *node, uint8_t read, uint8_t write);
+
+void close_fs(fs_node_t *node);
+
+struct dirent *readdir_fs(fs_node_t *node, uint32_t index);
+
 fs_node_t *finddir_fs(fs_node_t *node, char *name); 
 
 #endif

@@ -1,5 +1,4 @@
 // initrd.c -- Defines the interface for and structures relating to the initial ramdisk.
-// Written for JamesM's kernel development tutorials.
 #include <system/mltb/multibootinfo.h>
 #include <drivers/fs/initrd.h>
 #include <system/mem.h>
@@ -17,35 +16,7 @@ int nroot_nodes;                    // Number of file nodes.
 
 struct dirent dirent; 
 
-static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer)
-{
-   initrd_file_header_t header = file_headers[node->inode];
-   if (offset > header.length)
-       return 0;
-   if (offset+size > header.length)
-       size = header.length-offset;
-   memcpy(buffer, (uint8_t*) (header.offset+offset), size);
-   return size;
-} 
-
-static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer)
-{
-	if (node->flags & FS_DIRECTORY)
-		return 0; // Directories are read-only in this example
-
-	initrd_file_header_t *header = &file_headers[node->inode];
-	if (offset + size > header->length)
-		size = header->length - offset;
-
-	// Copy the data from the buffer to the initrd
-	memcpy((uint8_t *)(header->offset + offset), buffer, size);
-
-	return size;
-}
-
-
-static uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size)
-{
+uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size) {
 	uint32_t location = *((uint32_t*)mbi->mods_addr);
 	if (nroot_nodes >= MAX_INITRD_FILES)
 		return 0; // Maximum number of files reached
@@ -74,6 +45,7 @@ static uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size)
 	root_nodes[nroot_nodes].flags = FS_FILE;
 	root_nodes[nroot_nodes].read = &initrd_read;
 	root_nodes[nroot_nodes].write = &initrd_write;
+	root_nodes[nroot_nodes].rename = &initrd_rename_file;
 	root_nodes[nroot_nodes].readdir = 0;
 	root_nodes[nroot_nodes].finddir = 0;
 	root_nodes[nroot_nodes].open = 0;
@@ -85,8 +57,85 @@ static uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size)
 	return size;
 }
 
-static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index)
-{
+uint32_t initrd_delete_file(char *name) {
+	uint32_t location = *((uint32_t*)mbi->mods_addr);
+
+	// Find the file header for the file to delete
+	initrd_file_header_t* header = NULL;
+	for (uint32_t i = 0; i < initrd_header->nfiles; i++) {
+		initrd_file_header_t* current_header = (initrd_file_header_t*)(location + sizeof(initrd_header_t) + (i * sizeof(initrd_file_header_t)));
+		if (strcmp(current_header->name, name) == 0) {
+			header = current_header;
+			break;
+		}
+	}
+
+	if (header == NULL) {
+		return 0; // File not found
+	}
+
+	// Update the initrd header
+	initrd_header->nfiles--;
+
+	// Shift the remaining file headers to remove the deleted file
+	for (uint32_t i = 0; i < initrd_header->nfiles; i++) {
+		initrd_file_header_t* current_header = (initrd_file_header_t*)(location + sizeof(initrd_header_t) + ((i + 1) * sizeof(initrd_file_header_t)));
+		memcpy((uint8_t *)(location + sizeof(initrd_header_t) + (i * sizeof(initrd_file_header_t))), current_header, sizeof(initrd_file_header_t));
+	}
+
+	// Clear the last file header
+	memset((uint8_t *)(location + sizeof(initrd_header_t) + (initrd_header->nfiles * sizeof(initrd_file_header_t))), 0, sizeof(initrd_file_header_t));
+
+	// Update the file headers array
+	file_headers = (initrd_file_header_t *)(location + sizeof(initrd_header_t));
+
+	// Find and remove the file node
+	for (uint32_t i = 0; i < nroot_nodes; i++) {
+		if (strcmp(root_nodes[i].name, name) == 0) {
+			// Shift the remaining file nodes to remove the deleted file
+			for (uint32_t j = i; j < nroot_nodes - 1; j++) {
+				root_nodes[j] = root_nodes[j + 1];
+			}
+			nroot_nodes--;
+			break;
+		}
+	}
+
+	return header->length;
+}
+
+static uint32_t initrd_rename_file(fs_node_t *node, char *name) {
+	initrd_file_header_t header = file_headers[node->inode];
+	strcpy(header.name, name);
+	strcpy(node->name, name);
+	return 0;
+}
+
+static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
+	if (node->flags & FS_DIRECTORY)
+		return 0; // Directories are read-only in this example
+
+	initrd_file_header_t *header = &file_headers[node->inode];
+	if (offset + size > header->length)
+		size = header->length - offset;
+
+	// Copy the data from the buffer to the initrd
+	memcpy((uint8_t *)(header->offset + offset), buffer, size);
+
+	return size;
+}
+
+static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
+   initrd_file_header_t header = file_headers[node->inode];
+   if (offset > header.length)
+       return 0;
+   if (offset+size > header.length)
+       size = header.length-offset;
+   memcpy(buffer, (uint8_t*) (header.offset+offset), size);
+   return size;
+} 
+
+static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
    if (node == initrd_root && index == 0)
    {
      strcpy(dirent.name, "dev");
@@ -103,8 +152,7 @@ static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index)
    return &dirent;
 }
 
-static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
-{
+static fs_node_t *initrd_finddir(fs_node_t *node, char *name) {
 
    int i;
    for (i = 0; i < nroot_nodes; i++)
@@ -113,8 +161,7 @@ static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
    return 0;
 } 
 
-fs_node_t *initialise_initrd(uint32_t location)
-{
+fs_node_t *initialise_initrd(uint32_t location) {
 	module_t modules_initrd_initrd = MODULE("kernel.modules.initrd.initrd", "Provides initrd support for the kernel");
    // Initialise the main and file header pointers and populate the root directory.
    initrd_header = (initrd_header_t *)location;
@@ -163,6 +210,7 @@ fs_node_t *initialise_initrd(uint32_t location)
        root_nodes[i].flags = FS_FILE;
        root_nodes[i].read = &initrd_read;
        root_nodes[i].write = &initrd_write;
+	   root_nodes[i].rename = &initrd_rename_file;
        root_nodes[i].readdir = 0;
        root_nodes[i].finddir = 0;
        root_nodes[i].open = 0;

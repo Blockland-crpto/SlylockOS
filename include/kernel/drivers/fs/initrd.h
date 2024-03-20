@@ -55,7 +55,47 @@ typedef struct
 } initrd_file_header_t;
 
 
-static uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size);
+/**
+   \brief       Standard initrd file creation function
+
+   Standard initrd file creation function.
+   \param{in}   name The name of the file
+   \param{in}   buffer The buffer of characters to be written, in uint8_t* form.
+   \param{in}   size The size of the new file.
+   \returns The size of the file
+*/
+uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size);
+
+/**
+   \brief       Standard initrd file deletion function
+
+   Standard initrd file deletion function.
+   \param{in}   name The name of the file
+   \returns 0 if successful.
+*/
+uint32_t initrd_delete_file(char *name);
+
+/**
+   \brief       File renaming function
+
+   Standard initrd read function.
+   \param{in}   node The node to write to
+   \param{in}   offset The offset for `node`
+   \param{in}   size The amount of bytes to write after `offset`.
+   \param{in}   buffer The buffer of characters to be written, in uint8_t* form.
+   \returns 0 if successful.
+*/
+static uint32_t initrd_rename_file(fs_node_t *node, char *name);
+/**
+   \brief       Standard initrd write function
+
+   Standard initrd write function.
+   \param{in}   node The node to write to
+   \param{in}   offset The offset for `node`
+   \param{in}   size The amount of bytes to write after `offset`.
+   \param{in}   buffer The buffer of characters to be written, in uint8_t* form.
+   \returns The size of the buffer.
+*/
 static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 
 /**
