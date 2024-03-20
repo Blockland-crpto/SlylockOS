@@ -145,13 +145,17 @@ int getchar_unlocked(void);
 //getdelim implementation
 ssize_t getdelim(char **restrict lineptr, size_t *restrict n, int delimiter, FILE *restrict stream);
 
+//getline implementation
+ssize_t getline(char **restrict lineptr, size_t *restrict n, FILE *restrict stream);
+	
 //gets implementation
 char *gets(char *s);
 
+//open_memstream implementation
+FILE *open_memstream(char **bufp, size_t *sizep);
 
 	
-//getline implementation
-ssize_t getline(char **restrict lineptr, size_t *restrict n, FILE *restrict stream);
+
 	
 //putc_unlocked implementation
 int putc_unlocked(int c, FILE *stream);
