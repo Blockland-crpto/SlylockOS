@@ -2,7 +2,7 @@
 #include <libtui.h>
 #include <drivers/perip/keybrd.h>
 #include <string.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <stdio.h>
 #include <drivers/perip/timer.h>
 #include <system/kernel.h>

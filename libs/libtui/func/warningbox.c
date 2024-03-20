@@ -1,7 +1,7 @@
 #include <drivers/vga.h>
 #include <drivers/perip/keybrd.h>
 #include <libtui.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 
 void warning_box(char *title, char *cont) {
 	userinputmode = WARN_BOX_ID;

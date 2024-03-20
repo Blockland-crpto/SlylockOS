@@ -1,7 +1,7 @@
 #include <drivers/vga.h>
 #include <drivers/perip/keybrd.h>
 #include <libtui.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <system/kernel.h>
 
 void textbox(char *title, char *cont, int callerid) {

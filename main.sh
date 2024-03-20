@@ -1,6 +1,7 @@
 mkdir lib
 ./libc_build.sh
 ./libtui_build.sh
+./libsdk_build.sh
 sources=$(find ./kernel/* -type f -name "*.c")
 headers=$(find ./include/* -type f -name "*.h")
 libaries=$(find ./lib/* -type f -name "*.a")
@@ -15,7 +16,7 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $objects | cut -d" " -f$i )))
 tb=$(echo $sources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/libc -I./include/libtui -Llib -Wl,-rpath,lib -static -lmlibc -libtui -fno-stack-protector  -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/libc -I./include/libtui -I./include/libsdk -fno-stack-protector  -c -o $ta $tb
 done
 objb="${objb:1}"
 export LD_LIBRARY_PATH=/home/runner/MiniOS/
@@ -40,7 +41,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme ./lib/flibc.a ./lib/libtui.a ./sys/membuf"
+inp="readme ./lib/flibc.a ./lib/libtui.a ./lib/libsdk.a ./sys/membuf"
 res=''
 for word in $inp; do
 res="${res} ${word}"

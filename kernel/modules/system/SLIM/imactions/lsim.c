@@ -1,7 +1,8 @@
 #include <system/im.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <drivers/perip/keybrd.h>
 #include <libtui.h>
+#include <libsdk.h>
 #include <system/debug.h>
 
 void lsim(char c, int userinputmode) {

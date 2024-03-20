@@ -2,7 +2,7 @@
 // SLIM Version V1.0.0
 
 #include <system/im.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <drivers/perip/keybrd.h>
 #include <libtui.h>
 #include <system/mod.h>

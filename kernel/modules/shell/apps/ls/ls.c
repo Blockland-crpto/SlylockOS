@@ -1,4 +1,4 @@
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <drivers/fs/fs.h>
 #include <drivers/vga.h>
 #include <libtui.h>

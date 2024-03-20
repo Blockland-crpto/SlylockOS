@@ -1,5 +1,5 @@
 #include <system/im.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <libtui.h>
 #include <system/mod.h>
  

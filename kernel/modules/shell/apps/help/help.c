@@ -1,4 +1,4 @@
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <drivers/perip/keybrd.h>
 #include <libtui.h>
 #include <system/kernel.h>

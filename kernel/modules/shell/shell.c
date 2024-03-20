@@ -1,5 +1,5 @@
 #include <system/mod.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <drivers/perip/timer.h>
 #include <drivers/io/ports.h>
 #include <string.h>

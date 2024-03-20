@@ -3,7 +3,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <system/types.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 #include <system/mod.h>
 #include <drivers/perip/keybrd.h>
 #include <system/debug.h>

@@ -7,7 +7,7 @@
 #include <system/im.h>
 
 #include <libtui.h>
-#include <slibaries/shell.h>
+#include <shell/shell.h>
 
 #include <drivers/vga.h>
 #include <drivers/acpi.h>
