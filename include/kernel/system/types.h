@@ -10,6 +10,9 @@
 #ifndef __SYSTEM_TYPES_H
 #define __SYSTEM_TYPES_H
 
+#define true 1
+#define false 0
+
 /**
 	\typedef char int8_t
 	\brief 8-bit integer type
@@ -56,6 +59,7 @@ typedef unsigned long long int uint64_t;
 typedef unsigned int size_t;
 typedef size_t ssize_t;
 typedef long off_t;
+typedef int bool;
 
 #endif
     

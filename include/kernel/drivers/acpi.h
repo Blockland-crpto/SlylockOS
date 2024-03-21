@@ -3,6 +3,7 @@
 
 #include <system/types.h>
 
+
 unsigned long *SMI_CMD;
 signed char ACPI_ENABLE;
 signed char ACPI_DISABLE;
@@ -54,7 +55,7 @@ int acpiEnable(void);
 int initAcpi(void);
 void acpiPowerOff(void);
 void acpi_init();
-int acpiEnabled;
+bool acpiEnabled;
 
 
 #endif

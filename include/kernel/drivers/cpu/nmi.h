@@ -5,6 +5,8 @@
 
 void nmi_init();
 
+bool nmi_enabled;
+
 void nmi_enable();
 
 void nmi_disable();

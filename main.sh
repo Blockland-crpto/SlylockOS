@@ -4,8 +4,10 @@ mkdir lib
 ./build/libtui_build.sh
 ./build/libsdk_build.sh
 ./build/libgo_build.sh
+./build/libhab_build.sh
 
 csources=$(find ./kernel/* -type f -name "*.c")
+cppsources=$(find ./kernel/* -type f -name "*.cpp")
 cheaders=$(find ./include/* -type f -name "*.h")
 
 gosources=$(find ./kernel/* -type f -name "*.go")
@@ -13,6 +15,7 @@ gosources=$(find ./kernel/* -type f -name "*.go")
 libaries=$(find ./lib/* -type f -name "*.a")
 
 cobjects=$(echo ${csources//\.c/.o})
+cppobjects=$(echo ${cppsources//\.cpp/.o})
 goobjects=$(echo ${gosources//\.go/.o})
 
 objb=''
@@ -26,9 +29,22 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/libc -I./include/libtui -I./include/libsdk -fno-stack-protector  -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/libc -I./include/libtui -I./include/libsdk -I./include/libhab -fno-stack-protector  -c -o $ta $tb
 done
 objb="${objb:1}"
+
+objbcpp=''
+charcpp=' '
+endcpp=$(awk -F"${charcpp}" '{print NF-1}' <<< "${cppobjects}")
+endcpp=$((endcpp+1))
+
+for i in $(seq 1 $endcpp); do 
+tacpp=$(echo ./bin/$(basename $(echo $cppobjects | cut -d" " -f$i )))
+tbcpp=$(echo $cppsources | cut -d" " -f$i)
+objb="${objb} ${ta}"
+g++ -m32 -elf_i386 -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -fstrength-reduce -fomit-frame-pointer -finline-functions -fno-stack-protector -fpermissive -I./include/kernel -I./include/libc -I./include/libcpp -I./include/libhab -c -o $tacpp $tbcpp
+done
+objbcpp="${objbcpp:1}"
 
 
 objbg=''
@@ -44,7 +60,7 @@ done
 objbg="${objbg:1}"
 
 export LD_LIBRARY_PATH=/home/runner/MiniOS/
-ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb $objbg ./bin/boot.o $libaries
+ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb $objbg $objcpp ./bin/boot.o $libaries
 
 rm -r iso
 

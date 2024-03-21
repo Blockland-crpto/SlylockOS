@@ -50,16 +50,16 @@ int acpiEnable(void) {
 			}
 		 if (i<300) {
 			kprintf("enabled acpi.\n");
-			acpiEnabled = 1;
+			acpiEnabled = true;
 			return 0;
 		 } else {
 			kprintf("couldn't enable acpi.\n");
-			acpiEnabled = 2;
+			acpiEnabled = false;
 			return -1;
 		 }
 	  } else {
 		 kprintf("no known way to enable acpi.\n");
-		 acpiEnabled = 0;
+		 acpiEnabled = false;
 		 return -1;
 	  }
    } else {

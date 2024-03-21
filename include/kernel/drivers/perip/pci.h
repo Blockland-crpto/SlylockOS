@@ -3,9 +3,6 @@
 
 #include <system/types.h>
 
-
-
-
 typedef struct pciDevice {
 	uint8_t bus;
 	uint8_t device;
