@@ -1,26 +1,50 @@
 mkdir lib
-./libc_build.sh
-./libtui_build.sh
-./libsdk_build.sh
-sources=$(find ./kernel/* -type f -name "*.c")
-headers=$(find ./include/* -type f -name "*.h")
+./build/libc_build.sh
+./build/libcpp_build.sh
+./build/libtui_build.sh
+./build/libsdk_build.sh
+./build/libgo_build.sh
+
+csources=$(find ./kernel/* -type f -name "*.c")
+cheaders=$(find ./include/* -type f -name "*.h")
+
+gosources=$(find ./kernel/* -type f -name "*.go")
+
 libaries=$(find ./lib/* -type f -name "*.a")
-objects=$(echo ${sources//\.c/.o})
+
+cobjects=$(echo ${csources//\.c/.o})
+goobjects=$(echo ${gosources//\.go/.o})
+
 objb=''
 char=' '
-end=$(awk -F"${char}" '{print NF-1}' <<< "${objects}")
+end=$(awk -F"${char}" '{print NF-1}' <<< "${cobjects}")
 end=$((end+1))
+
 mkdir bin
 nasm -f elf ./kernel/arch/i386/boot.asm -o ./bin/boot.o
 for i in $(seq 1 $end); do 
-ta=$(echo ./bin/$(basename $(echo $objects | cut -d" " -f$i )))
-tb=$(echo $sources | cut -d" " -f$i)
+ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
+tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
 gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/libc -I./include/libtui -I./include/libsdk -fno-stack-protector  -c -o $ta $tb
 done
 objb="${objb:1}"
+
+
+objbg=''
+charg=' '
+endg=$(awk -F"${charg}" '{print NF-1}' <<< "${goobjects}")
+endg=$((endg+1))
+for i in $(seq 1 $endg); do 
+tag=$(echo ./bin/$(basename $(echo $goobjects | cut -d" " -f$i )))
+tbg=$(echo $gosources | cut -d" " -f$i)
+objbg="${objbg} ${tag}"
+gccgo -m32 -Wall -O -fno-stack-protector -static -Werror -nostdlib -nostartfiles -nodefaultlibs -c -o $tag $tbg -L/lib -lflibc
+done
+objbg="${objbg:1}"
+
 export LD_LIBRARY_PATH=/home/runner/MiniOS/
-ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o $libaries
+ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb $objbg ./bin/boot.o $libaries
 
 rm -r iso
 
