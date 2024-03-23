@@ -67,11 +67,12 @@ void calc(int uim, int selected) {
 	}
 
 	putstrpos("Recent Anwsers:", 52, input_y+1, 8, 7, 53);
-	set_cursor_pos(53,input_y+2);
 	if (negative_num == true) {
-		printf("-%s", prev_anwser_str);
+		putpos('-', 8, 7, 53, input_y+2);
+		putstrpos(prev_anwser_str, 54, input_y+2, 8, 7, 54);
 	} else {
-		printf("%s", prev_anwser_str);
+		putstrpos(prev_anwser_str, 54, input_y+2, 8, 7, 54);
+		
 	}
 	
 

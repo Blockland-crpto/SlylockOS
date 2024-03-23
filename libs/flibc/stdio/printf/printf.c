@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <drivers/vga.h>
 #include <stdarg.h>
 
 int printf(const char *format, ...) {
@@ -17,24 +16,24 @@ int printf(const char *format, ...) {
 			char buf[256];
 			switch (*ptr++) {
 				case 's': {
-					kprintf(va_arg(ap, const char *));
+					fprintf(stdout, va_arg(ap, const char *));
 					break;
 				} case 'd': {
 					num = va_arg(ap, int);
 					str = itoa(num, buf, 10);
-					kprintf(str);
+					fprintf(stdout, str);
 					break;
 				} case 'x': {
 					num = va_arg(ap, int);
 					str = itoa(num, buf, 16);
-					kprintf(str);
+					fprintf(stdout, str);
 					break;
 				} default: {
 					return -1;
 				}
 			}
 		} else {
-			kprintc(*ptr++);
+			fputc((int)*ptr++, stdout);
 			len++;
 		}
 	}

@@ -2,27 +2,26 @@
 #include <stddef.h>
 
 
-char* strcpy(char* destination, const char* source)
-{
+char *strcpy(char *restrict s1, const char *restrict s2) {
 	// return if no memory is allocated to the destination
-	if (destination == NULL) {
+	if (s1 == NULL) {
 		return NULL;
 	}
 
 	// take a pointer pointing to the beginning of the destination string
-	char *ptr = destination;
+	char *ptr = s1;
 
 	// copy the C-string pointed by source into the array
 	// pointed by destination
-	while (*source != '\0')
+	while (*s2 != '\0')
 	{
-		*destination = *source;
-		destination++;
-		source++;
+		*s1 = *s2;
+		s1++;
+		s2++;
 	}
 
 	// include the terminating null character
-	*destination = '\0';
+	*s1 = '\0';
 
 	// the destination is returned by standard `strcpy()`
 	return ptr;

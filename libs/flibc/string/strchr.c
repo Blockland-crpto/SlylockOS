@@ -2,7 +2,7 @@
 #include <stddef.h>
 
 
-const char* strchr(const char* s, int c) {
+char *strchr(const char *s, int c){
 	if (s == NULL) {
 		return NULL;
 	}
@@ -13,8 +13,8 @@ const char* strchr(const char* s, int c) {
 	int i;
 	s_len = strlen(s);
 	for (i = 0; i < s_len; i++) {
-		if ((char) c == s[i]) {
-			return (const char*) &s[i];
+		if ((char)c == s[i]) {
+			return (char*)&s[i];
 		}
 	}
 	return NULL;

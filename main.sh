@@ -1,22 +1,16 @@
 mkdir lib
 ./build/libc_build.sh
-./build/libcpp_build.sh
+
 ./build/libtui_build.sh
 ./build/libsdk_build.sh
-./build/libgo_build.sh
 ./build/libhab_build.sh
 
 csources=$(find ./kernel/* -type f -name "*.c")
-cppsources=$(find ./kernel/* -type f -name "*.cpp")
 cheaders=$(find ./include/* -type f -name "*.h")
-
-gosources=$(find ./kernel/* -type f -name "*.go")
 
 libaries=$(find ./lib/* -type f -name "*.a")
 
 cobjects=$(echo ${csources//\.c/.o})
-cppobjects=$(echo ${cppsources//\.cpp/.o})
-goobjects=$(echo ${gosources//\.go/.o})
 
 objb=''
 char=' '
@@ -33,34 +27,9 @@ gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-func
 done
 objb="${objb:1}"
 
-objbcpp=''
-charcpp=' '
-endcpp=$(awk -F"${charcpp}" '{print NF-1}' <<< "${cppobjects}")
-endcpp=$((endcpp+1))
-
-for i in $(seq 1 $endcpp); do 
-tacpp=$(echo ./bin/$(basename $(echo $cppobjects | cut -d" " -f$i )))
-tbcpp=$(echo $cppsources | cut -d" " -f$i)
-objb="${objb} ${ta}"
-g++ -m32 -elf_i386 -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -fstrength-reduce -fomit-frame-pointer -finline-functions -fno-stack-protector -fpermissive -I./include/kernel -I./include/libc -I./include/libcpp -I./include/libhab -c -o $tacpp $tbcpp
-done
-objbcpp="${objbcpp:1}"
-
-
-objbg=''
-charg=' '
-endg=$(awk -F"${charg}" '{print NF-1}' <<< "${goobjects}")
-endg=$((endg+1))
-for i in $(seq 1 $endg); do 
-tag=$(echo ./bin/$(basename $(echo $goobjects | cut -d" " -f$i )))
-tbg=$(echo $gosources | cut -d" " -f$i)
-objbg="${objbg} ${tag}"
-gccgo -m32 -Wall -O -fno-stack-protector -static -Werror -nostdlib -nostartfiles -nodefaultlibs -c -o $tag $tbg -L/lib -lflibc
-done
-objbg="${objbg:1}"
 
 export LD_LIBRARY_PATH=/home/runner/MiniOS/
-ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb $objbg $objcpp ./bin/boot.o $libaries
+ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o $libaries
 
 rm -r iso
 

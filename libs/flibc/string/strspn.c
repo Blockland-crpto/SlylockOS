@@ -1,14 +1,13 @@
 #include <string.h>
+#include <stddef.h>
 
-int strspn (const char *s, const char *accept)
-{
+size_t strspn(const char *s1, const char *s2) {
 	const char *p;
 	const char *a;
-	int count = 0;
+	size_t count = 0;
 
-	for (p = s; *p != '\0'; ++p)
-	{
-		for (a = accept; *a != '\0'; ++a)
+	for (p = s1; *p != '\0'; ++p) {
+		for (a = s2; *a != '\0'; ++a)
 			if (*p == *a)
 				break;
 		if (*a == '\0')

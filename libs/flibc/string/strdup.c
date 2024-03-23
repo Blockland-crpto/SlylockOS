@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -39,11 +38,11 @@
 #include <stddef.h>
 
 
-char* strdup(const char* str) {
+char* strdup(const char* s) {
 	size_t len;
 	char* copy;
-	len = strlen(str) + 1;
-	memcpy(copy, str, len);
+	len = strlen(s) + 1;
+	memcpy(copy, s, len);
 	return (copy);
 }
 

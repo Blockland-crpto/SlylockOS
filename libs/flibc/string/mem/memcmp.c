@@ -1,22 +1,24 @@
 #include <string.h>
+#include <stdint.h>
 
-int memcmp(const void *s1, const void *s2, int len) {
-	unsigned char *p = s1;
-	unsigned char *q = s2;
+int memcmp(const void *s1, const void *s2, size_t n) {
+	uint8_t *p = (uint8_t*)s1;
+	uint8_t *q = (uint8_t*)s2;
 	int charCompareStatus = 0;
-	if (s1 == s2)
-	{
+	
+	if (p == q) {
 		return charCompareStatus;
 	}
-	while (len > 0)
-	{
+	
+	while (n > 0) {
 		if (*p != *q) {
 			charCompareStatus = (*p >*q)?1:-1;
 			break;
 		}
-		len--;
+		n--;
 		p++;
 		q++;
 	}
+	
 	return charCompareStatus;
 }

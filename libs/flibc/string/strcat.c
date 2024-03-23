@@ -1,19 +1,18 @@
 #include <string.h>
 
 
-char* strcat(char* destination, const char* source)
-{
+char* strcat(char *restrict s1, const char *restrict s2) {
 	// make `ptr` point to the end of the destination string
-	char* ptr = destination + strlen(destination);
+	char* ptr = s1 + strlen(s1);
 
 	// appends characters of the source to the destination string
-	while (*source != '\0') {
-		*ptr++ = *source++;
+	while (*s2 != '\0') {
+		*ptr++ = *s2++;
 	}
 
 	// null terminate destination string
 	*ptr = '\0';
 
 	// the destination is returned by standard `strcat()`
-	return destination;
+	return s1;
 }

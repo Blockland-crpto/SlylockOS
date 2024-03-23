@@ -1,16 +1,17 @@
-#include <string.h>
+#include <stddef.h>
+#include <stdbool.h>
 
-char *strtok(char* str, const char* delim)
-{
-	static char* p=0;
-	if(str)
-		p=str;
-	else if(!p)
-		return 0;
-	str=p+strspn(p,delim);
-	p=str+strcspn(str,delim);
-	if(p==str)
-		return p=0;
-	p = *p ? *p=0,p+1 : 0;
-	return str;
+static char *strtok_state;
+
+char *strtok(char *restrict s, const char *restrict sep) {
+	if (s == NULL && (s = strtok_state) == NULL) return NULL;
+	size_t skip_len = strspn(s, sep);
+	s += skip_len;
+	if (*s == '\0') return NULL;
+	char *token_start = s;
+	size_t token_len = strcspn(s, sep);
+	s += token_len;
+	if (*s != '\0') *s++ = '\0';
+	strtok_state = s;
+	return token_start;
 }

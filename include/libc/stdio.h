@@ -1,6 +1,7 @@
 #ifndef __STDIO_H
 #define __STDIO_H
 
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -8,6 +9,7 @@ extern "C" {
 	#include <stdint.h>
 	#include <stddef.h>
 	#include <stdbool.h>
+	#include <stdarg.h>
 	#include <drivers/fs/fs.h>
 	#include <system/types.h>
 	
@@ -26,27 +28,27 @@ extern "C" {
 		
 	#define FILENAME_MAX 512
 	#define FOPEN_MAX 8
-	#define TMP_MAX 25
+	#define TMP_MAX 5
 	
 	#define EOF -1
 	
 	#define P_tmpdir "tmp"
 	
-	#define stdin ((FILE*)stdin_stream)
-	#define stdout ((FILE*)stdout_stream)
-	#define stderr ((FILE*)stderr_stream)
-	
 	#define getc(s) fgetc(s)
 	#define getchar() getc(stdin)
 	#define putc(c, s) fputc(c, s) 
+	#define putchar(c) putc(c, stdout)
+	#define putchar_unlocked(c) putc_unlocked(c, stdout) 
 		
 	//the file structure
 	typedef struct {
 		int eof;
 		int error;
+		int bufmod;
 		char* name;
 		char* mode;
 		bool locked;
+		size_t length;
 		char* lockedBy;
 		long* position;
 		uint8_t* stream;
@@ -59,9 +61,9 @@ extern "C" {
 		long offset;
 	} fpos_t;
 	
-	FILE *stdin_stream;   // Standard input stream
-	FILE *stdout_stream;  // Standard output stream
-	FILE *stderr_stream;  // Standard error stream
+	FILE *stdin;   // Standard input stream
+	FILE *stdout;  // Standard output stream
+	FILE *stderr;  // Standard error stream
 	
 		
 	//clearerr implementation
@@ -177,13 +179,73 @@ extern "C" {
 		
 	//puts implementation
 	int puts(const char *s);
-	
+
+	//remove implementation
+	int remove(const char *path);
+
+	//rename implementation
+	int rename(const char *old, const char *newName);
+
+	//renameat implementation
+	int renameat(fs_node_t* oldfd, const char *newName);
+
+	//rewind implementation
+	void rewind(FILE *stream);
+
 	//scanf implementation
 	int scanf(const char *restrict format, ...);
 	
+	//setbuf implementation
+	void setbuf(FILE* restrict stream, char *restrict buf);	
+
+	//setvbuf implementation
+	int setvbuf(FILE *restrict stream, char *restrict buf, int type);
+
+	//snprintf implementation
+	int snprintf(char *restrict s, size_t size, const char *restrict template, ...);
+
+	//sprintf implementation
+	int sprintf(char *restrict s, const char *restrict template, ...);
+
 	//sscanf implementation
 	int sscanf(const char *restrict str, const char *restrict format, ...);
-		
+
+	//tempnam implementation
+	char *tempnam(const char *dir, const char *prefix);
+
+	//tmpfile implementation
+	FILE* tmpfile(void);
+
+	//tmpnam implementation
+	char *tmpnam(char *s);
+
+	//ungetc implementation
+	int ungetc(int c, FILE *stream);
+
+	//vdprintf implementation
+	int vdprintf(fs_node_t *fd, const char *format, va_list ap);
+
+	//fprintf implementation
+	int vfprintf(FILE *stream, const char *format, va_list ap);
+
+	//vfscanf implementation
+	int vfscanf(FILE *restrict stream, const char *restrict format, va_list ap);
+
+	//vprintf implementation
+	int vprintf(const char *format, va_list ap);
+
+	//vscanf implementation
+	int vscanf(const char *restrict format, va_list args);
+
+	//vsnprintf implementation
+	int vsnprintf(char *restrict s, size_t size, const char *restrict template, va_list ap);
+
+	//vsprintf implementation
+	int vsprintf(char *restrict s, const char *restrict template, va_list ap);
+
+	//vsscanf implementation
+	int vsscanf(const char *restrict str, const char *restrict format, va_list args);
+	
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif

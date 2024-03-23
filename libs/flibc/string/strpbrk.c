@@ -1,15 +1,14 @@
 #include <string.h>
 #include <stddef.h>
 
-char* strpbrk (const char *s, const char *accept)
-{
-	while (*s != '\0')
-	{
-		const char *a = accept;
-		while (*a != '\0')
-		if (*a++ == *s)
-			return (char *) s;
-		++s;
+char *strpbrk(const char *s1, const char *s2) {
+	while (*s1 != '\0') {
+		while (*s2 != '\0') {
+			if (*s2++ == *s1) {
+				return (char *) s1;
+			}
+			++s1;
+		}
 	}
 	return NULL;
 }

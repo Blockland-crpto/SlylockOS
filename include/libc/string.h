@@ -1,12 +1,4 @@
-/**
-  \file      string.h
-  \brief     Provides string manipulation support to the kernel
-  \details   Allows the kernel to manipulate strings.
-  \author    matthyno
-  \version   1.0.0
-  \date      2021
-  \copyright MIT License.
-*/
+//string.h implementation
 
 #ifndef __STRING_H
 #define __STRING_H
@@ -16,40 +8,118 @@
 extern "C" {
 #endif
 	#include <stddef.h>
+	#include <locale.h>
+
+	//memccpy implementation
+	void *memccpy(void *restrict s1, const void *restrict s2, int c, size_t n);
+
+	//memchr implementation
+	void *memchr(const void *s, int c, size_t n);
+
+	//memcmp implementation
+	int memcmp(const void *s1, const void *s2, size_t n);
+
+	//memcpy implementation
+	void *memcpy(void *restrict s1, const void *restrict s2, size_t n);
+
+	//memmove implementation
+	void *memmove(void *s1, const void *s2, size_t n);
+
+	//memset implementation
+	void *memset(void *s, int c, size_t n);
+
+	//stpcpy implementation
+	char *stpcpy(char *restrict s1, const char *restrict s2);
+
+	//stpncpy implementation
+	char *stpncpy(char *restrict s1, const char *restrict s2, size_t n);
+
+	//strcat implementation
+	char *strcat(char *restrict s1, const char *restrict s2);
+
+	//strchr implementation
+	char *strchr(const char *s, int c);
+
+	//strcmp implementation
+	int strcmp(const char *s1, const char *s2);
+
+	//strcoll implementation
+	int strcoll(const char *s1, const char *s2);
+
+	//strcoll_l implementation
+	int strcoll_l(const char *s1, const char *s2, locale_t locale);
+
+	//strcpy implementation
+	char *strcpy(char *restrict s1, const char *restrict s2);
+
+	//strcspn implementation
+	size_t strcspn(const char *s1, const char *s2);
+
+	//strdup implementation
+	char *strdup(const char *s);
+
+	//strerror implementation
+	char *strerror(int errnum);
+
+	//strerror_l implementation
+	char *strerror_l(int errnum, locale_t locale);
+
+	//strerror_r implementation
+	int strerror_r(int errnum, char* strerrbuf, size_t buflen);
+
+	//strlen implementation
+	size_t strlen(const char *s);
+
+	//strncat implementation
+	char *strncat(char* restrict s1, const char* restrict s2, size_t n);
+
+	//strncmp implementation
+	int strncmp(const char *s1, const char *s2, size_t n);
+
+	//strncpy implementation
+	char *strncpy(char *restrict s1, const char *restrict s2, size_t n);
 	
-	static char *olds;
+	//strndup implementation
+	char *strndup(const char *s, size_t size);
+
+	//strnlen implementation
+	size_t strnlen(const char *s, size_t maxlen);
+
+	//strpbrk implementation
+	char *strpbrk(const char *s1, const char *s2);
 	
+	//strrchr implementation
+	char *strrchr(const char *s, int c);
 	
-	char *itoa(int num, char* str, int base);
-	int strlen(char s[]);
-	int strcmp(char s1[], char s2[]);
-	char* strcat(char* destination, const char* source);
-	char *strtok(char* str, const char* delim);
-	char* strcpy(char* destination, const char* source);
-	const char* strstr(const char* X, const char* Y);
-	int octtodec(int n);
+	//strsignal implementation
+	char *strsignal(int signum);
+
+	//strspn implementation
+	size_t strspn(const char *s1, const char *s2);
+
+	//strstr implementation
+	char* strstr(const char *s1, const char *s2);
+
+	//strtok implementation
+	char *strtok(char *restrict s, const char *restrict sep);
+
+	//strtok_r implementation
+	char *strtok_r(char *restrict s, const char *restrict sep, char **restrict state);
+
+	//strxfrm implementation
+	size_t strxfrm(char *restrict s1, const char *restrict s2, size_t n);
+
+	//strxfrm_l implementation
+	size_t strxfrm_l(char *restrict s1, const char *restrict s2, size_t n, locale_t locale);
 	
-	unsigned char *memcpy(unsigned char *dest, const unsigned char *src, int count);
-	unsigned char *memset(unsigned char *dest, unsigned char val, int count);
-	unsigned short *memsetw(unsigned short *dest, unsigned short val, int count);
-	int memcmp(const void *s1, const void *s2, int len);
-	char* strdup(const char *s);
-	char* strncpy(char* destination, const char* source, size_t num);
-	
-	
-	// Non-standarized utility functions:
-	
-	//Exclusive library helper functions
+	//Exclusive flibc helper functions:
 	void swap(char *x, char *y);
 	char* reverse(char *buffer, int i, int j);
-		
-	/**
-		\brief Gets if a string starts with another string
-		\param{in} starts The string that it may/may not start with
-		\param{in} s The string to get if it starts with `starts`
-		\returns 1 if it starts with `starts`, 0 otherwise
-	*/
 	int starts_with(char* starts, char* s);
+	char* itoa(int num, char* str, int base);
+	int octtodec(int n);
+	unsigned short *memsetw(unsigned short *dest, unsigned short val, int count);
+	
 	
 #if defined(__cplusplus)
 } /* extern "C" */

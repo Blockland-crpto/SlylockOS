@@ -1,7 +1,11 @@
 #include <stdio.h>
-#include <drivers/vga.h>
 
 int puts(const char* s) {
-	putstr(s, COLOR_WHT, COLOR_BLK);
+	while (*s != '\0') {
+		if (putchar(*s) == EOF) {
+			return EOF;
+		}
+		++s;
+	}
 	return 0;
 }
