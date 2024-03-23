@@ -1,5 +1,5 @@
 mkdir lib
-./build/libc_build.sh
+./build/sosix_build.sh
 
 ./build/libtui_build.sh
 ./build/libsdk_build.sh
@@ -23,7 +23,7 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/libc -I./include/libtui -I./include/libsdk -I./include/libhab -fno-stack-protector  -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libtui -I./include/libsdk -I./include/libhab -fno-stack-protector  -c -o $ta $tb
 done
 objb="${objb:1}"
 
@@ -51,7 +51,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme ./lib/flibc.a ./lib/libtui.a ./lib/libsdk.a ./sys/membuf ./tmp"
+inp="readme ./lib/sosix.a ./lib/libtui.a ./lib/libsdk.a ./sys/membuf ./tmp"
 res=''
 for word in $inp; do
 res="${res} ${word}"
