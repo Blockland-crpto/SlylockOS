@@ -4,7 +4,7 @@
 
 void reboot(){
 	clear_scr();
-	loadingscreen("Restarting", "MiniOS is Restarting...");
+	loadingscreen("Restarting", "SlylockOS is Restarting...");
 	//using 8042 keyboard controller to pulse the CPU's RESET Pin
 	unsigned char temp = 0x02;
 	while(temp & 0x02)

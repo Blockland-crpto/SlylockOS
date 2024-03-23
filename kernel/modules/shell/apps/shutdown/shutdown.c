@@ -3,7 +3,7 @@
 #include <libtui.h>
 
 void shutdown() {
-  loadingscreen("Shutting Down", "MiniOS is Shutting down...");
+  loadingscreen("Shutting Down", "SlylockOS is Shutting down...");
 
   acpiPowerOff();
 }

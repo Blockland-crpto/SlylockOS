@@ -40,7 +40,7 @@ void helpim(char c, int userinputmode) {
 	} else if(userinputmode == HELP_APP_ID_FV) {
 		//help menu if about is selected
 		if (c == ENTER_KEY) {
-			app_info("Help\nthe Help app for MINIOS\nVersion 1.0.0", HELP_APP_ID_TH, 2);
+			app_info("Help\nthe Help app for SlylockOS\nVersion 1.0.0", HELP_APP_ID_TH, 2);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, HELP_APP_ID_FR, 1);
 		} else if (c == ARROW_KEY_DOWN) {
@@ -65,7 +65,7 @@ void helpim(char c, int userinputmode) {
 	} else if (userinputmode == HELP_APP_ID_EI) {
 		//help about menu if back is selected
 		if (c == ENTER_KEY) {
-			app_info("Help\nthe Help app for MINIOS\nVersion 1.0.0", HELP_APP_ID_TH, 2);
+			app_info("Help\nthe Help app for SlylockOS\nVersion 1.0.0", HELP_APP_ID_TH, 2);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, HELP_APP_ID_SV, 2);
 		} else if (c == ARROW_KEY_DOWN) {

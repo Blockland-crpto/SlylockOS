@@ -28,7 +28,7 @@ done
 objb="${objb:1}"
 
 
-export LD_LIBRARY_PATH=/home/runner/MiniOS/
+export LD_LIBRARY_PATH=/home/runner/SlylockOS/
 ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o $libaries
 
 rm -r iso
@@ -44,7 +44,7 @@ mkdir iso/boot/grub
 mv kernel.bin iso/boot/kernel.bin
 echo 'set timeout-0' >> iso/boot/grub/grub.cfg
 echo 'set default-0' >> iso/boot/grub/grub.cfg
-echo 'menuentry "MiniOS" {' >> iso/boot/grub/grub.cfg
+echo 'menuentry "SlylockOS" {' >> iso/boot/grub/grub.cfg
 echo '  multiboot /boot/kernel.bin' >> iso/boot/grub/grub.cfg
 echo '  module  /boot/os.initrd' >> iso/boot/grub/grub.cfg
 echo '  boot' >> iso/boot/grub/grub.cfg
@@ -59,12 +59,12 @@ res="${res} ${word}"
 done
 ./initrdgen $res
 mv ./initrd.img ./iso/boot/os.initrd
-grub-mkrescue --output=minios.iso iso
+grub-mkrescue --output=SlylockOS.iso iso
 rm -r bin
 rm -r lib
 rm -r iso
 rm -r sys
 rm -r tmp
 
-qemu-system-i386 -cdrom minios.iso -m 512M -device pci-bridge,chassis_nr=1,id=bridge1
+qemu-system-i386 -cdrom SlylockOS.iso -m 512M -device pci-bridge,chassis_nr=1,id=bridge1
 

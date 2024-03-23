@@ -60,7 +60,7 @@ void calcim(char c, int userinputmode) {
 	} else if (userinputmode == CALC_APP_ID_FR) {
 		//calc menu if about is selected
 		if (c == ENTER_KEY) {
-			app_info("Calculator\nthe calculator app for MINIOS\nVersion 1.0.0", CALC_APP_ID_TW, 1);
+			app_info("Calculator\nthe calculator app for SlylockOS\nVersion 1.0.0", CALC_APP_ID_TW, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, CALC_APP_ID_TH, 1);
 		} else if (c == ARROW_KEY_DOWN) {
@@ -83,7 +83,7 @@ void calcim(char c, int userinputmode) {
 	} else if (userinputmode == CALC_APP_ID_SV) {
 		//calc about menu if back is selected
 		if (c == ENTER_KEY) {
-			app_info("Calculator\nthe calculator app for MINIOS\nVersion 1.0.0", CALC_APP_ID_SX, 1);
+			app_info("Calculator\nthe calculator app for SlylockOS\nVersion 1.0.0", CALC_APP_ID_SX, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, CALC_APP_ID_SX, 2);
 		} else if (c == ARROW_KEY_DOWN) {

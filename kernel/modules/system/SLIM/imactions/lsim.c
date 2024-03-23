@@ -48,7 +48,7 @@ void lsim(char c, int userinputmode) {
 	} else if (userinputmode == LS_APP_ID_SX) {
 		//ls menu if About is selected
 		if (c == ENTER_KEY) {
-			app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
+			app_info("Ls\nthe file manager for SlylockOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, LS_APP_ID_FV, 1);
 		} else if (c == ARROW_KEY_DOWN) {
@@ -71,7 +71,7 @@ void lsim(char c, int userinputmode) {
 	} else if (userinputmode == LS_APP_ID_NI) {
 		//ls about menu if back is selected
 		if (c == ENTER_KEY) {
-			app_info("Ls\nthe file manager for MINIOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
+			app_info("Ls\nthe file manager for SlylockOS\nVersion 1.0.0", LS_APP_ID_FR, 2);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, LS_APP_ID_EI, 2);
 		} else if (c == ARROW_KEY_DOWN) {

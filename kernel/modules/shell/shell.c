@@ -21,7 +21,7 @@ void shell_init(){
 	prev_anwser_str = "0";
 	themeindex = 3;
 
-	loadingscreen("Starting Up", "MiniOS is starting...");
+	loadingscreen("Starting Up", "SlylockOS is starting...");
 	login_screen();
 	tui_shell();
 
@@ -34,7 +34,7 @@ void shell_init(){
 
 void login_screen() {
 	make_tui(themeindex, themeindex, 0, 2);
-	putstrpos("Welcome to MiniOS!", 30, 12, COLOR_BLU, COLOR_WHT, 30);
+	putstrpos("Welcome to SlylockOS!", 30, 12, COLOR_BLU, COLOR_WHT, 30);
 	time_sleep(7000000);
 }
 

@@ -39,7 +39,7 @@ void aboutim(char c, int userinputmode) {
 	} else if (userinputmode == ABOUT_APP_ID_FV) {
 		//about menu if about is selected
 		if (c == ENTER_KEY) {
-			app_info("About\nthe system info for MINIOS\nVersion 1.0.0", ABOUT_APP_ID_TH, 2);
+			app_info("About\nthe system info for SlylockOS\nVersion 1.0.0", ABOUT_APP_ID_TH, 2);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, ABOUT_APP_ID_FR, 1);
 		} else if (c == ARROW_KEY_DOWN) {
@@ -62,7 +62,7 @@ void aboutim(char c, int userinputmode) {
 	} else if (userinputmode == ABOUT_APP_ID_EI) {
 		//about about menu if back is selected
 		if (c == ENTER_KEY) {
-			app_info("About\nthe system info for MINIOS\nVersion 1.0.0", ABOUT_APP_ID_TH, 2);
+			app_info("About\nthe system info for SlylockOS\nVersion 1.0.0", ABOUT_APP_ID_TH, 2);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, ABOUT_APP_ID_SV, 2);
 		} else if (c == ARROW_KEY_DOWN) {

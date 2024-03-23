@@ -1,4 +1,4 @@
-MiniOS's Driver directory structure:
+SlylockOS's Driver directory structure:
 ACPI - files for the ACPI driver
 CPU - files for cpu related functions like NMI and CPUID
 FS - files for filesystem support

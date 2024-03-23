@@ -23,7 +23,7 @@ void cmdim(char c, int userinputmode) {
 	} else if (userinputmode == CMD_APP_ID_TH) {
 		//cmd menu if about is selected
 		if (c == ENTER_KEY) {
-			app_info("Command Line Interface\nfor MINIOS\nVersion 1.0.0", CMD_APP_ID_FV, 1);
+			app_info("Command Line Interface\nfor SlylockOS\nVersion 1.0.0", CMD_APP_ID_FV, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, CMD_APP_ID_TW, 1);
 		} else if (c == ARROW_KEY_DOWN) {
@@ -51,7 +51,7 @@ void cmdim(char c, int userinputmode) {
 	} else if (userinputmode == CMD_APP_ID_SV) {
 		//cmd about menu if back is selected
 		if (c == ENTER_KEY) {
-			app_info("Command Line Interface\nfor MINIOS\nVersion 1.0.0", CMD_APP_ID_FV, 1);
+			app_info("Command Line Interface\nfor SlylockOS\nVersion 1.0.0", CMD_APP_ID_FV, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, CMD_APP_ID_SX, 2);
 		} else if (c == ARROW_KEY_DOWN) {

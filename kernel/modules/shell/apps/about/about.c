@@ -8,7 +8,7 @@
 #include <system/kernel.h>
 
 void about(int page) {
-  char aboutstr[220] = "MiniOS\nA Operating System written in C\nand ASM for lightweight computers.\n\nKernel Version: v1.0.0\nShell Version: v1.0.0\nSLIM Version: v1.0.0\n\nMade Possible by:\n1. Abrid OS\n2. OSDEV.org\nThank you!\n"; 
+  char aboutstr[220] = "SlylockOS\nA Operating System written in C\nand ASM for lightweight computers.\n\nKernel Version: v1.0.0\nShell Version: v1.0.0\nSLIM Version: v1.0.0\n\nMade Possible by:\n1. Abrid OS\n2. OSDEV.org\nThank you!\n"; 
   char buf;
 
   if (page == 1) {

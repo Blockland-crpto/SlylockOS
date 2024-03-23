@@ -1,5 +1,5 @@
- ======MINIOS======
-Welcome to MiniOS, a operating system for X86
+ ======SlylockOS======
+Welcome to SlylockOS, a operating system for X86
 This OS is still in its pre-alpha stages
 So expect crashes, bugs, and missing features
 ====Generating initial ramdisks=====
@@ -11,6 +11,6 @@ or `./initrdgen <filename #1> <filename #1 again> <filename #2>
 This file is bundled in Mini itself, use `cat` 
 to read it in the command line.
 
-MINIOS's Kernel architecture is as follows:
+SlylockOS's Kernel architecture is as follows:
 The first half of the kernel binary are drivers,
-the second half is SOSIX, which is the MiniOS Semi-POSIX compatable implementation.
+the second half is SOSIX, which is the SlylockOS Semi-POSIX compatable implementation.

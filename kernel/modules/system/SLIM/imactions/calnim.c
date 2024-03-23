@@ -25,7 +25,7 @@ void calnim(char c, int userinputmode) {
 	} else if (userinputmode == CALN_APP_ID_TH) {
 		//caln menu if about is selected
 		if (c == ENTER_KEY) {
-			app_info("Calendar\nthe calendar app for MINIOS\nVersion 1.0.0", CALN_APP_ID_FV, 1);
+			app_info("Calendar\nthe calendar app for SlylockOS\nVersion 1.0.0", CALN_APP_ID_FV, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, CALN_APP_ID_TW, 1);
 		} else if (c == ARROW_KEY_DOWN) {
@@ -53,7 +53,7 @@ void calnim(char c, int userinputmode) {
 	} else if (userinputmode == CALN_APP_ID_SV) {
 		//caln about menu if back is selected
 		if (c == ENTER_KEY) {
-			app_info("Calendar\nthe calendar app for MINIOS\nVersion 1.0.0", CALN_APP_ID_FV, 1);
+			app_info("Calendar\nthe calendar app for SlylockOS\nVersion 1.0.0", CALN_APP_ID_FV, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, CALN_APP_ID_SX, 2);
 		} else if (c == ARROW_KEY_DOWN) {

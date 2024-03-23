@@ -25,7 +25,7 @@ void settim(char c, int userinputmode) {
 	} else if (userinputmode == SETT_APP_ID_TH) {
 		//sett menu if about is selected
 		if (c == ENTER_KEY) {
-			app_info("Settings\nthe settings app for MINIOS\nVersion 1.0.0", SETT_APP_ID_FV, 1);
+			app_info("Settings\nthe settings app for SlylockOS\nVersion 1.0.0", SETT_APP_ID_FV, 1);
 		} else if (c == ARROW_KEY_DOWN) {
 			main_menu(3, SETT_APP_ID_FR, 1);
 		} else if (c == ARROW_KEY_UP) {
@@ -53,7 +53,7 @@ void settim(char c, int userinputmode) {
 	} else if (userinputmode == SETT_APP_ID_SV) {
 		//sett about menu if back is selected
 		if (c == ENTER_KEY) {
-			app_info("Settings\nthe settings app for MINIOS\nVersion 1.0.0", SETT_APP_ID_FV, 1);
+			app_info("Settings\nthe settings app for SlylockOS\nVersion 1.0.0", SETT_APP_ID_FV, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, SETT_APP_ID_SX, 2);
 		} else if (c == ARROW_KEY_DOWN) {

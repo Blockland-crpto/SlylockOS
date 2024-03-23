@@ -26,7 +26,7 @@ void catim(char c, int userinputmode) {
 	} else if (userinputmode == CAT_APP_ID_FR) {
 		//cat menu if about is selected
 		if (c == ENTER_KEY) {
-			app_info("Cat\nthe text file viewer for MINIOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
+			app_info("Cat\nthe text file viewer for SlylockOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, CAT_APP_ID_TH, 1);
 		} else if (c == ARROW_KEY_DOWN) {
@@ -49,7 +49,7 @@ void catim(char c, int userinputmode) {
 	} else if (userinputmode == CAT_APP_ID_SV) {
 		//cat about menu if back is selected
 		if (c == ENTER_KEY) {
-			app_info("Cat\nthe text file viewer for MINIOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
+			app_info("Cat\nthe text file viewer for SlylockOS\nVersion 1.0.0", CAT_APP_ID_TW, 1);
 		} else if (c == ARROW_KEY_UP) {
 			main_menu(1, CAT_APP_ID_SX, 2);
 		} else if (c == ARROW_KEY_DOWN) {
