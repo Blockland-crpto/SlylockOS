@@ -47,9 +47,10 @@ module_t modules[256];
 module_t MODULE(char* name, char* description);
 
 /**
-	\brief Initializes the module `module`
+	\brief Initializes the module `module`,
+	\returns int so the token overlay can work
 */
-void INIT(module_t module);
+int INIT(module_t module);
 
 /**
 	\brief Disables the module `module`

@@ -12,7 +12,7 @@ module_t MODULE(char* name, char* description) {
 	return mod;
 }
 
-void INIT(module_t module) {
+int INIT(module_t module) {
 	
 	modules[count] = module;
 	if(count == NULL) {

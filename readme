@@ -10,3 +10,7 @@ or `./initrdgen <filename #1> <filename #1 again> <filename #2>
 
 This file is bundled in Mini itself, use `cat` 
 to read it in the command line.
+
+MINIOS's Kernel architecture is as follows:
+The first half of the kernel binary are drivers,
+the second half is SOSIX, which is the MiniOS Semi-POSIX compatable implementation.
