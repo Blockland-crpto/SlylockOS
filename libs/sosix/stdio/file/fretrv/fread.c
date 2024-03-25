@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <libssp.h>
 
 size_t fread(void *restrict ptr, size_t size, size_t nitems, FILE *restrict stream) {
 	size_t total_elements_read = 0;

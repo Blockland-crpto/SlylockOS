@@ -1,5 +1,6 @@
 #include <string.h>
 #include <signal.h>
+#include <libssp.h>
 
 char *strsignal(int signum) {
 	switch (signum) {

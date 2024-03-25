@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <ctype.h>
+#include <libssp.h>
 
 long strtol(const char *restrict str, char **restrict endptr, int base) {
 	long result = 0;

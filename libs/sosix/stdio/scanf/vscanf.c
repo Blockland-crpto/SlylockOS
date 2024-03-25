@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdarg.h>
+#include <libssp.h>
 
 int vscanf(const char *restrict format, va_list args) {;
 

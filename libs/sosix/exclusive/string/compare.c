@@ -1,4 +1,5 @@
 #include <string.h>
+#include <libssp.h>
 
 int compare(const char *X, const char *Y)
 {

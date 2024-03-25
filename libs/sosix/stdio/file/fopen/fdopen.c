@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <errno.h>
+#include <libssp.h>
 #include <drivers/fs/fs.h>
 
 #define MAX_FILE_SIZE 4096

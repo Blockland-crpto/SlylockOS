@@ -17,6 +17,7 @@
 */
 
 #include <stdlib.h>
+#include <libssp.h>
 
 static const char conv_table[64] = {
 	'.', '/', '0', '1', '2', '3', '4', '5',

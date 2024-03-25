@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <libssp.h>
 
 int isspace(char c) {
 	int ch = (int)c;

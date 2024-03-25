@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <errno.h>
 #include <stddef.h>
+#include <libssp.h>
 #include <drivers/fs/fs.h>
 
 

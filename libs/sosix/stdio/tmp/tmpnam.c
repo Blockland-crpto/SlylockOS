@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <libssp.h>
 
 char *tmpnam(char *s) {
 	char *str;

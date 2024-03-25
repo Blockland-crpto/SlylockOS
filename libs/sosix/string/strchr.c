@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stddef.h>
-
+#include <libssp.h>
 
 char *strchr(const char *s, int c){
 	if (s == NULL) {

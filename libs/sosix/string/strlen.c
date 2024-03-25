@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stddef.h>
+#include <libssp.h>
 
 size_t strlen(const char *s) {
 	size_t i = 0;

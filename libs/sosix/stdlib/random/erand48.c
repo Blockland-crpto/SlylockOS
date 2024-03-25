@@ -1,5 +1,5 @@
 #include <stdlib.h>
-
+#include <libssp.h>
 
 double erand48(unsigned short xsubi[3]) {
 	const unsigned long long a = 0x5DEECE66DULL;

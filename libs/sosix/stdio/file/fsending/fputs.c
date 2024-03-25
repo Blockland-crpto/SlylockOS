@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <libssp.h>
 
 int fputs(const char *restrict s, FILE *restrict stream) {
 	while (*s != '\0') {

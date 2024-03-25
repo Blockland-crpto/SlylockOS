@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <libssp.h>
 
 int sprintf(char *restrict s, const char *restrict template, ...) {
 	va_list ap;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <libssp.h>
 
 int ungetc(int c, FILE *stream) {
 	if (c == EOF || stream == NULL) {

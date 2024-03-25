@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stddef.h>
+#include <libssp.h>
 
 void *memmove(void *s1, const void *s2, size_t n) {
 	unsigned char *d = s1;

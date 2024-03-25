@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <libssp.h>
 
 void lcong48(unsigned short param[7]) {
 	// Set the seed values

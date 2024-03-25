@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <libssp.h>
 
 int vsnprintf(char *restrict s, size_t size, const char *restrict template, va_list ap) {
 	char *ptr = template;

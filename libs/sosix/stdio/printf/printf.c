@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <libssp.h>
 
 int printf(const char *format, ...) {
 	va_list ap;

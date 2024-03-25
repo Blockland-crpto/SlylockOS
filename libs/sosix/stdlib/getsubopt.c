@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
+#include <libssp.h>
 
 int getsubopt(char **optionp, char * const *keylistp, char **valuep) {
 	char *option = *optionp;

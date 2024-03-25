@@ -1,5 +1,6 @@
 #include <string.h>
 #include <errno.h>
+#include <libssp.h>
 
 char *strerror(int errnum) {
 	switch (errnum) {

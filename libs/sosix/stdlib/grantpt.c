@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <libssp.h>
 #include <drivers/fs/fs.h>
 
 int grantpt(fs_node_t* node) {

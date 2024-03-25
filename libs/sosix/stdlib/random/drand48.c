@@ -1,5 +1,5 @@
 #include <stdlib.h>
-
+#include <libssp.h>
 
 double drand48(void) {
 	const unsigned long long a = 0x5DEECE66DULL;

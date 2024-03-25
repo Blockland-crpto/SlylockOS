@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stddef.h>
+#include <libssp.h>
 
 long atol(const char *nptr) {
-	strtol(nptr, (char **)NULL, 10);
+	return strtol(nptr, (char **)NULL, 10);
 }

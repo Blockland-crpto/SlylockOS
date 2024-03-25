@@ -16,6 +16,7 @@
    <https://www.gnu.org/licenses/>. 
 */
 #include <stdlib.h>
+#include <libssp.h>
 
 long long int llabs(long long int i) {
 	return i < 0 ? -i : i;

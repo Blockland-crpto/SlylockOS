@@ -1,4 +1,5 @@
 #include <string.h>
+#include <libssp.h>
 
 unsigned short *memsetw(unsigned short *dest, unsigned short val, int count)
 {

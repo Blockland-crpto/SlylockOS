@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <libssp.h>
 
 char *initstate(unsigned seed, char *state, size_t size) {
 	// Calculate the number of integers needed to fill the state array

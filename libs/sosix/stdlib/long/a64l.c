@@ -1,5 +1,6 @@
 //Copied from the GNU C Library
 #include <stdlib.h>
+#include <libssp.h>
 
 #define TABLE_BASE 0x2e
 #define TABLE_SIZE 0x4d

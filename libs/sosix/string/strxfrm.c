@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <locale.h>
+#include <libssp.h>
 
 //todo: add locale support
 size_t strxfrm(char *restrict s1, const char *restrict s2, size_t n) {

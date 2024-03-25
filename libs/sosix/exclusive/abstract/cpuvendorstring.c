@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <drivers/cpu/cpuid.h>
+#include <libssp.h>
 
 const char * const cpu_vendor_string() {
 	const char* cpu = cpu_string();

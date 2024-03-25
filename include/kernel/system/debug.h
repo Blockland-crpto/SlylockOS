@@ -55,10 +55,15 @@
 */
 #define APP_ERROR 8
 /**
-	\def TASK_ERROR
-	\brief Happens if a kernel process dies
+	\def SSP_ERROR
+	\brief Happens if stack smashing protector is tripped
 */
-#define TASK_ERROR 9
+#define SSP_ERROR 9
+/**
+	\def SSP_LOCAL_ERROR
+	\brief Happens if stack smashing protector is tripped locally
+*/
+#define SSP_LOCAL_ERROR 9
 
 void panic(char* reason, int errno);
 

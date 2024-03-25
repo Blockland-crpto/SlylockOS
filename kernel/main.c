@@ -31,6 +31,8 @@
 #include <drivers/perip/rtc.h>
 #include <drivers/perip/keybrd.h>
 
+#include <libssp.h>
+
 #define MB_MAGIC 0x1BADB002
 
 int main(multiboot_info_t* mb_info, uint32_t magic){
@@ -44,7 +46,7 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   	} 
   
   
-    
+	stack_chk_init();
   	gdt_install();
   	idt_install();
   

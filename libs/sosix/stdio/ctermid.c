@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <libssp.h>
 
 //test it out
 char *ctermid(char *s) {

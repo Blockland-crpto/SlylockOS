@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <libssp.h>
 
 int fprintf(FILE* stream, const char *format, ...) {
 	va_list ap;

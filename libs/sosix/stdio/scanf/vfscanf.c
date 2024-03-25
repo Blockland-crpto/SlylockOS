@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <libssp.h>
 
 static int my_fscanf_int(FILE *stream, int *result) {
 	int ch;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <libssp.h>
 #include <drivers/fs/fs.h>
 
 FILE *fmemopen(void *restrict buf, size_t size, const char *restrict mode) {

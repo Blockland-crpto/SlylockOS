@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <libssp.h>
 
 int vfprintf(FILE* stream, const char *format, va_list ap) {
 	char *ptr = format;

@@ -9,7 +9,7 @@ for i in $(seq 1 $end); do
 ta=$(echo ./sosixbin/$(basename $(echo $objects | cut -d" " -f$i )))
 tb=$(echo $sources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -fno-stack-protector -I./include/kernel -I./include/sosix -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin  -fstack-protector-all -I./include/kernel -I./include/sosix -c -o $ta $tb
 done
 
 ar rcs lib/sosix.a sosixbin/*.o

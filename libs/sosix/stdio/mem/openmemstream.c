@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <libssp.h>
 #include <drivers/fs/fs.h>
 
 FILE* open_memstream(char **bufp, size_t *sizep) {

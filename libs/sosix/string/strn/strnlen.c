@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stddef.h>
+#include <libssp.h>
 
 size_t strnlen(const char *s, size_t maxlen) {
 	size_t i = 0;

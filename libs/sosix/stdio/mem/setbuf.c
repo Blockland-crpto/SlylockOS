@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <libssp.h>
 
 void setbuf(FILE* restrict stream, char *restrict buf) {
 	if (buf == NULL) {

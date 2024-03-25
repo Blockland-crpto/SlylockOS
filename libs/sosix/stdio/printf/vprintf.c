@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <libssp.h>
 
 int vprintf(const char *format, va_list ap) {
 	char *ptr = format;

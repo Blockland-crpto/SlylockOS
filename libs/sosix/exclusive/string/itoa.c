@@ -1,4 +1,5 @@
 #include <string.h>
+#include <libssp.h>
 
 // Iterative function to implement itoa() function in C
 char* itoa(int value, char* buffer, int base)

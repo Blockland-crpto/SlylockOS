@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stddef.h>
+#include <libssp.h>
 
 char *strncat(char* restrict s1, const char* restrict s2, size_t n) {
 	// make `ptr` point to the end of the destination string

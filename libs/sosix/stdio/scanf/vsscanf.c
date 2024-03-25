@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <libssp.h>
 
 static int my_sscanf_int(const char **str, int *result) {
 	int value = 0;
