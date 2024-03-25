@@ -25,7 +25,7 @@ void cmd(char* str[]) {
 
 	if (strcmp(str, "about") == 0) {
 		set_cursor_pos(5, 6);
-		kprintf("About MINI");
+		kprintf("About SlyLock");
 		set_cursor_pos(5, 7);
 		kprintf("Kernel Version: V1.0.0");
 		set_cursor_pos(5, 8);
@@ -43,7 +43,7 @@ void cmd(char* str[]) {
 		reboot();
 	} else if (strcmp(str, "help") == 0) {
 		set_cursor_pos(5, 6);
-		kprintf("MINI Shell Commands");
+		kprintf("SlyLock Shell Commands");
 		set_cursor_pos(5, 7);
 		kprintf("about - Displays information about the OS");
 		set_cursor_pos(5, 8);

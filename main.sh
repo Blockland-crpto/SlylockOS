@@ -1,9 +1,7 @@
 mkdir lib
 ./build/sosix_build.sh
-
 ./build/libtui_build.sh
 ./build/libsdk_build.sh
-./build/libhab_build.sh
 
 csources=$(find ./kernel/* -type f -name "*.c")
 cheaders=$(find ./include/* -type f -name "*.h")
@@ -23,7 +21,7 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libtui -I./include/libsdk -I./include/libhab -fno-stack-protector  -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libtui -I./include/libsdk -fno-stack-protector  -c -o $ta $tb
 done
 objb="${objb:1}"
 
@@ -33,6 +31,7 @@ ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o $libaries
 
 rm -r iso
 
+mkdir env
 mkdir sys
 mkdir tmp
 echo '' >> sys/membuf
@@ -51,7 +50,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme ./lib/sosix.a ./lib/libtui.a ./lib/libsdk.a ./sys/membuf ./tmp"
+inp="readme ./lib/sosix.a ./lib/libtui.a ./lib/libsdk.a ./sys/membuf ./tmp ./env"
 res=''
 for word in $inp; do
 res="${res} ${word}"
@@ -65,6 +64,7 @@ rm -r lib
 rm -r iso
 rm -r sys
 rm -r tmp
+rm -r env
 
 qemu-system-i386 -cdrom SlylockOS.iso -m 512M -device pci-bridge,chassis_nr=1,id=bridge1
 

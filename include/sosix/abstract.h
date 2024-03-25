@@ -1,5 +1,5 @@
-#ifndef __LIBHAB_H
-#define __LIBHAB_H
+#ifndef __ABSTRACT_H
+#define __ABSTRACT_H
 
 #include <drivers/cpu/cpuid.h>
 #include <drivers/perip/rtc.h>

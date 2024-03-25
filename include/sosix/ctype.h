@@ -7,6 +7,8 @@ extern "C" {
 
 	int isdigit(char c);
 	int isspace(char c);
+	int isalnum(int c);
+	int tolower(int c);
 
 #if defined(__cplusplus)
 } /* extern "C" */

@@ -8,7 +8,7 @@ to add 1 file,
 or `./initrdgen <filename #1> <filename #1 again> <filename #2>
 <filename #2 again> <etc...>` to add more.
 
-This file is bundled in Mini itself, use `cat` 
+This file is bundled in SlyLock itself, use `cat` 
 to read it in the command line.
 
 SlylockOS's Kernel architecture is as follows:

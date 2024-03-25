@@ -1,4 +1,4 @@
-//Mini OS Kernel
+//Slylock OS Kernel
 #include <system/mltb/multiboot.h>
 #include <system/mltb/multibootinfo.h>
 

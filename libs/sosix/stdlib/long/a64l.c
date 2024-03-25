@@ -15,7 +15,7 @@ static const char a64l_table[TABLE_SIZE] = {
 };
 
 
-long int a64l (const char* str) {
+long a64l (const char* str) {
 	const char *ptr = str;
 	unsigned long int result = 0ul;
 	const char *end = ptr + 6;
@@ -41,5 +41,5 @@ long int a64l (const char* str) {
 		result |= value << shift;
 		shift += 6;
 	} while(ptr != end);
-	return (long int) result;
+	return (long) result;
 }
