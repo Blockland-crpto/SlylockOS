@@ -119,6 +119,7 @@ extern "C" {
 	char* itoa(int num, char* str, int base);
 	int octtodec(int n);
 	unsigned short *memsetw(unsigned short *dest, unsigned short val, int count);
+	char* rstrstr(const char *str, const char *sub);
 	
 	
 #if defined(__cplusplus)

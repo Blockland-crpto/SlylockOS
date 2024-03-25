@@ -76,16 +76,42 @@ uint32_t initrd_create_file(char *name, uint8_t *buffer, uint32_t size);
 uint32_t initrd_delete_file(char *name);
 
 /**
-   \brief       File renaming function
+   \brief       Standard initrd directory creation function
 
-   Standard initrd read function.
+   Standard initrd directory creation function.
+   \param{in}   name The name of the directory
+*/
+void initrd_create_dir(char *name);
+
+/**
+   \brief       Standard initrd directory deletion function
+
+   Standard initrd directory deletion function.
+   \param{in}   name The name of the directory
+   \returns 0 if successful.
+*/
+uint32_t initrd_delete_dir(char *name);
+
+
+/**
+   \brief       file renaming function
+
+   Standard initrd rename function.
    \param{in}   node The node to write to
-   \param{in}   offset The offset for `node`
-   \param{in}   size The amount of bytes to write after `offset`.
-   \param{in}   buffer The buffer of characters to be written, in uint8_t* form.
+   \param{in}   name The directories new name.
    \returns 0 if successful.
 */
 static uint32_t initrd_rename_file(fs_node_t *node, char *name);
+
+/**
+   \brief       Directory renaming function
+
+   Standard initrd rename function.
+   \param{in}   node The node to write to
+   \param{in}   name The directories new name.
+   \returns 0 if successful.
+*/
+static uint32_t initrd_rename_dir(fs_node_t *node, char *name);
 /**
    \brief       Standard initrd write function
 

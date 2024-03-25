@@ -125,7 +125,9 @@ extern "C" {
 
 	//TODO: add MBLen, mbtowc, mbstowcs
 
-	
+
+	//mkdtemp implementation
+	char *mkdtemp(char *temp);
 	
 	//strtod implementation
 	double strtod(const char *restrict nptr, char **restrict endptr);

@@ -111,6 +111,52 @@ static uint32_t initrd_rename_file(fs_node_t *node, char *name) {
 	return 0;
 }
 
+void initrd_create_dir(char *name) {
+	uint32_t location = *((uint32_t*)mbi->mods_addr);
+	struct dirent dirnode;
+	strcpy(dirnode.name, name);
+	initrd_header->nfiles++;
+
+	memcpy((uint8_t *)(location + sizeof(dirnode) + (nroot_nodes * sizeof(initrd_file_header_t))), &dirnode, sizeof(dirnode));
+	// Create a new file node
+	strcpy(root_nodes[nroot_nodes].name, name);
+	root_nodes[nroot_nodes].mask = root_nodes[nroot_nodes].uid = root_nodes[nroot_nodes].gid = 0;
+	root_nodes[nroot_nodes].length = 0;
+	root_nodes[nroot_nodes].inode = nroot_nodes;
+	root_nodes[nroot_nodes].flags = FS_DIRECTORY;
+	root_nodes[nroot_nodes].read = 0;
+	root_nodes[nroot_nodes].write = 0;
+	root_nodes[nroot_nodes].rename = &initrd_rename_dir;
+	root_nodes[nroot_nodes].readdir = &initrd_readdir;
+	root_nodes[nroot_nodes].finddir = &initrd_finddir;
+	root_nodes[nroot_nodes].open = 0;
+	root_nodes[nroot_nodes].close = 0;
+	root_nodes[nroot_nodes].impl = 0;
+
+	nroot_nodes++;
+
+	return;
+}
+
+uint32_t initrd_delete_dir(char *name) {
+	int i;
+	for (i = 0; i < nroot_nodes; i++) {
+		if (strcmp(root_nodes[i].name, name) == 0 && (root_nodes[i].flags & FS_DIRECTORY)) {
+			// Remove the directory entry from root_nodes
+			for (int j = i; j < nroot_nodes - 1; j++) {
+				root_nodes[j] = root_nodes[j + 1];
+			}
+			nroot_nodes--;
+			return 0; // Success
+		}
+	}
+	return -1; // Directory not found
+}
+
+static uint32_t initrd_rename_dir(fs_node_t *node, char *name) {
+	strcpy(node->name, name);
+}
+
 static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
 	if (node->flags & FS_DIRECTORY)
 		return 0; // Directories are read-only in this example

@@ -163,7 +163,11 @@ uint32_t create_file_fs(char *name, uint8_t *buffer, uint32_t size);
 
 uint32_t delete_file_fs(char *name);
 
-uint32_t rename_file_fs(fs_node_t *node, char *name);
+void create_dir_fs(char *name);
+
+uint32_t delete_dir_fs(char *name);
+
+uint32_t rename_fs(fs_node_t *node, char *name);
 
 uint32_t read_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 

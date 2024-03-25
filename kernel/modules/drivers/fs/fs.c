@@ -16,7 +16,16 @@ uint32_t delete_file_fs(char *name) {
 	return initrd_delete_file(name);
 }
 
-uint32_t rename_file_fs(fs_node_t *node, char *name) {
+void create_dir_fs(char *name) {
+	return initrd_create_dir(name); 
+}
+
+uint32_t delete_dir_fs(char *name) {
+	return initrd_delete_dir(name);
+}
+
+
+uint32_t rename_fs(fs_node_t *node, char *name) {
 	// Has the node got a rename callback?
 	if (node->rename != 0)
 		return node->rename(node, name);
