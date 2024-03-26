@@ -16,4 +16,5 @@ const char * const cpu_string() {
 void cpuid_init() {
 	module_t modules_cpuid_cpuid = MODULE("kernel.modules.cpuid.cpuid", "identifies the Processor");
 	INIT(modules_cpuid_cpuid);
+	DONE(modules_cpuid_cpuid);
 }

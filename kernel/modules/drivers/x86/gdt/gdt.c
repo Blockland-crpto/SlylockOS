@@ -29,9 +29,8 @@ struct gdt_ptr gp;
 extern void _gdt_flush();
 
 /* Setup a descriptor in the Global Descriptor Table */
-void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran)
-{
-    /* Setup the descriptor base address */
+void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran) {
+	/* Setup the descriptor base address */
     gdt[num].base_low = (base & 0xFFFF);
     gdt[num].base_middle = (base >> 16) & 0xFF;
     gdt[num].base_high = (base >> 24) & 0xFF;
@@ -50,9 +49,9 @@ void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned cha
 *  finally call gdt_flush() in our assembler file in order
 *  to tell the processor where the new GDT is and update the
 *  new segment registers */
-void gdt_install()
-{
+void gdt_install() {
 	module_t modules_gdt_gdt = MODULE("kernel.modules.gdt.gdt", "GDT for the kernel (CORE)");
+	INIT(modules_gdt_gdt);
     /* Setup the GDT pointer and limit */
     gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
     gp.base = (unsigned int)&gdt;
@@ -74,6 +73,6 @@ void gdt_install()
 
     /* Flush out the old GDT and install the new changes! */
     _gdt_flush();
-	INIT(modules_gdt_gdt);
+	DONE(modules_gdt_gdt);
 	 
 }

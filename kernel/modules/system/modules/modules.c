@@ -23,10 +23,21 @@ int INIT(module_t module) {
 		count = 1;
 	} else {
 		count++;
-	}
-	module.initialized = true;
-	
+	}	
 }
+
+void FAIL(module_t module, char* reason) {
+	kprintf("Failed - ");
+	kprintf(reason);
+	kprintf("\n");
+	module.initialized = false;
+}
+
+void DONE(module_t module) {
+	kprintf(" Success\n");
+	module.initialized = true;
+}
+
 void DISABLE(module_t module) {
 	module.enabled = false;
 }

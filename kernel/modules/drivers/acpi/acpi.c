@@ -55,11 +55,11 @@ int acpiEnable(void) {
 	  	} else {
 		 	//kprintf("no known way to enable acpi.\n");
 		 	acpiEnabled = false;
-		 	return -1;
+		 	return -2;
 	  	}
    	} else {
 	  	//kprintf("acpi was already enabled.\n");
-	  	return 0;
+	  	return 1;
    	}
 }
 
@@ -142,12 +142,20 @@ int initAcpi(void) {
 
 void acpi_init() {
 	module_t modules_acpi_acpi = MODULE("kernel.modules.acpi.acpi", "Provides ACPI support for the kernel (CORE)");
-	int result = initAcpi();
-	if (result == 0) {
-		kprintf(" Done\n");
-	} else {
-		kprintf(" Failed\n");
-	}
-	acpiEnable();
 	INIT(modules_acpi_acpi);
+	
+	int result = initAcpi();
+	
+	if (result == 0) {
+		DONE(modules_acpi_acpi);
+	} else if (result == -1) {
+		FAIL(modules_acpi_acpi, "couldn't enable acpi.");
+		return;
+	} else if (result == -2) {
+		FAIL(modules_acpi_acpi, "acpi not avaliable");
+		return;
+	}
+	
+	acpiEnable();
+	
 }

@@ -56,8 +56,13 @@ extern "C" {
 	/**
 		\brief Sets the module as failed
 	*/
-	void FAIL(module_t module);
+	void FAIL(module_t module, char* reason);
 
+	/**
+		\brief Sets the module as done
+	*/
+	void DONE(module_t module);
+	
 	/**
 		\brief Disables the module `module`
 	*/

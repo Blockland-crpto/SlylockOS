@@ -85,9 +85,11 @@ void filesystem_init() {
 	char** deps;
 	deps[0] = "kernel.modules.initrd.initrd";
 	DEPS(modules_fs_fs, deps);
+	INIT(modules_fs_fs); 
 	uint32_t initrd_location = *((uint32_t*)mbi->mods_addr);
    	uint32_t initrd_end = *(uint32_t*)(mbi->mods_addr+4);
    	uint32_t placement_address = initrd_end;
+	DONE(modules_fs_fs);
+	
 	fs_root = initialise_initrd(initrd_location);
-	INIT(modules_fs_fs); 
 }

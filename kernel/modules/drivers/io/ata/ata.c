@@ -9,7 +9,7 @@ void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint8_t sector_coun
 
 	wait_ata_bsy();
 
-  out_port_byte(0x1F6,0xE0 | ((LBA >>24) & 0xF));
+ 	out_port_byte(0x1F6,0xE0 | ((LBA >>24) & 0xF));
 
 	out_port_byte(0x1F2, sector_count);
 
@@ -24,8 +24,7 @@ void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint8_t sector_coun
 
 	uint16_t *target = (uint16_t*) target_address;
 
-	for (int j =0;j<sector_count;j++)
-	{
+	for (int j =0;j<sector_count;j++) {
 		wait_ata_bsy();
 		wait_ata_drq();
 		for(int i=0;i<256;i++)
@@ -66,5 +65,5 @@ void wait_ata_drq() {
 void ata_init() {
 	module_t modules_ata_ata = MODULE("kernel.modules.ata.ata", "Provides ATA support for the kernel, read/write (CORE)");
 	INIT(modules_ata_ata);
-	 
+	DONE(modules_ata_ata);
 }

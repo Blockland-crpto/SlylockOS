@@ -36,10 +36,11 @@ void timer_install(){
 	char** deps;
 	deps[0] = "kernel.modules.isr.isr";
 	deps[1] = "kernel.modules.irq.irq";
+	INIT(modules_timer_timer);
 	DEPS(modules_timer_timer, deps);
     timer_phase(FREQ);
     irq_install_handler(0, timer_handler);
-    INIT(modules_timer_timer);
+   	DONE(modules_timer_timer);
 	 
 }
 

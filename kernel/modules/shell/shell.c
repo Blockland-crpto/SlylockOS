@@ -16,4 +16,5 @@ void shell_init(){
 	deps[1] = "kernel.modules.im.im";
 	DEPS(modules_shell_shell, deps);
 	INIT(modules_shell_shell);
+	DONE(modules_shell_shell);
 }

@@ -115,7 +115,8 @@ void keyboard_install(){
 	char** deps;
 	deps[0] = "shell";
 	DEPS(modules_keyboard_keyboard, deps);
-	irq_install_handler(1, keyboard_handler);
 	INIT(modules_keyboard_keyboard);
+	irq_install_handler(1, keyboard_handler);
+	DONE(modules_keyboard_keyboard);
 	 
 }

@@ -55,6 +55,7 @@ void irq_install(){
 	deps[0] = "kernel.modules.idt.idt";
 	deps[1] = "kernel.modules.isr.isr";
 	DEPS(modules_irq_irq, deps);
+	INIT(modules_irq_irq);
 	irq_remap();
 
 	//mapping the IRQs to 32-47 IDT entries
@@ -74,8 +75,8 @@ void irq_install(){
 	idt_set_gate(45, (unsigned)_irq13, 0x08, 0x8E);
 	idt_set_gate(46, (unsigned)_irq14, 0x08, 0x8E);
 	idt_set_gate(47, (unsigned)_irq15, 0x08, 0x8E);
-	INIT(modules_irq_irq);
-	 
+	
+	DONE(modules_irq_irq);
 }
 
 void irq_handler(struct regs *r){
