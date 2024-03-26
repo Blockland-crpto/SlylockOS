@@ -2,7 +2,7 @@
 #include <drivers/io/ports.h>
 #include <system/types.h>
 #include <drivers/vga.h>
-#include <system/mod.h>
+#include <system/modules.h>
 #include <stdio.h>
 #include <libssp.h>
 

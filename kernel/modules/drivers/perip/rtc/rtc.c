@@ -1,6 +1,6 @@
 #include <drivers/perip/rtc.h>
 #include <system/types.h>
-#include <system/mod.h>
+#include <system/modules.h>
 #include <drivers/io/ports.h>
 #include <libssp.h>
 

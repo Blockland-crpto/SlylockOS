@@ -1,6 +1,6 @@
 //Slylock OS Kernel
-#include <system/mltb/multiboot.h>
-#include <system/mltb/multibootinfo.h>
+#include <system/multiboot/multiboot.h>
+#include <system/multiboot/multibootinfo.h>
 
 #include <system/debug.h>
 #include <system/types.h>
@@ -27,7 +27,7 @@
 #include <drivers/perip/pci.h>
 #include <drivers/perip/timer.h>
 #include <drivers/perip/rtc.h>
-#include <drivers/perip/keybrd.h>
+#include <drivers/perip/keyboard.h>
 
 #include <libssp.h>
 

@@ -8,8 +8,8 @@
   \copyright MIT License.
 */
 
-#ifndef __SYSTEM_MEM_H
-#define __SYSTEM_MEM_H
+#ifndef __SYSTEM_MEMORY_H
+#define __SYSTEM_MEMORY_H
 
 
 #if defined(__cplusplus)

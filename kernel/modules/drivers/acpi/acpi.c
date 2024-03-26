@@ -1,6 +1,6 @@
 #include <drivers/acpi.h>
-#include <system/mem.h>
-#include <system/mod.h>
+#include <system/memory.h>
+#include <system/modules.h>
 #include <drivers/io/ports.h>
 #include <system/types.h>
 #include <drivers/vga.h>

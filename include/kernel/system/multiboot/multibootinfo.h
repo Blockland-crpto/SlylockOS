@@ -8,10 +8,10 @@
   \copyright MIT License.
 */
 
-#include <system/mltb/multiboot.h>
+#include <system/multiboot/multiboot.h>
 
-#ifndef __SYSTEM_MLTB_MULTIBOOTINFO_H
-#define __SYSTEM_MLTB_MULTIBOOTINFO_H
+#ifndef __SYSTEM_multiboot_MULTIBOOTINFO_H
+#define __SYSTEM_multiboot_MULTIBOOTINFO_H
 
 #if defined(__cplusplus)
 extern "C" {
