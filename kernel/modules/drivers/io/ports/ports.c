@@ -1,5 +1,6 @@
 #include <drivers/io/ports.h>
 #include <system/types.h>
+#include <libssp.h>
 
 unsigned char in_port_byte(unsigned short port){
     unsigned char result;

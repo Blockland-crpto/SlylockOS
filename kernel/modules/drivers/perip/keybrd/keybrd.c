@@ -1,13 +1,11 @@
 #include <drivers/io/ports.h>
 #include <drivers/vga.h>
-#include <libtui.h>
 #include <drivers/x86/isr.h>
 #include <drivers/x86/irq.h>
 #include <drivers/perip/keybrd.h>
 #include <shell/shell.h>
 #include <system/mod.h>
-#include <system/im.h>
- 
+#include <libssp.h>
 
 
 
@@ -75,33 +73,8 @@ void keyboard_handler(struct regs *r){
 		  //do nothing
 		  //this prevents clearing the '>' character on the screen
 		} else {
-		  if (shellinput == 1) { 
-			  if (i==0 && c=='\b') {
-				  //do nothing
-				  //prevents the backspace from clearing the textbox
-
-			  } else if (i==43) {
-				  //do nothing prevents overflows
-			  }
-		  } else if (textboxactive == 0) { 
-		
-		  } else if(textboxactive == 1) {
-			if (i==0 && c=='\b') {
-				//do nothing
-				//prevents the backspace from clearing the textbox
-
-			} else if (i >= 33) {
-				//do nothing
-				//prevents the textbox from overflowing
-			} else {
-				putchar(c, 8, 7);
-			}
-
-		  } else {
-			putchar(c, COLOR_WHT, COLOR_BLK);
-			//printf("User Prog %d", userinputmode);
-		  }
-		  track_input(c);
+			kputchar(c, COLOR_WHT, COLOR_BLK);
+		 	track_input(c);
 		}
 	}
 
@@ -126,58 +99,19 @@ char get_key(){
 }
 
 void track_input(char c){
-	if (shellinput == 1) {
-
-		//This handles the shell input
-		if (c == ENTER_KEY) {
-			cmd(input_buffer);
-			memset(input_buffer, 0, sizeof(input_buffer));
-			i=0;
-		} else if(c == MENU_KEY) {
-			shellinput = 0;
-			main_menu(1, CMD_APP_ID_TW, 1);
-		} else {
-			putchar(c, COLOR_WHT, COLOR_BLK);
-			input_buffer[i] = c;
-			i++;
-		}
-		
-	} else if(textboxactive == 0) {
-		  
-		  //This is a patch to coordinate program responces to key input
-		  appinput_handler(c, userinputmode);
-
-	} else if (textboxactive == 1) {
-		if (c == '\n') {
-			clear(COLOR_WHT, COLOR_BLK);
-			set_cursor_pos(0,0);
-			textboxactive = 0;
-			textinputhandler(input_buffer, userinputmode);
-			i = 0;
-		} else if(c == '\b'){
-			 input_buffer[i-1]='\0';
-			 i--;
-		} else {
-			input_buffer[i] = c;
-			i++;
-		}
-
-	}
+	return;
 }
 
-void tui_reset() {
+void input_reset() {
 	clear(COLOR_WHT, COLOR_BLK);
 	set_cursor_pos(0,0);
 	//shell(input_buffer, i);
 	memset(input_buffer, 0, sizeof(input_buffer));
 	i=0;
-	userinputmode = SHELL_APP_ID;
-	tui_shell();
 }
 
 void keyboard_install(){
 	module_t modules_keyboard_keyboard = MODULE("kernel.modules.keyboard.keyboard", "Provides PS/2 keyboard support for the kernel (CORE)");
-	shellinput = 0;
 	char** deps;
 	deps[0] = "shell";
 	DEPS(modules_keyboard_keyboard, deps);

@@ -4,9 +4,7 @@
 
 #include <system/debug.h>
 #include <system/types.h>
-#include <system/im.h>
 
-#include <libtui.h>
 #include <shell/shell.h>
 
 #include <drivers/vga.h>
@@ -35,6 +33,11 @@
 
 #define MB_MAGIC 0x1BADB002
 
+__attribute__ ((constructor)) void init_kernel() {
+	stack_chk_init();
+	return;
+}
+
 int main(multiboot_info_t* mb_info, uint32_t magic){
   	mbi = mb_info;
   	set_cursor_pos(0,0);
@@ -45,8 +48,6 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
     	panic("invalid memory map given by GRUB bootloader", MEMORY_MAP_INVALID);
   	} 
   
-  
-	stack_chk_init();
   	gdt_install();
   	idt_install();
   
@@ -69,9 +70,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	
 	vga_init();
 	libc_init();
-	im_init();
-  	//task_init();
 
+	kprintf("Hello World!");
   	__asm__ __volatile__("sti");
 
   	return 0;

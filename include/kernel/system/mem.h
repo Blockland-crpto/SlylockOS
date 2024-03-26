@@ -12,42 +12,51 @@
 #define __SYSTEM_MEM_H
 
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
-/**
-	\brief Gets RAM installed
+	/**
+		\brief Gets RAM installed
 
-	Gets the amount of RAM installed in the computer.
-*/
-int ram_size();
-
-
-/**
-  \typedef unsigned long uintptr_t
-  \brief Defines a unsigned long for uintptr_t
-*/
-typedef unsigned long uintptr_t;
-/**
-  \typedef long intptr_t
-  \brief Defines a long for intptr_t
-*/
-typedef long intptr_t;
+		Gets the amount of RAM installed in the computer.
+	*/
+	int ram_size();
 
 
-// unused, I think
-void *sbrk(intptr_t incr);
+	/**
+	  \typedef unsigned long uintptr_t
+	  \brief Defines a unsigned long for uintptr_t
+	*/
+	typedef unsigned long uintptr_t;
+	/**
+	  \typedef long intptr_t
+	  \brief Defines a long for intptr_t
+	*/
+	typedef long intptr_t;
 
-/**
-  \brief Initializes kalloc function
-*/
-void kalloc_init();
 
-/**
-  \brief Frees the memory of *firstbyte
-*/
-void kfree(void *firstbyte);
-/**
-  \brief Allocates memory with the size being numbytes
-*/
-void *kalloc(long numbytes);
+	// unused, I think
+	void *sbrk(intptr_t incr);
+
+	/**
+	  \brief Initializes kalloc function
+	*/
+	void kalloc_init();
+
+	/**
+	  \brief Frees the memory of *firstbyte
+	*/
+	void kfree(void *firstbyte);
+	/**
+	  \brief Allocates memory with the size being numbytes
+	*/
+	void *kalloc(long numbytes);
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
+
 
 #endif

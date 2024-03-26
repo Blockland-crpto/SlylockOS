@@ -4,7 +4,7 @@
 #include <drivers/vga.h>
 #include <system/mod.h>
 #include <stdio.h>
- 
+#include <libssp.h>
 
 uint32_t config_addr = 0xCF8;
 uint32_t config_data = 0xCFC;

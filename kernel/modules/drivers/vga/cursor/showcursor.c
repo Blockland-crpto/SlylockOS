@@ -1,5 +1,6 @@
 #include <drivers/vga.h>
 #include <drivers/io/ports.h>
+#include <libssp.h>
 
 void show_cursor(){ // Sends a bunch of out port byte commands to show the cursor
 	unsigned char current;

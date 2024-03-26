@@ -1,5 +1,6 @@
 #include <drivers/vga.h>
 #include <system/debug.h>
+#include <libssp.h>
 
 
 void panic(char* reason, int errno) {

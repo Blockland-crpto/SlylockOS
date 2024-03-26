@@ -1,5 +1,6 @@
 #include <drivers/io/mmio.h>
 #include <system/types.h>
+#include <libssp.h>
 
 uint8_t mmioRead8 (uint64_t p_address) {
 	return *((volatile uint8_t*)(p_address));

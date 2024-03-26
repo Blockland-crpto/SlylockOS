@@ -63,10 +63,24 @@
 	\def SSP_LOCAL_ERROR
 	\brief Happens if stack smashing protector is tripped locally
 */
-#define SSP_LOCAL_ERROR 9
+#define SSP_LOCAL_ERROR 10
+/**
+	\def TASK_MAX
+	\brief Happens if more then maximum tasks are attempted to be created
+*/
+#define TASK_MAX 11
 
-void panic(char* reason, int errno);
+#if defined(__cplusplus)
+extern "C" {
+#endif
+	
+	void panic(char* reason, int errno);
 
-//warn function
-void warn(char* reason);
+	//warn function
+	void warn(char* reason);
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
 #endif

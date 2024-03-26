@@ -2,7 +2,7 @@
 #include <system/mod.h>
 #include <drivers/vga.h>
 #include <system/mem.h>
- 
+#include <libssp.h>
 
 struct idt_entry {
 	unsigned short base_lo;

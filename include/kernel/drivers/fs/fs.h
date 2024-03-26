@@ -63,122 +63,132 @@
 */
 #define FS_MOUNTPOINT  0x08
 
-/**
-  \typedef uint32_t (*rename_type_t)(struct fs_node*,char*)
-  \brief This is equal to read_type_t.
-*/
-typedef uint32_t (*rename_type_t)(struct fs_node*,char*);
+#if defined(__cplusplus)
+extern "C" {
+#endif
+	/**
+	  \typedef uint32_t (*rename_type_t)(struct fs_node*,char*)
+	  \brief This is equal to read_type_t.
+	*/
+	typedef uint32_t (*rename_type_t)(struct fs_node*,char*);
 
-/**
-  \typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*)
-  \brief This is equal to write_type_t.
-*/
-typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+	/**
+	  \typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*)
+	  \brief This is equal to write_type_t.
+	*/
+	typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
 
-/**
-  \typedef uint32_t (*write_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*)
-  \brief This is equal to read_type_t.
-*/
-typedef uint32_t (*write_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+	/**
+	  \typedef uint32_t (*write_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*)
+	  \brief This is equal to read_type_t.
+	*/
+	typedef uint32_t (*write_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
 
-/**
-  \typedef void (*open_type_t)(struct fs_node*)
-  \brief This is equal to close_type_t.
-*/
-typedef void (*open_type_t)(struct fs_node*);
+	/**
+	  \typedef void (*open_type_t)(struct fs_node*)
+	  \brief This is equal to close_type_t.
+	*/
+	typedef void (*open_type_t)(struct fs_node*);
 
-/**
-  \typedef void (*close_type_t)(struct fs_node*)
-  \brief This is equal to open_type_t.
-*/
-typedef void (*close_type_t)(struct fs_node*);
-
-
-typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
-
-typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char *name); 
-
-/**
-  \struct fs_node
-  \brief Filesystem node typedef struct
-
-  This struct consists of:
-	I. name: Filename of the node
-	II. mask: The permissions mask
-	III. uid: The owning user
-	IV. gid: The owning group
-	V. Includes the node type. See the FS_* defines in fs.h.
-	VI. inode: This is device-specific - provides a way for a filesystem to identify files
-	VII. length: Size of the file in bytes
-	VIII. An implementation-defined number
-	IX. read: Read function, if the node is a file
-	X. write: Write function, if the node is a file
-	XI. rename: Rename function, if the node is a file
-	XII. open: Open function, if the node is a file
-	XIII. close: Close function, if the node is a file
-	XIV. readdir: Read function, if the node is a directory
-	XV. finddir: Find directory function
-	XVI. ptr: Used by mountpoints and symbolic links
-*/
-typedef struct fs_node
-{
-   char name[128];
-   uint32_t mask;
-   uint32_t uid;
-   uint32_t gid;
-   uint32_t flags;
-   uint32_t inode;
-   uint32_t length;
-   uint32_t impl;
-   read_type_t read;
-   write_type_t write;
-   rename_type_t rename;
-   open_type_t open;
-   close_type_t close;
-   readdir_type_t readdir;
-   finddir_type_t finddir;
-   struct fs_node *ptr;
-} fs_node_t; 
-
-/**
-  \struct readdir
-  \brief Filesystem directory entry typedef struct
-  
-  One of these is returned by the readdir call, according to POSIX.
-
-  This struct consists of:
-	I. name: Filename
-	II. ino: Inode number. Required by POSIX.
-*/
-struct dirent
-{
-  char name[128]; // Filename.
-  uint32_t ino;     // Inode number. Required by POSIX.
-}; 
+	/**
+	  \typedef void (*close_type_t)(struct fs_node*)
+	  \brief This is equal to open_type_t.
+	*/
+	typedef void (*close_type_t)(struct fs_node*);
 
 
-extern fs_node_t *fs_root; // The root of the filesystem.
+	typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
 
-uint32_t create_file_fs(char *name, uint8_t *buffer, uint32_t size);
+	typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char *name); 
 
-uint32_t delete_file_fs(char *name);
+	/**
+	  \struct fs_node
+	  \brief Filesystem node typedef struct
 
-void create_dir_fs(char *name);
+	  This struct consists of:
+		I. name: Filename of the node
+		II. mask: The permissions mask
+		III. uid: The owning user
+		IV. gid: The owning group
+		V. Includes the node type. See the FS_* defines in fs.h.
+		VI. inode: This is device-specific - provides a way for a filesystem to identify files
+		VII. length: Size of the file in bytes
+		VIII. An implementation-defined number
+		IX. read: Read function, if the node is a file
+		X. write: Write function, if the node is a file
+		XI. rename: Rename function, if the node is a file
+		XII. open: Open function, if the node is a file
+		XIII. close: Close function, if the node is a file
+		XIV. readdir: Read function, if the node is a directory
+		XV. finddir: Find directory function
+		XVI. ptr: Used by mountpoints and symbolic links
+	*/
+	typedef struct fs_node
+	{
+	   char name[128];
+	   uint32_t mask;
+	   uint32_t uid;
+	   uint32_t gid;
+	   uint32_t flags;
+	   uint32_t inode;
+	   uint32_t length;
+	   uint32_t impl;
+	   read_type_t read;
+	   write_type_t write;
+	   rename_type_t rename;
+	   open_type_t open;
+	   close_type_t close;
+	   readdir_type_t readdir;
+	   finddir_type_t finddir;
+	   struct fs_node *ptr;
+	} fs_node_t; 
 
-uint32_t delete_dir_fs(char *name);
+	/**
+	  \struct readdir
+	  \brief Filesystem directory entry typedef struct
 
-uint32_t rename_fs(fs_node_t *node, char *name);
+	  One of these is returned by the readdir call, according to POSIX.
 
-uint32_t read_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
+	  This struct consists of:
+		I. name: Filename
+		II. ino: Inode number. Required by POSIX.
+	*/
+	struct dirent
+	{
+	  char name[128]; // Filename.
+	  uint32_t ino;     // Inode number. Required by POSIX.
+	}; 
 
-uint32_t write_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 
-void open_fs(fs_node_t *node, uint8_t read, uint8_t write);
+	extern fs_node_t *fs_root; // The root of the filesystem.
 
-void close_fs(fs_node_t *node);
+	uint32_t create_file_fs(char *name, uint8_t *buffer, uint32_t size);
 
-struct dirent *readdir_fs(fs_node_t *node, uint32_t index);
+	uint32_t delete_file_fs(char *name);
 
-fs_node_t *finddir_fs(fs_node_t *node, char *name); 
+	void create_dir_fs(char *name);
+
+	uint32_t delete_dir_fs(char *name);
+
+	uint32_t rename_fs(fs_node_t *node, char *name);
+
+	uint32_t read_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
+
+	uint32_t write_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
+
+	void open_fs(fs_node_t *node, uint8_t read, uint8_t write);
+
+	void close_fs(fs_node_t *node);
+
+	struct dirent *readdir_fs(fs_node_t *node, uint32_t index);
+
+	fs_node_t *finddir_fs(fs_node_t *node, char *name); 
+
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
+
 
 #endif

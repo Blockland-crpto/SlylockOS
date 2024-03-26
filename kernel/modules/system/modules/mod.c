@@ -1,4 +1,7 @@
 #include <system/mod.h>
+#include <drivers/vga.h>
+#include <libssp.h>
+
 
 #define NULL 0
 
@@ -13,7 +16,8 @@ module_t MODULE(char* name, char* description) {
 }
 
 int INIT(module_t module) {
-	
+	kprintf("Initializing module - ");
+	kprintf(module.name);
 	modules[count] = module;
 	if(count == NULL) {
 		count = 1;

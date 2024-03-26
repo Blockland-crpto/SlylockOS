@@ -1,6 +1,8 @@
 #include <system/mem.h>
 #include <system/mltb/multibootinfo.h>
 #include <string.h>
+#include <libssp.h>
+
  
 uintptr_t current_break;
 int has_initialized = 0;

@@ -1,6 +1,6 @@
 #include <drivers/vga.h>
 #include <string.h>
-
+#include <libssp.h>
 
 
 void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start) {

@@ -7,7 +7,8 @@
 #include <system/mod.h>
 #include <drivers/perip/keybrd.h>
 #include <system/debug.h>
- 
+ #include <libssp.h>
+
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 
@@ -27,7 +28,7 @@ void clear(unsigned char fg_color, unsigned char bg_color){
     }
 }
 
-void putchar(const char character, const unsigned char fg_color, const unsigned char bg_color){
+void kputchar(const char character, const unsigned char fg_color, const unsigned char bg_color){
     unsigned short position = get_cursor_pos(); // Get the cursor position
 
     if (character == '\n'){ // If the character is a newline, then set the cursor x and y to 0 and y+1 respectively. If the screen is on the last row of text, scroll
@@ -42,7 +43,7 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
     }
     else if(character == '\b'){ // If the character is a backspace, then move the cursor position to (x-1, y), set the character to a blank character, and then move the character back again.
         advance_cursor(MOVE_BACK);
-        putchar(' ', fg_color, bg_color);
+        kputchar(' ', fg_color, bg_color);
         advance_cursor(MOVE_BACK);
     }
     else if (character == '\r'){ // If the character is a carriage return, then set the cursor position to (0, pos/vga_width), usually (0, pos/80)
@@ -54,7 +55,7 @@ void putchar(const char character, const unsigned char fg_color, const unsigned 
     else if (character == '\t'){ // If the character is a tab, then turn the tab into 4 spaces and advance the cursor to the end of the 4 spaces.
         // Turn tab to 4 spaces
         for (unsigned char i = 0; i < 4; i++){
-            putchar(' ', fg_color, bg_color);
+            kputchar(' ', fg_color, bg_color);
         }
         advance_cursor(ADVANCE);
     }

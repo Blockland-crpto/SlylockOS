@@ -1,5 +1,6 @@
 #include <drivers/vga.h>
 #include <drivers/io/ports.h>
+#include <libssp.h>
 
 unsigned short get_cursor_pos(){
 	unsigned short position = 0;

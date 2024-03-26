@@ -1,6 +1,7 @@
 #include <drivers/cpu/nmi.h>
 #include <drivers/io/ports.h>
 #include <system/types.h>
+#include <libssp.h>
 
 uint32_t retrive_nmi_data_b() {
 	uint32_t nmi_cause_b;

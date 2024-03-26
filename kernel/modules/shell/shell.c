@@ -1,15 +1,7 @@
 #include <system/mod.h>
 #include <shell/shell.h>
-#include <drivers/perip/timer.h>
-#include <drivers/io/ports.h>
-#include <string.h>
-#include <drivers/fs/fs.h>
-#include <system/debug.h>
-#include <drivers/vga.h>
-#include <libtui.h>
-#include <system/kernel.h>
-#include <drivers/perip/keybrd.h>
-#include <stdio.h>
+#include <libssp.h>
+
 
 #define NULL ((char *)0)
 
@@ -18,33 +10,10 @@ int dfs = 1;
 void shell_init(){
 	module_t modules_shell_shell = MODULE("kernel.modules.shell.shell", "User interface for the kernel (CORE)");
 
-	prev_anwser_str = "0";
-	themeindex = 3;
-
-	loadingscreen("Starting Up", "SlylockOS is starting...");
-	login_screen();
-	tui_shell();
 
 	char** deps;
 	deps[0] = "kernel.modules.timer.timer";
 	deps[1] = "kernel.modules.im.im";
 	DEPS(modules_shell_shell, deps);
 	INIT(modules_shell_shell);
-}
-
-void login_screen() {
-	make_tui(themeindex, themeindex, 0, 2);
-	putstrpos("Welcome to SlylockOS!", 30, 12, COLOR_BLU, COLOR_WHT, 30);
-	time_sleep(7000000);
-}
-
-void tui_shell() {
-	 
-	make_tui(themeindex, themeindex, 0, 2);
-	userinputmode = SHELL_APP_ID;
-}
-
-void clear_scr(){
-  clear(COLOR_WHT, COLOR_BLK);
-  set_cursor_pos(0,0);
 }

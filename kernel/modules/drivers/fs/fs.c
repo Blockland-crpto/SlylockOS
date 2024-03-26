@@ -4,6 +4,7 @@
 #include <system/mltb/multibootinfo.h>
 #include <drivers/vga.h>
 #include <system/mod.h>
+#include <libssp.h>
  
 
 fs_node_t *fs_root = 0; // The root of the filesystem.

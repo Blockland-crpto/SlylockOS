@@ -1,5 +1,5 @@
 #include <drivers/vga.h>
-
+#include <libssp.h>
 
 void color_screen(int fg, int bg) {
   for(int y = 0; y<25; y++) {

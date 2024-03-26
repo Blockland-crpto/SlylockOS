@@ -10,14 +10,25 @@
 
 #ifndef __DRIVERS_X86_GDT_H
 #define __DRIVERS_X86_GDT_H
-/** 
-   \brief Sets an GDT gate.
-*/
-void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran);
-/** 
-   \brief Installs the GDT to the kernel.
 
-   This function installs the Global Descriptor Table (GDT) into the kernel.
-*/
-void gdt_install();
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+	/** 
+	   \brief Sets an GDT gate.
+	*/
+	void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran);
+	/** 
+	   \brief Installs the GDT to the kernel.
+
+	   This function installs the Global Descriptor Table (GDT) into the kernel.
+	*/
+	void gdt_install();
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
+
 #endif

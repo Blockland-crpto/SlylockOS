@@ -4,7 +4,7 @@
 #include <drivers/x86/irq.h>
 #include <system/mod.h>
 #include <drivers/io/ports.h>
- 
+#include <libssp.h>
 
 extern void _irq0();
 extern void _irq1();

@@ -2,6 +2,7 @@
 #include <drivers/io/ports.h>
 #include <system/types.h>
 #include <system/debug.h>
+#include <libssp.h>
 
 void nmi_enable() {
 	if (!nmi_enabled) {

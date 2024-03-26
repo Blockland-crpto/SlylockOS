@@ -11,25 +11,36 @@
 #ifndef __DRIVERS_PERIP_TIMER_H
 #define __DRIVERS_PERIP_TIMER_H
 
-void timer_phase(int hz);
+#if defined(__cplusplus)
+extern "C" {
+#endif
+	void timer_phase(int hz);
 
-/**
-	\brief Installs the timer
-*/
-void timer_install();
-/**
-	\brief Waits `val` seconds
-	\param{in} val The amount of seconds to wait
-*/
-void timer_wait(int val);
+	/**
+		\brief Installs the timer
+	*/
+	void timer_install();
+	/**
+		\brief Waits `val` seconds
+		\param{in} val The amount of seconds to wait
+	*/
+	void timer_wait(int val);
 
-/**
-	\brief Gets the seconds elapsed since Abrid was loaded
-	\returns The amount of seconds elapsed since Abrid was loaded
-*/
-int get_tracked_seconds();
+	/**
+		\brief Gets the seconds elapsed since Abrid was loaded
+		\returns The amount of seconds elapsed since Abrid was loaded
+	*/
+	int get_tracked_seconds();
 
-//fixed timer
-void time_sleep(int time);
+	//fixed timer
+	void time_sleep(int time);
+
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
+
+
 
 #endif

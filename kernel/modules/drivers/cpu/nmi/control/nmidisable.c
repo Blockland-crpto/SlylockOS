@@ -1,6 +1,7 @@
 #include <drivers/cpu/nmi.h>
 #include <drivers/io/ports.h>
 #include <system/debug.h>
+#include <libssp.h>
 
 void nmi_disable() {
 	if (nmi_enabled) {

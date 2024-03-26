@@ -13,6 +13,14 @@
 #ifndef __SYSTEM_MLTB_MULTIBOOTINFO_H
 #define __SYSTEM_MLTB_MULTIBOOTINFO_H
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
 	multiboot_info_t* mbi;
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
+	
 
 #endif

@@ -1,6 +1,7 @@
 #include <drivers/acpi.h>
 #include <string.h>
 #include <stddef.h>
+#include <libssp.h>
 
 unsigned int *acpiCheckRSDPtr(uint32_t *ptr) {
 	const char *sig = "RSD PTR ";

@@ -1,14 +1,14 @@
 mkdir lib
 ./build/sosix_build.sh
-./build/libtui_build.sh
-./build/libsdk_build.sh
 
-csources=$(find ./kernel/* -type f -name "*.c")
-cheaders=$(find ./include/* -type f -name "*.h")
+csources=$(find ./kernel/modules/* -type f -name "*.c")
+cppsources=$(find ./kernel/modules/* -type f -name "*.cpp")
+headers=$(find ./include/* -type f -name "*.h")
 
 libaries=$(find ./lib/* -type f -name "*.a")
 
 cobjects=$(echo ${csources//\.c/.o})
+cppobjects=$(echo ${cppsources//\.cpp/.o})
 
 objb=''
 char=' '
@@ -21,13 +21,29 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libtui -I./include/libsdk -fno-stack-protector  -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -fstack-protector-strong -c -o $ta $tb
 done
 objb="${objb:1}"
 
 
+objbcpp=''
+charcpp=' '
+endcpp=$(awk -F"${charcpp}" '{print NF-1}' <<< "${cppobjects}")
+endcpp=$((endcpp+1))
+
+for i in $(seq 1 $endcpp); do 
+tacpp=$(echo ./bin/$(basename $(echo $cppobjects | cut -d" " -f$i )))
+tbcpp=$(echo $cppsources | cut -d" " -f$i)
+objbcpp="${objbcpp} ${tacpp}"
+g++ -m32 -elf_i386 -Wall -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -fpermissive -nostdlib -I./include/kernel -I./include/sosix -c -o $tacpp $tbcpp
+done
+objbcpp="${objbcpp:1}"
+
+
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
+
 export LD_LIBRARY_PATH=/home/runner/SlylockOS/
-ld -T link.ld --verbose -m elf_i386 -o kernel.bin $objb ./bin/boot.o $libaries
+ld -T link.ld --verbose -m elf_i386 -o kernel.bin ./bin/main.o $objb $objbcpp ./bin/boot.o $libaries
 
 rm -r iso
 
@@ -50,7 +66,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme ./lib/sosix.a ./lib/libtui.a ./lib/libsdk.a ./sys/membuf ./tmp ./env"
+inp="readme ./lib/sosix.a ./sys/membuf ./tmp ./env"
 res=''
 for word in $inp; do
 res="${res} ${word}"

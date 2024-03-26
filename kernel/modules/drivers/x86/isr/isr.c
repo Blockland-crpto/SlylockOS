@@ -3,7 +3,7 @@
 #include <drivers/x86/isr.h>
 #include <system/mod.h>
 #include <drivers/cpu/nmi.h>
- 
+#include <libssp.h>
 
 extern void _isr0();
 extern void _isr1();

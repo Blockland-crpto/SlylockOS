@@ -29,9 +29,12 @@ mboot:
     dd start
 
 stublet:
+ 	extern init_kernel
     extern main
 
 	push ebx
+
+	call init_kernel
 
     call main
     jmp $

@@ -1,5 +1,6 @@
 #include <drivers/perip/timer.h>
 #include <drivers/io/ports.h>
+#include <libssp.h>
 
 //set the phase of the timer
 //the value divisor is sent into the PIT to make it divide its

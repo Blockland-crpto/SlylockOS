@@ -8,15 +8,20 @@
 #define MENU_KEY '?'
 #define ENTER_KEY '\n'
 
-unsigned char ascii_values[128];
-char *inbuf;
-char *buffer;
-char get_key();
-void keyboard_install();
-void track_input(char c);
-int userinputmode;
-int timesfilled;
-int shellinput;
+#if defined(__cplusplus)
+extern "C" {
+#endif
+	unsigned char ascii_values[128];
+	char *inbuf;
+	char *buffer;
+	char get_key();
+	void keyboard_install();
+	void track_input(char c);
 
-void tui_reset();
+	void input_reset();
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
+
 #endif

@@ -23,9 +23,14 @@
 #define CPUID_VENDOR_HYGON         "HygonGenuine"
 #define CPUID_VENDOR_ELBRUS        "E2K MACHINE "
 
-static inline int cpuid_string(int code, int where[4]);
-const char * const cpu_string();
-
-void cpuid_init();
+#if defined(__cplusplus)
+extern "C" {
+#endif
+	static inline int cpuid_string(int code, int where[4]);
+	const char * const cpu_string();
+	void cpuid_init();
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
 
 #endif

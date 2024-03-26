@@ -78,123 +78,134 @@
 #define ADVANCE 0
 #define MOVE_BACK 1
 
-/**
-  \struct fs_node
-  \brief VGA char typedef struct
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
-  Defines a single character struct with close packing.
-  This struct consists of:
-  I. char: The character of the vga_char
-  II. style: The color/style of the vga_char
-*/
-typedef struct __attribute__((packed)){
-	char character;
-	char style;
-} vga_char;
+	/**
+	  \struct fs_node
+	  \brief VGA char typedef struct
 
-/**
-	\brief Applies foreground and background colors to the character
-	\param{in} fg_color Foreground color
-	\param{in} bg_color Background color
-*/
-unsigned char vga_color(const unsigned char fg_color, const unsigned char bg_color);
+	  Defines a single character struct with close packing.
+	  This struct consists of:
+	  I. char: The character of the vga_char
+	  II. style: The color/style of the vga_char
+	*/
+	typedef struct __attribute__((packed)){
+		char character;
+		char style;
+	} vga_char;
 
-/**
-	\brief Clears the window or screen with a color replacement
-	\param{in} fg_color Foreground color
-	\param{in} bg_color Background color
-*/
-void clear(const unsigned char fg_color, const unsigned char bg_color);
+	/**
+		\brief Applies foreground and background colors to the character
+		\param{in} fg_color Foreground color
+		\param{in} bg_color Background color
+	*/
+	unsigned char vga_color(const unsigned char fg_color, const unsigned char bg_color);
 
-/**
-	\brief Prints a character to the screen
-	\param{in} character The character to print
-	\param{in} fg_color Foreground color
-	\param{in} bg_color Background color
-*/
-void putchar(const char character, const unsigned char fg_color, const unsigned char bg_color);
+	/**
+		\brief Clears the window or screen with a color replacement
+		\param{in} fg_color Foreground color
+		\param{in} bg_color Background color
+	*/
+	void clear(const unsigned char fg_color, const unsigned char bg_color);
 
-/**
-	\brief Prints a string to the screen
-	\param{in} string The string to print
-	\param{in} fg_color Foreground color
-	\param{in} bg_color Background color
-*/
-void putstr(const char *string, const unsigned char fg_color, const unsigned char bg_color);
+	/**
+		\brief Prints a character to the screen
+		\param{in} character The character to print
+		\param{in} fg_color Foreground color
+		\param{in} bg_color Background color
+	*/
+	void kputchar(const char character, const unsigned char fg_color, const unsigned char bg_color);
 
-/**
-	\brief Gets the cursor position
-*/
-unsigned short get_cursor_pos();
+	/**
+		\brief Prints a string to the screen
+		\param{in} string The string to print
+		\param{in} fg_color Foreground color
+		\param{in} bg_color Background color
+	*/
+	void putstr(const char *string, const unsigned char fg_color, const unsigned char bg_color);
 
-/**
-	\brief Shows the cursor
-*/
-void show_cursor();
-/**
-	\brief Hides the cursor
-*/
-void hide_cursor();
+	/**
+		\brief Gets the cursor position
+	*/
+	unsigned short get_cursor_pos();
 
-/**
-	\brief Advances the cursor
-*/
-void advance_cursor(int mode);
+	/**
+		\brief Shows the cursor
+	*/
+	void show_cursor();
+	/**
+		\brief Hides the cursor
+	*/
+	void hide_cursor();
 
-/**
-	\brief Sets the cursor position
-	\param{in} x X coordinate of the cursor position to set
-	\param{in} y Y coordinate of the cursor position to set
-*/
-void set_cursor_pos(unsigned char x, unsigned char y);
+	/**
+		\brief Advances the cursor
+	*/
+	void advance_cursor(int mode);
 
-/**
-	\brief Prints a character
+	/**
+		\brief Sets the cursor position
+		\param{in} x X coordinate of the cursor position to set
+		\param{in} y Y coordinate of the cursor position to set
+	*/
+	void set_cursor_pos(unsigned char x, unsigned char y);
 
-	Prints a character with the foreground being white and the background being black.
-	\param{in} ch Character to print
-*/
-void kprintc(const char *ch);
-/**
-	\brief Prints a string
+	/**
+		\brief Prints a character
 
-	Prints a string with the foreground being white and the background being black.
-	\param{in} string String to print
-*/
-void kprintf(const char *string);
-/**
-	\brief Puts a character at a position
+		Prints a character with the foreground being white and the background being black.
+		\param{in} ch Character to print
+	*/
+	void kprintc(const char *ch);
+	/**
+		\brief Prints a string
 
-	Puts a character at position (x,y) with the foreground being forecolour and the background being backcolour.
-	\param{in} c Character to print
-	\param{in} forecolour Foreground color
-	\param{in} backcolour Background color
-	\param{in} x X position of character
-	\param{in} y Y position of character
-*/
-void putpos(unsigned char c, unsigned char forecolour, unsigned char backcolour, int x, int y);
+		Prints a string with the foreground being white and the background being black.
+		\param{in} string String to print
+	*/
+	void kprintf(const char *string);
+	/**
+		\brief Puts a character at a position
+
+		Puts a character at position (x,y) with the foreground being forecolour and the background being backcolour.
+		\param{in} c Character to print
+		\param{in} forecolour Foreground color
+		\param{in} backcolour Background color
+		\param{in} x X position of character
+		\param{in} y Y position of character
+	*/
+	void putpos(unsigned char c, unsigned char forecolour, unsigned char backcolour, int x, int y);
 
 
-void color_screen(int fg, int bg);
+	void color_screen(int fg, int bg);
 
-/**
-	\brief Scrolls 1 line.
-*/
-void scroll_line();
+	/**
+		\brief Scrolls 1 line.
+	*/
+	void scroll_line();
 
-//put a string with a specific location
-void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start);
+	//put a string with a specific location
+	void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start);
 
-enum video_type {
-	VIDEO_TYPE_NONE = 0x00,
-	VIDEO_TYPE_COLOR = 0x20,
-	VIDEO_TYPE_MONOCHROME = 0x30,
-};
+	enum video_type {
+		VIDEO_TYPE_NONE = 0x00,
+		VIDEO_TYPE_COLOR = 0x20,
+		VIDEO_TYPE_MONOCHROME = 0x30,
+	};
 
-uint16_t detect_bios_area_hardware();
+	uint16_t detect_bios_area_hardware();
 
-enum video_type get_bios_area_video_type();
+	enum video_type get_bios_area_video_type();
 
-void vga_init();
+	void vga_init();
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
+
+
 
 #endif

@@ -1,5 +1,7 @@
 #include <system/debug.h>
 #include <drivers/vga.h>
+#include <libssp.h>
+
 
 void warn(char* reason) {
 	putstr("WARN: ", COLOR_RED, COLOR_BLK);

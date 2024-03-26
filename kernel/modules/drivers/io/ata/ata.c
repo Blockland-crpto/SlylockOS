@@ -2,6 +2,7 @@
 #include <drivers/io/ports.h>
 #include <system/types.h>
 #include <system/mod.h>
+#include <libssp.h>
  
 
 void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint8_t sector_count) {

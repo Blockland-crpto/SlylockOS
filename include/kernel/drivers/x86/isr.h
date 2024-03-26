@@ -1,13 +1,23 @@
 #ifndef __DRIVERS_X86_ISR_H
 #define __DRIVERS_X86_ISR_H
 
-struct regs {
-	unsigned int gs, fs, es, ds;      /* pushed the segs last */
-	unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  /* pushed by 'pusha' */
-	unsigned int int_no, err_code;    /* our 'push byte #' and ecodes do this */
-	unsigned int eip, cs, eflags, useresp, ss;   /* pushed by the processor automatically */ 
-};
+#if defined(__cplusplus)
+extern "C" {
+#endif
+	struct regs {
+		unsigned int gs, fs, es, ds;      /* pushed the segs last */
+		unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  /* pushed by 'pusha' */
+		unsigned int int_no, err_code;    /* our 'push byte #' and ecodes do this */
+		unsigned int eip, cs, eflags, useresp, ss;   /* pushed by the processor automatically */ 
+	};
 
-void isr_install();
+	void isr_install();
+
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
+
+
 
 #endif
