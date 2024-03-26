@@ -8,8 +8,8 @@
   \copyright MIT License.
 */
 
-#ifndef __SYSTEM_MOD_H
-#define __SYSTEM_MOD_H
+#ifndef __SYSTEM_MODULES_H
+#define __SYSTEM_MODULES_H
 
 #include <system/types.h>
 
@@ -52,6 +52,11 @@ extern "C" {
 		\returns int so the token overlay can work
 	*/
 	int INIT(module_t module);
+
+	/**
+		\brief Sets the module as failed
+	*/
+	void FAIL(module_t module);
 
 	/**
 		\brief Disables the module `module`

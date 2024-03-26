@@ -4,8 +4,8 @@
 #include <string.h>
 #include <system/types.h>
 #include <shell/shell.h>
-#include <system/mod.h>
-#include <drivers/perip/keybrd.h>
+#include <system/modules.h>
+#include <drivers/perip/keyboard.h>
 #include <system/debug.h>
  #include <libssp.h>
 

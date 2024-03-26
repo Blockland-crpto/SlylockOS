@@ -1,5 +1,5 @@
-#include <system/mem.h>
-#include <system/mltb/multibootinfo.h>
+#include <system/memory.h>
+#include <system/multiboot/multibootinfo.h>
 #include <string.h>
 #include <libssp.h>
 

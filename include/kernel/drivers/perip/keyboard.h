@@ -1,5 +1,5 @@
-#ifndef __DRIVERS_PERIP_KEYBRD_H
-#define __DRIVERS_PERIP_KEYBRD_H
+#ifndef __DRIVERS_PERIP_KEYBOARD_H
+#define __DRIVERS_PERIP_KEYBOARD_H
 
 #define ARROW_KEY_UP '{'
 #define ARROW_KEY_DOWN '}'

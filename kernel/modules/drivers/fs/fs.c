@@ -1,9 +1,9 @@
 #include <drivers/fs/fs.h>
 #include <drivers/fs/initrd.h>
 #include <system/types.h>
-#include <system/mltb/multibootinfo.h>
+#include <system/multiboot/multibootinfo.h>
 #include <drivers/vga.h>
-#include <system/mod.h>
+#include <system/modules.h>
 #include <libssp.h>
  
 

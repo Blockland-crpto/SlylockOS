@@ -1,5 +1,5 @@
 #include <drivers/cpu/cpuid.h>
-#include <system/mod.h>
+#include <system/modules.h>
 #include <libssp.h>
 
 static inline int cpuid_string(int code, int where[4]) {

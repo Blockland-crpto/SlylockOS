@@ -2,9 +2,9 @@
 #include <drivers/vga.h>
 #include <drivers/x86/isr.h>
 #include <drivers/x86/irq.h>
-#include <drivers/perip/keybrd.h>
+#include <drivers/perip/keyboard.h>
 #include <shell/shell.h>
-#include <system/mod.h>
+#include <system/modules.h>
 #include <libssp.h>
 
 

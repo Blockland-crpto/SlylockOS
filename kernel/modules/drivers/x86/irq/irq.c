@@ -2,7 +2,7 @@
 #include <drivers/x86/idt.h>
 #include <drivers/x86/isr.h>
 #include <drivers/x86/irq.h>
-#include <system/mod.h>
+#include <system/modules.h>
 #include <drivers/io/ports.h>
 #include <libssp.h>
 

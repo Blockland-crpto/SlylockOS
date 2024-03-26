@@ -1,7 +1,7 @@
-#include <system/exe.h>
+#include <system/execute.h>
 #include <libssp.h>
 #include <drivers/fs/fs.h>
-#include <system/mem.h>
+#include <system/memory.h>
 
 void execute_program(char* filename) {
 	char buf[256];
