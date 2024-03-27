@@ -31,7 +31,7 @@ int acpiEnable(void) {
    	if ( (inw((uint32_t) PM1a_CNT) &SCI_EN) == 0 ) {
 	  	// check if acpi can be enabled
 	  	if (SMI_CMD != 0 && ACPI_ENABLE != 0) {
-		 	out_port_byte((uint32_t) SMI_CMD, ACPI_ENABLE); // send acpi enable command
+		 	outb((uint32_t) SMI_CMD, ACPI_ENABLE); // send acpi enable command
 		 	// give 3 seconds time to enable acpi
 		 	int i;
 		 	for (i=0; i<300; i++ ) {

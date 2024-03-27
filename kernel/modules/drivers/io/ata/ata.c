@@ -3,67 +3,18 @@
 #include <system/types.h>
 #include <system/modules.h>
 #include <libssp.h>
- 
 
-void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint8_t sector_count) {
-
-	wait_ata_bsy();
-
- 	out_port_byte(0x1F6,0xE0 | ((LBA >>24) & 0xF));
-
-	out_port_byte(0x1F2, sector_count);
-
-	out_port_byte(0x1F3, (uint8_t) LBA);
-
-	out_port_byte(0x1F4, (uint8_t)(LBA >> 8));
-
-	out_port_byte(0x1F5, (uint8_t)(LBA >> 16)); 
-
-	out_port_byte(0x1F7,0x20); // Send the read command!
-
-
-	uint16_t *target = (uint16_t*) target_address;
-
-	for (int j =0;j<sector_count;j++) {
-		wait_ata_bsy();
-		wait_ata_drq();
-		for(int i=0;i<256;i++)
-			target[i] = inw(0x1F0);
-		target+=256;
-	}
-
-}
-
-void sect_write_atapio(uint32_t LBA, uint8_t sector_count, uint32_t* bytes) {
-	wait_ata_bsy();
-	out_port_byte(0x1F6,0xE0 | ((LBA >>24) & 0xF));
-	out_port_byte(0x1F2,sector_count);
-	out_port_byte(0x1F3, (uint8_t) LBA);
-	out_port_byte(0x1F4, (uint8_t)(LBA >> 8));
-	out_port_byte(0x1F5, (uint8_t)(LBA >> 16)); 
-	out_port_byte(0x1F7,0x30); // Send the write command!
-
-	for (int j =0;j<sector_count;j++)
-	{
-		wait_ata_bsy();
-		wait_ata_drq();
-		for(int i=0;i<256;i++)
-		{
-			outl(0x1F0, bytes[i]);
-		}
-	}
-}
-
-void wait_ata_bsy() {
-	while(in_port_byte(0x1F7)&STATUS_BSY);
-}
-
-void wait_ata_drq() {
-	while(!(in_port_byte(0x1F7)&STATUS_RDY));
-}
-
+//ATA initializer
 void ata_init() {
 	module_t modules_ata_ata = MODULE("kernel.modules.ata.ata", "Provides ATA support for the kernel, read/write (CORE)");
 	INIT(modules_ata_ata);
-	DONE(modules_ata_ata);
+	ata_drive_t master = ata_identify(SELECT_DEVICE_MASTER);
+	ata_drive_t slave = ata_identify(SELECT_DEVICE_SLAVE);
+	if (master.exists == false) {
+		FAIL(modules_ata_ata, "Master ATA drive does not exist");
+	} else {
+		ata_drives[0] = master;
+		DONE(modules_ata_ata);
+	}
+	
 }

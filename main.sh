@@ -82,5 +82,5 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -device pci-bridge,chassis_nr=1,id=bridge1
+qemu-system-i386 -cdrom SlylockOS.iso -m 512M -device pci-bridge,chassis_nr=1,id=bridge1 -hda floppy.img
 

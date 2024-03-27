@@ -62,7 +62,7 @@ void keyboard_handler(struct regs *r){
 	unsigned char scancode;
 
 	//Read the Keyboard's data port
-	scancode = in_port_byte(0x60);
+	scancode = inb(0x60);
 
 	if(scancode & 0x80){
 		//use Shift, Alt, CTRL keys here
@@ -84,7 +84,7 @@ char get_key(){
 	unsigned char scancode;
 
 	//Read the Keyboard's data port
-	scancode = in_port_byte(0x60);
+	scancode = inb(0x60);
 	char *buf;
 	kprintf(itoa(scancode, buf, 10));
 	if(scancode & 0x80){

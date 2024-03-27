@@ -6,8 +6,8 @@
 
 void nmi_enable() {
 	if (!nmi_enabled) {
-		out_port_byte(0x70, in_port_byte(0x70) & 0x7F);
-		in_port_byte(0x71);
+		outb(0x70, inb(0x70) & 0x7F);
+		inb(0x71);
 		nmi_enabled = true;
 	} else {
 		warn("Oops! NMI is already enabled!");

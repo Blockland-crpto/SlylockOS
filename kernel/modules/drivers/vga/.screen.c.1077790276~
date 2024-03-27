@@ -146,11 +146,11 @@ void printf(char *format, ...) {
 unsigned short get_cursor_pos(){
     unsigned short position = 0;
 
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0F); // Out port byte 0x0F
-    position |= in_port_byte(CURSOR_PORT_DATA);
+    outb(CURSOR_PORT_COMMAND, 0x0F); // Out port byte 0x0F
+    position |= inb(CURSOR_PORT_DATA);
 
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0E); // Out port byte 0x0E
-    position |= in_port_byte(CURSOR_PORT_DATA) << 8; // Combine the two so that they can be factored out easily, but are still 1 number
+    outb(CURSOR_PORT_COMMAND, 0x0E); // Out port byte 0x0E
+    position |= inb(CURSOR_PORT_DATA) << 8; // Combine the two so that they can be factored out easily, but are still 1 number
 
     return position;
 }
@@ -159,19 +159,19 @@ unsigned short get_cursor_pos(){
 void show_cursor(){ // Sends a bunch of out port byte commands to show the cursor
     unsigned char current;
 
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0A);
-    current = in_port_byte(CURSOR_PORT_DATA);
-    out_port_byte(CURSOR_PORT_DATA, current & 0xC0);
+    outb(CURSOR_PORT_COMMAND, 0x0A);
+    current = inb(CURSOR_PORT_DATA);
+    outb(CURSOR_PORT_DATA, current & 0xC0);
 
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0B);
-    current = in_port_byte(CURSOR_PORT_DATA);
-    out_port_byte(CURSOR_PORT_DATA, current & 0xE0);
+    outb(CURSOR_PORT_COMMAND, 0x0B);
+    current = inb(CURSOR_PORT_DATA);
+    outb(CURSOR_PORT_DATA, current & 0xE0);
 }
 
 
 void hide_cursor(){ // Sends a couple out port byte commands to hide the cursor
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0A);
-    out_port_byte(CURSOR_PORT_DATA, 0x20);
+    outb(CURSOR_PORT_COMMAND, 0x0A);
+    outb(CURSOR_PORT_DATA, 0x20);
 }
 
 
@@ -184,11 +184,11 @@ void advance_cursor(){
     }
 
 	// This just sends a bunch of out port byte commands to set the cursor position forward
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0F);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
+    outb(CURSOR_PORT_COMMAND, 0x0F);
+    outb(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
 
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0E);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
+    outb(CURSOR_PORT_COMMAND, 0x0E);
+    outb(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
 }
 
 void move_back_cursor(){
@@ -196,11 +196,11 @@ void move_back_cursor(){
     pos--; // and decrements it by 1
 
 	// This just sends a bunch of out port byte commands to set the cursor position backward
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0F);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
+    outb(CURSOR_PORT_COMMAND, 0x0F);
+    outb(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
 
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0E);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
+    outb(CURSOR_PORT_COMMAND, 0x0E);
+    outb(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
 }
 
 void set_cursor_pos(unsigned char x, unsigned char y){
@@ -211,11 +211,11 @@ void set_cursor_pos(unsigned char x, unsigned char y){
     }
 
 	// This just sends a bunch of out port byte commands to set the cursor position
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0F);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
+    outb(CURSOR_PORT_COMMAND, 0x0F);
+    outb(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
 
-    out_port_byte(CURSOR_PORT_COMMAND, 0x0E);
-    out_port_byte(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
+    outb(CURSOR_PORT_COMMAND, 0x0E);
+    outb(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
 }
 
 

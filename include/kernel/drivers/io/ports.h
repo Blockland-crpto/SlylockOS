@@ -21,13 +21,13 @@ extern "C" {
 
 		Executes an in port byte call in inline assembly (`inb`).
 	*/
-	extern unsigned char in_port_byte(unsigned short port);
+	extern unsigned char inb(unsigned short port);
 	/**
 		\brief Out port byte function for ports
 
 		Executes an out port byte call in inline assembly (`outb`).
 	*/
-	extern void out_port_byte(unsigned short port, unsigned char data);
+	extern void outb(unsigned short port, unsigned char data);
 
 	/**
 		\brief In port word function for ports

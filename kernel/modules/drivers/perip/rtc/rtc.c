@@ -12,13 +12,13 @@ enum {
 };
 
 int get_update_in_progress_flag() {
-	out_port_byte(cmos_address, 0x0A);
-	return (in_port_byte(cmos_data) & 0x80);
+	outb(cmos_address, 0x0A);
+	return (inb(cmos_data) & 0x80);
 }
 
 unsigned char get_RTC_register(int reg) {
-	out_port_byte(cmos_address, reg);
-	return in_port_byte(cmos_data);
+	outb(cmos_address, reg);
+	return inb(cmos_data);
 }
 
 void read_rtc() {

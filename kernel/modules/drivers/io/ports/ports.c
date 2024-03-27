@@ -2,14 +2,14 @@
 #include <system/types.h>
 #include <libssp.h>
 
-unsigned char in_port_byte(unsigned short port){
+unsigned char inb(unsigned short port){
     unsigned char result;
     __asm__ volatile("inb %%dx, %%al": "=a"(result) : "d" (port));
 
     return result;
 }
 
-void out_port_byte(unsigned short port, unsigned char data){
+void outb(unsigned short port, unsigned char data){
 	__asm__ volatile("outb %%al, %%dx" : : "a" (data), "d" (port));
 }
 

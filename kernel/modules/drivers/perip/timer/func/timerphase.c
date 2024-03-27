@@ -9,10 +9,10 @@ void timer_phase(int hz){
 	//create the divisor to send into the clock
 	int divisor = 1193180/hz;
 	//send the command byte
-	out_port_byte(0x43, 0x36);
+	outb(0x43, 0x36);
 
 	//now these are the upper lower bytes of the divisor
 	//they need to be split before they are sent.
-	out_port_byte(0x40, divisor & 0xFF);
-	out_port_byte(0x40, divisor >> 8);
+	outb(0x40, divisor & 0xFF);
+	outb(0x40, divisor >> 8);
 }

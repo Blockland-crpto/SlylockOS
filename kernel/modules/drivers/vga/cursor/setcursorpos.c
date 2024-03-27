@@ -10,9 +10,9 @@ void set_cursor_pos(unsigned char x, unsigned char y){
 	}
 
 	// This just sends a bunch of out port byte commands to set the cursor position
-	out_port_byte(CURSOR_PORT_COMMAND, 0x0F);
-	out_port_byte(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
+	outb(CURSOR_PORT_COMMAND, 0x0F);
+	outb(CURSOR_PORT_DATA, (unsigned char) (pos & 0xFF));
 
-	out_port_byte(CURSOR_PORT_COMMAND, 0x0E);
-	out_port_byte(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
+	outb(CURSOR_PORT_COMMAND, 0x0E);
+	outb(CURSOR_PORT_DATA, (unsigned char) ((pos >> 8) & 0xFF));
 }
