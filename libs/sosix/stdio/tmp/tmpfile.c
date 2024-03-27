@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 
 FILE* tmpfile(void) {
 	static int openfiles;

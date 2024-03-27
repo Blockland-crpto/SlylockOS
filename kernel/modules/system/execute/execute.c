@@ -1,6 +1,6 @@
 #include <system/execute.h>
 #include <libssp.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 #include <system/memory.h>
 
 void execute_program(char* filename) {

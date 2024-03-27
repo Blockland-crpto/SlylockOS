@@ -1,5 +1,5 @@
 #include <system/modules.h>
-#include <drivers/vga.h>
+#include <libvga.h>
 #include <libssp.h>
 
 

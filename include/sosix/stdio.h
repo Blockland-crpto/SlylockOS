@@ -10,7 +10,7 @@ extern "C" {
 	#include <stddef.h>
 	#include <stdbool.h>
 	#include <stdarg.h>
-	#include <drivers/fs/fs.h>
+	#include <libfs.h>
 	#include <system/types.h>
 	
 	#define BUFSIZ 1024

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 #include <libssp.h>
 
 fs_node_t *fileno(FILE* stream) {

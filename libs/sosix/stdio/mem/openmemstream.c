@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <libssp.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 
 FILE* open_memstream(char **bufp, size_t *sizep) {
 	if (bufp == NULL || sizep == 0) {

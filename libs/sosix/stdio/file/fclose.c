@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <errno.h>
 #include <libssp.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 
 int fclose(FILE *stream) {
 	uint8_t* buff = stream->stream;

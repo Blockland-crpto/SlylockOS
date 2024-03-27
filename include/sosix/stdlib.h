@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-	#include <drivers/fs/fs.h>
+	#include <libfs.h>
 	#include <sys/wait.h>
 	#include <stdint.h>
 	#include <stddef.h>

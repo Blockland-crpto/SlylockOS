@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <libssp.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 
 char *mkdtemp(char *temp) {
 	static int numberid;

@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <stddef.h>
 #include <libssp.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 
 
 FILE *fopen(const char *filename, const char *mode) {

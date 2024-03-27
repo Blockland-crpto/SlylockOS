@@ -1,4 +1,4 @@
-#include <drivers/vga.h>
+#include <libvga.h>
 #include <system/debug.h>
 #include <libssp.h>
 

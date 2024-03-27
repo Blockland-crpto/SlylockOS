@@ -7,27 +7,27 @@
 
 #include <shell/shell.h>
 
-#include <drivers/vga.h>
-#include <drivers/acpi.h>
+#include <libvga.h>
+#include <libacpi.h>
 
-#include <drivers/x86/isr.h>
-#include <drivers/x86/irq.h>
-#include <drivers/x86/gdt.h>
-#include <drivers/x86/idt.h>
+#include <drivers/isr.h>
+#include <drivers/irq.h>
+#include <drivers/gdt.h>
+#include <drivers/idt.h>
 
-#include <drivers/io/ata.h>
-#include <drivers/io/ports.h>
+#include <libata.h>
+#include <libports.h>
 
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 
 
-#include <drivers/cpu/nmi.h>
-#include <drivers/cpu/cpuid.h>
+#include <drivers/nmi.h>
+#include <libcpuid.h>
 
-#include <drivers/perip/pci.h>
-#include <drivers/perip/timer.h>
-#include <drivers/perip/rtc.h>
-#include <drivers/perip/keyboard.h>
+#include <libpci.h>
+#include <libtimer.h>
+#include <librtc.h>
+#include <libkeyboard.h>
 
 #include <libssp.h>
 

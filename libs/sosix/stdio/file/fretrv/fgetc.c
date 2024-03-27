@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <errno.h>
 #include <libssp.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 
 int fgetc(FILE *stream) {
 	if (strchr(stream->mode, 'r') == NULL) {

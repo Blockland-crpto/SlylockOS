@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <libssp.h>
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 
 int grantpt(fs_node_t* node) {
 	//the permissions flag is open to all by default

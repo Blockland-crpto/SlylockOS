@@ -13,7 +13,7 @@
 #ifndef __SHELL_SHELL_H
 #define __SHELL_SHELL_H
 
-#include <drivers/fs/fs.h>
+#include <libfs.h>
 #include <stdbool.h>
 
 #define NULL ((char *)0)
