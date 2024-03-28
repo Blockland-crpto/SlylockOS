@@ -99,6 +99,10 @@
 #define DRIVE_TYPE_MASTER 0
 #define DRIVE_TYPE_SLAVE 1
 
+//ATA power management
+#define DRIVE_STANDBY 0xE2
+#define DRIVE_STANDBY_IMMEDIATE 0xE0
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -163,6 +167,8 @@ extern "C" {
 	void ata_error_handler();
 
 	void ata_reset();
+
+	void ata_standby();
 
 #if defined(__cplusplus)
 } /* extern "C" */
