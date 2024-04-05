@@ -1,6 +1,7 @@
 mkdir lib
 
 ./build/libacpi_build.sh
+./build/libapic_build.sh
 ./build/libata_build.sh
 ./build/libfs_build.sh
 ./build/libinitrd_build.sh

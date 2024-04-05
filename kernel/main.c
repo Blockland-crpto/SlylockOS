@@ -27,6 +27,8 @@
 #include <librtc.h>
 #include <libkeyboard.h>
 
+#include <libapic.h>
+
 #include <libssp.h>
 
 #define MB_MAGIC 0x1BADB002
@@ -48,26 +50,37 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 
 	
   	gdt_install();
+	
   	idt_install();
   
   	isr_install();
+	
   	irq_install();
+	
+	apic_init();
+	
   	ata_init();
 
 	nmi_init();
 	
   	pci_init();
+	
 	acpi_init();
+	
 	kalloc_init();
 	
 	timer_install();
+	
 	rtc_init();
+	
 	filesystem_init();
 	
 	keyboard_install();
+	
 	mouse_install();
 	
 	vga_init();
+	
 	libc_init();
 
 	serial_init();
