@@ -3,7 +3,6 @@
 #include <stdarg.h>
 #include <string.h>
 #include <system/types.h>
-#include <shell/shell.h>
 #include <system/modules.h>
 #include <libkeyboard.h>
 #include <system/debug.h>

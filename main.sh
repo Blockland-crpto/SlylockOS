@@ -2,7 +2,6 @@ mkdir lib
 
 ./build/libacpi_build.sh
 ./build/libata_build.sh
-./build/libcpuid_build.sh
 ./build/libfs_build.sh
 ./build/libinitrd_build.sh
 ./build/libkeyboard_build.sh
@@ -81,5 +80,11 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -curses -serial file:serial.log -hda floppy.img -soundhw sb16
-
+qemu-system-i386 \
+	-cdrom SlylockOS.iso \
+	-m 512M \
+	-vga std \
+	-serial file:serial.log \
+	-hda floppy.img \
+	-device virtio-mouse \
+	-device sb16 

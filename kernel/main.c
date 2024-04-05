@@ -5,8 +5,6 @@
 #include <system/debug.h>
 #include <system/types.h>
 
-#include <shell/shell.h>
-
 #include <libvga.h>
 #include <libacpi.h>
 
@@ -23,7 +21,6 @@
 #include <libserial.h>
 
 #include <drivers/nmi.h>
-#include <libcpuid.h>
 
 #include <libpci.h>
 #include <libtimer.h>
@@ -59,7 +56,6 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 
 	nmi_init();
 	
-  	cpuid_init();
   	pci_init();
 	acpi_init();
 	kalloc_init();
@@ -70,8 +66,6 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	
 	keyboard_install();
 	mouse_install();
-	
-	shell_init();
 	
 	vga_init();
 	libc_init();

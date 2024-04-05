@@ -3,7 +3,6 @@
 #include <drivers/isr.h>
 #include <drivers/irq.h>
 #include <libkeyboard.h>
-#include <shell/shell.h>
 #include <system/modules.h>
 #include <libssp.h>
 
@@ -11,7 +10,6 @@
 
 #define sizeof(type) (char *)(&type+1)-(char*)(&type)
 
-int enable_shell=0;
 
 char *buffer="";
 
@@ -112,9 +110,6 @@ void input_reset() {
 
 void keyboard_install(){
 	module_t modules_keyboard_keyboard = MODULE("kernel.modules.keyboard.keyboard", "Provides PS/2 keyboard support for the kernel (CORE)");
-	char** deps;
-	deps[0] = "shell";
-	DEPS(modules_keyboard_keyboard, deps);
 	INIT(modules_keyboard_keyboard);
 	irq_install_handler(1, keyboard_handler);
 	DONE(modules_keyboard_keyboard);
