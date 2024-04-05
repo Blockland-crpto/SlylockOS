@@ -4,7 +4,8 @@
 
 
 void warn(char* reason) {
-	putstr("WARN: ", COLOR_RED, COLOR_BLK);
+	putstr("[", COLOR_WHT, COLOR_BLK);
+	putstr("WARN", COLOR_YEL, COLOR_BLK);
+	putstr("]: ", COLOR_WHT, COLOR_BLK);
 	putstr(reason, COLOR_WHT, COLOR_BLK);
-	putstr("\n", COLOR_WHT, COLOR_BLK);
 }

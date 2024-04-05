@@ -34,7 +34,7 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libs -fstack-protector-strong -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libs -fstack-protector-all -c -o $ta $tb
 done
 objb="${objb:1}"
 

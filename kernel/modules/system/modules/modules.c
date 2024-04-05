@@ -16,8 +16,10 @@ module_t MODULE(char* name, char* description) {
 }
 
 int INIT(module_t module) {
-	kprintf("Initializing module - ");
-	kprintf(module.name);
+	putstr("[", COLOR_WHT, COLOR_BLK);
+	putstr("MODULE",COLOR_DGY, COLOR_BLK);
+	putstr("]: Initializing module - ", COLOR_WHT, COLOR_BLK);
+	putstr(module.name, COLOR_WHT, COLOR_BLK);
 	modules[count] = module;
 	if(count == NULL) {
 		count = 1;
@@ -27,14 +29,18 @@ int INIT(module_t module) {
 }
 
 void FAIL(module_t module, char* reason) {
-	kprintf("Failed - ");
-	kprintf(reason);
+	putstr(" [", COLOR_WHT, COLOR_BLK);
+	putstr("FAILED",COLOR_RED, COLOR_BLK);
+	putstr("] - ", COLOR_WHT, COLOR_BLK);
+	putstr(reason, COLOR_WHT, COLOR_BLK);
 	kprintf("\n");
 	module.initialized = false;
 }
 
 void DONE(module_t module) {
-	kprintf(" Success\n");
+	putstr(" [", COLOR_WHT, COLOR_BLK);
+	putstr("SUCCESS", COLOR_GRN, COLOR_BLK);
+	putstr("]\n", COLOR_WHT, COLOR_BLK);
 	module.initialized = true;
 }
 
