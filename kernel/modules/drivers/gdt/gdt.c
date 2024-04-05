@@ -50,8 +50,8 @@ void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned cha
 *  to tell the processor where the new GDT is and update the
 *  new segment registers */
 void gdt_install() {
-	module_t modules_gdt_gdt = MODULE("kernel.modules.gdt.gdt", "GDT for the kernel (CORE)");
-	INIT(modules_gdt_gdt);
+	module_t modules_gdt = MODULE("kernel.modules.gdt", "GDT for the kernel (CORE)");
+	INIT(modules_gdt);
     /* Setup the GDT pointer and limit */
     gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
     gp.base = (unsigned int)&gdt;
@@ -73,6 +73,6 @@ void gdt_install() {
 
     /* Flush out the old GDT and install the new changes! */
     _gdt_flush();
-	DONE(modules_gdt_gdt);
+	DONE(modules_gdt);
 	 
 }

@@ -39,11 +39,11 @@ extern void _isr30();
 extern void _isr31();
 
 void isr_install() {
-	module_t modules_isr_isr = MODULE("kernel.modules.isr.isr", "Provides ISR support for the kernel (CORE)");
+	module_t modules_isr = MODULE("kernel.modules.isr", "Provides ISR support for the kernel (CORE)");
 	char** deps;
-	deps[0] = "kernel.modules.idt.idt";
-	DEPS(modules_isr_isr, deps);
-	INIT(modules_isr_isr);
+	deps[0] = "kernel.modules.idt";
+	DEPS(modules_isr, deps);
+	INIT(modules_isr);
 	idt_set_gate(0, (unsigned)_isr0, 0x08, 0x8E);
 	idt_set_gate(1, (unsigned)_isr1, 0x08, 0x8E);
 	idt_set_gate(2, (unsigned)_isr2, 0x08, 0x8E);
@@ -81,7 +81,7 @@ void isr_install() {
 	idt_set_gate(31, (unsigned)_isr31, 0x08, 0x8E);
 	
 	
-	DONE(modules_isr_isr);
+	DONE(modules_isr);
 	 
 }
 

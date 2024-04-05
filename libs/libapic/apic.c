@@ -12,20 +12,20 @@ static int check_apic(void) {
 
 // function to initalize the APIC driver
 void apic_init() {
-	module_t modules_apic_apic = MODULE("kernel.modules.apic.apic", "Provides APIC support for the kernel");
+	module_t modules_apic = MODULE("kernel.modules.apic", "Provides APIC support for the kernel");
 
 	//let the apic initalization begin!
-	INIT(modules_apic_apic);
+	INIT(modules_apic);
 
 	//first lets see if a APIC is present
 	if (!check_apic()) {
 		
 		//APIC is not avalible, gota fail!
-		FAIL(modules_apic_apic, "APIC is unsupported");
+		FAIL(modules_apic, "APIC is unsupported");
 		return;
 	}
 
 	//todo: implement apic driver
 	
-	DONE(modules_apic_apic);
+	DONE(modules_apic);
 }

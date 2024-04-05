@@ -66,10 +66,10 @@ void set_serial_baud(uint8_t level) {
 
 //serial port initalization function
 void serial_init() {
-	module_t modules_serial_serial = MODULE("kernel.modules.serial.serial", "Provides serial port support for the kernel");
+	module_t modules_serial = MODULE("kernel.modules.serial", "Provides serial port support for the kernel");
 
 	//let the initalization begin!
-	INIT(modules_serial_serial);
+	INIT(modules_serial);
 	
 	//lets first set the baud rate
 	set_serial_baud(BAUD_38400);
@@ -94,5 +94,5 @@ void serial_init() {
 	outb(COM1_MODEM_CTRL, 0x0F);
 
 	//were done!
-	DONE(modules_serial_serial);
+	DONE(modules_serial);
 }

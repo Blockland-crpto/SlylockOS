@@ -36,8 +36,8 @@ void idt_set_gate(unsigned char num, unsigned long base, unsigned short sel, uns
 
 
 void idt_install() {
-	module_t modules_idt_idt = MODULE("kernel.modules.idt.idt", "IDT for the kernel (CORE)");
-	INIT(modules_idt_idt);
+	module_t modules_idt = MODULE("kernel.modules.idt", "IDT for the kernel (CORE)");
+	INIT(modules_idt);
 	//set the special IDT pointer just like we did in gdt.c
 	idtp.limit = (sizeof(struct idt_entry)*256)-1;
 	idtp.base = (unsigned int)&idt; //point the base of IDT pointer to our idt_entry's address
@@ -47,6 +47,6 @@ void idt_install() {
 
 	//tell the processor to point the internal register to the new IDT
 	load_idt();
-	DONE(modules_idt_idt);
+	DONE(modules_idt);
 	 
 }

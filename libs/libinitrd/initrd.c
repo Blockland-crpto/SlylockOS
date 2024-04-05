@@ -209,8 +209,8 @@ static fs_node_t *initrd_finddir(fs_node_t *node, char *name) {
 } 
 
 fs_node_t *initialise_initrd(uint32_t location) {
-	module_t modules_initrd_initrd = MODULE("kernel.modules.initrd.initrd", "Provides initrd support for the kernel");
-	INIT(modules_initrd_initrd);
+	module_t modules_initrd = MODULE("kernel.modules.initrd", "Provides initrd support for the kernel");
+	INIT(modules_initrd);
    	
 	// Initialise the main and file header pointers and populate the root directory.
    	initrd_header = (initrd_header_t *)location;
@@ -270,6 +270,6 @@ fs_node_t *initialise_initrd(uint32_t location) {
        	root_nodes[i].impl = 0;
    	} 
    
-    DONE(modules_initrd_initrd);
+    DONE(modules_initrd);
    	return initrd_root;
 } 

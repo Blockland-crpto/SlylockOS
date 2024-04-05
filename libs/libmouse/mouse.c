@@ -248,10 +248,10 @@ uint8_t mouse_read() {
 
 //the mouse_install function
 void mouse_install() {
-	module_t modules_mouse_mouse = MODULE("kernel.modules.mouse.mouse", "Provides PS/2 mouse support for the kernel (CORE)");
+	module_t modules_mouse = MODULE("kernel.modules.mouse", "Provides PS/2 mouse support for the kernel (CORE)");
 
 	//let the mouse init begin!
-	INIT(modules_mouse_mouse);
+	INIT(modules_mouse);
 
 	//lets wait for mouse to be ready..
 	mouse_wait(1);
@@ -308,5 +308,5 @@ void mouse_install() {
 	//lets install the mouse handler
 	irq_install_handler(12, mouse_handler);
 	
-	DONE(modules_mouse_mouse); 
+	DONE(modules_mouse); 
 }

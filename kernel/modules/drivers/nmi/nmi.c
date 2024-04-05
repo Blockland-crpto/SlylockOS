@@ -3,9 +3,9 @@
 #include <libssp.h>
 
 void nmi_init() {
-	module_t modules_nmi_nmi = MODULE("kernel.modules.nmi.nmi", "provides a handler for non maskable interrupts (CORE)");
-	INIT(modules_nmi_nmi);
+	module_t modules_nmi = MODULE("kernel.modules.nmi", "provides a handler for non maskable interrupts (CORE)");
+	INIT(modules_nmi);
 	nmi_enable();
-	DONE(modules_nmi_nmi);
+	DONE(modules_nmi);
 	 
 }

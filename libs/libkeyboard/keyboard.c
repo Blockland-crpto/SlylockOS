@@ -109,9 +109,9 @@ void input_reset() {
 }
 
 void keyboard_install(){
-	module_t modules_keyboard_keyboard = MODULE("kernel.modules.keyboard.keyboard", "Provides PS/2 keyboard support for the kernel (CORE)");
-	INIT(modules_keyboard_keyboard);
+	module_t modules_keyboard = MODULE("kernel.modules.keyboard", "Provides PS/2 keyboard support for the kernel (CORE)");
+	INIT(modules_keyboard);
 	irq_install_handler(1, keyboard_handler);
-	DONE(modules_keyboard_keyboard);
+	DONE(modules_keyboard);
 	 
 }

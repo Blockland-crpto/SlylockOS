@@ -104,9 +104,9 @@ void read_rtc() {
 }
 
 void rtc_init() {
-	module_t modules_rtc_rtc = MODULE("kernel.modules.rtc.rtc", "Adds support for the RTC Core");
-	INIT(modules_rtc_rtc);
+	module_t modules_rtc = MODULE("kernel.modules.rtc", "Adds support for the RTC");
+	INIT(modules_rtc);
 	read_rtc();
-	DONE(modules_rtc_rtc);
+	DONE(modules_rtc);
 	 
 }
