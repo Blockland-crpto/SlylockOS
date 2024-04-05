@@ -7,9 +7,11 @@ mkdir lib
 ./build/libinitrd_build.sh
 ./build/libkeyboard_build.sh
 ./build/libmmio_build.sh
+./build/libmouse_build.sh
 ./build/libpci_build.sh
 ./build/libports_build.sh
 ./build/librtc_build.sh
+./build/libserial_build.sh
 ./build/libtimer_build.sh
 ./build/libvga_build.sh
 ./build/sosix_build.sh
@@ -54,8 +56,8 @@ mkdir iso/boot
 mkdir iso/boot/grub
 
 mv kernel.bin iso/boot/kernel.bin
-echo 'set timeout-0' >> iso/boot/grub/grub.cfg
-echo 'set default-0' >> iso/boot/grub/grub.cfg
+echo 'set timeout=0' >> iso/boot/grub/grub.cfg
+echo 'set default="SlylockOS"' >> iso/boot/grub/grub.cfg
 echo 'menuentry "SlylockOS" {' >> iso/boot/grub/grub.cfg
 echo '  multiboot /boot/kernel.bin' >> iso/boot/grub/grub.cfg
 echo '  module  /boot/os.initrd' >> iso/boot/grub/grub.cfg
@@ -79,5 +81,5 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -device pci-bridge,chassis_nr=1,id=bridge1 -hda floppy.img
+qemu-system-i386 -cdrom SlylockOS.iso -m 512M -curses -serial file:serial.log -hda floppy.img -soundhw sb16
 

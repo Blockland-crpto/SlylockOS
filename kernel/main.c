@@ -19,7 +19,8 @@
 #include <libports.h>
 
 #include <libfs.h>
-
+#include <libmouse.h>
+#include <libserial.h>
 
 #include <drivers/nmi.h>
 #include <libcpuid.h>
@@ -47,7 +48,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	  	// if its invalid
     	panic("invalid memory map given by GRUB bootloader", MEMORY_MAP_INVALID);
   	} 
-  
+
+	
   	gdt_install();
   	idt_install();
   
@@ -65,12 +67,17 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	timer_install();
 	rtc_init();
 	filesystem_init();
+	
 	keyboard_install();
+	mouse_install();
+	
 	shell_init();
 	
 	vga_init();
 	libc_init();
 
+	serial_init();
+	
 	kprintf("Hello World!");
   	__asm__ __volatile__("sti");
 
