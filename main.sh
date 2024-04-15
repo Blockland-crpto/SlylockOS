@@ -1,7 +1,20 @@
 mkdir lib
-export headers=$(echo "-I./include/kernel
-						-I./include/sosix
-						-I./include/libs")
+export headers=$(echo "-I./kernel/include
+						-I./libs/libacpi/include
+						-I./libs/libapic/include
+						-I./libs/libata/include
+						-I./libs/libfs/include
+						-I./libs/libinitrd/include
+						-I./libs/libkeyboard/include
+						-I./libs/libmmio/include
+						-I./libs/libmouse/include
+						-I./libs/libpci/include
+						-I./libs/libports/include
+						-I./libs/librtc/include
+						-I./libs/libserial/include
+						-I./libs/libtimer/include
+						-I./libs/libvga/include
+						-I./libs/sosix/include")
 
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
