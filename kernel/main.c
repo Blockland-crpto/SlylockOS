@@ -5,13 +5,14 @@
 #include <system/debug.h>
 #include <system/types.h>
 
-#include <libvga.h>
-#include <libacpi.h>
-
 #include <drivers/isr.h>
 #include <drivers/irq.h>
 #include <drivers/gdt.h>
 #include <drivers/idt.h>
+#include <drivers/nmi.h>
+
+#include <libvga.h>
+#include <libacpi.h>
 
 #include <libata.h>
 #include <libports.h>
@@ -19,8 +20,6 @@
 #include <libfs.h>
 #include <libmouse.h>
 #include <libserial.h>
-
-#include <drivers/nmi.h>
 
 #include <libpci.h>
 #include <libtimer.h>

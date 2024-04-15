@@ -88,4 +88,5 @@ qemu-system-i386 \
 	-serial file:serial.log \
 	-hda floppy.img \
 	-device virtio-mouse \
-	-device sb16 
+	-device sb16 \
+	-curses
