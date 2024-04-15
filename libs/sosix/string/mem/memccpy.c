@@ -4,6 +4,7 @@
 #include <libssp.h>
 
 void *memccpy(void *restrict s1, const void *restrict s2, int c, size_t n) {
+	
 	int i = 0;
 	uint8_t* p1 = (uint8_t*)s1;
 	uint8_t* p2 = (uint8_t*)s2;

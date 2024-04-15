@@ -9,5 +9,9 @@
 		pkgs.nasm
 		pkgs.python37
 		pkgs.gccgo
+		pkgs.alsa-firmware
+		pkgs.alsa-lib
+		pkgs.alsa-utils
+		
 	];
 }

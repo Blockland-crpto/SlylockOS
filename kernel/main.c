@@ -11,38 +11,44 @@
 #include <drivers/idt.h>
 #include <drivers/nmi.h>
 
-#include <libvga.h>
 #include <libacpi.h>
-#include <libata.h>
-#include <libports.h>
-#include <libfs.h>
-#include <libmouse.h>
-#include <libserial.h>
-#include <libpci.h>
-#include <libtimer.h>
-#include <librtc.h>
-#include <libkeyboard.h>
 #include <libapic.h>
-#include <libssp.h>
+#include <libata.h>
+#include <libfs.h>
+#include <libkeyboard.h>
+#include <libmouse.h>
+#include <libpci.h>
+#include <libports.h>
+#include <librtc.h>
+#include <libserial.h>
 #include <libsound.h>
+#include <libsse.h>
+#include <libssp.h>
+#include <libtimer.h>
+#include <libvga.h>
 
 #define MB_MAGIC 0x1BADB002
 
 __attribute__ ((constructor)) void init_kernel() {
 	stack_chk_init();
+	
 	return;
 }
 
 int main(multiboot_info_t* mb_info, uint32_t magic){
-  	mbi = mb_info;
-  	set_cursor_pos(0,0);
-  	clear(COLOR_WHT, COLOR_BLK);
+	mbi = mb_info;
+
+	set_cursor_pos(0,0);
+
+	clear(COLOR_WHT, COLOR_BLK);
+
 	// check the grub memory map
 	if(!(mb_info->flags >> 6 & 0x1)) {
-	  	// if its invalid
-    	panic("invalid memory map given by GRUB bootloader", MEMORY_MAP_INVALID);
-  	} 
+		// if its invalid
+		panic("invalid memory map given by GRUB bootloader", MEMORY_MAP_INVALID);
+	} 
 
+	sse_init();
 	
   	gdt_install();
 	

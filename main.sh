@@ -2,7 +2,7 @@ mkdir lib
 export headers=$(echo "-I./kernel/include
 						-I./libs/libacpi/include
 						-I./libs/libapic/include
-						-I./libs/libata/include
+						-I./libs/libata/include				
 						-I./libs/libfs/include
 						-I./libs/libinitrd/include
 						-I./libs/libkeyboard/include
@@ -13,6 +13,8 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/librtc/include
 						-I./libs/libserial/include
 						-I./libs/libsound/include
+						-I./libs/libsse/include
+						-I./libs/libssp/include
 						-I./libs/libtimer/include
 						-I./libs/libvga/include
 						-I./libs/sosix/include")
@@ -30,6 +32,8 @@ export headers=$(echo "-I./kernel/include
 ./build/librtc_build.sh
 ./build/libserial_build.sh
 ./build/libsound_build.sh
+./build/libsse_build.sh
+./build/libssp_build.sh
 ./build/libtimer_build.sh
 ./build/libvga_build.sh
 ./build/sosix_build.sh
@@ -99,6 +103,7 @@ rm -r tmp
 rm -r env
 
 qemu-system-i386 \
+	-cpu core2duo \
 	-cdrom SlylockOS.iso \
 	-m 512M \
 	-vga std \

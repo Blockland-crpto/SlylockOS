@@ -10,6 +10,23 @@ extern "C" {
 	#include <stddef.h>
 	#include <locale.h>
 
+	//protected mem modes
+	enum protected_mem_modes {
+		MODE_NONE_ONLY = 0,
+		MODE_READ_ONLY = 1,
+		MODE_WRITE_ONLY = 2,
+		MODE_READ_WRITE = 3,
+	};
+	
+	//protected mem blocks structure
+	typedef struct {
+		void* address;
+		enum protected_mem_modes mode;
+	} protected_mem_block_t;
+
+	//array of blacklisted mem blocks
+	protected_mem_block_t protected_mem_blocks[100];
+
 	//memccpy implementation
 	void *memccpy(void *restrict s1, const void *restrict s2, int c, size_t n);
 
@@ -111,6 +128,13 @@ extern "C" {
 
 	//strxfrm_l implementation
 	size_t strxfrm_l(char *restrict s1, const char *restrict s2, size_t n, locale_t locale);
+
+	//exclusive security functions
+	//memblklst - a function that blacklists a memory block from being modified
+	void* memprotect(const void *s, enum protected_mem_modes mode);
+
+	//memcheck - a function that checks if a memory block is blacklisted
+	enum protected_mem_modes memcheck(const void *s);
 	
 	//Exclusive flibc helper functions:
 	void swap(char *x, char *y);
