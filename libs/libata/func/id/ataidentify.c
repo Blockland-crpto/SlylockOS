@@ -5,10 +5,10 @@
 #include <libssp.h>
 
 //sends the identify command to the ata device, reads it, and parses it
-ata_drive_t ata_identify(uint8_t dev) {
+ata_device_t ata_identify(uint8_t dev) {
 
 	//creates a structure to represent a ATA drive
-	ata_drive_t drive;
+	ata_device_t drive;
 
 	//sets the drive type
 	if (dev & SELECT_DEVICE_MASTER) {

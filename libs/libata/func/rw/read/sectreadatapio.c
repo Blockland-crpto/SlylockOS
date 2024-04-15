@@ -5,7 +5,7 @@
 
 
 //Read ATA
-void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_drive_t* dev) {
+void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_device_t* dev) {
 	int initStatus = wait_ata_bsy();
 
 	if (initStatus == 1) {

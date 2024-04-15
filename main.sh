@@ -12,6 +12,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libports/include
 						-I./libs/librtc/include
 						-I./libs/libserial/include
+						-I./libs/libsound/include
 						-I./libs/libtimer/include
 						-I./libs/libvga/include
 						-I./libs/sosix/include")
@@ -28,6 +29,7 @@ export headers=$(echo "-I./kernel/include
 ./build/libports_build.sh
 ./build/librtc_build.sh
 ./build/libserial_build.sh
+./build/libsound_build.sh
 ./build/libtimer_build.sh
 ./build/libvga_build.sh
 ./build/sosix_build.sh

@@ -13,22 +13,18 @@
 
 #include <libvga.h>
 #include <libacpi.h>
-
 #include <libata.h>
 #include <libports.h>
-
 #include <libfs.h>
 #include <libmouse.h>
 #include <libserial.h>
-
 #include <libpci.h>
 #include <libtimer.h>
 #include <librtc.h>
 #include <libkeyboard.h>
-
 #include <libapic.h>
-
 #include <libssp.h>
+#include <libsound.h>
 
 #define MB_MAGIC 0x1BADB002
 
@@ -83,6 +79,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	libc_init();
 
 	serial_init();
+
+	sound_init();
 	
 	kprintf("Hello World!");
   	__asm__ __volatile__("sti");

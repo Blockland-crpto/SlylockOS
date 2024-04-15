@@ -1,12 +1,3 @@
-/**
-  \file      types.h
-  \brief     Standard stdint unsigned/singed integer types
-  \author    matthyno
-  \version   1.0.0
-  \date      2021
-  \copyright MIT License.
-*/
-
 #ifndef __SYSTEM_TYPES_H
 #define __SYSTEM_TYPES_H
 
@@ -62,9 +53,13 @@ extern "C" {
 		\brief Unsigned 64-bit integer type
 	*/
 	typedef unsigned long long int uint64_t;
+	
 	typedef unsigned int size_t;
+	
 	typedef size_t ssize_t;
+	
 	typedef long off_t;
+	
 	typedef int bool;
 
 #if defined(__cplusplus)

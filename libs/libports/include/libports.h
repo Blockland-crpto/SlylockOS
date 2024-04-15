@@ -55,6 +55,8 @@ extern "C" {
 	*/
 	extern void outl(uint16_t port, uint32_t val);
 
+	extern void io_wait(int iters);
+
 
 #if defined(__cplusplus)
 } /* extern "C" */

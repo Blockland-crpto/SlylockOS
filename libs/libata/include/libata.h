@@ -136,22 +136,22 @@ extern "C" {
 		uint32_t addressable_space_lba28;
 		uint64_t addressable_space_lba48;
 
-	} ata_drive_t;
+	} ata_device_t;
 
 	//a array representing the ATA drives
-	ata_drive_t ata_drives[2];
+	ata_device_t ata_drives[2];
 
-	ata_drive_t ata_identify(uint8_t dev);
+	ata_device_t ata_identify(uint8_t dev);
 
 	//the main function for reading
-	void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_drive_t* dev);
+	void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_device_t* dev);
 	//reads helper functions
 	void sect_read_lba28(uint32_t LBA, uint8_t sector_count, uint32_t target_address);
 	void sect_read_lba48(uint64_t LBA, uint16_t sector_count, uint32_t target_address);
 
 
 	//the main function for writing
-	void sect_write_atapio(uint32_t LBA, uint16_t sector_count, uint32_t* bytes, ata_drive_t* dev);
+	void sect_write_atapio(uint32_t LBA, uint16_t sector_count, uint32_t* bytes, ata_device_t* dev);
 
 	//writes helper functions
 	void sect_write_lba28(uint32_t LBA, uint8_t sector_count, uint32_t* bytes);

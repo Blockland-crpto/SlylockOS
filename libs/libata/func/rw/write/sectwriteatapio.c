@@ -4,7 +4,7 @@
 #include <libssp.h>
 
 //Write ATA
-void sect_write_atapio(uint32_t LBA, uint16_t sector_count, uint32_t* bytes, ata_drive_t* dev) {
+void sect_write_atapio(uint32_t LBA, uint16_t sector_count, uint32_t* bytes, ata_device_t* dev) {
 	wait_ata_bsy();
 
 	//lets check if its a lba48 or lba28 device
