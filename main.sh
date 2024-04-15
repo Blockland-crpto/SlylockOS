@@ -1,4 +1,7 @@
 mkdir lib
+export headers=$(echo "-I./include/kernel
+						-I./include/sosix
+						-I./include/libs")
 
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
@@ -17,7 +20,6 @@ mkdir lib
 ./build/sosix_build.sh
 
 csources=$(find ./kernel/modules/* -type f -name "*.c")
-headers=$(find ./include/* -type f -name "*.h")
 
 libaries=$(find ./lib/* -type f -name "*.a")
 
@@ -34,12 +36,12 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libs -fstack-protector-all -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin $headers -fstack-protector-all -c -o $ta $tb
 done
 objb="${objb:1}"
 
 
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libs -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
+gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin $headers -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
 
 export LD_LIBRARY_PATH=/home/runner/SlylockOS/
 ld -T link.ld --verbose -m elf_i386 -o kernel.bin ./bin/main.o $objb  ./bin/boot.o $libaries
