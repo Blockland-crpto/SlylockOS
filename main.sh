@@ -105,12 +105,10 @@ rm -r tmp
 rm -r env
 
 qemu-system-i386 \
-	-cpu core2duo \
 	-cdrom SlylockOS.iso \
 	-m 512M \
 	-vga std \
 	-serial file:serial.log \
 	-hda floppy.img \
 	-device virtio-mouse \
-	-device sb16 \
-	-curses
+	-device sb16 

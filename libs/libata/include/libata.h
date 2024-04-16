@@ -2,6 +2,7 @@
 #define __LIBATA_H
 
 #include <system/types.h>
+#include <libports.h>
 
 //Status of the ATA Device
 #define STATUS_ERR 0x01
@@ -121,6 +122,21 @@ extern "C" {
 		//The drivetype
 		enum ata_drive_type driveType;
 
+		//Is it removable?
+		bool removable;
+
+		//is the controller removable?
+		bool controller_removable;
+
+		//Logical information
+		uint16_t logical_sectors;
+		uint16_t logical_heads;
+		uint16_t logical_sectors_per_track;
+
+		//Iordy information
+		bool iordy_supported;
+		bool iordy_enabled;
+	
 		//LBA modes
 		bool lba48_enabled;
 		bool lba28_enabled;
@@ -130,7 +146,13 @@ extern "C" {
 		udma_mode_t active_udma;
 
 		//Misc information
+		bool standby_timer_enabled;
+		bool min_standby_timer_enabled;
 		bool pin80_connector;
+		uint8_t sectors_per_interrupt_rw_multiple;
+		uint16_t serial_number[8];
+		uint16_t firmware_revision[2];
+		uint16_t model_number[20];
 		uint32_t addressable_space_lba28;
 		uint64_t addressable_space_lba48;
 
@@ -158,7 +180,7 @@ extern "C" {
 	int wait_ata_bsy();
 
 	void wait_ata_drq();
-
+	
 	void ata_error_handler();
 
 	void ata_reset();
