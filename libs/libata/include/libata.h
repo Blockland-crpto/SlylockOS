@@ -80,9 +80,6 @@
 #define CTRL_DEVICE 0x3F6
 #define CTRL_DRIVE_ADDRESS 0x3F7
 
-//ATA Identify Command
-#define IDENTIFY_CMD 0xEC
-
 //ATA Device Master
 #define SELECT_DEVICE_MASTER 0xA0
 #define SELECT_DEVICE_SLAVE 0xB0
@@ -96,11 +93,12 @@
 #define DEVICE_SLAVE_LBA48 0x50
 
 //ATA drive types
-#define DRIVE_TYPE_MASTER 0
-#define DRIVE_TYPE_SLAVE 1
+enum ata_drive_type {
+	DRIVE_TYPE_MASTER = 0,
+	DRIVE_TYPE_SLAVE = 1
+};
 
 //ATA power management
-#define DRIVE_STANDBY 0xE2
 #define DRIVE_STANDBY_IMMEDIATE 0xE0
 
 #if defined(__cplusplus)
@@ -121,7 +119,7 @@ extern "C" {
 		bool exists;
 
 		//The drivetype
-		int driveType;
+		enum ata_drive_type driveType;
 
 		//LBA modes
 		bool lba48_enabled;
@@ -157,12 +155,9 @@ extern "C" {
 	void sect_write_lba28(uint32_t LBA, uint8_t sector_count, uint32_t* bytes);
 	void sect_write_lba48(uint64_t LBA, uint16_t sector_count, uint32_t* bytes);
 
-
 	int wait_ata_bsy();
 
 	void wait_ata_drq();
-
-	int ata_wait_id();
 
 	void ata_error_handler();
 

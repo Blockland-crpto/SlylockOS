@@ -1,3 +1,4 @@
+
 mkdir lib
 export headers=$(echo "-I./kernel/include
 						-I./libs/libacpi/include
@@ -18,7 +19,6 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libtimer/include
 						-I./libs/libvga/include
 						-I./libs/sosix/include")
-
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
 ./build/libata_build.sh

@@ -30,8 +30,7 @@
 #define MB_MAGIC 0x1BADB002
 
 __attribute__ ((constructor)) void init_kernel() {
-	stack_chk_init();
-	
+	stack_chk_init();	
 	return;
 }
 

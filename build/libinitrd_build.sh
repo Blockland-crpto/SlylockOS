@@ -1,3 +1,4 @@
+set -e
 sources=$(find ./libs/libinitrd/* -type f -name "*.c")
 objects=$(echo ${sources//\.c/.o})
 objb=''

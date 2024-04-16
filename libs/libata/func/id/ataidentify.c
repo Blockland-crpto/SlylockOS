@@ -4,6 +4,29 @@
 #include <system/types.h>
 #include <libssp.h>
 
+//ATA Identify Command
+#define IDENTIFY_CMD 0xEC
+
+//Poll ATA till the status is 7
+static int ata_wait_id() {
+	while(inb(CTRL_ALTERNATE_STATUS)&STATUS_BSY) {
+		if (inb(IO_PORT_CYL_LOW)&0x00) {
+			//Not a valid ATA drive
+			return 1;
+		}
+		if (inb(IO_PORT_CYL_HIGH)&0x00) {
+			//Not a valid ATA drive
+			return 1;
+		}
+	}
+	if(inb(IO_PORT_STATUS)&STATUS_DRQ) {
+		return 3;
+	} else if (inb(IO_PORT_STATUS)&STATUS_ERR) {
+		return 2;
+	}
+	return 0;
+}
+
 //sends the identify command to the ata device, reads it, and parses it
 ata_device_t ata_identify(uint8_t dev) {
 

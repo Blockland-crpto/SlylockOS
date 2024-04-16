@@ -4,6 +4,8 @@
 #include <system/types.h>
 #include <libssp.h>
 
+#define DRIVE_STANDBY 0xE2
+
 //put ATA in standby mode
 void ata_standby() {
 	
