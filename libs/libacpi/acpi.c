@@ -1,5 +1,5 @@
 #include <libacpi.h>
-#include <system/memory.h>
+#include <libmem.h>
 #include <system/modules.h>
 #include <libports.h>
 #include <system/types.h>

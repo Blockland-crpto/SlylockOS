@@ -1,4 +1,4 @@
-set -e
+#
 sources=$(find ./libs/libports/* -type f -name "*.c")
 objects=$(echo ${sources//\.c/.o})
 objb=''

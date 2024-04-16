@@ -1,7 +1,7 @@
 #include <drivers/idt.h>
 #include <system/modules.h>
 #include <libvga.h>
-#include <system/memory.h>
+#include <libmem.h>
 #include <libssp.h>
 
 struct idt_entry {

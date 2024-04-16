@@ -8,21 +8,14 @@
   \copyright MIT License.
 */
 
-#ifndef __SYSTEM_MEMORY_H
-#define __SYSTEM_MEMORY_H
+#ifndef __LIBMEM_H
+#define __LIBMEM_H
+
 
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
-	/**
-		\brief Gets RAM installed
-
-		Gets the amount of RAM installed in the computer.
-	*/
-	int ram_size();
-
 
 	/**
 	  \typedef unsigned long uintptr_t
@@ -34,6 +27,26 @@ extern "C" {
 	  \brief Defines a long for intptr_t
 	*/
 	typedef long intptr_t;
+	
+
+	typedef struct mem_control_block {
+		int is_available;
+		int size;
+	} mem_control_block;
+
+	
+
+	#define asizeof(x) ((char *)(&x + 1) - (char *)&x)
+	
+	/**
+		\brief Gets RAM installed
+
+		Gets the amount of RAM installed in the computer.
+	*/
+	int ram_size();
+
+
+
 
 
 	// unused, I think

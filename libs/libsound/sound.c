@@ -2,7 +2,7 @@
 #include <libssp.h>
 #include <libports.h>
 #include <system/modules.h>
-#include <system/memory.h>
+#include <libmem.h>
 #include <system/types.h>
 #include <drivers/isr.h>
 #include <drivers/irq.h>

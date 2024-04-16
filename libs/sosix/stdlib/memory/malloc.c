@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stddef.h>
-#include <system/memory.h>
+#include <libmem.h>
 #include <libssp.h>
 
 void *malloc(size_t numbytes) {

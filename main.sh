@@ -7,6 +7,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libfs/include
 						-I./libs/libinitrd/include
 						-I./libs/libkeyboard/include
+						-I./libs/libmem/include
 						-I./libs/libmmio/include
 						-I./libs/libmouse/include
 						-I./libs/libpci/include
@@ -25,6 +26,7 @@ export headers=$(echo "-I./kernel/include
 ./build/libfs_build.sh
 ./build/libinitrd_build.sh
 ./build/libkeyboard_build.sh
+./build/libmem_build.sh
 ./build/libmmio_build.sh
 ./build/libmouse_build.sh
 ./build/libpci_build.sh
