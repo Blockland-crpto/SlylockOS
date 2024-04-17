@@ -9,7 +9,7 @@ extern void sect_read_lba28();
 
 
 //Read ATA
-void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_device_t* dev) {
+void sect_read_atapio(uint32_t target_address, uint64_t LBA, uint16_t sector_count, ata_device_t* dev) {
 	int initStatus = wait_ata_bsy();
 
 	if (initStatus == 1) {
@@ -37,7 +37,7 @@ void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_cou
 			outb(IO_PORT_DRIVE_HEAD, DEVICE_SLAVE_LBA28 | ((LBA >>24) & 0xF));
 		}
 		//call the read lba28 function
-		sect_read_lba28(LBA, (uint8_t)sector_count, target_address);
+		sect_read_lba28((uint32_t)LBA, (uint8_t)sector_count, target_address);
 	}	
 
 

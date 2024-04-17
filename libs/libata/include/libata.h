@@ -186,10 +186,10 @@ extern "C" {
 	ata_device_t ata_identify(enum ata_device_select dev);
 
 	//the main function for reading
-	void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_device_t* dev);
+	void sect_read_atapio(uint32_t target_address, uint64_t LBA, uint16_t sector_count, ata_device_t* dev);
 
 	//the main function for writing
-	void sect_write_atapio(uint32_t LBA, uint16_t sector_count, uint32_t* bytes, ata_device_t* dev);
+	void sect_write_atapio(uint64_t LBA, uint16_t sector_count, uint32_t* bytes, ata_device_t* dev);
 
 	int wait_ata_bsy();
 
