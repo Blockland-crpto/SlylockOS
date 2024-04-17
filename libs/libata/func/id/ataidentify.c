@@ -28,7 +28,7 @@ static int ata_wait_id() {
 }
 
 //sends the identify command to the ata device, reads it, and parses it
-ata_device_t ata_identify(uint8_t dev) {
+ata_device_t ata_identify(enum ata_device_select dev) {
 
 	//creates a structure to represent a ATA drive
 	ata_device_t drive;

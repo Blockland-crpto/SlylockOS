@@ -5,85 +5,92 @@
 #include <libports.h>
 
 //Status of the ATA Device
-#define STATUS_ERR 0x01
-#define STATUS_IDX 0x02
-#define STATUS_CORR 0x04
-#define STATUS_DRQ 0x08
-#define STATUS_SRV 0x10
-#define STATUS_DF 0x20
-#define STATUS_RDY 0x40
-#define STATUS_BSY 0x80
+enum ata_device_status {
+	STATUS_ERR = 0x01,
+	STATUS_IDX = 0x02,
+	STATUS_CORR = 0x04,
+	STATUS_DRQ = 0x08,
+	STATUS_SRV = 0x10,
+	STATUS_DF = 0x20,
+	STATUS_RDY = 0x40,
+	STATUS_BSY = 0x80,
+};
 
 //ATA Error Codes
-#define ERROR_AMNF 0x01
-#define ERROR_TKZNF 0x02
-#define ERROR_ABRT 0x04
-#define ERROR_MCR 0x08
-#define ERROR_IDNF 0x10
-#define ERROR_MC 0x20
-#define ERROR_UNC 0x40
-#define ERROR_BBK 0x80
+enum ata_error_codes {
+	ERROR_AMNF = 0x01,
+	ERROR_TKZNF = 0x02,
+	ERROR_ABRT = 0x04,
+	ERROR_MCR = 0x08,
+	ERROR_IDNF = 0x10,
+	ERROR_MC = 0x20,
+	ERROR_UNC = 0x40,
+	ERROR_BBK = 0x80,
+};
 
 //Drive and Head Register Values
-#define LBA_24_BIT 0x01
-#define LBA_25_BIT 0x02
-#define LBA_26_BIT 0x04
-#define LBA_27_BIT 0x08
-#define DAH_DRV 0x10
-#define DAH_1 0x20
-#define DAH_LBA 0x40
-#define DAH_2 0x80
-
-//Alternate Status Register
-#define ALT_STATUS_ERR 0x01
-#define ALT_STATUS_IDX 0x02
-#define ALT_STATUS_CORR 0x04
-#define ALT_STATUS_DRQ 0x08
-#define ALT_STATUS_SRV 0x10
-#define ALT_STATUS_DF 0x20
-#define ALT_STATUS_RDY 0x40
-#define ALT_STATUS_BSY 0x80
+enum ata_drive_and_head_register_values {
+	LBA_24_BIT = 0x01,
+	LBA_25_BIT = 0x02,
+	LBA_26_BIT = 0x04,
+	LBA_27_BIT = 0x08,
+	DAH_DRV = 0x10,
+	DAH_1 = 0x20,
+	DAH_LBA = 0x40,
+	DAH_2 = 0x80,
+};
 
 //Device Control Register
-#define DEV_CTRL_NA1 0x01
-#define DEV_CTRL_nlEN 0x02
-#define DEV_CTRL_SRST 0x04
-#define DEV_CTRL_NA2 0x08
-#define DEV_CTRL_NA3 0x10
-#define DEV_CTRL_NA4 0x20
-#define DEV_CTRL_NA5 0x40
-#define DEV_CTRL_HOB 0x80
+enum ata_device_control_registers {
+	DEV_CTRL_NA1 = 0x01,
+	DEV_CTRL_nlEN = 0x02,
+	DEV_CTRL_SRST = 0x04,
+	DEV_CTRL_NA2 = 0x08,
+	DEV_CTRL_NA3 = 0x10,
+	DEV_CTRL_NA4 = 0x20,
+	DEV_CTRL_NA5 = 0x40,
+	DEV_CTRL_HOB = 0x80,
+};
 
 //Drive Address Register
-#define DRV_ADDR_DS0 0x01
-#define DRV_ADDR_DS1 0x02
-#define DRV_ADDR_HS0 0x04
-#define DRV_ADDR_HS1 0x08
-#define DRV_ADDR_HS2 0x10
-#define DRV_ADDR_HS3 0x20
-#define DRV_ADDR_WTG 0x40
-#define DRV_ADDR_NA 0x80
+enum ata_drive_address_registers {
+	DRV_ADDR_DS0 = 0x01,
+	DRV_ADDR_DS1 = 0x02,
+	DRV_ADDR_HS0 = 0x04,
+	DRV_ADDR_HS1 = 0x08,
+	DRV_ADDR_HS2 = 0x10,
+	DRV_ADDR_HS3 = 0x20,
+	DRV_ADDR_WTG = 0x40,
+	DRV_ADDR_NA = 0x80,
+};
 
-//IO base and ports registers
-#define IO_PORT_DATA 0x1F0
-#define IO_PORT_ERROR 0x1F1
-#define IO_PORT_FEATURE 0xF1
-#define IO_PORT_SECTOR_COUNT 0x1F2
-#define IO_PORT_SECTOR_NUMBER 0x1F3
-#define IO_PORT_CYL_LOW 0x1F4
-#define IO_PORT_CYL_HIGH 0x1F5
-#define IO_PORT_DRIVE_HEAD 0x1F6
-#define IO_PORT_STATUS 0x1F7
-#define IO_PORT_COMMAND 0x1F7
+//IO ports registers
+enum ata_io_ports_registers {
+	IO_PORT_DATA = 0x1F0,
+	IO_PORT_ERROR = 0x1F1,
+	IO_PORT_FEATURE = 0x1F1,
+	IO_PORT_SECTOR_COUNT = 0x1F2,
+	IO_PORT_SECTOR_NUMBER = 0x1F3,
+	IO_PORT_CYL_LOW = 0x1F4,
+	IO_PORT_CYL_HIGH = 0x1F5,
+	IO_PORT_DRIVE_HEAD = 0x1F6,
+	IO_PORT_STATUS = 0x1F7,
+	IO_PORT_COMMAND = 0x1F7,
+};
 
-//Control base and ports registers
-#define CTRL_ALTERNATE_STATUS 0x3F6
-#define CTRL_DEVICE 0x3F6
-#define CTRL_DRIVE_ADDRESS 0x3F7
+
+//Control ports registers
+enum ata_ctrl_ports_registers {
+	CTRL_ALTERNATE_STATUS = 0x3F6,
+	CTRL_DEVICE = 0x3F6,
+	CTRL_DRIVE_ADDRESS = 0x3F7,
+};
 
 //ATA Device Master
-#define SELECT_DEVICE_MASTER 0xA0
-#define SELECT_DEVICE_SLAVE 0xB0
+enum ata_device_select {
+	SELECT_DEVICE_MASTER = 0xA0,
+	SELECT_DEVICE_SLAVE = 0xB0,
+};
 
 //ATA Device Write Addresses (LBA28)
 #define DEVICE_MASTER_LBA28 0xE0
@@ -161,7 +168,7 @@ extern "C" {
 	//a array representing the ATA drives
 	ata_device_t ata_drives[2];
 
-	ata_device_t ata_identify(uint8_t dev);
+	ata_device_t ata_identify(enum ata_device_select dev);
 
 	//the main function for reading
 	void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_device_t* dev);
