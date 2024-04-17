@@ -119,6 +119,11 @@ extern "C" {
 		bool supported;
 	} udma_mode_t;
 
+	//a structure representing a MDMA mode
+	typedef struct {
+		int id;
+		bool supported;
+	} mdma_mode_t;
 
 	//a structure representing a ATA harddrive
 	typedef struct {
@@ -135,6 +140,11 @@ extern "C" {
 		//is the controller removable?
 		bool controller_removable;
 
+		//Manufacturer information
+		uint16_t serial_number[8];
+		uint16_t firmware_revision[2];
+		uint16_t model_number[20];
+	
 		//Logical information
 		uint16_t logical_sectors;
 		uint16_t logical_heads;
@@ -152,16 +162,21 @@ extern "C" {
 		udma_mode_t supported_udma[7];
 		udma_mode_t active_udma;
 
-		//Misc information
+		//MDMA modes
+		mdma_mode_t supported_mdma[2];
+		mdma_mode_t active_mdma;
+
+		//Standby timer information
 		bool standby_timer_enabled;
 		bool min_standby_timer_enabled;
-		bool pin80_connector;
-		uint8_t sectors_per_interrupt_rw_multiple;
-		uint16_t serial_number[8];
-		uint16_t firmware_revision[2];
-		uint16_t model_number[20];
+
+		//Addressable space information
 		uint32_t addressable_space_lba28;
 		uint64_t addressable_space_lba48;
+	
+		//Misc information
+		bool pin80_connector;
+		uint8_t sectors_per_interrupt_rw_multiple;
 
 	} ata_device_t;
 

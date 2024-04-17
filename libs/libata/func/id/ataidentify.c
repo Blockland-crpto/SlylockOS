@@ -87,7 +87,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	uint16_t drive_config = identify_data[0];
 
 	//lets have the drive type mask
-	uint16_t drivetype_mask = 0 << 15;
+	uint16_t drivetype_mask = 1 << 15;
 
 	//lets have the removable drive mask
 	uint16_t removable_mask = 1 << 7;
@@ -99,16 +99,14 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	if (drive_config&0x00) {
 		//the drive is not existent
 		drive.exists = false;
-		return;
+		return drive;
 	}
 	
 	//check if the drive is a hard drive
 	if (drive_config&drivetype_mask) {
-		//the drive is a hard drive
-	} else {
 		//the drive is a packet device
 		drive.exists = false;
-		return;
+		return drive;
 	}
 
 	//lets see if the drive is removable
@@ -261,6 +259,45 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		drive.addressable_space_lba28 = addressable_space_lba28;
 	}
 
+	//lets find the MDMA mode
+	uint16_t mdma_mode = identify_data[63];
+
+	//lets see the MDMA mask
+	uint16_t mdma_mode_mask;
+
+	//for loop to iterate over the supported MDMA's
+	for (int i = 0; i < 3; i++) {
+		//mdma mask
+		mdma_mode_mask = 1 << i;
+
+		if (mdma_mode&mdma_mode_mask) {
+			//the mdma mode is supported
+			mdma_mode_t mdma;
+			mdma.supported = true;
+			mdma.id = i;
+			drive.supported_mdma[i] = mdma;
+		} else {
+			//the mdma mode is not supported
+			mdma_mode_t mdma;
+			mdma.supported = false;
+			mdma.id = i;
+			drive.supported_mdma[i] = mdma;
+		}
+	}
+
+	//lets define the active bits of MDMA
+	uint8_t active_mdma_bits = (uint8_t)(mdma_mode >> 8);
+
+	//iterate throught the supported MDMA's
+	for (int i = 8; i < 11; i++) {
+		if (active_mdma_bits&(1 << i)) {
+			//the udma mode is being used
+			drive.active_mdma = drive.supported_mdma[i-8];
+		}
+	}
+
+	
+
 	//check if the drive supports LBA48 addressing mode
 	uint16_t lba_mode = identify_data[83];
 	uint16_t lba_mode_mask = 1 << 10;
@@ -333,6 +370,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	} else {
 		drive.addressable_space_lba48 = addressable_space_lba48;
 	}
+	
 	drive.exists = true;
 	return drive;
 }
