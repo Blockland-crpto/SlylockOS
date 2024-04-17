@@ -187,17 +187,9 @@ extern "C" {
 
 	//the main function for reading
 	void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_device_t* dev);
-	//reads helper functions
-	void sect_read_lba28(uint32_t LBA, uint8_t sector_count, uint32_t target_address);
-	void sect_read_lba48(uint64_t LBA, uint16_t sector_count, uint32_t target_address);
-
 
 	//the main function for writing
 	void sect_write_atapio(uint32_t LBA, uint16_t sector_count, uint32_t* bytes, ata_device_t* dev);
-
-	//writes helper functions
-	void sect_write_lba28(uint32_t LBA, uint8_t sector_count, uint32_t* bytes);
-	void sect_write_lba48(uint64_t LBA, uint16_t sector_count, uint32_t* bytes);
 
 	int wait_ata_bsy();
 

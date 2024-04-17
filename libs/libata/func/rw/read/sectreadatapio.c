@@ -3,6 +3,10 @@
 #include <system/types.h>
 #include <libssp.h>
 
+//helpers
+extern void sect_read_lba48();
+extern void sect_read_lba28();
+
 
 //Read ATA
 void sect_read_atapio(uint32_t target_address, uint32_t LBA, uint16_t sector_count, ata_device_t* dev) {

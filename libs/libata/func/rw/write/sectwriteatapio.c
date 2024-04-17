@@ -3,6 +3,10 @@
 #include <system/types.h>
 #include <libssp.h>
 
+//helper functions
+extern void sect_write_lba48();
+extern void sect_write_lba28();
+
 //Write ATA
 void sect_write_atapio(uint32_t LBA, uint16_t sector_count, uint32_t* bytes, ata_device_t* dev) {
 	wait_ata_bsy();
