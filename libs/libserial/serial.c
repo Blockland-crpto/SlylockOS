@@ -8,6 +8,7 @@
 #include <libssp.h>
 #include <string.h>
 #include <system/types.h>
+#include <stdarg.h>
 
 //TODO: add COM2 support and input handling
 
@@ -96,3 +97,4 @@ void serial_init() {
 	//were done!
 	DONE(modules_serial);
 }
+

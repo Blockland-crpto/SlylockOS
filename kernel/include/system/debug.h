@@ -79,6 +79,8 @@ extern "C" {
 	//warn function
 	void warn(char* reason);
 
+	int slog(const char *format, ...);
+
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif

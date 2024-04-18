@@ -56,21 +56,23 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
   	isr_install();
 	
   	irq_install();
+
+	timer_install();
+	
+	serial_init();
 	
 	apic_init();
 	
   	ata_init();
 
 	nmi_init();
-	
+
   	pci_init();
 	
 	acpi_init();
 	
 	kalloc_init();
-	
-	timer_install();
-	
+		
 	rtc_init();
 	
 	filesystem_init();
@@ -82,8 +84,6 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	vga_init();
 	
 	libc_init();
-
-	serial_init();
 
 	sound_init();
 	

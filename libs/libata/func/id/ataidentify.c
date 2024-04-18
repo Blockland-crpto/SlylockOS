@@ -9,6 +9,7 @@ extern void ata_id_setup();
 extern void get_drive_config();
 extern void get_drive_vendor();
 extern void	get_drive_capabilities();
+extern void get_drive_ata_version();
 
 //sends the identify command to the ata device, reads it, and parses it
 ata_device_t ata_identify(enum ata_device_select dev) {
@@ -173,32 +174,8 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	//lets get the queue depth
 	drive.max_queue_depth = queue_depth_raw & 0x1F;
 
-	//lets now get the major version supported number
-	uint16_t major_version = identify_data[80];
-
-	//int representing the major version
-	int major_version_int;
-
-	//iterate until we find unsupported
-	for (int i = 3; i < 7; i++) {
-		//the mask
-		uint16_t major_version_mask = 1 << i;
-
-		//lets check it!
-		if (major_version&major_version_mask) {
-			//it is supported
-			major_version_int = i;
-		} else {
-			//nope, we found our limit
-			break;
-		}
-	}
-
-	//input it to our drive!
-	drive.major_ata_version = major_version_int;
-
-	//lets now get the minor version
-	drive.minor_ata_version = identify_data[81];
+	//gets ata version
+	get_drive_ata_version(&drive, identify_data);
 
 	//now lets look at the first command set
 	uint16_t command_sets1 = identify_data[82];

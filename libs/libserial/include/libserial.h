@@ -71,7 +71,9 @@ extern "C" {
 
 	//serial port writer
 	void serial_write_string(char *data);
-	
+
+	//serial port write char
+	void serial_write_char(int8_t data);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif
