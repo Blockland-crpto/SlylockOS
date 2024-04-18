@@ -4,28 +4,11 @@
 #include <system/types.h>
 #include <libssp.h>
 
-//ATA Identify Command
-#define IDENTIFY_CMD 0xEC
-
-//Poll ATA till the status is 7
-static int ata_wait_id() {
-	while(inb(CTRL_ALTERNATE_STATUS)&STATUS_BSY) {
-		if (inb(IO_PORT_CYL_LOW)&0x00) {
-			//Not a valid ATA drive
-			return 1;
-		}
-		if (inb(IO_PORT_CYL_HIGH)&0x00) {
-			//Not a valid ATA drive
-			return 1;
-		}
-	}
-	if(inb(IO_PORT_STATUS)&STATUS_DRQ) {
-		return 3;
-	} else if (inb(IO_PORT_STATUS)&STATUS_ERR) {
-		return 2;
-	}
-	return 0;
-}
+//helpers
+extern void ata_id_setup();
+extern void get_drive_config();
+extern void get_drive_vendor();
+extern void	get_drive_capabilities();
 
 //sends the identify command to the ata device, reads it, and parses it
 ata_device_t ata_identify(enum ata_device_select dev) {
@@ -33,49 +16,15 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	//creates a structure to represent a ATA drive
 	ata_device_t drive;
 
-	//sets the drive type
-	if (dev & SELECT_DEVICE_MASTER) {
-		drive.driveType = DRIVE_TYPE_MASTER;
-	} else {
-		drive.driveType = DRIVE_TYPE_SLAVE;
-	}
-	
-	//selects the drive as master
-	outb(IO_PORT_DRIVE_HEAD, dev);
+	//call the setup function
+	ata_id_setup(&drive, dev);
 
-	//sets the required registers to clear
-	outb(IO_PORT_SECTOR_COUNT, 0x00);
-	outb(IO_PORT_SECTOR_NUMBER, 0x00);
-	outb(IO_PORT_CYL_LOW, 0x00);
-	outb(IO_PORT_CYL_HIGH, 0x00);
-	
-	//sends identify command
-	outb(IO_PORT_COMMAND, IDENTIFY_CMD);
-
-	//let retrive id status
-	uint8_t identify = inb(IO_PORT_STATUS);
-	
-	//now we parse it
-	if (identify&0x00) {
-		//the drive does not exist
-		drive.exists = false;
+	//lets check if its still a valid drive
+	if (!drive.exists) {
+		//drive does not exist
 		return drive;
 	}
-
-	//retrive the status of ata waiting
-	int status = ata_wait_id();
-
-	//check the status of running the id command
-	if (status == 1) {
-		//the drive is not a valid ata drive
-		drive.exists = false;
-		return drive;
-	} else if (status == 2) {
-		//the drive errored out while running identify
-		drive.exists = false;
-		return drive;
-	}
-
+	
 	//the drive is ready to be read
 	uint16_t identify_data[256];
 	
@@ -83,160 +32,35 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		identify_data[i] = inw(IO_PORT_DATA);
 	}
 
-	//lets get the drive configuration info
-	uint16_t drive_config = identify_data[0];
+	//lets get the drive config data
+	get_drive_config(&drive, identify_data[0]);
 
-	//lets have the drive type mask
-	uint16_t drivetype_mask = 1 << 15;
-
-	//lets have the removable drive mask
-	uint16_t removable_mask = 1 << 7;
-
-	//lets have the removable controller mask
-	uint16_t removable_controller_mask = 0 << 6;
-	
-	//check if the ATA device is valid
-	if (drive_config&0x00) {
-		//the drive is not existent
-		drive.exists = false;
-		return drive;
-	}
-	
-	//check if the drive is a hard drive
-	if (drive_config&drivetype_mask) {
-		//the drive is a packet device
-		drive.exists = false;
+	//lets check if its still a valid drive
+	if (!drive.exists) {
+		//drive does not exist
 		return drive;
 	}
 
-	//lets see if the drive is removable
-	if (drive_config&removable_mask) {
-		//the drive is removable
-		drive.removable = true;
-	} else {
-		//the drive is not removable
-		drive.removable = false;
-	}
-
-	//lets see if the drive has a removable controller
-	if (drive_config&removable_controller_mask) {
-		//the drive has a removable controller
-		drive.controller_removable = true;
-	} else {
-		//the drive does not have a removable controller
-		drive.controller_removable = false;
-	}
-
-	//lets get the logical sectors
-	drive.logical_sectors = identify_data[1];
-
-	//lets get the logical heads
-	drive.logical_heads = identify_data[3];
-
-	//lets get the logical sectors per track
-	drive.logical_sectors_per_track = identify_data[6];
-
-	//next lets get the serial number
-	for (int i = 10; i < 19; i++) {
-		//map it to serial number
-		drive.serial_number[i-10] = identify_data[i];
-	}
-
-	//next lets get the firmware revision
-	for (int i = 23; i < 26; i++) {
-		//map it to firmware revision
-		drive.firmware_revision[i-23] = identify_data[i];
-	}
-
-	//next lets get the model number
-	for (int i = 27; i < 46; i++) {
-		//map it to model number
-		drive.model_number[i-27] = identify_data[i];
-	}
+	//lets get vendor information
+	get_drive_vendor(&drive, identify_data);
 
 	//next lets get the sectors per interrupt in read write multiple
 	drive.sectors_per_interrupt_rw_multiple = (uint8_t)identify_data[47];
 
-	//next lets see the first capabilities block
-	uint16_t capabilities_one = identify_data[49];
+	//lets get the capabilities
+	get_drive_capabilities(&drive, identify_data);
 	
-	//standby timer mask
-	uint16_t standby_timer_mask = 1 << 13;
-
-	//lets check it!
-	if (capabilities_one&standby_timer_mask) {
-		//the drive has a standby timer
-		drive.standby_timer_enabled = true;
-	} else {
-		//its managed by the device
-		drive.standby_timer_enabled = false;
-	}
-
-	//next lets see if IORDY is supported
-	//IORDY detection mask
-	uint16_t iordy_detect_mask = 1 << 11;
-
-	//lets check it!
-	if (capabilities_one&iordy_detect_mask) {
-		//the drive supports IORDY
-		drive.iordy_supported = true;
-	} else {
-		//iordy is not supported
-		drive.iordy_supported = false;
-	}
-
-	//now lets see if iordy is disabled
-	//IORDY enabled detection mask
-	uint16_t iordy_enabled_mask = 0 << 10;
-
-	//lets check it!
-	if (capabilities_one&iordy_enabled_mask) {
-		//the drive has IORDY enabled
-		drive.iordy_enabled = true;
-	} else {
-		//iordy is not enabled on the drive
-		drive.iordy_enabled = false;
-	}
-
-
-	//next lets look at capabilities two, the only info we can get out of this is whether or not the drive has a minimum standby timer time which is at bit 0
-	uint16_t capabilities_two = identify_data[50];
-
-	//the minimum standby timer mask
-	uint16_t min_standby_timer_mask = 1 << 0;
-
-	//lets check it!
-	if (capabilities_two&min_standby_timer_mask) {
-		//the drive has a minimum standby timer
-		drive.min_standby_timer_enabled = true;
-	} else {
-		//the drive does not have a minimum standby timer
-		drive.min_standby_timer_enabled = false;
-	}
-
 	//next lets look at 53 to see which are valid in the next few things
 	uint16_t validity_section = identify_data[53];
 
 	//we should also define some bools to check if the drives sections are valid
-	bool valid_sect_0; // is 54-58 valid?
 	bool valid_sect_1; // is 64-70 valid?
 	bool valid_sect_2; // is 88 valid?
 	
-	//54-58 validity mask
-	uint16_t validity_mask = 1 << 0;
+	//64-70 validity mask
+	uint16_t validity_mask = 1 << 1;
 
-	//lets check if these are valid
-	if (validity_section&validity_mask) {
-		//the section is valid
-		valid_sect_0 = true;
-	} else {
-		//the section is not valid
-		valid_sect_0 = false;
-	}
-
-	//now lets check if the second section is valid
-	//the new mask
-	validity_mask = 1 << 1;
+	//now lets check if the first section is valid
 
 	//lets check it!
 	if (validity_section&validity_mask) {
@@ -245,6 +69,19 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	} else {
 		//the section is not valid
 		valid_sect_1 = false;
+	}
+
+	//lets check if the second section is valid
+	//the new mask
+	validity_mask = 1 << 2;
+
+	//lets check it!
+	if (validity_section&validity_mask) {
+		//the section is valid
+		valid_sect_2 = true;
+	} else {
+		//the section is not valid
+		valid_sect_2 = false;
 	}
 	
 	
@@ -296,19 +133,383 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		}
 	}
 
-	
+	//lets check if the above is valid
+	if (valid_sect_1) {
+		//lets get the supported pio modes
+		uint16_t pio_mode = identify_data[64];
 
-	//check if the drive supports LBA48 addressing mode
-	uint16_t lba_mode = identify_data[83];
-	uint16_t lba_mode_mask = 1 << 10;
-	
-	if (lba_mode&lba_mode_mask) {
-		//the drive supports LBA48 addressing
-		drive.lba48_enabled = true;
-	} else {
-		//the drive does not support LBA48 addressing
-		drive.lba48_enabled = false;
+		//lets see the pio mask
+		uint16_t pio_mode_mask;
+
+		//iterate through supported pio modes
+		for (int i = 0; i < 7; i++) {
+			//pio mask
+			pio_mode_mask = 1 << i;
+
+			//lets check it!
+			if (pio_mode&pio_mode_mask) {
+				//it is supported
+				pio_mode_t pio;
+				pio.supported = true;
+				pio.id = i;
+				drive.supported_pio[i] = pio;
+			} else {
+				//it is not supported
+				pio_mode_t pio;
+				pio.supported = false;
+				pio.id = i;
+				drive.supported_pio[i] = pio;
+			}
+		}
+
+		//lets get the minimum mdma transfer per word
+		drive.min_mdma_transfer_time_per_word = identify_data[65];
+
+		//lets get the manufactures recommended min mda transfer time
+		drive.min_mdma_transfer_time_vendor = identify_data[66];
+
+		//lets get the minimum pio transfer time without flow control
+		drive.min_pio_transfer_time_no_flow_ctrl = identify_data[67];
+
+		//lets get the minimum pio transfer time with flow control
+		drive.min_pio_transfer_time_iordy_flow_ctrl = identify_data[68];
 	}
+	
+	//lets retrieve the queue depth
+	uint16_t queue_depth_raw = identify_data[75];
+	
+	//lets get the queue depth
+	drive.max_queue_depth = queue_depth_raw & 0x1F;
+
+	//lets now get the major version supported number
+	uint16_t major_version = identify_data[80];
+
+	//lets get the mask
+	uint16_t major_version_mask;
+
+	//int representing the major version
+	int major_version_int;
+
+	//iterate until we find unsupported
+	for (int i = 3; i < 7; i++) {
+		//the mask
+		major_version_mask = 1 << i;
+
+		//lets check it!
+		if (major_version&major_version_mask) {
+			//it is supported
+			major_version_int = i;
+		} else {
+			//nope, we found our limit
+			break;
+		}
+	}
+
+	//input it to our drive!
+	drive.major_ata_version = major_version_int;
+
+	//lets now get the minor version
+	drive.minor_ata_version = identify_data[81];
+
+	//now lets look at the first command set
+	uint16_t command_sets1 = identify_data[82];
+
+	//for loop to iterate through the word
+	for (int i = 14; i >= 0; i--) {
+
+		//supported bool
+		bool supported;
+		
+		//the mask
+		uint16_t command_set_mask = 1 << i;
+
+		//is it supported?
+		if (command_sets1&command_set_mask) {
+			//it is supported
+			supported = true;
+		} else {
+			//it is not supported
+			supported = false;
+		}
+		
+		//switched the mask
+		switch(i) {
+			case 14: {
+				//is the nop command supported
+				drive.cmd_set_supported[NOP_SUPPORTED] = supported;
+				break;
+			}
+			case 13: {
+				//is the read buffer command supported
+				drive.cmd_set_supported[READ_BUFFER_SUPPORTED] = supported;
+				break;
+			}
+			case 12: {
+				//is the write buffer command supported
+				drive.cmd_set_supported[WRITE_BUFFER_SUPPORTED] = supported;
+				break;
+			}
+			case 10: {
+				//is the host protected area supported
+				drive.cmd_set_supported[HOST_PROTECTED_AREA_SUPPORTED] = supported;
+				break;
+			}
+			case 9: {
+				//is the reset command supported
+				drive.cmd_set_supported[DEVICE_RESET_SUPPORTED] = supported;
+				break;
+			}
+			case 8: {
+				//is service interrupt is supported
+				drive.cmd_set_supported[SERVICE_INTERRUPT_SUPPORTED] = supported;
+				break;
+			}
+			case 7: {
+				//is release interrupt supported
+				drive.cmd_set_supported[RELEASE_INTERRUPT_SUPPORTED] = supported;
+				break;
+			}
+			case 6: {
+				//is look ahead supported
+				drive.cmd_set_supported[LOOK_AHEAD_SUPPORTED] = supported;
+				break;
+			}
+			case 5: {
+				//is the write cache command supported
+				drive.cmd_set_supported[WRITE_CACHE_SUPPORTED] = supported;
+				break;
+			}
+			case 4: {
+				//is the packet command supported
+				drive.cmd_set_supported[PACKET_COMMAND_SUPPORTED] = supported;
+				break;
+			}
+			case 3: {
+				//is the power management set supported
+				drive.cmd_set_supported[POWER_MANAGEMENT_SET_SUPPORTED] = supported;
+				break;
+			}
+			case 2: {
+				//is the removable device set supported
+				drive.cmd_set_supported[REMOVABLE_DEVICE_SET_SUPPORTED] = supported;
+				break;
+			}
+			case 1: {
+				//is the security mode feature set supported
+				drive.cmd_set_supported[SECURITY_MODE_FEATURE_SET_SUPPORTED] = supported;
+				break;
+			}
+			case 0: {
+				//is SMART feature set supported
+				drive.cmd_set_supported[SMART_FEATURE_SET_SUPPORTED] = supported;
+				break;
+			}
+			default: {
+				//not anything
+				break;
+			}
+		}
+	}
+	
+	//now lets look at the command sets 2
+	uint16_t command_sets2 = identify_data[83];
+
+	//first lets check to see if its valid
+	uint16_t command_sets2_validity_mask = 1 << 15;
+	
+	//lets check it!
+	if (command_sets2&command_sets2_validity_mask) {
+		//it's not valid, the 15th bit is set to 1 instead of 0
+		drive.exists = false;
+		return drive;
+	}
+	
+	//for loop to iterate through the word
+	for (int i = 13; i >= 0; i--) {
+
+		//supported bool
+		bool supported;
+
+		//the mask
+		uint16_t command_set_mask = 1 << i;
+
+		//is it supported?
+		if (command_sets2&command_set_mask) {
+			//it is supported
+			supported = true;
+		} else {
+			//it is not supported
+			supported = false;
+		}
+
+		//switched the mask
+		switch(i) {
+			case 13: {
+				//is the FLUSH CACHE EXT command supported
+				drive.cmd_set_supported[FLUSH_CACHE_EXT_SUPPORTED] = supported;
+				break;
+			}
+			case 12: {
+				//is the mandatory FLUSH CACHE command supported
+				drive.cmd_set_supported[MANDATORY_FLUSH_CACHE_SUPPORTED] = supported;
+				break;
+			}
+			case 11: {
+				//is the device configuration overlay feature set supported
+				drive.cmd_set_supported[DEVICE_CONFIG_OVERLAY_SUPPORTED] = supported;
+				break;
+			}
+			case 10: {
+				//is the 48 bit address feature set supported
+				drive.cmd_set_supported[LBA48_ENABLED] = supported;
+				break;
+			}
+			case 9: {
+				//is automatic acoustic management supported
+				drive.cmd_set_supported[AUTO_ACOUSTIC_MANAGEMENT_SUPPORTED] = supported;
+				break;
+			}
+			case 8: {
+				//is SET MAX security extentsion supported
+				drive.cmd_set_supported[SET_MAX_SECURITY_EXTENTSION_SUPPORTED] = supported;
+				break;
+			}
+			case 6: {
+				//is drive spin up required for set features after power up?
+				drive.set_features_spinup_needed = supported;
+				break;
+			}
+			case 5: {
+				//is power up in standby supported
+				drive.cmd_set_supported[POWER_UP_IN_STANDBY_SUPPORTED] = supported;
+				break;
+			}
+			case 4: {
+				//is removable media status notification supported
+				drive.cmd_set_supported[REMOVEABLE_MEDIA_STATUS_SUPPORTED] = supported;
+				break;
+			}
+			case 3: {
+				//is the advanced power management set supported
+				drive.cmd_set_supported[ADVANCED_POWER_MANAGEMENT_SUPPORTED] = supported;
+				break;
+			}
+			case 2: {
+				//is the CFA feature set supported
+				drive.cmd_set_supported[CFA_FEATURE_SET_SUPPORTED] = supported;
+				break;
+			}
+			case 1: {
+				//is READ/WRITE DMA QUEUED command supported
+				drive.cmd_set_supported[READ_WRITE_DMA_QUEUED_SUPPORTED] = supported;
+				break;
+			}
+			case 0: {
+				//is DOWNLOAD MICROCODE command supported
+				drive.cmd_set_supported[DOWNLOAD_MICROCODE_SUPPORTED] = supported;
+				break;
+			}
+			default: {
+				//nothing
+				break;
+			}
+		}
+	}
+
+	//now lets look the command set extentsion
+	uint16_t command_sets_ext = identify_data[84];
+
+	//first lets see if its valid
+	uint16_t command_sets_ext_validity_mask = 1 << 15;
+	
+	//lets check it!
+	if (command_sets_ext&command_sets_ext_validity_mask) {
+		//its not valid, error out
+		drive.exists = false;
+		return drive;
+	}
+
+	//for loop to iterate through the word
+	for (int i = 10; i >= 0; i--) {
+
+		//supported bool
+		bool supported;
+
+		//the mask
+		uint16_t command_set_mask = 1 << i;
+
+		//is it supported?
+		if (command_sets_ext&command_set_mask) {
+			//it is supported
+			supported = true;
+		} else {
+			//it is not supported
+			supported = false;
+		}
+
+		//switched the mask
+		switch(i) {
+			case 10: {
+				//is the URG bit supported for WRITE STREAM DMA or PIO
+				drive.cmd_set_supported[URG_WRITE_BIT_SUPPORTED] = supported;
+				break;
+			}
+			case 9: {
+				//is the URG bit supported for READ STREAM DMA or PIO
+				drive.cmd_set_supported[URG_READ_BIT_SUPPORTED] = supported;
+				break;
+			}
+			case 8: {
+				//is world wide name supported?
+				drive.cmd_set_supported[WORLD_WIDE_NAME_SUPPORTED] = supported;
+				break;
+			}
+			case 7: {
+				//is WRITE DMA QUEUED FUA EXT command supported 
+				drive.cmd_set_supported[WRITE_DMA_QUEUED_FUA_EXT_SUPPORTED] = supported;
+				break;
+			}
+			case 6: {
+				//is WRITE DMA FUA EXT and WRITE MULTIPLE FUA EXT commands supported?
+				drive.cmd_set_supported[WRITE_DMA_FUA_EXT_AND_WRITE_MULTIPLE_FUA_EXT] = supported;
+				break;
+			}
+			case 5: {
+				//is the general purpose logging feature set supported?
+				drive.cmd_set_supported[GENERAL_PURPOSE_LOGING_SUPPORTED] = supported;
+				break;
+			}
+			case 4: {
+				//is the streaming feature set supported?
+				drive.cmd_set_supported[STREAMING_FEATURE_SET_SUPPORTED] = supported;
+				break;
+			}
+			case 3: {
+				//is media card pass through supported?
+				drive.cmd_set_supported[MEDIA_CARD_PASSTHROUGH_SUPPORTED] = supported;
+				break;
+			}
+			case 2: {
+				//is media serial number supported?
+				drive.cmd_set_supported[MEDIA_SERIAL_NUMBER_SUPPORTED] = supported;
+				break;
+			}
+			case 1: {
+				//is SMART self test supported?
+				drive.cmd_set_supported[SMART_SELF_TEST_SUPPORTED] = supported;
+				break;
+			}
+			case 0: {
+				//is SMART error logging supported?
+				drive.cmd_set_supported[SMART_ERROR_LOGGING_SUPPORTED] = supported;
+			}
+			default: {
+				//should error out
+				break;
+			}
+		}
+	}
+
 	
 	//lets see the UDMA modes
 	uint16_t udma_mode = identify_data[88];

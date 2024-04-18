@@ -1,3 +1,23 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
 #ifndef __LIBATA_H
 #define __LIBATA_H
 
@@ -109,6 +129,48 @@ enum ata_drive_type {
 //ATA power management
 #define DRIVE_STANDBY_IMMEDIATE 0xE0
 
+//ATA supported array key
+enum ata_supported_array_key {
+	NOP_SUPPORTED = 0,
+	READ_BUFFER_SUPPORTED = 1,
+	WRITE_BUFFER_SUPPORTED = 2,
+	HOST_PROTECTED_AREA_SUPPORTED = 3,
+	DEVICE_RESET_SUPPORTED = 4,
+	SERVICE_INTERRUPT_SUPPORTED = 5,
+	RELEASE_INTERRUPT_SUPPORTED = 6,
+	LOOK_AHEAD_SUPPORTED = 7,
+	WRITE_CACHE_SUPPORTED = 8,
+	PACKET_COMMAND_SUPPORTED = 9,
+	POWER_MANAGEMENT_SET_SUPPORTED = 10,
+	REMOVABLE_DEVICE_SET_SUPPORTED = 11,
+	SECURITY_MODE_FEATURE_SET_SUPPORTED = 12,
+	SMART_FEATURE_SET_SUPPORTED = 13,
+	FLUSH_CACHE_EXT_SUPPORTED = 14,
+	MANDATORY_FLUSH_CACHE_SUPPORTED = 15,
+	DEVICE_CONFIG_OVERLAY_SUPPORTED = 16,
+	LBA48_ENABLED = 17,
+	AUTO_ACOUSTIC_MANAGEMENT_SUPPORTED = 18,
+	SET_MAX_SECURITY_EXTENTSION_SUPPORTED = 19,
+	POWER_UP_IN_STANDBY_SUPPORTED = 20,
+	REMOVEABLE_MEDIA_STATUS_SUPPORTED = 21,
+	ADVANCED_POWER_MANAGEMENT_SUPPORTED = 22,
+	CFA_FEATURE_SET_SUPPORTED = 23,
+	READ_WRITE_DMA_QUEUED_SUPPORTED = 24,
+	DOWNLOAD_MICROCODE_SUPPORTED = 25,
+	URG_WRITE_BIT_SUPPORTED = 26,
+	URG_READ_BIT_SUPPORTED = 27,
+	WORLD_WIDE_NAME_SUPPORTED = 28,
+	WRITE_DMA_QUEUED_FUA_EXT_SUPPORTED = 29,
+	WRITE_DMA_FUA_EXT_AND_WRITE_MULTIPLE_FUA_EXT = 30,
+	GENERAL_PURPOSE_LOGING_SUPPORTED = 31,
+	STREAMING_FEATURE_SET_SUPPORTED = 32,
+	MEDIA_CARD_PASSTHROUGH_SUPPORTED = 33,
+	MEDIA_SERIAL_NUMBER_SUPPORTED = 34,
+	SMART_SELF_TEST_SUPPORTED = 35,
+	SMART_ERROR_LOGGING_SUPPORTED = 36,
+};
+
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -125,6 +187,12 @@ extern "C" {
 		bool supported;
 	} mdma_mode_t;
 
+	//a structure representing a PIO mode
+	typedef struct {
+		int id;
+		bool supported;
+	} pio_mode_t;
+	
 	//a structure representing a ATA harddrive
 	typedef struct {
 
@@ -137,27 +205,23 @@ extern "C" {
 		//Is it removable?
 		bool removable;
 
-		//is the controller removable?
-		bool controller_removable;
-
 		//Manufacturer information
 		uint16_t serial_number[8];
 		uint16_t firmware_revision[2];
 		uint16_t model_number[20];
 	
-		//Logical information
-		uint16_t logical_sectors;
-		uint16_t logical_heads;
-		uint16_t logical_sectors_per_track;
-
 		//Iordy information
 		bool iordy_supported;
 		bool iordy_enabled;
 	
 		//LBA modes
+		bool lba_supported;
 		bool lba48_enabled;
 		bool lba28_enabled;
 
+		//DMA support
+		bool dma_supported;
+	
 		//UDMA modes
 		udma_mode_t supported_udma[7];
 		udma_mode_t active_udma;
@@ -166,18 +230,34 @@ extern "C" {
 		mdma_mode_t supported_mdma[2];
 		mdma_mode_t active_mdma;
 
+		//PIO modes
+		pio_mode_t supported_pio[7];
+
+		//Command set supported information
+		bool cmd_set_supported[36];
+	
 		//Standby timer information
 		bool standby_timer_enabled;
 		bool min_standby_timer_enabled;
 
+		//Transfer time information
+		uint16_t min_mdma_transfer_time_per_word;
+		uint16_t min_mdma_transfer_time_vendor;
+		uint16_t min_pio_transfer_time_no_flow_ctrl;
+		uint16_t min_pio_transfer_time_iordy_flow_ctrl;
+	
 		//Addressable space information
 		uint32_t addressable_space_lba28;
 		uint64_t addressable_space_lba48;
 	
 		//Misc information
+		int major_ata_version;
+		uint16_t minor_ata_version;
 		bool pin80_connector;
+		uint8_t max_queue_depth;
 		uint8_t sectors_per_interrupt_rw_multiple;
-
+		bool set_features_spinup_needed;
+		
 	} ata_device_t;
 
 	//a array representing the ATA drives
