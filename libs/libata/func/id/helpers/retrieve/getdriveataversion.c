@@ -24,6 +24,7 @@ void get_drive_ata_version(ata_device_t* drive, uint16_t* identify_data) {
 			major_version_int = i;
 		} else {
 			//nope, we found our limit
+			slog("Major version %d detected", major_version_int);
 			break;
 		}
 	}

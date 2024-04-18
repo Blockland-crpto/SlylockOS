@@ -51,6 +51,7 @@ int slog(const char *format, ...) {
 		len++;
 	}
 
+	serial_write_string("\n");
 	va_end(ap);
 	return len;
 }
