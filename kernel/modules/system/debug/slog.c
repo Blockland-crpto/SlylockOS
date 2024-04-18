@@ -11,7 +11,7 @@
 int slog(const char *format, ...) {
 	va_list ap;
 	va_start(ap, format);
-	char buffer[1024];
+	char buffer[256];
 	
 	char* time = itoa(get_tracked_seconds(), buffer, 10);
 

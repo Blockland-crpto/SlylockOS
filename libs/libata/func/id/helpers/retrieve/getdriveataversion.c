@@ -11,23 +11,22 @@ void get_drive_ata_version(ata_device_t* drive, uint16_t* identify_data) {
 	uint16_t major_version = identify_data[80];
 
 	//int representing the major version
-	int major_version_int;
+	int major_version_int = 3;
 
 	//iterate until we find unsupported
-	for (int i = 3; i < 7; i++) {
+	for (int i = 7; i > 2; i--) {
 		//the mask
 		uint16_t major_version_mask = 1 << i;
 
 		//lets check it!
-		if (major_version&major_version_mask) {
-			//it is supported
-			major_version_int = i;
+		if (!(major_version & major_version_mask)) {
+			//nope
 		} else {
-			//nope, we found our limit
-			slog("Major version %d detected", major_version_int);
-			break;
+			//it is supported
+			major_version_int++;
 		}
 	}
+	slog("Major ATA version %d detected", major_version_int);
 
 	//input it to our drive!
 	drive->major_ata_version = major_version_int;
