@@ -84,7 +84,6 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		valid_sect_2 = false;
 	}
 	
-	
 	//lets find the number of 28 bit addressable space
 	uint16_t addressable_space_1 = identify_data[60];
 	uint16_t addressable_space_2 = identify_data[61];
@@ -99,13 +98,10 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	//lets find the MDMA mode
 	uint16_t mdma_mode = identify_data[63];
 
-	//lets see the MDMA mask
-	uint16_t mdma_mode_mask;
-
 	//for loop to iterate over the supported MDMA's
 	for (int i = 0; i < 3; i++) {
 		//mdma mask
-		mdma_mode_mask = 1 << i;
+		uint16_t mdma_mode_mask = 1 << i;
 
 		if (mdma_mode&mdma_mode_mask) {
 			//the mdma mode is supported
@@ -120,16 +116,12 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 			mdma.id = i;
 			drive.supported_mdma[i] = mdma;
 		}
-	}
 
-	//lets define the active bits of MDMA
-	uint8_t active_mdma_bits = (uint8_t)(mdma_mode >> 8);
+		uint8_t active_mdma_bits = (uint8_t)(mdma_mode >> 8);
 
-	//iterate throught the supported MDMA's
-	for (int i = 8; i < 11; i++) {
 		if (active_mdma_bits&(1 << i)) {
 			//the udma mode is being used
-			drive.active_mdma = drive.supported_mdma[i-8];
+			drive.active_mdma = drive.supported_mdma[i];
 		}
 	}
 
@@ -184,16 +176,13 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	//lets now get the major version supported number
 	uint16_t major_version = identify_data[80];
 
-	//lets get the mask
-	uint16_t major_version_mask;
-
 	//int representing the major version
 	int major_version_int;
 
 	//iterate until we find unsupported
 	for (int i = 3; i < 7; i++) {
 		//the mask
-		major_version_mask = 1 << i;
+		uint16_t major_version_mask = 1 << i;
 
 		//lets check it!
 		if (major_version&major_version_mask) {
@@ -509,18 +498,14 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 			}
 		}
 	}
-
 	
 	//lets see the UDMA modes
 	uint16_t udma_mode = identify_data[88];
 
-	//lets see the UDMA0
-	uint16_t udma_mode_mask;
-
-	//for loop to iterate over the supported DMA's
+	//for loop to iterate over the supported UDMA's
 	for (int i = 0; i < 8; i++) {
 		//udma mask
-		udma_mode_mask = 1 << i;
+		uint16_t udma_mode_mask = 1 << i;
 		
 		if (udma_mode&udma_mode_mask) {
 			//the udma mode is supported
@@ -535,13 +520,10 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 			udma.id = i;
 			drive.supported_udma[i] = udma;
 		}
-	}
 
-	//lets define the active bits of UDMA
-	uint8_t active_udma_bits = (uint8_t)(udma_mode >> 8);
+		//lets define the active bits of UDMA
+		uint8_t active_udma_bits = (uint8_t)(udma_mode >> 8);
 
-	//iterate throught the supported UDMA's
-	for (int i = 0; i < 8; i++) {
 		if (active_udma_bits&(1 << i)) {
 			//the udma mode is being used
 			drive.active_udma = drive.supported_udma[i];
