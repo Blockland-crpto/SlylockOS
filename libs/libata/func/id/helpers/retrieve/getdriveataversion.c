@@ -26,8 +26,7 @@ void get_drive_ata_version(ata_device_t* drive, uint16_t* identify_data) {
 			major_version_int++;
 		}
 	}
-	slog("Major ATA version %d detected", major_version_int);
-
+	
 	//input it to our drive!
 	drive->major_ata_version = major_version_int;
 

@@ -8,7 +8,7 @@
 void ata_reset() {
 	//todo: use device reset command to reset if able to
 	//lets check if the ATA supports device reset
-	if (!ata_drives[0].cmd_set_supported[DEVICE_RESET_SUPPORTED]) {
+	if (!ata_drives[0].cmd_set_supported[DEVICE_RESET_SUPPORTED].supported) {
 		//no support
 		return;
 	}

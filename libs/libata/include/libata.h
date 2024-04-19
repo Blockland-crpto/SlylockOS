@@ -192,6 +192,12 @@ extern "C" {
 		int id;
 		bool supported;
 	} pio_mode_t;
+
+	//a sturcture representing a command set feature
+	typedef struct {
+		bool enabled;
+		bool supported;
+	} cmd_set_t;
 	
 	//a structure representing a ATA harddrive
 	typedef struct {
@@ -234,7 +240,7 @@ extern "C" {
 		pio_mode_t supported_pio[7];
 
 		//Command set supported information
-		bool cmd_set_supported[36];
+		cmd_set_t cmd_set_supported[36];
 	
 		//Standby timer information
 		bool standby_timer_enabled;

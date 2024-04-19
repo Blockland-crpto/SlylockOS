@@ -105,11 +105,4 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 \
-	-cdrom SlylockOS.iso \
-	-m 512M \
-	-vga std \
-	-serial file:serial.log \
-	-hda floppy.img \
-	-device virtio-mouse \
-	-device sb16 
+qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -curses
