@@ -18,9 +18,12 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+
+#ifndef __LIBSSP_H__
+
 #include <stdint.h>
 #include <stdlib.h>
-#include <system/debug.h>
+#include <libdebug.h>
 
 #if UINT32_MAX == UINTPTR_MAX
 #define STACK_CHK_GUARD 0xe2dee396
@@ -33,3 +36,5 @@ void stack_chk_init(void);
 __attribute__((noreturn)) void __stack_chk_fail(void);
 __attribute__((noreturn)) void __stack_chk_fail_local(void);
 void __memcpy_chk (void *__restrict__ dest, const void *__restrict__ src, size_t len, size_t slen);
+
+#endif

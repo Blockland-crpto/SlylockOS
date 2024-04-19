@@ -5,7 +5,7 @@
 #include <system/types.h>
 #include <system/modules.h>
 #include <libkeyboard.h>
-#include <system/debug.h>
+#include <libdebug.h>
  #include <libssp.h>
 
 

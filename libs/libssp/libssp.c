@@ -1,18 +1,12 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stddef.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <libssp.h>
 #include <string.h>
 
 uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
 
-void stack_chk_init(void) {
-	unsigned short param[7] = {123, 234, 345, 456, 567, 678, 789};
-	lcong48(param);
-	__stack_chk_guard = lrand48();
-	return;
-}
 
 __attribute__((noreturn)) void __stack_chk_fail(void) {
 	panic("Stack smashing detected", SSP_ERROR);

@@ -1,6 +1,6 @@
 #include <libata.h>
 #include <libports.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <system/types.h>
 #include <libssp.h>
 

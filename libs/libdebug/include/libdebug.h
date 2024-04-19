@@ -9,8 +9,8 @@
 */
 
 
-#ifndef __SYSTEM_DEBUG_H
-#define __SYSTEM_DEBUG_H
+#ifndef __LIBDEBUG_H
+#define __LIBDEBUG_H
 
 /**
 	\def INSUFFICIENT_RAM

@@ -2,7 +2,7 @@
 #include <system/multiboot/multiboot.h>
 #include <system/multiboot/multibootinfo.h>
 
-#include <system/debug.h>
+#include <libdebug.h>
 #include <system/types.h>
 
 #include <drivers/isr.h>
@@ -30,7 +30,6 @@
 #define MB_MAGIC 0x1BADB002
 
 __attribute__ ((constructor)) void init_kernel() {
-	stack_chk_init();	
 	return;
 }
 

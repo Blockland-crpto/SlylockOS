@@ -1,4 +1,4 @@
-#include <system/debug.h>
+#include <libdebug.h>
 #include <system/types.h>
 #include <libvga.h>
 #include <libssp.h>

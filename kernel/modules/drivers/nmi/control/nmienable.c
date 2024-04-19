@@ -1,7 +1,7 @@
 #include <drivers/nmi.h>
 #include <libports.h>
 #include <system/types.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <libssp.h>
 
 void nmi_enable() {

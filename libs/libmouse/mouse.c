@@ -2,7 +2,7 @@
 #include <libmouse.h>
 #include <libtimer.h>
 #include <libports.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <libvga.h>
 #include <drivers/isr.h>
 #include <drivers/irq.h>

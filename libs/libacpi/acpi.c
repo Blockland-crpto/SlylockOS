@@ -4,7 +4,7 @@
 #include <libports.h>
 #include <system/types.h>
 #include <libvga.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <string.h>
 #include <stddef.h>
 #include <libssp.h>

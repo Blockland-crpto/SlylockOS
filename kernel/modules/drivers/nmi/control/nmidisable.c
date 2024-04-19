@@ -1,6 +1,6 @@
 #include <drivers/nmi.h>
 #include <libports.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <libssp.h>
 
 void nmi_disable() {

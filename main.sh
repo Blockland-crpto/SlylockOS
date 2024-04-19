@@ -3,7 +3,8 @@ mkdir lib
 export headers=$(echo "-I./kernel/include
 						-I./libs/libacpi/include
 						-I./libs/libapic/include
-						-I./libs/libata/include				
+						-I./libs/libata/include		
+						-I./libs/libdebug/include
 						-I./libs/libfs/include
 						-I./libs/libinitrd/include
 						-I./libs/libkeyboard/include
@@ -24,6 +25,7 @@ export debug=$(echo "-DDEBUG")
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
 ./build/libata_build.sh
+./build/libdebug_build.sh
 ./build/libfs_build.sh
 ./build/libinitrd_build.sh
 ./build/libkeyboard_build.sh
