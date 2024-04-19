@@ -4,6 +4,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libapic/include
 						-I./libs/libata/include		
 						-I./libs/libdebug/include
+						-I./libs/libexe/include
 						-I./libs/libfs/include
 						-I./libs/libinitrd/include
 						-I./libs/libkeyboard/include
@@ -11,6 +12,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libmmio/include
 						-I./libs/libmodule/include
 						-I./libs/libmouse/include
+						-I./libs/libmultiboot/include
 						-I./libs/libpci/include
 						-I./libs/libports/include
 						-I./libs/librtc/include
@@ -26,6 +28,7 @@ export debug=$(echo "-DDEBUG")
 ./build/libapic_build.sh
 ./build/libata_build.sh
 ./build/libdebug_build.sh
+./build/libexe_build.sh
 ./build/libfs_build.sh
 ./build/libinitrd_build.sh
 ./build/libkeyboard_build.sh
@@ -33,6 +36,7 @@ export debug=$(echo "-DDEBUG")
 ./build/libmmio_build.sh
 ./build/libmodule_build.sh
 ./build/libmouse_build.sh
+./build/libmultiboot_build.sh
 ./build/libpci_build.sh
 ./build/libports_build.sh
 ./build/librtc_build.sh
@@ -108,4 +112,4 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16
+qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -curses

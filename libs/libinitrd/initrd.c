@@ -1,5 +1,5 @@
 // initrd.c -- Defines the interface for and structures relating to the initial ramdisk.
-#include <system/multiboot/multibootinfo.h>
+#include <libmultiboot.h>
 #include <libinitrd.h>
 #include <libmem.h>
 #include <system/types.h>

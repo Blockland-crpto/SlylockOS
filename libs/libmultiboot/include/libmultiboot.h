@@ -1,11 +1,14 @@
-#ifndef __SYSTEM_EXECUTE_H
-#define __SYSTEM_EXECUTE_H
+#ifndef __LIBMULTIBOOT_H__
+#define __LIBMULTIBOOT_H__
+
+#include "multiboot.h"
+
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
-	void execute_program(char* filename);
+	multiboot_info_t* mbi;
 
 #if defined(__cplusplus)
 } /* extern "C" */

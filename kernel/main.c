@@ -1,8 +1,4 @@
 //Slylock OS Kernel
-#include <system/multiboot/multiboot.h>
-#include <system/multiboot/multibootinfo.h>
-
-#include <libdebug.h>
 #include <system/types.h>
 
 #include <drivers/isr.h>
@@ -14,8 +10,10 @@
 #include <libacpi.h>
 #include <libapic.h>
 #include <libata.h>
+#include <libdebug.h>
 #include <libfs.h>
 #include <libkeyboard.h>
+#include <libmultiboot.h>
 #include <libmouse.h>
 #include <libpci.h>
 #include <libports.h>

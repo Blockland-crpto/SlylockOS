@@ -1,7 +1,7 @@
 #include <libfs.h>
 #include <libinitrd.h>
 #include <system/types.h>
-#include <system/multiboot/multibootinfo.h>
+#include <libmultiboot.h>
 #include <libvga.h>
 #include <libmodule.h>
 #include <libssp.h>

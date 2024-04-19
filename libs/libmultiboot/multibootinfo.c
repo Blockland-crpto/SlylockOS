@@ -1,4 +1,4 @@
-#include <system/multiboot/multibootinfo.h>
+#include <libmultiboot.h>
 #include <libssp.h>
 
 

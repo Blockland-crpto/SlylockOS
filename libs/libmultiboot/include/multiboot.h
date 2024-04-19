@@ -283,6 +283,8 @@ extern "C" {
 	  multiboot_uint16_t dseg_len;
 	};
 
+
+
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif
