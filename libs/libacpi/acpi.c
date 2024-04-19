@@ -1,6 +1,6 @@
 #include <libacpi.h>
 #include <libmem.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libports.h>
 #include <system/types.h>
 #include <libvga.h>

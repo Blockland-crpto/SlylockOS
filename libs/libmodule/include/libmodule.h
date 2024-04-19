@@ -8,8 +8,8 @@
   \copyright MIT License.
 */
 
-#ifndef __SYSTEM_MODULES_H
-#define __SYSTEM_MODULES_H
+#ifndef __LIBMODULE_H
+#define __LIBMODULE_H
 
 #include <system/types.h>
 

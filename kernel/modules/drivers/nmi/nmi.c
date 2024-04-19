@@ -1,5 +1,5 @@
 #include <drivers/nmi.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libssp.h>
 
 void nmi_init() {

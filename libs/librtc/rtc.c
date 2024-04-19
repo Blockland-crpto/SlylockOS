@@ -1,6 +1,6 @@
 #include <librtc.h>
 #include <system/types.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libports.h>
 #include <libssp.h>
 

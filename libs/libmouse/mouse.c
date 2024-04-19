@@ -6,7 +6,7 @@
 #include <libvga.h>
 #include <drivers/isr.h>
 #include <drivers/irq.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libssp.h>
 #include <string.h>
 

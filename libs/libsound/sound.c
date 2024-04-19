@@ -1,7 +1,7 @@
 #include <libsound.h>
 #include <libssp.h>
 #include <libports.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libmem.h>
 #include <system/types.h>
 #include <drivers/isr.h>

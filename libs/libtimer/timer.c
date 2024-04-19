@@ -3,7 +3,7 @@
 #include <libtimer.h>
 #include <libports.h>
 #include <string.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libssp.h>
 
 #define FREQ 100

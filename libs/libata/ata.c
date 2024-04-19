@@ -1,7 +1,7 @@
 #include <libata.h>
 #include <libports.h>
 #include <system/types.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libssp.h>
 
 //ATA initializer

@@ -1,7 +1,7 @@
 #include <libvga.h>
 #include <drivers/idt.h>
 #include <drivers/isr.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <drivers/nmi.h>
 #include <libssp.h>
 

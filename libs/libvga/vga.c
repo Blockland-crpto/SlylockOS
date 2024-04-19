@@ -3,7 +3,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <system/types.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libkeyboard.h>
 #include <libdebug.h>
  #include <libssp.h>

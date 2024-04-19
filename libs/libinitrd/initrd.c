@@ -3,7 +3,7 @@
 #include <libinitrd.h>
 #include <libmem.h>
 #include <system/types.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <string.h>
 #include <libssp.h>
  

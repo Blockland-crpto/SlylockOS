@@ -1,7 +1,7 @@
 #include <libsse.h>
 #include <float.h>
 #include <drivers/cpuid.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <system/types.h>
 #include <libssp.h>
 

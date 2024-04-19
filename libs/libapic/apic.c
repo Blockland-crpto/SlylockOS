@@ -1,5 +1,5 @@
 #include <libapic.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <system/types.h>
 #include <drivers/cpuid.h>
 

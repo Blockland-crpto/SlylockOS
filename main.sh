@@ -1,4 +1,3 @@
-
 mkdir lib
 export headers=$(echo "-I./kernel/include
 						-I./libs/libacpi/include
@@ -10,6 +9,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libkeyboard/include
 						-I./libs/libmem/include
 						-I./libs/libmmio/include
+						-I./libs/libmodule/include
 						-I./libs/libmouse/include
 						-I./libs/libpci/include
 						-I./libs/libports/include
@@ -31,6 +31,7 @@ export debug=$(echo "-DDEBUG")
 ./build/libkeyboard_build.sh
 ./build/libmem_build.sh
 ./build/libmmio_build.sh
+./build/libmodule_build.sh
 ./build/libmouse_build.sh
 ./build/libpci_build.sh
 ./build/libports_build.sh
@@ -107,4 +108,4 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -curses
+qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16
