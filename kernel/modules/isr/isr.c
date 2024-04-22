@@ -4,6 +4,7 @@
 #include <libmodule.h>
 #include <drivers/nmi.h>
 #include <libssp.h>
+#include <libdebug.h>
 
 extern void _isr0();
 extern void _isr1();

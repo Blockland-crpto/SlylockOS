@@ -65,15 +65,16 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin $debug $headers -fstack-protector-all -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall -Og -g -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin $debug $headers -fstack-protector-all -c -o $ta $tb
 done
 objb="${objb:1}"
 
 
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin $debug $headers -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
+gcc -m32 -elf_i386 -Wall -Og -g -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin $debug $headers -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
 
 export LD_LIBRARY_PATH=/home/runner/SlylockOS/
 ld -T link.ld --verbose -m elf_i386 -o kernel.bin ./bin/main.o $objb  ./bin/boot.o $libaries
+
 
 rm -r iso
 
@@ -112,4 +113,4 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -curses
+qemu-system-i386 -s -S -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16

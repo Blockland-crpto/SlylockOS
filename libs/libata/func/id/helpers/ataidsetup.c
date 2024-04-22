@@ -13,7 +13,7 @@ extern int wait_ata_id();
 //function to setup needed things for ata id
 void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
 	//sets the drive type
-	if (dev & SELECT_DEVICE_MASTER) {
+	if ((dev & SELECT_DEVICE_MASTER) == 1) {
 		drive->driveType = DRIVE_TYPE_MASTER;
 	} else {
 		drive->driveType = DRIVE_TYPE_SLAVE;
@@ -31,11 +31,14 @@ void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
 	//sends identify command
 	outb(IO_PORT_COMMAND, IDENTIFY_CMD);
 
+	//wait...
+	wait_ata_bsy(); 
+	
 	//let retrive id status
 	uint8_t identify = inb(IO_PORT_STATUS);
 
 	//now we parse it
-	if (identify&0x00) {
+	if ((identify & 0x00) == 1) {
 		//the drive does not exist
 		drive->exists = false;
 		return;
