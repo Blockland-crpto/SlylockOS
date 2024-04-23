@@ -1,10 +1,10 @@
 #include <libacpi.h>
-#include <system/memory.h>
-#include <system/modules.h>
+#include <libmem.h>
+#include <libmodule.h>
 #include <libports.h>
 #include <system/types.h>
 #include <libvga.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <string.h>
 #include <stddef.h>
 #include <libssp.h>
@@ -141,18 +141,18 @@ int initAcpi(void) {
 }
 
 void acpi_init() {
-	module_t modules_acpi_acpi = MODULE("kernel.modules.acpi.acpi", "Provides ACPI support for the kernel (CORE)");
-	INIT(modules_acpi_acpi);
+	module_t modules_acpi = MODULE("kernel.modules.acpi", "Provides ACPI support for the kernel (CORE)");
+	INIT(modules_acpi);
 	
 	int result = initAcpi();
 	
 	if (result == 0) {
-		DONE(modules_acpi_acpi);
+		DONE(modules_acpi);
 	} else if (result == -1) {
-		FAIL(modules_acpi_acpi, "couldn't enable acpi.");
+		FAIL(modules_acpi, "couldn't enable acpi.");
 		return;
 	} else if (result == -2) {
-		FAIL(modules_acpi_acpi, "acpi not avaliable");
+		FAIL(modules_acpi, "acpi not avaliable");
 		return;
 	}
 	

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdint.h>
-#include <system/memory.h>
+#include <libmem.h>
 #include <libssp.h>
 
 void free(void *ptr) {

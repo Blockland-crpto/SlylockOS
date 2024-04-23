@@ -5,11 +5,11 @@
 
 //Wait for ATA
 int wait_ata_bsy() {
-	while(inb(CTRL_ALTERNATE_STATUS)&STATUS_BSY) {
+	while((inb(CTRL_ALTERNATE_STATUS) & STATUS_BSY)) {
 		//check if the error bit is set
-		if (inb(CTRL_ALTERNATE_STATUS)&STATUS_ERR) {
+		if ((inb(CTRL_ALTERNATE_STATUS) & STATUS_ERR)) {
 			return 1;
-		} else if (inb(CTRL_ALTERNATE_STATUS)&STATUS_DF) {
+		} else if ((inb(CTRL_ALTERNATE_STATUS) & STATUS_DF)) {
 			return 2;
 		}
 	}

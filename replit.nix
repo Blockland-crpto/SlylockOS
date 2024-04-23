@@ -1,5 +1,6 @@
 { pkgs }: {
 	deps = [
+   pkgs.gdb
    		pkgs.imagemagick6
 		pkgs.qemu
 		pkgs.gcc
@@ -8,6 +9,5 @@
 		pkgs.xorriso
 		pkgs.nasm
 		pkgs.python37
-		pkgs.gccgo
 	];
 }

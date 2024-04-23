@@ -2,7 +2,7 @@
 #include <libports.h>
 #include <system/types.h>
 #include <libvga.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <stdio.h>
 #include <libssp.h>
 
@@ -67,10 +67,10 @@ void pci_scan_bus(uint8_t bus) {
 }
 
 void pci_init() {
-	module_t modules_pci_pci = MODULE("kernel.modules.pci.pci", "Provides PCI support for the kernel (CORE)");
-	INIT(modules_pci_pci);
+	module_t modules_pci = MODULE("kernel.modules.pci", "Provides PCI support for the kernel (CORE)");
+	INIT(modules_pci);
 	pci_scan_bus(0); // Start scanning from bus 0
 
-	DONE(modules_pci_pci);
+	DONE(modules_pci);
 	 
 }

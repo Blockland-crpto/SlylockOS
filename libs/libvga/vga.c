@@ -3,10 +3,9 @@
 #include <stdarg.h>
 #include <string.h>
 #include <system/types.h>
-#include <shell/shell.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libkeyboard.h>
-#include <system/debug.h>
+#include <libdebug.h>
  #include <libssp.h>
 
 
@@ -105,11 +104,11 @@ void scroll_line(){
 
 void vga_init() {
 
-	module_t modules_vga_vga = MODULE("kernel.modules.vga.vga", "vga drivers for the kernel (CORE)");
-	INIT(modules_vga_vga);
+	module_t modules_vga = MODULE("kernel.modules.vga", "vga drivers for the kernel (CORE)");
+	INIT(modules_vga);
 	if (get_bios_area_video_type() != VIDEO_TYPE_COLOR && get_bios_area_video_type() != VIDEO_TYPE_MONOCHROME) {
 		panic("Unable to find screen type", VIDEO_RETRIV_ERROR);
 	}
-	DONE(modules_vga_vga);
+	DONE(modules_vga);
 	 
 }

@@ -1,76 +1,89 @@
 //Slylock OS Kernel
-#include <system/multiboot/multiboot.h>
-#include <system/multiboot/multibootinfo.h>
-
-#include <system/debug.h>
 #include <system/types.h>
-
-#include <shell/shell.h>
-
-#include <libvga.h>
-#include <libacpi.h>
 
 #include <drivers/isr.h>
 #include <drivers/irq.h>
 #include <drivers/gdt.h>
 #include <drivers/idt.h>
-
-#include <libata.h>
-#include <libports.h>
-
-#include <libfs.h>
-
-
 #include <drivers/nmi.h>
-#include <libcpuid.h>
 
-#include <libpci.h>
-#include <libtimer.h>
-#include <librtc.h>
+#include <libacpi.h>
+#include <libapic.h>
+#include <libata.h>
+#include <libdebug.h>
+#include <libfs.h>
 #include <libkeyboard.h>
-
+#include <libmultiboot.h>
+#include <libmouse.h>
+#include <libpci.h>
+#include <libports.h>
+#include <librtc.h>
+#include <libserial.h>
+#include <libsound.h>
+#include <libsse.h>
 #include <libssp.h>
+#include <libtimer.h>
+#include <libvga.h>
 
 #define MB_MAGIC 0x1BADB002
 
 __attribute__ ((constructor)) void init_kernel() {
-	stack_chk_init();
 	return;
 }
 
 int main(multiboot_info_t* mb_info, uint32_t magic){
-  	mbi = mb_info;
-  	set_cursor_pos(0,0);
-  	clear(COLOR_WHT, COLOR_BLK);
+	mbi = mb_info;
+
+	set_cursor_pos(0,0);
+
+	clear(COLOR_WHT, COLOR_BLK);
+
 	// check the grub memory map
 	if(!(mb_info->flags >> 6 & 0x1)) {
-	  	// if its invalid
-    	panic("invalid memory map given by GRUB bootloader", MEMORY_MAP_INVALID);
-  	} 
-  
+		// if its invalid
+		panic("invalid memory map given by GRUB bootloader", MEMORY_MAP_INVALID);
+	} 
+
+	sse_init();
+	
   	gdt_install();
+	
   	idt_install();
   
   	isr_install();
+	
   	irq_install();
+
+	timer_install();
+	
+	serial_init();
+	
+	apic_init();
+	
   	ata_init();
 
 	nmi_init();
-	
-  	cpuid_init();
+
   	pci_init();
-	acpi_init();
-	kalloc_init();
 	
-	timer_install();
+	acpi_init();
+	
+	kalloc_init();
+		
 	rtc_init();
+	
 	filesystem_init();
+	
 	keyboard_install();
-	shell_init();
+	
+	mouse_install();
 	
 	vga_init();
+	
 	libc_init();
 
+	sound_init();
+	
 	kprintf("Hello World!");
   	__asm__ __volatile__("sti");
 

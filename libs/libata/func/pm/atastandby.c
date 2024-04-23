@@ -1,8 +1,10 @@
 #include <libata.h>
 #include <libports.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <system/types.h>
 #include <libssp.h>
+
+#define DRIVE_STANDBY 0xE2
 
 //put ATA in standby mode
 void ata_standby() {

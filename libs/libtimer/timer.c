@@ -3,7 +3,7 @@
 #include <libtimer.h>
 #include <libports.h>
 #include <string.h>
-#include <system/modules.h>
+#include <libmodule.h>
 #include <libssp.h>
 
 #define FREQ 100
@@ -32,15 +32,15 @@ void timer_handler(struct regs *r){
 
 //let's install timer handler into IRQ0
 void timer_install(){
-    module_t modules_timer_timer = MODULE("kernel.modules.timer.timer", "Adds PIT support for the kernel (CORE)");
+    module_t modules_timer = MODULE("kernel.modules.timer", "Adds PIT support for the kernel (CORE)");
 	char** deps;
-	deps[0] = "kernel.modules.isr.isr";
-	deps[1] = "kernel.modules.irq.irq";
-	INIT(modules_timer_timer);
-	DEPS(modules_timer_timer, deps);
+	deps[0] = "kernel.modules.isr";
+	deps[1] = "kernel.modules.irq";
+	INIT(modules_timer);
+	DEPS(modules_timer, deps);
     timer_phase(FREQ);
     irq_install_handler(0, timer_handler);
-   	DONE(modules_timer_timer);
+   	DONE(modules_timer);
 	 
 }
 

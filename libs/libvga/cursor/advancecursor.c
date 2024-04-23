@@ -1,6 +1,6 @@
 #include <libvga.h>
 #include <libports.h>
-#include <system/debug.h>
+#include <libdebug.h>
 #include <libssp.h>
 
 void advance_cursor(int mode){

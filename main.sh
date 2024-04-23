@@ -1,21 +1,55 @@
 mkdir lib
-
+export headers=$(echo "-I./kernel/include
+						-I./libs/libacpi/include
+						-I./libs/libapic/include
+						-I./libs/libata/include		
+						-I./libs/libdebug/include
+						-I./libs/libexe/include
+						-I./libs/libfs/include
+						-I./libs/libinitrd/include
+						-I./libs/libkeyboard/include
+						-I./libs/libmem/include
+						-I./libs/libmmio/include
+						-I./libs/libmodule/include
+						-I./libs/libmouse/include
+						-I./libs/libmultiboot/include
+						-I./libs/libpci/include
+						-I./libs/libports/include
+						-I./libs/librtc/include
+						-I./libs/libserial/include
+						-I./libs/libsound/include
+						-I./libs/libsse/include
+						-I./libs/libssp/include
+						-I./libs/libtimer/include
+						-I./libs/libvga/include
+						-I./libs/sosix/include")
+export debug=$(echo "-DDEBUG")
+export optimize=$(echo "-Og -g")
 ./build/libacpi_build.sh
+./build/libapic_build.sh
 ./build/libata_build.sh
-./build/libcpuid_build.sh
+./build/libdebug_build.sh
+./build/libexe_build.sh
 ./build/libfs_build.sh
 ./build/libinitrd_build.sh
 ./build/libkeyboard_build.sh
+./build/libmem_build.sh
 ./build/libmmio_build.sh
+./build/libmodule_build.sh
+./build/libmouse_build.sh
+./build/libmultiboot_build.sh
 ./build/libpci_build.sh
 ./build/libports_build.sh
 ./build/librtc_build.sh
+./build/libserial_build.sh
+./build/libsound_build.sh
+./build/libsse_build.sh
+./build/libssp_build.sh
 ./build/libtimer_build.sh
 ./build/libvga_build.sh
 ./build/sosix_build.sh
 
 csources=$(find ./kernel/modules/* -type f -name "*.c")
-headers=$(find ./include/* -type f -name "*.h")
 
 libaries=$(find ./lib/* -type f -name "*.a")
 
@@ -32,15 +66,16 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libs -fstack-protector-strong -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin $debug $headers -fstack-protector-all -c -o $ta $tb
 done
 objb="${objb:1}"
 
 
-gcc -m32 -elf_i386 -Wall -O -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I./include/kernel -I./include/sosix -I./include/libs -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
+gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin $debug $headers -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
 
 export LD_LIBRARY_PATH=/home/runner/SlylockOS/
 ld -T link.ld --verbose -m elf_i386 -o kernel.bin ./bin/main.o $objb  ./bin/boot.o $libaries
+
 
 rm -r iso
 
@@ -53,9 +88,9 @@ mkdir iso
 mkdir iso/boot
 mkdir iso/boot/grub
 
-mv kernel.bin iso/boot/kernel.bin
-echo 'set timeout-0' >> iso/boot/grub/grub.cfg
-echo 'set default-0' >> iso/boot/grub/grub.cfg
+cp kernel.bin iso/boot/kernel.bin
+echo 'set timeout=0' >> iso/boot/grub/grub.cfg
+echo 'set default="SlylockOS"' >> iso/boot/grub/grub.cfg
 echo 'menuentry "SlylockOS" {' >> iso/boot/grub/grub.cfg
 echo '  multiboot /boot/kernel.bin' >> iso/boot/grub/grub.cfg
 echo '  module  /boot/os.initrd' >> iso/boot/grub/grub.cfg
@@ -79,5 +114,8 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -device pci-bridge,chassis_nr=1,id=bridge1 -hda floppy.img
+objcopy --only-keep-debug kernel.bin kernel.sym
 
+rm -f kernel.bin
+
+qemu-system-i386 -s -S -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -curses

@@ -32,3 +32,9 @@ uint32_t inl(uint16_t port) {
 void outl(uint16_t port, uint32_t val) {
 	asm volatile ( "outl %0, %1" : : "a"(val), "Nd"(port) );
 }
+
+void io_wait(int iters) {
+	for (int i = 0; i < iters; i++) {
+		outb(0x80, 0);
+	}
+}

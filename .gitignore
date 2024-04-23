@@ -1,8 +1,9 @@
 iso/
 bin/
-libcbin/
-libtuibin/
 lib/
+
+*.log
+*.sym
 
 .replit
 replt.nix
