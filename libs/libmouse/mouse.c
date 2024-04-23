@@ -25,17 +25,18 @@ void mouse_handler(struct regs *r){
 	//lets read the 0x64 port to see if data is avalible
 	uint8_t data = inb(0x64);
 
-	//the data avalible mask
-	uint8_t data_avalible = 1 << 0;
+	//copy of data
+	uint8_t data_copy = data;
 
 	//is data avalible?
-	if (data&data_avalible) {
+	if ((data_copy & (1 << 0)) == 1) {
 		//data is avalible for read from mouse
 		//lets now see if the data is from mouse
-		uint8_t data_from_mouse = 1 << 5;
-
+		//lets reset the data copy variable
+		data_copy = data;
+		
 		//lets check
-		if (data&data_from_mouse) {
+		if ((data_copy & (1 << 5)) == 1) {
 			//it is!
 			//lets have booleans ready
 			bool y_neg;
@@ -49,28 +50,20 @@ void mouse_handler(struct regs *r){
 			//lets read byte 1
 			uint8_t byte1 = inb(0x60);
 
-			//lets see the y over flow mask
-			uint8_t y_overflow = 1 << 0;
-			uint8_t x_overflow = 1 << 1;
-
 			//lets see if there set
-			if (byte1&y_overflow || byte1&x_overflow) {
+			if ((byte1 & (1 << 0)) == 1 || (byte1 & (1 << 1)) == 1) {
 				//OSDEV.org suggests discarding the packet
 				return;
 			}
 
-			//lets see if theres negatives in some things
-			uint8_t y_neg_mask = 1 << 5;
-			uint8_t x_neg_mask = 1 << 4;
-
 			//is y negative?
-			if (byte1&y_neg_mask) {
+			if ((byte1 & (1 << 5)) == 1) {
 				//its negative
 				y_neg = true;
 			}
 
 			//is x negative?
-			if (byte1&x_neg_mask) {
+			if ((byte1 & (1 << 4)) == 1) {
 				//its negative
 				x_neg = true;
 			}

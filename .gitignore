@@ -3,6 +3,7 @@ bin/
 lib/
 
 *.log
+*.sym
 
 .replit
 replt.nix

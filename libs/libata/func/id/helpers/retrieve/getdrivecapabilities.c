@@ -6,92 +6,105 @@
 
 //function to get drive capabilities
 void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {
-	//next lets see the first capabilities block
+	//next lets see the capabilities blocks
 	uint16_t capabilities_one = identify_data[49];
-
-	//standby timer mask
-	uint16_t standby_timer_mask = 1 << 13;
-
-	//lets check it!
-	if (!(capabilities_one & standby_timer_mask)) {
-		//the drive doesn't has a standby timer
-		drive->standby_timer_enabled = false;
-		#ifdef DEBUG
-			slog("Drive does not have a standby timer");
-		#endif
-	} else {
-		//its has a standby timer
-		drive->standby_timer_enabled = true;
-		#ifdef DEBUG
-			slog("Drive has a standby timer");
-		#endif
-	}
-
-	//next lets see if IORDY is supported
-	//IORDY detection mask
-	uint16_t iordy_detect_mask = 1 << 11;
-
-	//lets check it!
-	if (!(capabilities_one & iordy_detect_mask)) {
-		//iordy is not supported
-		drive->iordy_supported = false;
-	} else {
-		//the drive supports IORDY
-		drive->iordy_supported = true;
-
-	}
-
-	//now lets see if iordy is disabled
-	//IORDY enabled detection mask
-	uint16_t iordy_enabled_mask = 0 << 10;
-
-	//lets check it!
-	if (capabilities_one&iordy_enabled_mask) {
-		//the drive has IORDY enabled
-		drive->iordy_enabled = true;
-	} else {
-		//iordy is not enabled on the drive
-		drive->iordy_enabled = false;
-	}
-
-	//now lets see if LBA is supported
-	//LBA detection mask
-	uint16_t lba_detect_mask = 1 << 9;
-
-	//lets check it!
-	if (capabilities_one&lba_detect_mask) {
-		//the drive supports LBA
-		drive->lba_supported = true;
-	} else {
-		//lba is not supported
-		drive->lba_supported = false;
-	}
-
-	//now lets see if DMA is supported
-	//DMA detection mask
-	uint16_t dma_detect_mask = 1 << 8;
-
-	//lets check it!
-	if (capabilities_one&dma_detect_mask) {
-		//the drive supports DMA
-		drive->dma_supported = true;
-	} else {
-		//dma is not supported
-		drive->dma_supported = false;
-	}
-
-	//next lets look at capabilities two, the only info we can get out of this is whether or not the drive has a minimum standby timer time which is at bit 0
 	uint16_t capabilities_two = identify_data[50];
 
-	//the minimum standby timer mask
-	uint16_t min_standby_timer_mask = 1 << 0;
+	//lets have a compare variable
+	uint16_t compare;
 
-	//lets check it!
-	if (capabilities_two&min_standby_timer_mask) {
-		//the drive has a minimum standby timer
-		drive->min_standby_timer_enabled = true;
+	//for loop to iterate through common functions
+	for (int i = 11; i >= 8; i--) {
+		//lets reset the compare variable
+		compare = capabilities_one;
+
+		//lets switch i
+		switch(i) {
+			case 11: {
+				//lets see if iordy is avalible
+				drive->iordy_supported = (compare & (1 << i)) ? true : false;
+				break;
+			}
+			case 10: {
+				//is it disabled?
+				drive->iordy_disabled =  (compare & (1 << i)) ? true : false;
+				break;
+			}
+			case 8: {
+				//is dma supported?
+				drive->dma_supported = (compare & (1 << i)) ? true : false;
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+	}
+	
+	//lets make compare capabilites two
+	compare = capabilities_two;
+
+	//is there a minimum standby
+	drive->min_standby_timer_enabled = (capabilities_two & (1 << 0)) ? true : false;
+
+	//lets first see the ATAPI stuff
+	if (drive->atapi_info.is_atapi) {
+		//lets iterate over it
+		for (int i = 15; i >= 8; i--) {
+			//lets reset to compare variable
+			compare = capabilities_one;
+			
+			//lets see if its supported
+			bool supported = (compare & (1 << i)) ? true : false;
+
+			//switch!
+			switch (i) {
+				case 15: {
+					//is interleaved dma supported?
+					drive->atapi_info.feature_set_supported[INTERLEAVED_DMA_SUPPORTED].supported = supported;
+					break;
+				}
+				case 14: {
+					//is command queueing supported?
+					drive->atapi_info.feature_set_supported[COMMAND_QUEUEING_SUPPORTED].supported = supported;
+					break;
+				}
+				case 13: {
+					//is overlap operation supported?
+					drive->atapi_info.feature_set_supported[OVERLAP_OPERATION_SUPPORTED].supported = supported;
+					break;
+				}
+				default: {
+					break;
+				}
+				//todo: add vendor specific information
+			}
+		}
+		
 	} else {
-		//the drive does not have a minimum standby timer
-		drive->min_standby_timer_enabled = false;
+		//its a normal device lets see it!
+		//for loop to iterate!
+		for (int i = 13; i > 8; i--) {
+			//lets reset to compare variable
+			compare = capabilities_one;
+			
+			//lets see if its supported
+			bool supported = (compare & (1 << i)) ? true : false;
+
+			//lets switch
+			switch(i) {
+				case 13: {
+					drive->standby_timer_enabled = supported;
+					break;
+				}
+				case 9: {
+					drive->lba_supported = supported;
+					break;
+				}
+				default: {
+					break;
+				}
+			}
+		}
 	}
 }

@@ -24,6 +24,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libvga/include
 						-I./libs/sosix/include")
 export debug=$(echo "-DDEBUG")
+export optimize=$(echo "-Og -g")
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
 ./build/libata_build.sh
@@ -65,12 +66,12 @@ for i in $(seq 1 $end); do
 ta=$(echo ./bin/$(basename $(echo $cobjects | cut -d" " -f$i )))
 tb=$(echo $csources | cut -d" " -f$i)
 objb="${objb} ${ta}"
-gcc -m32 -elf_i386 -Wall -Og -g -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin $debug $headers -fstack-protector-all -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin $debug $headers -fstack-protector-all -c -o $ta $tb
 done
 objb="${objb:1}"
 
 
-gcc -m32 -elf_i386 -Wall -Og -g -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin $debug $headers -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
+gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin $debug $headers -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
 
 export LD_LIBRARY_PATH=/home/runner/SlylockOS/
 ld -T link.ld --verbose -m elf_i386 -o kernel.bin ./bin/main.o $objb  ./bin/boot.o $libaries
@@ -87,7 +88,7 @@ mkdir iso
 mkdir iso/boot
 mkdir iso/boot/grub
 
-mv kernel.bin iso/boot/kernel.bin
+cp kernel.bin iso/boot/kernel.bin
 echo 'set timeout=0' >> iso/boot/grub/grub.cfg
 echo 'set default="SlylockOS"' >> iso/boot/grub/grub.cfg
 echo 'menuentry "SlylockOS" {' >> iso/boot/grub/grub.cfg
@@ -113,4 +114,8 @@ rm -r sys
 rm -r tmp
 rm -r env
 
-qemu-system-i386 -s -S -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16
+objcopy --only-keep-debug kernel.bin kernel.sym
+
+rm -f kernel.bin
+
+qemu-system-i386 -s -S -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -curses

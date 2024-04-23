@@ -9,6 +9,7 @@
 
 //helpers
 extern int wait_ata_id();
+extern void atapi_identify();
 
 //function to setup needed things for ata id
 void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
@@ -35,10 +36,10 @@ void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
 	wait_ata_bsy(); 
 	
 	//let retrive id status
-	uint8_t identify = inb(IO_PORT_STATUS);
+	volatile uint8_t identify = inb(IO_PORT_STATUS);
 
 	//now we parse it
-	if ((identify & 0x00) == 1) {
+	if ((identify & 0x0) == 1) {
 		//the drive does not exist
 		drive->exists = false;
 		return;
@@ -54,8 +55,38 @@ void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
 		return;
 	} else if (status == 2) {
 		//the drive errored out while running identify
-		drive->exists = false;
-		return;
+		//lets check if the drive is ATAPI and act accordingly
+		if ((inb(IO_PORT_CYL_LOW) & 0x14) == 1) {
+			//the drive is ATAPI, lets just make sure
+			if ((inb(IO_PORT_CYL_HIGH) & 0xEB) == 1) {
+				//the drive is definatly a ATAPI drive, lets act accordingly
+				drive->atapi_info.is_atapi = true;
+
+				//lets first reset the drive. 
+				ata_reset();
+
+				//lets get the drive ready
+				//selects the drive as master
+				outb(IO_PORT_DRIVE_HEAD, dev);
+
+				//sets the required registers to clear
+				outb(IO_PORT_SECTOR_COUNT, 0x00);
+				outb(IO_PORT_SECTOR_NUMBER, 0x00);
+				outb(IO_PORT_CYL_LOW, 0x00);
+				outb(IO_PORT_CYL_HIGH, 0x00);
+				
+				//lets run the atapi id command
+				atapi_identify(drive);
+
+				//were done here!
+				return;
+			}
+		} else {
+			//the drive is not ATAPI
+			drive->exists = false;
+			return;
+		}
+		//todo: add SATA handling
 	}
 
 	//if all went well mark the device as existant

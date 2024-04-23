@@ -23,6 +23,7 @@
 
 #include <system/types.h>
 #include <libports.h>
+#include <cmdset.h>
 
 //Status of the ATA Device
 enum ata_device_status {
@@ -112,6 +113,12 @@ enum ata_device_select {
 	SELECT_DEVICE_SLAVE = 0xB0,
 };
 
+//ATAPI byte command types
+enum atapi_byte_command_types {
+	ATAPI_CMD_BYTE_12BYTES = 0,
+	ATAPI_CMD_BYTE_16BYTES = 1,
+};
+
 //ATA Device Write Addresses (LBA28)
 #define DEVICE_MASTER_LBA28 0xE0
 #define DEVICE_SLAVE_LBA28 0xF0
@@ -126,50 +133,14 @@ enum ata_drive_type {
 	DRIVE_TYPE_SLAVE = 1
 };
 
-//ATA power management
-#define DRIVE_STANDBY_IMMEDIATE 0xE0
-
-//ATA supported array key
-enum ata_supported_array_key {
-	NOP_SUPPORTED = 0,
-	READ_BUFFER_SUPPORTED = 1,
-	WRITE_BUFFER_SUPPORTED = 2,
-	HOST_PROTECTED_AREA_SUPPORTED = 3,
-	DEVICE_RESET_SUPPORTED = 4,
-	SERVICE_INTERRUPT_SUPPORTED = 5,
-	RELEASE_INTERRUPT_SUPPORTED = 6,
-	LOOK_AHEAD_SUPPORTED = 7,
-	WRITE_CACHE_SUPPORTED = 8,
-	PACKET_COMMAND_SUPPORTED = 9,
-	POWER_MANAGEMENT_SET_SUPPORTED = 10,
-	REMOVABLE_DEVICE_SET_SUPPORTED = 11,
-	SECURITY_MODE_FEATURE_SET_SUPPORTED = 12,
-	SMART_FEATURE_SET_SUPPORTED = 13,
-	FLUSH_CACHE_EXT_SUPPORTED = 14,
-	MANDATORY_FLUSH_CACHE_SUPPORTED = 15,
-	DEVICE_CONFIG_OVERLAY_SUPPORTED = 16,
-	LBA48_ENABLED = 17,
-	AUTO_ACOUSTIC_MANAGEMENT_SUPPORTED = 18,
-	SET_MAX_SECURITY_EXTENTSION_SUPPORTED = 19,
-	POWER_UP_IN_STANDBY_SUPPORTED = 20,
-	REMOVEABLE_MEDIA_STATUS_SUPPORTED = 21,
-	ADVANCED_POWER_MANAGEMENT_SUPPORTED = 22,
-	CFA_FEATURE_SET_SUPPORTED = 23,
-	READ_WRITE_DMA_QUEUED_SUPPORTED = 24,
-	DOWNLOAD_MICROCODE_SUPPORTED = 25,
-	URG_WRITE_BIT_SUPPORTED = 26,
-	URG_READ_BIT_SUPPORTED = 27,
-	WORLD_WIDE_NAME_SUPPORTED = 28,
-	WRITE_DMA_QUEUED_FUA_EXT_SUPPORTED = 29,
-	WRITE_DMA_FUA_EXT_AND_WRITE_MULTIPLE_FUA_EXT = 30,
-	GENERAL_PURPOSE_LOGING_SUPPORTED = 31,
-	STREAMING_FEATURE_SET_SUPPORTED = 32,
-	MEDIA_CARD_PASSTHROUGH_SUPPORTED = 33,
-	MEDIA_SERIAL_NUMBER_SUPPORTED = 34,
-	SMART_SELF_TEST_SUPPORTED = 35,
-	SMART_ERROR_LOGGING_SUPPORTED = 36,
+//times to set DRQ
+enum atapi_drq_set_times {
+	DRQ_SET_TIMES_3MS = 0,
+	DRQ_SET_TIMES_50MICROS = 1,
 };
 
+//ATA power management
+#define DRIVE_STANDBY_IMMEDIATE 0xE0
 
 #if defined(__cplusplus)
 extern "C" {
@@ -193,11 +164,22 @@ extern "C" {
 		bool supported;
 	} pio_mode_t;
 
-	//a sturcture representing a command set feature
+	//a structure representing ATAPI information
 	typedef struct {
-		bool enabled;
-		bool supported;
-	} cmd_set_t;
+		//Is it ATAPI?
+		bool is_atapi;
+	
+		//the atapi cmd packet size
+		enum atapi_byte_command_types atapi_cmd_packet_size;
+
+		//the time to set drq
+		enum atapi_drq_set_times atapi_drq_set_times;
+
+		//feature set supported
+		cmd_set_t feature_set_supported[10];
+	
+	} atapi_info_t;
+
 	
 	//a structure representing a ATA harddrive
 	typedef struct {
@@ -208,6 +190,9 @@ extern "C" {
 		//The drivetype
 		enum ata_drive_type driveType;
 
+		//ATAPI info
+		atapi_info_t atapi_info;
+	
 		//Is it removable?
 		bool removable;
 
@@ -218,7 +203,7 @@ extern "C" {
 	
 		//Iordy information
 		bool iordy_supported;
-		bool iordy_enabled;
+		bool iordy_disabled;
 	
 		//LBA modes
 		bool lba_supported;
@@ -265,7 +250,7 @@ extern "C" {
 		bool set_features_spinup_needed;
 		
 	} ata_device_t;
-
+	
 	//a array representing the ATA drives
 	ata_device_t ata_drives[2];
 
