@@ -44,7 +44,8 @@ extern "C" {
 		int priority;
 
 		//process heap
-		void* heap;
+		int heap_used;
+	
 
 		//process status
 		int status;

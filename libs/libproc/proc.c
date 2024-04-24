@@ -22,7 +22,7 @@ void proc_create(int (*entry_point)(), int priority) {
 	proc.entry_point = entry_point;
 	proc.priority = priority;
 	proc.status = PROC_STATUS_READY;
-	proc.heap = kalloc(1024);
+	proc.heap_used = 0;
 	proc.id = task_count;
 
 	task_queue[task_count] = proc;
