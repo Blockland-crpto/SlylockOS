@@ -17,6 +17,7 @@
 #include <libmouse.h>
 #include <libpci.h>
 #include <libports.h>
+#include <libproc.h>
 #include <librtc.h>
 #include <libserial.h>
 #include <libsound.h>
@@ -81,9 +82,10 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	libc_init();
 
 	sound_init();
+
+	__asm__ __volatile__("sti");
 	
-	kprintf("Hello World!");
-  	__asm__ __volatile__("sti");
+	proc_scheduler();
 
   	return 0;
 }

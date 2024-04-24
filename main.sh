@@ -15,6 +15,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libmultiboot/include
 						-I./libs/libpci/include
 						-I./libs/libports/include
+						-I./libs/libproc/include
 						-I./libs/librtc/include
 						-I./libs/libserial/include
 						-I./libs/libsound/include
@@ -40,6 +41,7 @@ export optimize=$(echo "-Og -g")
 ./build/libmultiboot_build.sh
 ./build/libpci_build.sh
 ./build/libports_build.sh
+./build/libproc_build.sh
 ./build/librtc_build.sh
 ./build/libserial_build.sh
 ./build/libsound_build.sh
