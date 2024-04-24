@@ -1,5 +1,6 @@
 { pkgs }: {
 	deps = [
+   pkgs.pciutils
    pkgs.gdb
    		pkgs.imagemagick6
 		pkgs.qemu

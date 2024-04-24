@@ -28,15 +28,13 @@
 #define MB_MAGIC 0x1BADB002
 
 __attribute__ ((constructor)) void init_kernel() {
+	set_cursor_pos(0,0);
+	clear(COLOR_WHT, COLOR_BLK);
 	return;
 }
 
 int main(multiboot_info_t* mb_info, uint32_t magic){
 	mbi = mb_info;
-
-	set_cursor_pos(0,0);
-
-	clear(COLOR_WHT, COLOR_BLK);
 
 	// check the grub memory map
 	if(!(mb_info->flags >> 6 & 0x1)) {

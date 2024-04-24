@@ -240,6 +240,11 @@ extern "C" {
 		//Addressable space information
 		uint32_t addressable_space_lba28;
 		uint64_t addressable_space_lba48;
+
+		//Security information
+		uint16_t time_required_for_security_erase;
+		uint16_t time_required_secure_erase_enhanced;
+		uint16_t master_password_revision_code;
 	
 		//Misc information
 		int major_ata_version;
@@ -248,7 +253,9 @@ extern "C" {
 		uint8_t max_queue_depth;
 		uint8_t sectors_per_interrupt_rw_multiple;
 		bool set_features_spinup_needed;
-		
+		uint16_t current_apm_value;
+		uint16_t* identify_data_ptr;
+
 	} ata_device_t;
 	
 	//a array representing the ATA drives
@@ -262,15 +269,28 @@ extern "C" {
 	//the main function for writing
 	void sect_write_atapio(uint64_t LBA, uint16_t sector_count, uint32_t* bytes, ata_device_t* dev);
 
+	//function to wait for the ata device to be ready
 	int wait_ata_bsy();
 
+	//function to wait for drive to be idle
 	void wait_ata_drq();
-	
+
+	//error handler for the ATA driver
 	void ata_error_handler();
 
+	//function to reset the ata drive
 	void ata_reset();
 
+	//function to put ATA into standby
 	void ata_standby();
+
+
+	//CFA FUNCTIONS
+	//function to use the CFA erase sectors
+	void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev);
+
+	//function to get a extended errorcode
+	uint8_t cfa_req_ext_error_code(ata_device_t* dev);
 
 #if defined(__cplusplus)
 } /* extern "C" */

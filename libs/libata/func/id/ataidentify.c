@@ -21,7 +21,10 @@ extern void get_drive_udma_support();
 extern void get_drive_cmd_set_1();
 extern void get_drive_cmd_set_2();
 extern void get_drive_cmd_set_ext();
+
+//helpers for enabled features retrieval
 extern void get_drive_cmd_set_enabled();
+extern void get_drive_cmd_set_enabled_2();
 
 //sends the identify command to the ata device, reads it, and parses it
 ata_device_t ata_identify(enum ata_device_select dev) {
@@ -39,14 +42,15 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	}
 	
 	//the drive is ready to be read
-	volatile uint16_t identify_data[256];
-	
+	static volatile uint16_t identify_data[256];
+
+	//lets get the data
 	for (size_t i = 0; i < 256; i++) {
 		identify_data[i] = inw(IO_PORT_DATA);
 	}
 
 	//lets get the drive config data
-	get_drive_config(&drive, identify_data[0]);
+	get_drive_config(&drive, identify_data);
 
 	//lets check if its still a valid drive
 	if (!drive.exists) {
@@ -127,16 +131,30 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 
 	//gets the drive cmd set enabled
 	get_drive_cmd_set_enabled(&drive, identify_data);
+
+	//gets the second drive cmd set enabled
+	get_drive_cmd_set_enabled_2(&drive, identify_data);
 	
 	//gets the drive udma support
 	get_drive_udma_support(&drive, identify_data);
 
+	//lets get time required for security erase completion
+	drive.time_required_for_security_erase = identify_data[89];
+
+	//lets get time required for erase completion enhanced
+	drive.time_required_secure_erase_enhanced = identify_data[90];
+
+	//lets get current APM value
+	drive.current_apm_value = identify_data[91];
+
+	//lets get the master password rev code
+	drive.master_password_revision_code = identify_data[92];
+	
 	//lets find out if it uses a 80-pin cable
 	uint16_t cable_type = identify_data[93];
-	uint16_t cable_type_mask = 1 << 11;
 
 	//it a 80-pin cable
-	if ((cable_type & cable_type_mask) == 1) {
+	if ((cable_type & (1 << 11)) == 1) {
 		drive.pin80_connector = true;
 	} else {
 		drive.pin80_connector = false;
@@ -156,5 +174,6 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	}
 	
 	drive.exists = true;
+	drive.identify_data_ptr = &identify_data;
 	return drive;
 }

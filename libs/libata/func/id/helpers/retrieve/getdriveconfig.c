@@ -6,9 +6,9 @@
 
 
 //function to retrieve config info
-void get_drive_config(ata_device_t* drive, uint16_t drive_config) {
+void get_drive_config(ata_device_t* drive, uint16_t* identify_data) {
 	//compare variable
-	uint16_t compare = drive_config;
+	uint16_t compare = identify_data[0];
 	
 	//check if the ATA device is valid
 	if ((compare & 0x00) == 1) {
@@ -18,7 +18,7 @@ void get_drive_config(ata_device_t* drive, uint16_t drive_config) {
 	}
 
 	//lets reset it
-	compare = drive_config;
+	compare = identify_data[0];
 	
 	//is the device a ATAPI device?
 	if (!drive->atapi_info.is_atapi) {
@@ -31,14 +31,14 @@ void get_drive_config(ata_device_t* drive, uint16_t drive_config) {
 	}
 
 	//lets reset the variable
-	compare = drive_config;
+	compare = identify_data[0];
 
 	//lets see if the drive is removable (its common between ATA and ATAPI devices)
 	drive->removable = (compare & (1 << 7)) ? true : false;
 
 
 	//lets reset it!
-	compare = drive_config;
+	compare = identify_data[0];
 	
 	//need to check if its a ATAPI device
 	//lets see the byte packet information
@@ -50,7 +50,7 @@ void get_drive_config(ata_device_t* drive, uint16_t drive_config) {
 		}
 
 		//lets reset the variable
-		compare = drive_config;
+		compare = identify_data[0];
 		
 		//lets see if it will set DRQ within recieveing packet command
 		if ((compare & (0 << 6)) == 1) {

@@ -5,6 +5,7 @@
 #include <libmodule.h>
 #include <stdio.h>
 #include <libssp.h>
+#include <libdebug.h>
 
 uint32_t config_addr = 0xCF8;
 uint32_t config_data = 0xCFC;
@@ -48,7 +49,7 @@ void pci_scan_bus(uint8_t bus) {
 				pciDevMap[i].classCode = pciReadClass(bus, device, func);
 				pciDevMap[i].subClass = pciReadSubclass(bus, device, func);
 				pciDevMap[i].progIF = pciReadProgif(bus, device, func);
-				//printf("bus %x, Device %x, Func %x, Vendor %x, Class %x, Subclass %x, progIF %x\n", bus, device, func, data, pciDevMap[i].classCode, pciDevMap[i].subClass, pciDevMap[i].progIF);
+				//slog("bus %x, Device %x, Func %x, Vendor %x, Class %x, Subclass %x, progIF %x\n", bus, device, func, data, pciDevMap[i].classCode, pciDevMap[i].subClass, pciDevMap[i].progIF);
 				//time_sleep(1000000);
 				i++;
 			} 
@@ -70,6 +71,7 @@ void pci_init() {
 	module_t modules_pci = MODULE("kernel.modules.pci", "Provides PCI support for the kernel (CORE)");
 	INIT(modules_pci);
 	pci_scan_bus(0); // Start scanning from bus 0
+	
 
 	DONE(modules_pci);
 	 
