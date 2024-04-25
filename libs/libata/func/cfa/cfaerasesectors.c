@@ -4,7 +4,6 @@
 #include <libdebug.h>
 #include <system/types.h>
 #include <libssp.h>
-#include <cmdset.h>
 
 //the CFA erase sectors command
 #define CFA_ERASE_SECTORS 0xC0

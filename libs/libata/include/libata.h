@@ -292,6 +292,9 @@ extern "C" {
 	//function to get a extended errorcode
 	uint8_t cfa_req_ext_error_code(ata_device_t* dev);
 
+	//function to get the CFA erase data of sectors
+	uint8_t* cfa_translate_sector(ata_device_t* dev, uint32_t LBA);
+
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif

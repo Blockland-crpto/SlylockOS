@@ -1,9 +1,28 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include <libproc.h>
 #include <system/types.h>
 #include <libssp.h>
 #include <libmem.h>
 #include <libmodule.h>
-
 
 //function to create a task
 void proc_create(int (*entry_point)(), int priority) {
@@ -11,11 +30,19 @@ void proc_create(int (*entry_point)(), int priority) {
 	//number of tasks
 	static int task_count;
 
-	//is task_count less then 10?
-	if (task_count == 10) {
-		//if yes, panic
-		panic("too many tasks", 1);
-	} 
+	//lets find a free slot dynamicly
+	for (int i = 0; i <= 10; i++) {
+		if (task_queue[i].entry_point == NULL) {
+			//use this slot
+			task_count = i;
+			break;
+		}
+		if (i == 10) {
+			//no free slot
+			panic("no more proc space", 10);
+		}
+	}
+
 	
 	//create a new task
 	proc_control_block proc;
@@ -24,13 +51,23 @@ void proc_create(int (*entry_point)(), int priority) {
 	proc.status = PROC_STATUS_READY;
 	proc.heap_used = 0;
 	proc.id = task_count;
-
 	task_queue[task_count] = proc;
-	task_count++;
 }
 
+//function to remove a task
+void proc_destroy(int id) {
+	//find the task
+	task_queue[id].entry_point = NULL;
+
+	//now lets slide things down
+	for (int i = id; i < 10; i++) {
+		task_queue[i] = task_queue[i + 1];
+	}
+}
+
+//the SlyLockOS process scheduler
 void proc_scheduler() {
-	module_t modules_proc = MODULE("kernel.modules.proc", "task schedualer for the kernel (CORE)");
+	module_t modules_proc = MODULE("kernel.modules.proc", "task scheduler for the kernel (CORE)");
 	INIT(modules_proc);
 	DONE(modules_proc);
 	while (1) {
@@ -53,16 +90,10 @@ void proc_scheduler() {
 			//if not, we need to eventually provide error info
 		}
 
-		task_queue[0] = task_queue[1];
-		task_queue[1] = task_queue[2];
-		task_queue[2] = task_queue[3];
-		task_queue[3] = task_queue[4];
-		task_queue[4] = task_queue[5];
-		task_queue[5] = task_queue[6];
-		task_queue[6] = task_queue[7];
-		task_queue[7] = task_queue[8];
-		task_queue[8] = task_queue[9];
-		task_queue[9] = task_queue[10];
+		//lets slide it down!
+		for (int i = 0; i < 10; i++) {
+			task_queue[i] = task_queue[i + 1];
+		}
 
 		//awesome!
 		continue;

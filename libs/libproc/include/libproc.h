@@ -46,7 +46,6 @@ extern "C" {
 		//process heap
 		int heap_used;
 	
-
 		//process status
 		int status;
 	} proc_control_block;
@@ -57,6 +56,9 @@ extern "C" {
 	//function to create a task to task queue
 	void proc_create(int (*entry_point)(), int priority);
 
+	//function to destroy a task from task queue
+	void proc_destroy(int id);
+	
 	//schedualer
 	void proc_scheduler();
 
