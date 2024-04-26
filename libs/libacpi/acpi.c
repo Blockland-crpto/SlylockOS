@@ -30,21 +30,9 @@
 #include <libssp.h>
 
 
+//helper
+extern int acpiCheckHeader();
 
-int acpiCheckHeader(uint32_t *ptr, char *sig) {
-	if (memcmp(ptr, sig, 4) == 0) {
-		char *checkPtr = (char *) ptr;
-	  	int len = *(ptr + 1);
-	  	char check = 0;
-	  	while (0<len--) {
-		 	check += *checkPtr;
-		 	checkPtr++;
-	  	}
-	  	if (check == 0)
-		 	return 0;
-   	}
-   	return -1;
-}
 
 int acpiEnable(void) {
    	// check if acpi is enabled
@@ -104,7 +92,7 @@ int initAcpi(void) {
 			   		int dsdtLength = *(facp->DSDT+1) -36;
 				
 			   		while (0 < dsdtLength--) {
-						if ( memcmp(S5Addr, "_S5_", 4) == 0)
+						if (memcmp(S5Addr, "_S5_", 4) == 0)
 					 		break;
 				  		S5Addr++;
 			   		}
@@ -135,8 +123,13 @@ int initAcpi(void) {
 
 					 		PM1_CNT_LEN = facp->PM1_CNT_LEN;
 
+							PREFERED_PM_PROFILE = facp->Preferred_PM_Profile;
+							SCI_INT = facp->SCI_INT;
+
 					 		SLP_EN = 1<<13;
 					 		SCI_EN = 1;
+
+							//slog("PM profile %d", (int)PREFERED_PM_PROFILE);
 
 					 		return 0;
 				  		} else {
@@ -149,11 +142,6 @@ int initAcpi(void) {
 			   		}
 				} else {
 					panic("DSDT parse error.", ACPI_ERROR);
-				}
-				if (acpiCheckHeader((uint32_t *) facp->FIRMWARE_CTRL, "FACS") == 0) {
-					//todo:
-				} else {
-					panic("FACS parse error.", ACPI_ERROR);
 				}
 			}
 		 	ptr++;
@@ -182,5 +170,5 @@ void acpi_init() {
 	}
 	
 	acpiEnable();
-	
+
 }

@@ -27,6 +27,9 @@
 extern "C" {
 #endif
 
+	//acpi data
+	signed char PREFERED_PM_PROFILE;
+	signed short SCI_INT;
 	unsigned long *SMI_CMD;
 	signed char ACPI_ENABLE;
 	signed char ACPI_DISABLE;
@@ -52,7 +55,9 @@ extern "C" {
 	   	signed char unneded1[36 - 8];
 	   	unsigned long *FIRMWARE_CTRL;
 	   	unsigned long *DSDT;
-	   	signed char unneded2[48 - 44];
+		signed char reserved;
+		signed char Preferred_PM_Profile;
+		signed short SCI_INT;
 	   	unsigned long *SMI_CMD;
 	   	signed char ACPI_ENABLE;
 	   	signed char ACPI_DISABLE;
