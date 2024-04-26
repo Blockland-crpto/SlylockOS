@@ -39,36 +39,37 @@ extern "C" {
 	signed char PM1_CNT_LEN;
 
 	struct RSDPtr {
-	   signed char Signature[8];
-	   signed char CheckSum;
-	   signed char OemID[6];
-	   signed char Revision;
-	   unsigned long *RsdtAddress;
+	   	signed char Signature[8];
+	   	signed char CheckSum;
+	   	signed char OemID[6];
+	  	signed char Revision;
+	  	unsigned long *RsdtAddress;
 	};
 
 	struct FACP {
-	   signed char Signature[4];
-	   unsigned long Length;
-	   signed char unneded1[40 - 8];
-	   unsigned long *DSDT;
-	   signed char unneded2[48 - 44];
-	   unsigned long *SMI_CMD;
-	   signed char ACPI_ENABLE;
-	   signed char ACPI_DISABLE;
-	   signed char unneded3[64 - 54];
-	   unsigned long *PM1a_CNT_BLK;
-	   unsigned long *PM1b_CNT_BLK;
-	   signed char unneded4[89 - 72];
-	   signed char PM1_CNT_LEN;
+		signed char Signature[4];
+	   	unsigned long Length;
+	   	signed char unneded1[36 - 8];
+	   	unsigned long *FIRMWARE_CTRL;
+	   	unsigned long *DSDT;
+	   	signed char unneded2[48 - 44];
+	   	unsigned long *SMI_CMD;
+	   	signed char ACPI_ENABLE;
+	   	signed char ACPI_DISABLE;
+	   	signed char unneded3[64 - 54];
+	   	unsigned long *PM1a_CNT_BLK;
+	   	unsigned long *PM1b_CNT_BLK;
+	   	signed char unneded4[89 - 72];
+	   	signed char PM1_CNT_LEN;
 	};
 
 	struct MADT {
-	   signed char Signature[4];
-	   unsigned long Length;
-	   signed char Revision;
-	   signed char CheckSum;
-	   signed char OemID[6];
-	   uint32_t localApicAddr;
+	   	signed char Signature[4];
+	   	unsigned long Length;
+	   	signed char Revision;
+	   	signed char CheckSum;
+	   	signed char OemID[6];
+	   	uint32_t localApicAddr;
 	};
 
 	unsigned int *acpiCheckRSDPtr(uint32_t *ptr);

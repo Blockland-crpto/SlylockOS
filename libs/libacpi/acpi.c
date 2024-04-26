@@ -150,6 +150,11 @@ int initAcpi(void) {
 				} else {
 					panic("DSDT parse error.", ACPI_ERROR);
 				}
+				if (acpiCheckHeader((uint32_t *) facp->FIRMWARE_CTRL, "FACS") == 0) {
+					//todo:
+				} else {
+					panic("FACS parse error.", ACPI_ERROR);
+				}
 			}
 		 	ptr++;
 	  	}
