@@ -126,6 +126,8 @@ int initAcpi(void) {
 							PREFERED_PM_PROFILE = facp->Preferred_PM_Profile;
 							SCI_INT = facp->SCI_INT;
 
+							S4BIOS_REQ = facp->S4BIOS_REQ;
+
 					 		SLP_EN = 1<<13;
 					 		SCI_EN = 1;
 

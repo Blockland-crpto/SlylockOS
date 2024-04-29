@@ -28,52 +28,54 @@ extern "C" {
 #endif
 
 	//acpi data
-	signed char PREFERED_PM_PROFILE;
-	signed short SCI_INT;
+	int8_t PREFERED_PM_PROFILE;
+	int16_t SCI_INT;
 	unsigned long *SMI_CMD;
-	signed char ACPI_ENABLE;
-	signed char ACPI_DISABLE;
+	int8_t ACPI_ENABLE;
+	int8_t ACPI_DISABLE;
+	int8_t S4BIOS_REQ;
 	unsigned long *PM1a_CNT;
 	unsigned long *PM1b_CNT;
 	uint16_t SLP_TYPa;
 	uint16_t SLP_TYPb;
 	uint16_t SLP_EN;
 	uint16_t SCI_EN;
-	signed char PM1_CNT_LEN;
+	int8_t PM1_CNT_LEN;
 
 	struct RSDPtr {
-	   	signed char Signature[8];
-	   	signed char CheckSum;
-	   	signed char OemID[6];
-	  	signed char Revision;
+		int8_t Signature[8];
+		int8_t CheckSum;
+		int8_t OemID[6];
+		int8_t Revision;
 	  	unsigned long *RsdtAddress;
 	};
-
+	
 	struct FACP {
-		signed char Signature[4];
+		int8_t Signature[4];
 	   	unsigned long Length;
-	   	signed char unneded1[36 - 8];
+		int8_t unneded1[36 - 8];
 	   	unsigned long *FIRMWARE_CTRL;
 	   	unsigned long *DSDT;
-		signed char reserved;
-		signed char Preferred_PM_Profile;
-		signed short SCI_INT;
+		int8_t reserved;
+		int8_t Preferred_PM_Profile;
+		int16_t SCI_INT;
 	   	unsigned long *SMI_CMD;
-	   	signed char ACPI_ENABLE;
-	   	signed char ACPI_DISABLE;
-	   	signed char unneded3[64 - 54];
+	   	int8_t ACPI_ENABLE;
+		int8_t ACPI_DISABLE;
+		int8_t S4BIOS_REQ;
+		int8_t unneded3[64 - 55];
 	   	unsigned long *PM1a_CNT_BLK;
 	   	unsigned long *PM1b_CNT_BLK;
-	   	signed char unneded4[89 - 72];
-	   	signed char PM1_CNT_LEN;
+		int8_t unneded4[89 - 72];
+		int8_t PM1_CNT_LEN;
 	};
 
 	struct MADT {
-	   	signed char Signature[4];
+		int8_t Signature[4];
 	   	unsigned long Length;
-	   	signed char Revision;
-	   	signed char CheckSum;
-	   	signed char OemID[6];
+		int8_t Revision;
+		int8_t CheckSum;
+		int8_t OemID[6];
 	   	uint32_t localApicAddr;
 	};
 
