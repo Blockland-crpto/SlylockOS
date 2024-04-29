@@ -27,20 +27,36 @@
 extern "C" {
 #endif
 
-	//acpi data
+	//FADT info
 	int8_t PREFERED_PM_PROFILE;
 	int16_t SCI_INT;
 	unsigned long *SMI_CMD;
 	int8_t ACPI_ENABLE;
 	int8_t ACPI_DISABLE;
 	int8_t S4BIOS_REQ;
+	int8_t PSTATE_CNT;
+	unsigned long *PM1a_EVT;
+	unsigned long *PM1b_EVT;
 	unsigned long *PM1a_CNT;
 	unsigned long *PM1b_CNT;
+	unsigned long *PM2_CNT;
+	unsigned long *PM_TMR;
+	unsigned long *GPE0;
+	unsigned long *GPE1;
+	int8_t PM1_EVT_LEN;
+	int8_t PM1_CNT_LEN;
+	int8_t PM2_CNT_LEN;
+	int8_t PM_TMR_LEN;
+	int8_t GPE0_LEN;
+	int8_t GPE1_LEN;
+	int8_t GPE1_BASE;
+
+
+	//DSDT info
 	uint16_t SLP_TYPa;
 	uint16_t SLP_TYPb;
 	uint16_t SLP_EN;
 	uint16_t SCI_EN;
-	int8_t PM1_CNT_LEN;
 
 	struct RSDPtr {
 		int8_t Signature[8];
@@ -63,11 +79,22 @@ extern "C" {
 	   	int8_t ACPI_ENABLE;
 		int8_t ACPI_DISABLE;
 		int8_t S4BIOS_REQ;
-		int8_t unneded3[64 - 55];
+		int8_t PSTATE_CNT;
+		unsigned long *PM1a_EVT_BLK;
+		unsigned long *PM1b_EVT_BLK;
 	   	unsigned long *PM1a_CNT_BLK;
 	   	unsigned long *PM1b_CNT_BLK;
-		int8_t unneded4[89 - 72];
+		unsigned long *PM2_CNT_BLK;
+		unsigned long *PM_TMR_BLK;
+		unsigned long *GPE0_BLK;
+		unsigned long *GPE1_BLK;
+		int8_t PM1_EVT_LEN;
 		int8_t PM1_CNT_LEN;
+		int8_t PM2_CNT_LEN;
+		int8_t PM_TMR_LEN;
+		int8_t GPE0_BLK_LEN;
+		int8_t GPE1_BLK_LEN;
+		int8_t GPE1_BASE;
 	};
 
 	struct MADT {
@@ -83,7 +110,7 @@ extern "C" {
 	unsigned int *acpiGetRSDPtr(void);
 	int acpiCheckHeader(uint32_t *ptr, char *sig);
 	int acpiEnable(void);
-	int initAcpi(void);
+	int load_acpi(void);
 	void acpiPowerOff(void);
 	void acpi_init();
 	bool acpiEnabled;

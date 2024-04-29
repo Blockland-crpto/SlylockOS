@@ -32,46 +32,11 @@
 
 //helper
 extern int acpiCheckHeader();
+extern int acpiEnable();
 
 
-int acpiEnable(void) {
-   	// check if acpi is enabled
-   	if ( (inw((uint32_t) PM1a_CNT) &SCI_EN) == 0 ) {
-	  	// check if acpi can be enabled
-	  	if (SMI_CMD != 0 && ACPI_ENABLE != 0) {
-		 	outb((uint32_t) SMI_CMD, ACPI_ENABLE); // send acpi enable command
-		 	// give 3 seconds time to enable acpi
-		 	int i;
-		 	for (i=0; i<300; i++ ) {
-				if ( (inw((uint32_t) PM1a_CNT) &SCI_EN) == 1 )
-			   		break;
-		 	}
-		 	if (PM1b_CNT != 0)
-				for (; i<300; i++ ) {
-			   		if ( (inw((uint32_t) PM1b_CNT) &SCI_EN) == 1 )
-				  		break;
-				}
-		 	if (i<300) {
-				//kprintf("enabled acpi.\n");
-				acpiEnabled = true;
-				return 0;
-		 	} else {
-				//kprintf("couldn't enable acpi.\n");
-				acpiEnabled = false;
-				return -1;
-		 	}
-	  	} else {
-		 	//kprintf("no known way to enable acpi.\n");
-		 	acpiEnabled = false;
-		 	return -2;
-	  	}
-   	} else {
-	  	//kprintf("acpi was already enabled.\n");
-	  	return 1;
-   	}
-}
 
-int initAcpi(void) {
+int load_acpi(void) {
    	uint32_t *ptr = acpiGetRSDPtr();
 
    	// check if address is correct  ( if acpi is available on this pc )
@@ -113,20 +78,32 @@ int initAcpi(void) {
 								S5Addr++;   // skip byteprefix
 					 		SLP_TYPb = *(S5Addr)<<10;
 
-					 		SMI_CMD = facp->SMI_CMD;
-
-					 		ACPI_ENABLE = facp->ACPI_ENABLE;
-					 		ACPI_DISABLE = facp->ACPI_DISABLE;
-
-					 		PM1a_CNT = facp->PM1a_CNT_BLK;
-					 		PM1b_CNT = facp->PM1b_CNT_BLK;
-
-					 		PM1_CNT_LEN = facp->PM1_CNT_LEN;
-
 							PREFERED_PM_PROFILE = facp->Preferred_PM_Profile;
 							SCI_INT = facp->SCI_INT;
-
+					 		SMI_CMD = facp->SMI_CMD;
+					 		ACPI_ENABLE = facp->ACPI_ENABLE;
+					 		ACPI_DISABLE = facp->ACPI_DISABLE;
 							S4BIOS_REQ = facp->S4BIOS_REQ;
+							PSTATE_CNT = facp->PSTATE_CNT;
+							PM1a_EVT = facp->PM1a_EVT_BLK;
+							PM1b_EVT = facp->PM1b_EVT_BLK;
+					 		PM1a_CNT = facp->PM1a_CNT_BLK;
+					 		PM1b_CNT = facp->PM1b_CNT_BLK;
+							PM2_CNT = facp->PM2_CNT_BLK;
+							PM_TMR = facp->PM_TMR_BLK;
+							GPE0 = facp->GPE0_BLK;
+							GPE1 = facp->GPE1_BLK;
+							PM1_EVT_LEN = facp->PM1_EVT_LEN;
+					 		PM1_CNT_LEN = facp->PM1_CNT_LEN;
+							PM2_CNT_LEN = facp->PM2_CNT_LEN;
+							PM_TMR_LEN = facp->PM_TMR_LEN;
+							GPE0_LEN = facp->GPE0_BLK_LEN;
+							GPE1_LEN = facp->GPE1_BLK_LEN;
+							GPE1_BASE = facp->GPE1_BASE;
+							
+							
+
+							
 
 					 		SLP_EN = 1<<13;
 					 		SCI_EN = 1;
@@ -159,7 +136,7 @@ void acpi_init() {
 	module_t modules_acpi = MODULE("kernel.modules.acpi", "Provides ACPI support for the kernel (CORE)");
 	INIT(modules_acpi);
 	
-	int result = initAcpi();
+	int result = load_acpi();
 	
 	if (result == 0) {
 		DONE(modules_acpi);
