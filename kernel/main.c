@@ -105,6 +105,7 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	sound_init();
 
 	__asm__ __volatile__("sti");
+
 	
 	proc_scheduler();
 
