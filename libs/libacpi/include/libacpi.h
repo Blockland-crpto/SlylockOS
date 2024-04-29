@@ -27,6 +27,15 @@
 extern "C" {
 #endif
 
+	//structure representing a general Address structure
+	typedef struct {
+		int8_t Address_space_id;
+		int8_t Register_bit_width;
+		int8_t Register_bit_offset;
+		int8_t Access_size;
+		uint32_t Register_address;
+	} GAS;
+	
 	//FADT info
 	int8_t PREFERED_PM_PROFILE;
 	int16_t SCI_INT;
@@ -50,14 +59,29 @@ extern "C" {
 	int8_t GPE0_LEN;
 	int8_t GPE1_LEN;
 	int8_t GPE1_BASE;
-
-
-	//DSDT info
+	int16_t P_LVL2_LAT;
+	int16_t P_LVL3_LAT;
+	int16_t FLUSH_SIZE;
+	int16_t FLUSH_STRIDE;
+	int8_t DUTY_OFFSET;
+	int8_t DUTY_WIDTH;
+	int8_t DAY_ALRM;
+	int8_t MON_ALRM;
+	int8_t CENTURY;
+	int16_t IAPC_BOOT_ARCH;
+	unsigned long FADT_FLAGS;
+	GAS reset_reg;
+	int8_t reset_value;
+	
+	//ACPI commands
 	uint16_t SLP_TYPa;
 	uint16_t SLP_TYPb;
 	uint16_t SLP_EN;
 	uint16_t SCI_EN;
+	int8_t CST_CNT;
 
+
+	
 	struct RSDPtr {
 		int8_t Signature[8];
 		int8_t CheckSum;
@@ -95,6 +119,31 @@ extern "C" {
 		int8_t GPE0_BLK_LEN;
 		int8_t GPE1_BLK_LEN;
 		int8_t GPE1_BASE;
+		int8_t CST_CNT;
+		int16_t P_LVL2_LAT;
+		int16_t P_LVL3_LAT;
+		int16_t FLUSH_SIZE;
+		int16_t FLUSH_STRIDE;
+		int8_t DUTY_OFFSET;
+		int8_t DUTY_WIDTH;
+		int8_t DAY_ALRM;
+		int8_t MON_ALRM;
+		int8_t CENTURY;
+		int16_t IAPC_BOOT_ARCH;
+		int8_t Reserved2;
+		unsigned long Flags;
+	
+		/* GAS Register for RESET */
+		struct {
+			int8_t Reset_address_space_id;
+			int8_t Reset_register_bit_width;
+			int8_t Reset_register_bit_offset;
+			int8_t Reset_access_size;
+			uint64_t Reset_reg_address;
+		};
+
+		int8_t RESET_VALUE;
+		
 	};
 
 	struct MADT {
