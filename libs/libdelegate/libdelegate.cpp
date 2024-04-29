@@ -18,39 +18,34 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libacpi.h>
-#include <libmem.h>
-#include <libmodule.h>
-#include <libports.h>
+#include <libdelegate.h>
 #include <system/types.h>
-#include <libvga.h>
-#include <libdebug.h>
-#include <string.h>
-#include <stddef.h>
 #include <libssp.h>
+#include <libmem.h>
+#include <libproc.h>
 
 
-//helper
-extern int acpiCheckHeader();
-extern int acpiEnable();
+void delegateRequest::delegateRequest(ResourceType res, int amount, proc_control_block owner) {
 
+	//if the resource is storage
+	if (res == ResourceType::STORAGE) {
+		//lets first check if the owner used there quota
+		if (owner.storage_delegated + amount > 1024000) {
+			//the process wants to use more storage than the kernel has delegated
+			//ask the user if he/she wants to allow it
+			//todo
+			return;
+		} else {
+			//the process is allowed to use the storage
+			owner.storage_delegated += amount;
 
-void acpi_init() {
-	module_t modules_acpi = MODULE("kernel.modules.acpi", "Provides ACPI support for the kernel (CORE)");
-	INIT(modules_acpi);
-	
-	int result = load_acpi();
-	
-	if (result == 0) {
-		DONE(modules_acpi);
-	} else if (result == -1) {
-		FAIL(modules_acpi, "couldn't enable acpi.");
-		return;
-	} else if (result == -2) {
-		FAIL(modules_acpi, "acpi not avaliable");
-		return;
+			//exit
+			return;
+		}
+	} else if (res == ResourceType::MEMORY) {
+		//if the resource is memory
+		
 	}
-	
-	acpiEnable();
 
+	//
 }

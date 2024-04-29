@@ -21,6 +21,8 @@
 #ifndef __LIBPROC_H__
 #define __LIBPROC_H__
 
+#include <system/types.h>
+
 #define PROC_STATUS_READY 0
 #define PROC_STATUS_RUNNING 1
 #define PROC_STATUS_ABORTED 2
@@ -48,6 +50,12 @@ extern "C" {
 	
 		//process status
 		int status;
+
+		//storage delegated
+		size_t storage_delegated;
+
+		//memory delegated
+		size_t memory_delegated;
 	} proc_control_block;
 
 	//taskqueue

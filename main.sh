@@ -4,6 +4,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libapic/include
 						-I./libs/libata/include		
 						-I./libs/libdebug/include
+						-I./libs/libdelegate/include
 						-I./libs/libexe/include
 						-I./libs/libfs/include
 						-I./libs/libinitrd/include
@@ -30,6 +31,7 @@ export optimize=$(echo "-Og -g")
 ./build/libapic_build.sh
 ./build/libata_build.sh
 ./build/libdebug_build.sh
+./build/libdelegate_build.sh
 ./build/libexe_build.sh
 ./build/libfs_build.sh
 ./build/libinitrd_build.sh
@@ -141,4 +143,4 @@ objcopy --only-keep-debug kernel.bin kernel.sym
 
 rm -f kernel.bin
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6 -curses
+qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6

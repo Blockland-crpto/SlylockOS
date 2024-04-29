@@ -51,6 +51,8 @@ void proc_create(int (*entry_point)(), int priority) {
 	proc.status = PROC_STATUS_READY;
 	proc.heap_used = 0;
 	proc.id = task_count;
+	proc.storage_delegated = 0;
+	proc.memory_delegated = 1024;
 	task_queue[task_count] = proc;
 }
 

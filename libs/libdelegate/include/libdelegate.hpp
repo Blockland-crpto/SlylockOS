@@ -18,39 +18,22 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libacpi.h>
-#include <libmem.h>
-#include <libmodule.h>
-#include <libports.h>
+#ifndef __LIBDELEGATE_HPP
+#define __LIBDELEGATE_HPP
+
 #include <system/types.h>
-#include <libvga.h>
-#include <libdebug.h>
-#include <string.h>
-#include <stddef.h>
-#include <libssp.h>
+#include <libproc.h>
 
+//a enum class that shows resource types
+enum class ResourceType {
+	STORAGE,
+	MEMORY
+};
 
-//helper
-extern int acpiCheckHeader();
-extern int acpiEnable();
-
-
-void acpi_init() {
-	module_t modules_acpi = MODULE("kernel.modules.acpi", "Provides ACPI support for the kernel (CORE)");
-	INIT(modules_acpi);
+class delegateRequest {
+	delegateRequest(ResourceType res, int amount, proc_control_block owner);
 	
-	int result = load_acpi();
 	
-	if (result == 0) {
-		DONE(modules_acpi);
-	} else if (result == -1) {
-		FAIL(modules_acpi, "couldn't enable acpi.");
-		return;
-	} else if (result == -2) {
-		FAIL(modules_acpi, "acpi not avaliable");
-		return;
-	}
-	
-	acpiEnable();
+};
 
-}
+#endif

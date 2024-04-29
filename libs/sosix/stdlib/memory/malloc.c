@@ -11,7 +11,7 @@ void *malloc(size_t numbytes) {
 	//here it is
 	int heap_used = current_task.heap_used;
 
-	if (heap_used + numbytes > 1024) {
+	if (heap_used + numbytes > current_task.memory_delegated) {
 		return NULL;
 	} else {
 		current_task.heap_used += numbytes;
