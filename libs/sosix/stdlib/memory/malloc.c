@@ -3,6 +3,7 @@
 #include <libmem.h>
 #include <libssp.h>
 #include <libproc.h>
+#include <libdelegate.h>
 
 void *malloc(size_t numbytes) {
 	//lets first get the size of the heap amount for the proccess
@@ -12,7 +13,17 @@ void *malloc(size_t numbytes) {
 	int heap_used = current_task.heap_used;
 
 	if (heap_used + numbytes > current_task.memory_delegated) {
-		return NULL;
+
+		//lets send a request for more memory to be delegated
+		int request_result = delegate_request(RESOURCE_MEMORY, &current_task, numbytes);
+
+		//did it return successful?
+		if (request_result == 0) {
+			current_task.heap_used += numbytes;
+			return kalloc((long)numbytes);
+		} else {
+			return NULL;
+		}
 	} else {
 		current_task.heap_used += numbytes;
 		return kalloc((long)numbytes);

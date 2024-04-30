@@ -32,6 +32,7 @@
 #include <libapic.h>
 #include <libata.h>
 #include <libdebug.h>
+#include <libdelegate.h>
 #include <libfs.h>
 #include <libkeyboard.h>
 #include <libmultiboot.h>
@@ -103,6 +104,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	libc_init();
 
 	sound_init();
+
+	delegate_init();
 
 	__asm__ __volatile__("sti");
 
