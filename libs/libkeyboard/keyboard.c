@@ -20,7 +20,7 @@
 */
 #include <libports.h>
 #include <libvga.h>
-#include <drivers/isr.h>
+#include <libdmgctrl.h>
 #include <drivers/irq.h>
 #include <libkeyboard.h>
 #include <libmodule.h>

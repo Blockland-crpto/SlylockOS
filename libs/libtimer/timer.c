@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libvga.h>
-#include <drivers/isr.h>
+#include <libdmgctrl.h>
 #include <libtimer.h>
 #include <libports.h>
 #include <string.h>

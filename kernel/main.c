@@ -22,7 +22,6 @@
 
 #include <system/types.h>
 
-#include <drivers/isr.h>
 #include <drivers/irq.h>
 #include <drivers/gdt.h>
 #include <drivers/idt.h>
@@ -33,6 +32,7 @@
 #include <libata.h>
 #include <libdebug.h>
 #include <libdelegate.h>
+#include <libdmgctrl.h>
 #include <libfs.h>
 #include <libkeyboard.h>
 #include <libmultiboot.h>
@@ -71,7 +71,7 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	
   	idt_install();
   
-  	isr_install();
+  	dmgctrl_init();
 	
   	irq_install();
 

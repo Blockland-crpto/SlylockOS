@@ -1,10 +1,33 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
+//contains AbridOS code
+
 #include <libvga.h>
 #include <drivers/idt.h>
-#include <drivers/isr.h>
+#include <libdmgctrl.h>
 #include <libmodule.h>
 #include <drivers/nmi.h>
 #include <libssp.h>
 #include <libdebug.h>
+#include <libproc.h>
 
 extern void _isr0();
 extern void _isr1();
@@ -40,11 +63,7 @@ extern void _isr30();
 extern void _isr31();
 
 void isr_install() {
-	module_t modules_isr = MODULE("kernel.modules.isr", "Provides ISR support for the kernel (CORE)");
-	char** deps;
-	deps[0] = "kernel.modules.idt";
-	DEPS(modules_isr, deps);
-	INIT(modules_isr);
+
 	idt_set_gate(0, (unsigned)_isr0, 0x08, 0x8E);
 	idt_set_gate(1, (unsigned)_isr1, 0x08, 0x8E);
 	idt_set_gate(2, (unsigned)_isr2, 0x08, 0x8E);
@@ -80,10 +99,21 @@ void isr_install() {
 	idt_set_gate(29, (unsigned)_isr29, 0x08, 0x8E);
 	idt_set_gate(30, (unsigned)_isr30, 0x08, 0x8E);
 	idt_set_gate(31, (unsigned)_isr31, 0x08, 0x8E);
-	
-	
-	DONE(modules_isr);
 	 
+}
+
+//function to initate damage control
+void dmgctrl_init() {
+	module_t modules_dmgctrl = MODULE("kernel.modules.dmgctrl", "the main error handler for the kernel (CORE)");
+
+	//let the initalization begin!
+	INIT(modules_dmgctrl);
+
+	//install isrs
+	isr_install();
+
+	//were done!
+	DONE(modules_dmgctrl);
 }
 
 char *exception_messages[] = {
@@ -125,16 +155,34 @@ char *exception_messages[] = {
 };
 
 void fault_handler(struct regs *r) {
-	if (r->int_no < 32)
-	{
-		if (r->int_no == 2) {
-			printf("NMI exception:\nPort a: 0x%d\nPort b: 0x%d", retrive_nmi_data_a(), retrive_nmi_data_b());
+
+	
+	if (r->int_no < 32)	{
+
+		//lets get the current process
+		proc_control_block current_proc = task_queue[0];
+
+		//lets check if the entry is null because if it is we have to panic
+		if (current_proc.entry_point == NULL) {
+			panic("Kernel triggered a exception", r->int_no);
 		} else {
+			//a process triggered a exception
 			putstr(exception_messages[r->int_no], COLOR_RED, COLOR_BLK);
 			putstr(" Exception.\n", COLOR_RED, COLOR_BLK);
-			
+
+			//lets skip to next process
+			//lets destory the current process
+			proc_destroy(current_proc.id);
+
+			//lets slide down the process pool
+			//lets slide it down!
+			for (int i = 0; i < 10; i++) {
+				task_queue[i] = task_queue[i + 1];
+			}
+
+			//now lets recall the schedualer
+			proc_scheduler();
 		}
-		for(;;);
 
 	}
 }

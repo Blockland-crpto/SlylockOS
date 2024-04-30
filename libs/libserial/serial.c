@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <libvga.h>
-#include <drivers/isr.h>
+#include <libdmgctrl.h>
 #include <drivers/irq.h>
 #include <libmodule.h>
 #include <libssp.h>

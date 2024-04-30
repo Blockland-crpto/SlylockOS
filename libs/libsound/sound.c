@@ -24,7 +24,7 @@
 #include <libmodule.h>
 #include <libmem.h>
 #include <system/types.h>
-#include <drivers/isr.h>
+#include <libdmgctrl.h>
 #include <drivers/irq.h>
 
 //sound handler function
