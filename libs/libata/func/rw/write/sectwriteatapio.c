@@ -1,4 +1,26 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
+//contains AbridOS code
 #include <libata.h>
+#include <libacpi.h>
 #include <libports.h>
 #include <system/types.h>
 #include <libssp.h>
@@ -40,4 +62,13 @@ void sect_write_atapio(uint64_t LBA, uint16_t sector_count, uint32_t* bytes, ata
 	//flush the cache
 	//this needs to be done on some harddrives to prevent bad sectors
 	outb(IO_PORT_COMMAND, CACHE_FLUSH_CMD);
+
+	//lets wait
+	wait_ata_bsy();
+
+	//after were done lets check the power mode
+	if (PREFERED_PM_PROFILE == 2 || PREFERED_PM_PROFILE == 8) {
+		//then we need to put the device in standby mode
+		ata_standby();
+	}
 }

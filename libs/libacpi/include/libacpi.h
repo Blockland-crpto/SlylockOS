@@ -133,17 +133,16 @@ extern "C" {
 		int8_t Reserved2;
 		unsigned long Flags;
 	
-		/* GAS Register for RESET */
-		struct {
-			int8_t Reset_address_space_id;
-			int8_t Reset_register_bit_width;
-			int8_t Reset_register_bit_offset;
-			int8_t Reset_access_size;
-			uint64_t Reset_reg_address;
-		};
+		/* GAS Register for RESET start */
+		int8_t Reset_address_space_id;
+		int8_t Reset_register_bit_width;
+		int8_t Reset_register_bit_offset;
+		int8_t Reset_access_size;
+		uint64_t Reset_reg_address;
+		/* GAS Register for RESET end */
 
 		int8_t RESET_VALUE;
-		
+		int8_t unneeded[244-131];
 	};
 
 	struct MADT {
