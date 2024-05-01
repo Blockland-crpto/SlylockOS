@@ -28,13 +28,22 @@ extern "C" {
 #endif
 
 	//structure representing a general Address structure
-	typedef struct {
+	struct GAS {
+		int8_t Address_space_id;
+		int8_t Register_bit_width;
+		int8_t Register_bit_offset;
+		int8_t Access_size;
+		uint64_t Register_address;
+	};
+
+	//structure representing a usable GAS
+	struct GAS_usable {
 		int8_t Address_space_id;
 		int8_t Register_bit_width;
 		int8_t Register_bit_offset;
 		int8_t Access_size;
 		uint32_t Register_address;
-	} GAS;
+	};
 	
 	//FADT info
 	int8_t PREFERED_PM_PROFILE;
@@ -70,7 +79,7 @@ extern "C" {
 	int8_t CENTURY;
 	int16_t IAPC_BOOT_ARCH;
 	unsigned long FADT_FLAGS;
-	GAS reset_reg;
+	struct GAS_usable RESET_REG;
 	int8_t reset_value;
 	
 	//ACPI commands
@@ -80,7 +89,18 @@ extern "C" {
 	uint16_t SCI_EN;
 	int8_t CST_CNT;
 
+	unsigned int *acpiCheckRSDPtr(uint32_t *ptr);
+	unsigned int *acpiGetRSDPtr(void);
+	int acpiCheckHeader(uint32_t *ptr, char *sig);
+	int acpiEnable(void);
+	int load_acpi(void);
+	void acpiPowerOff(void);
+	void acpi_init();
+	bool acpiEnabled;
+	
 
+	//saw this in linux kernel, figured we should do the same
+	#pragma pack(1)
 	
 	struct RSDPtr {
 		int8_t Signature[8];
@@ -132,15 +152,7 @@ extern "C" {
 		int16_t IAPC_BOOT_ARCH;
 		int8_t Reserved2;
 		unsigned long Flags;
-	
-		/* GAS Register for RESET start */
-		int8_t Reset_address_space_id;
-		int8_t Reset_register_bit_width;
-		int8_t Reset_register_bit_offset;
-		int8_t Reset_access_size;
-		uint64_t Reset_reg_address;
-		/* GAS Register for RESET end */
-
+		struct GAS reset_reg;
 		int8_t RESET_VALUE;
 		int8_t unneeded[244-131];
 	};
@@ -154,14 +166,7 @@ extern "C" {
 	   	uint32_t localApicAddr;
 	};
 
-	unsigned int *acpiCheckRSDPtr(uint32_t *ptr);
-	unsigned int *acpiGetRSDPtr(void);
-	int acpiCheckHeader(uint32_t *ptr, char *sig);
-	int acpiEnable(void);
-	int load_acpi(void);
-	void acpiPowerOff(void);
-	void acpi_init();
-	bool acpiEnabled;
+
 
 
 #if defined(__cplusplus)

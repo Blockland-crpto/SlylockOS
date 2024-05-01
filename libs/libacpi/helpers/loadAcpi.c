@@ -106,14 +106,13 @@ int load_acpi(void) {
 							FADT_FLAGS = facp->Flags;
 
 							//next we need to see if the reset register is memory mapped because if its not, we are definateley required to mask off the 64 bit stuff
-							uint64_t reset_reg_64 = facp->Reset_reg_address;
-							reset_reg.Register_address = (uint32_t)(reset_reg_64 & 0xFFFFFFFF);
+							RESET_REG.Register_address = (uint32_t)facp->reset_reg.Register_address;
 
 							//now lets get the rest
-							reset_reg.Address_space_id = facp->Reset_address_space_id;
-							reset_reg.Register_bit_width = facp->Reset_register_bit_width;
-							reset_reg.Register_bit_offset = facp->Reset_register_bit_offset;
-							reset_reg.Access_size = facp->Reset_access_size;
+							RESET_REG.Address_space_id = facp->reset_reg.Address_space_id;
+							RESET_REG.Register_bit_width = facp->reset_reg.Register_bit_width;
+							RESET_REG.Register_bit_offset = facp->reset_reg.Register_bit_offset;
+							RESET_REG.Access_size = facp->reset_reg.Access_size;
 
 							reset_value = facp->RESET_VALUE;
 
