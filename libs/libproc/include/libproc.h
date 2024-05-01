@@ -30,6 +30,8 @@
 #define PROC_PRIORITY_HIGH 0
 #define PROC_PRIORITY_LOW 1
 
+#define KERNEL_PROC_ID 11
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -38,6 +40,9 @@ extern "C" {
 	typedef struct {
 		//process id
 		int id;
+
+		//parent proccess id
+		int parent_id;
 
 		//entry point
 		int (*entry_point)();
@@ -56,13 +61,28 @@ extern "C" {
 
 		//memory delegated
 		size_t memory_delegated;
+
+		//subprocesses delegated
+		size_t subprocesses_delegated;
+
+		//subprocesses active
+		size_t subprocesses_active;
+
+		//process allocations
+		size_t heap_allocations_used;
+	
+		//heap allocations
+		void* heap_allocations[100];
+
+		//ACPI permissions
+		bool acpi_allowed;
 	} proc_control_block;
 
 	//taskqueue
 	proc_control_block task_queue[10];
 
 	//function to create a task to task queue
-	void proc_create(int (*entry_point)(), int priority);
+	void proc_create(int (*entry_point)(), int priority, int parent);
 
 	//function to destroy a task from task queue
 	void proc_destroy(int id);

@@ -4,17 +4,17 @@
 #include <libproc.h>
 #include <libssp.h>
 
-static mem_control_block emcb;
-
 void free(void *ptr) {
-	//lets first get the value of the heap amount for the proccess
+	//lets first get the process
 	proc_control_block current_task = task_queue[0];
 
-	//here it is
-	int heap_used = current_task.heap_used;
-	
-	mem_control_block *mcb;
-	mcb = ptr - asizeof(emcb);
-	current_task.heap_used = heap_used - mcb->size;
-	kfree(ptr);
+	//lets compare addresses 
+	for (int i = 0; i <= current_task.heap_allocations_used; i++) {
+		if (current_task.heap_allocations[i] == ptr) {
+			//lets free it
+			current_task.heap_allocations[i] = NULL;
+			kfree(ptr);
+			return;
+		}
+	}
 }

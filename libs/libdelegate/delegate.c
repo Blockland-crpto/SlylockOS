@@ -25,6 +25,7 @@
 
 #define STORAGE_DEMAND_THRESHOLD 102400
 #define MEMORY_DEMAND_THRESHOLD 102400
+#define SUBPROCS_DEMAND_THRESHOLD 5
 
 //function to initiate the delegate
 void delegate_init() {
@@ -72,6 +73,27 @@ int delegate_request(enum resource_type type, proc_control_block* proc, size_t a
 				return 0;
 			}
 		}
-			
+		//if its a process request
+		case RESOURCE_SUBPROCS: {
+			//has it reached its subprocesses threshold?
+			if (proc->subprocesses_delegated + amount >= SUBPROCS_DEMAND_THRESHOLD) {
+				//oops! we need to ask user if this is OK
+				//todo:
+				return 1;
+			} else {
+				//its okay
+				proc->subprocesses_delegated += amount;
+
+				//exit
+				return 0;
+			}
+		}
+		//if its an acpi request
+		case RESOURCE_ACPI: {
+			//oops! we need to ask user if this is OK
+			//todo:
+			return 1;
+		}
+		
 	}
 }

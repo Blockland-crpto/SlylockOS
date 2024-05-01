@@ -64,3 +64,10 @@ void *kalloc(long numbytes) {
 	memory_location = memory_location + asizeof(pmcb);
 	return memory_location;
 }
+
+void kfree(void *firstbyte) {
+	mem_control_block *mcb;
+	mcb = firstbyte - asizeof(pmcb);
+	mcb->is_available = 1;
+	return;
+}

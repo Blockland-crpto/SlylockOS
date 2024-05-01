@@ -26,7 +26,9 @@
 
 enum resource_type {
 	RESOURCE_MEMORY = 0,
-	RESOURCE_STORAGE = 1
+	RESOURCE_STORAGE = 1,
+	RESOURCE_SUBPROCS = 2,
+	RESOURCE_ACPI = 3,
 };
 
 #if defined(__cplusplus)

@@ -20,12 +20,19 @@ void *malloc(size_t numbytes) {
 		//did it return successful?
 		if (request_result == 0) {
 			current_task.heap_used += numbytes;
-			return kalloc((long)numbytes);
 		} else {
 			return NULL;
 		}
 	} else {
 		current_task.heap_used += numbytes;
-		return kalloc((long)numbytes);
 	}
+
+	//next lets get the kalloc'ed memory
+	void* addr = kalloc((long)numbytes);
+
+	//next lets add it to its list
+	current_task.heap_allocations[current_task.heap_allocations_used++] = addr;
+
+	//lets return the address
+	return addr;
 }
