@@ -182,12 +182,20 @@ extern "C" {
 		unsigned long *local_apic_address;
 		unsigned long flags;
 	
-		//Local APIC data
+		//Local APIC data for core 1
 		struct {
 			struct acpi_subheader subheader1;
-			int8_t acpi_processor_id;
-			int8_t apic_id;
+			int8_t acpi_processor_id1;
+			int8_t apic_id1;
 			unsigned long flags1; 
+		};
+
+		//Local APIC data for core 2
+		struct {
+			struct acpi_subheader subheader2;
+			int8_t acpi_processor_id2;
+			int8_t apic_id2;
+			unsigned long flags2; 
 		};
 	};
 

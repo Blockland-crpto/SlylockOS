@@ -151,8 +151,10 @@ int load_acpi(void) {
 				struct MADT *madt = (struct MADT *) *ptr;
 				apic_address = madt->local_apic_address;
 				apic_flags = madt->flags;
-				starting_core_apic_id = madt->apic_id;
+				core_apic_id[0] = madt->apic_id1;
+				core_apic_id[1] = madt->apic_id2;
 				starting_core_apic_flags = madt->flags1;
+				
 				return 0;
 			}
 			ptr++;

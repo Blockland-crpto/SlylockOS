@@ -31,8 +31,9 @@ extern "C" {
 	//MADT informatiom that contains the apic address
 	unsigned long* apic_address;
 	unsigned long apic_flags;
-	int8_t starting_core_apic_id;
+	int8_t core_apic_id[1];
 	unsigned long starting_core_apic_flags;
+	
 	
 	//function to initialize the apic drivers
 	void apic_init();
