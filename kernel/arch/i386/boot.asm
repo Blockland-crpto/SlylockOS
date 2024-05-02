@@ -93,6 +93,7 @@ global _isr28
 global _isr29
 global _isr30
 global _isr31
+global _svi
 
 ;now we'll push the values onto stack just to find which interrupt occured
 ;for example we push 0 for isr0 and 20 for isr20 and so on...
@@ -317,6 +318,13 @@ _isr31:
     push byte 31
     jmp isr_common_stub
 
+; 48: Spurious vector interrupt
+_svi:
+	cli
+	push byte 0
+	push byte 48
+	jmp isr_common_stub
+
 ; now we'll call the external c function fault handler
 extern fault_handler
 
@@ -508,6 +516,8 @@ irq_common_stub:
     popa
     add esp, 8
     iret
+
+
 
 global run_external
 run_external:

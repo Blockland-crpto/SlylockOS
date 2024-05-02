@@ -61,6 +61,7 @@ extern void _isr28();
 extern void _isr29();
 extern void _isr30();
 extern void _isr31();
+extern void _svi();
 
 void isr_install() {
 
@@ -99,7 +100,7 @@ void isr_install() {
 	idt_set_gate(29, (unsigned)_isr29, 0x08, 0x8E);
 	idt_set_gate(30, (unsigned)_isr30, 0x08, 0x8E);
 	idt_set_gate(31, (unsigned)_isr31, 0x08, 0x8E);
-	 
+	idt_set_gate(47, (unsigned)_svi, 0x08, 0x8E);
 }
 
 //function to initate damage control
@@ -184,5 +185,9 @@ void fault_handler(struct regs *r) {
 			proc_scheduler();
 		}
 
+	} else if (r->int_no == 48) {
+		//oop
+		putstr("Spurious vector interrupt", COLOR_RED, COLOR_BLK);
+		putstr(" Exception.\n", COLOR_RED, COLOR_BLK);
 	}
 }

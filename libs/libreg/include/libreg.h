@@ -18,39 +18,27 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libapic.h>
-#include <libmodule.h>
+#ifndef __LIBMSR_H__
+#define __LIBMSR_H__
+
 #include <system/types.h>
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
+	//functions based off osdev.org for handling model specific registers (MSRs)
+	//function to check if a computer has MSRs
+	bool cpu_has_msr();
 
-// function to initalize the APIC driver
-void apic_init() {
-	module_t modules_apic = MODULE("kernel.modules.apic", "Provides APIC support for the kernel");
+	//function to get a MSR
+	void cpu_get_msr(uint32_t msr, uint32_t* lo, uint32_t* hi);
 
-	//let the apic initalization begin!
-	INIT(modules_apic);
+	//function to set a MSR
+	void cpu_set_msr(uint32_t msr, uint32_t lo, uint32_t hi);
 
-	//todo: implement apic driver
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
 
-	//apic should already be enabled if its present, SlyLock didn't modify it!
-
-	//lets get the bits we need
-	volatile uint8_t spurious_interrupt = 0x10000030;
-
-	//lets get the current status of the spurious interrupt
-	volatile uint32_t* base = (uint32_t*)0xfee00000;
-	volatile uint32_t offset = 0xf0;
-	volatile uint32_t* svr = base + offset;
-
-	//lets see it!
-	volatile uint32_t start_svr = svr;
-	start_svr |= spurious_interrupt;
-	
-	//lets set the spurious interrupt register
-	svr = start_svr;
-
-	
-	
-	DONE(modules_apic);
-}
+#endif

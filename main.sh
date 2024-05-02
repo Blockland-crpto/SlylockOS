@@ -16,8 +16,10 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libmouse/include
 						-I./libs/libmultiboot/include
 						-I./libs/libpci/include
+						-I./libs/libpic/include
 						-I./libs/libports/include
 						-I./libs/libproc/include
+						-I./libs/libreg/include
 						-I./libs/librtc/include
 						-I./libs/libserial/include
 						-I./libs/libsound/include
@@ -44,8 +46,10 @@ export optimize=$(echo "-Og -g")
 ./build/libmouse_build.sh
 ./build/libmultiboot_build.sh
 ./build/libpci_build.sh
+./build/libpic_build.sh
 ./build/libports_build.sh
 ./build/libproc_build.sh
+./build/libreg_build.sh
 ./build/librtc_build.sh
 ./build/libserial_build.sh
 ./build/libsound_build.sh
@@ -93,9 +97,6 @@ g++ -m32 -elf_i386 $optimize $headers -ffreestanding -O2 -Wall -Wextra -fno-exce
 
 done
 objbp="${objbp:1}"
-
-
-
 
 
 gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin $debug $headers -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c

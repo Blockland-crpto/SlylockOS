@@ -38,6 +38,7 @@
 #include <libmultiboot.h>
 #include <libmouse.h>
 #include <libpci.h>
+#include <libpic.h>
 #include <libports.h>
 #include <libproc.h>
 #include <librtc.h>
@@ -75,13 +76,15 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	
   	irq_install();
 
-	timer_install();
-	
-	serial_init();
-	
 	acpi_init();
 
+	pic_init();
+	
 	apic_init();
+
+	timer_install();
+
+	serial_init();
 	
   	ata_init();
 
