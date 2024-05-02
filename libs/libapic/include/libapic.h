@@ -22,10 +22,18 @@
 #ifndef __LIBAPIC_H__
 #define __LIBAPIC_H__
 
+#include <system/types.h>
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
+	//MADT informatiom that contains the apic address
+	unsigned long* apic_address;
+	unsigned long apic_flags;
+	int8_t starting_core_apic_id;
+	unsigned long starting_core_apic_flags;
+	
 	//function to initialize the apic drivers
 	void apic_init();
 	

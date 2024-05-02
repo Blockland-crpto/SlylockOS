@@ -19,6 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libacpi.h>
+#include <libapic.h>
 #include <libmem.h>
 #include <libmodule.h>
 #include <libports.h>
@@ -121,7 +122,7 @@ int load_acpi(void) {
 
 							//slog("PM profile %d", (int)PREFERED_PM_PROFILE);
 
-							return 0;
+							break;
 						} else {
 							//unable to parse S5
 							panic("_S5 parse error.", ACPI_ERROR);
@@ -136,6 +137,27 @@ int load_acpi(void) {
 			}
 			ptr++;
 		}
+
+		//next lets find MADT
+		ptr = acpiGetRSDPtr();
+		entrys = *(ptr + 1);
+		entrys = (entrys-36) /4;
+		ptr += 36/4;   // skip header information
+
+		while (0<entrys--) {
+			//check if the desired table is reached
+			if (acpiCheckHeader((uint32_t *) *ptr, "APIC") == 0) {
+				entrys = -2;
+				struct MADT *madt = (struct MADT *) *ptr;
+				apic_address = madt->local_apic_address;
+				apic_flags = madt->flags;
+				starting_core_apic_id = madt->apic_id;
+				starting_core_apic_flags = madt->flags1;
+				return 0;
+			}
+			ptr++;
+		}
+		
 		panic("acpi table not found.\n", ACPI_ERROR);
 	} else {
 		kprintf("no acpi.\n");

@@ -79,6 +79,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	
 	serial_init();
 	
+	acpi_init();
+
 	apic_init();
 	
   	ata_init();
@@ -86,8 +88,6 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	nmi_init();
 
   	pci_init();
-	
-	acpi_init();
 	
 	kalloc_init();
 		

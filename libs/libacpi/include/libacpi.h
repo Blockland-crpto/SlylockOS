@@ -58,6 +58,12 @@ extern "C" {
 		int8_t Creator_id[4];
 		unsigned long Creator_revision;
 	};
+
+	//structure representing a ACPI subtable header
+	struct acpi_subheader {
+		int8_t type;
+		int8_t length;
+	};
 	
 	//FADT info
 	int8_t PREFERED_PM_PROFILE;
@@ -173,7 +179,16 @@ extern "C" {
 
 	struct MADT {
 		struct acpi_header header;
-		
+		unsigned long *local_apic_address;
+		unsigned long flags;
+	
+		//Local APIC data
+		struct {
+			struct acpi_subheader subheader1;
+			int8_t acpi_processor_id;
+			int8_t apic_id;
+			unsigned long flags1; 
+		};
 	};
 
 
