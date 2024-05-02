@@ -36,6 +36,7 @@ extern "C" {
 		uint64_t Register_address;
 	};
 
+
 	//structure representing a usable GAS
 	struct GAS_usable {
 		int8_t Address_space_id;
@@ -43,6 +44,19 @@ extern "C" {
 		int8_t Register_bit_offset;
 		int8_t Access_size;
 		uint32_t Register_address;
+	};
+
+	//structure representing a ACPI header
+	struct acpi_header {
+		int8_t Signature[4];
+		unsigned long Length;
+		int8_t Revision;
+		int8_t Checksum;
+		int8_t Oem_id[6];
+		int8_t Oem_table_id[8];
+		unsigned long Oem_revision;
+		int8_t Creator_id[4];
+		unsigned long Creator_revision;
 	};
 	
 	//FADT info
@@ -101,6 +115,8 @@ extern "C" {
 
 	//saw this in linux kernel, figured we should do the same
 	#pragma pack(1)
+
+	
 	
 	struct RSDPtr {
 		int8_t Signature[8];
@@ -111,9 +127,7 @@ extern "C" {
 	};
 	
 	struct FACP {
-		int8_t Signature[4];
-	   	unsigned long Length;
-		int8_t unneded1[36 - 8];
+		struct acpi_header header;
 	   	unsigned long *FIRMWARE_CTRL;
 	   	unsigned long *DSDT;
 		int8_t reserved;
@@ -158,12 +172,8 @@ extern "C" {
 	};
 
 	struct MADT {
-		int8_t Signature[4];
-	   	unsigned long Length;
-		int8_t Revision;
-		int8_t CheckSum;
-		int8_t OemID[6];
-	   	uint32_t localApicAddr;
+		struct acpi_header header;
+		
 	};
 
 
