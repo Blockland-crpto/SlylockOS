@@ -18,33 +18,45 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-
-#ifndef __LIBAPIC_H__
-#define __LIBAPIC_H__
+#ifndef __LIBDEVMGR_H__
+#define __LIBDEVMGR_H__
 
 #include <system/types.h>
+
+enum device_type {
+	DEVICE_TYPE_ISA = 0,
+	DEVICE_TYPE_PCI = 1,
+	DEVICE_TYPE_CMOS = 2,
+	DEVICE_TYPE_8042 = 3,
+	DEVICE_TYPE_VGA = 4,
+	DEVICE_TYPE_MSI = 5,
+};
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
-	//MADT informatiom that contains the apic address
-	unsigned long* apic_address;
-	unsigned long apic_flags;
-	int8_t core_apic_id;
-	unsigned long starting_core_apic_flags;
+	//a IA_BOOT_ARCH parsed object
+	typedef struct {
+		bool isa_supported;
+		bool ctrler_8042_supported;
+		bool vga_present;
+		bool msi_unsupported;
+		bool pcie_ctrls_supported;
+		bool cmos_not_present;
+	} ia_boot_arch_t;
 
-	//io apic info
-	unsigned long ioapic_addr;
-	unsigned long gsi_base; //Global system interrupt base
+	//the current boot configuration
+	ia_boot_arch_t boot_cfg;
 	
-	//function to initialize the apic drivers
-	void apic_init();
-	
+	//Device manager initalization function
+	void devmgr_init();
 
+	//device manager authorization request
+	bool devmgr_authorize_device(enum device_type dev);
+	
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif
-
 
 #endif

@@ -5,6 +5,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libata/include		
 						-I./libs/libdebug/include
 						-I./libs/libdelegate/include
+						-I./libs/libdevmgr/include
 						-I./libs/libdmgctrl/include
 						-I./libs/libexe/include
 						-I./libs/libfs/include
@@ -35,6 +36,7 @@ export optimize=$(echo "-Og -g")
 ./build/libata_build.sh
 ./build/libdebug_build.sh
 ./build/libdelegate_build.sh
+./build/libdevmgr_build.sh
 ./build/libdmgctrl_build.sh
 ./build/libexe_build.sh
 ./build/libfs_build.sh

@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <libssp.h>
 #include <libdebug.h>
+#include <libdevmgr.h>
 
 uint32_t config_addr = 0xCF8;
 uint32_t config_data = 0xCFC;
@@ -89,10 +90,16 @@ void pci_scan_bus(uint8_t bus) {
 
 void pci_init() {
 	module_t modules_pci = MODULE("kernel.modules.pci", "Provides PCI support for the kernel (CORE)");
-	INIT(modules_pci);
-	pci_scan_bus(0); // Start scanning from bus 0
-	
 
+	//let the power initalization begin!
+	INIT(modules_pci);
+
+	//lets see if the devmgr has anything to say
+	if(devmgr_authorize_device(DEVICE_TYPE_PCI)) {
+		pci_scan_bus(0); // Start scanning from bus 0
+	}
+
+	//were done!
 	DONE(modules_pci);
 	 
 }

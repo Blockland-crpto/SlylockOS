@@ -22,6 +22,7 @@
 #define __LIBACPI_H__
 
 #include <system/types.h>
+#include <libdevmgr.h>
 
 #if defined(__cplusplus)
 extern "C" {
@@ -116,6 +117,7 @@ extern "C" {
 	int load_acpi(void);
 	void acpiPowerOff(void);
 	void acpi_init();
+	ia_boot_arch_t ia_boot_parser();
 	bool acpiEnabled;
 	
 
@@ -131,23 +133,23 @@ extern "C" {
 		int8_t Revision;
 	  	unsigned long *RsdtAddress;
 	};
-	
+
 	struct FACP {
 		struct acpi_header header;
-	   	unsigned long *FIRMWARE_CTRL;
-	   	unsigned long *DSDT;
+		unsigned long *FIRMWARE_CTRL;
+		unsigned long *DSDT;
 		int8_t reserved;
 		int8_t Preferred_PM_Profile;
 		int16_t SCI_INT;
-	   	unsigned long *SMI_CMD;
-	   	int8_t ACPI_ENABLE;
+		unsigned long *SMI_CMD;
+		int8_t ACPI_ENABLE;
 		int8_t ACPI_DISABLE;
 		int8_t S4BIOS_REQ;
 		int8_t PSTATE_CNT;
 		unsigned long *PM1a_EVT_BLK;
 		unsigned long *PM1b_EVT_BLK;
-	   	unsigned long *PM1a_CNT_BLK;
-	   	unsigned long *PM1b_CNT_BLK;
+		unsigned long *PM1a_CNT_BLK;
+		unsigned long *PM1b_CNT_BLK;
 		unsigned long *PM2_CNT_BLK;
 		unsigned long *PM_TMR_BLK;
 		unsigned long *GPE0_BLK;
@@ -176,7 +178,7 @@ extern "C" {
 		int8_t RESET_VALUE;
 		int8_t unneeded[244-131];
 	};
-
+	
 	struct MADT {
 		struct acpi_header header;
 		unsigned long *local_apic_address;
@@ -184,11 +186,22 @@ extern "C" {
 	
 		//Local APIC data for core 
 		struct {
-			struct acpi_subheader subheader;
+			struct acpi_subheader subheader1;
 			int8_t acpi_processor_id;
 			int8_t lapic_id;
 			unsigned long lflags; 
 		};
+
+		//Input/output APIC data for core
+		struct {
+			struct acpi_subheader subheader2;
+			int8_t io_apic_id;
+			int8_t reserved1;
+			unsigned long io_apic_address;
+			unsigned long global_system_interrupt_base;
+		};
+
+	
 	};
 
 

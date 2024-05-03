@@ -23,6 +23,7 @@
 #include <libmem.h>
 #include <libmodule.h>
 #include <libports.h>
+#include <libdevmgr.h>
 #include <system/types.h>
 #include <libvga.h>
 #include <libdebug.h>
@@ -148,11 +149,16 @@ int load_acpi(void) {
 			//check if the desired table is reached
 			if (acpiCheckHeader((uint32_t *) *ptr, "APIC") == 0) {
 				entrys = -2;
+				//FIXME: this section is fricken unreadable, that needs to be fixed
 				struct MADT *madt = (struct MADT *) *ptr;
 				apic_address = madt->local_apic_address;
 				apic_flags = madt->flags;
 				core_apic_id = madt->lapic_id;
 				starting_core_apic_flags = madt->lflags;
+
+				//lets get I/O apic info
+				ioapic_addr = madt->io_apic_address;
+				gsi_base = madt->global_system_interrupt_base;
 				
 				return 0;
 			}
@@ -164,4 +170,55 @@ int load_acpi(void) {
 		kprintf("no acpi.\n");
 	}
 	return -1;
+}
+
+//function to parse the IA boot flags parser
+ia_boot_arch_t ia_boot_parser() {
+
+	//our future return value
+	ia_boot_arch_t ret;
+
+	//get the boot flags
+	int16_t boot_flags = IAPC_BOOT_ARCH;
+
+	//variable used as buffer to compare
+	int16_t compare;
+
+	//iterate over the boot flags
+	for (int i = 0; i < 6; i++) {
+		//lets compare
+		compare = boot_flags & (1 << i);
+
+		//switch!
+		switch (i) {
+			case 0: {
+				ret.isa_supported = (compare & (1 << i)) ? true : false;
+				break;
+			}
+			case 1: {
+				ret.ctrler_8042_supported = (compare & (1 << i)) ? true : false;
+				break;
+			}
+			case 2: {
+				ret.vga_present = (compare & (0 << i)) ? true : false;
+				break;
+			}
+			case 3: {
+				ret.msi_unsupported = (compare & (1 << i)) ? true : false;
+				break;
+			}
+			case 4: {
+				ret.pcie_ctrls_supported = (compare & (1 << i)) ? true : false;
+				break;
+			}
+			case 5: {
+				ret.cmos_not_present = (compare & (1 << i)) ? true : false;
+				break;
+			}
+			default: {
+				//shouldn't do this...
+				break;
+			}
+		}
+	}
 }

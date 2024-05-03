@@ -39,7 +39,7 @@ void apic_init() {
 	volatile uint8_t spurious_interrupt = 0x10000030;
 
 	//lets get the current status of the spurious interrupt
-	volatile uint32_t* base = (uint32_t*)0xfee00000;
+	volatile uint32_t* base = (uint32_t*)apic_address;
 	volatile uint32_t offset = 0xf0;
 	volatile uint32_t* svr = base + offset;
 
