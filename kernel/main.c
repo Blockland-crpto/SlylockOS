@@ -112,7 +112,6 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 
 	__asm__ __volatile__("sti");
 
-	
 	proc_scheduler();
 
   	return 0;

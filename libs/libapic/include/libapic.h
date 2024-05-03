@@ -31,7 +31,7 @@ extern "C" {
 	//MADT informatiom that contains the apic address
 	unsigned long* apic_address;
 	unsigned long apic_flags;
-	int8_t core_apic_id[1];
+	int8_t core_apic_id;
 	unsigned long starting_core_apic_flags;
 	
 	
