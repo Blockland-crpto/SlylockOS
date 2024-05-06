@@ -22,6 +22,7 @@
 #include <libmem.h>
 #include <libmodule.h>
 #include <libports.h>
+#include <libproc.h>
 #include <system/types.h>
 #include <libvga.h>
 #include <libdebug.h>
@@ -30,7 +31,23 @@
 #include <libssp.h>
 
 
+//function to check if the ACPI header is valid
 int acpiCheckHeader(uint32_t *ptr, char *sig) {
+
+	//lets check if a process initiated the request
+	//processes are not allowed to initiate the request
+	//as its a kernel only function
+	if (task_queue[0].entry_point != NULL) {
+		//oops a process initiated the request! we gotta kill the process!
+		proc_kill();
+	}
+
+	//lets validate the input
+	if (ptr == NULL || sig == NULL) {
+		//if its invalid, we need to panic
+		panic("invalid input for acpi check header", ACPI_ERROR);
+	}
+	
 	if (memcmp(ptr, sig, 4) == 0) {
 		char *checkPtr = (char *) ptr;
 		int len = *(ptr + 1);

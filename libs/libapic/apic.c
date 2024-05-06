@@ -31,8 +31,6 @@ void apic_init() {
 	//let the apic initalization begin!
 	INIT(modules_apic);
 
-	//todo: implement apic driver
-
 	//apic should already be enabled if its present, SlyLock didn't modify it!
 
 	//lets get the bits we need
@@ -49,8 +47,6 @@ void apic_init() {
 	
 	//lets set the spurious interrupt register
 	svr = start_svr;
-
-	
 	
 	DONE(modules_apic);
 }

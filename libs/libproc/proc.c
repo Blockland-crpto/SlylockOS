@@ -34,7 +34,7 @@ void proc_create(int (*entry_point)(), int priority, int parent) {
 	}
 
 	//lets validate the parent id
-	if (parent > 11 || parent < 0) {
+	if (parent > MAX_PROCS_QUEUED+1 || parent < 0) {
 		//exit invalid parent id
 		return;
 	}
@@ -54,13 +54,13 @@ void proc_create(int (*entry_point)(), int priority, int parent) {
 	//kalloc(128);
 
 	//lets find a free slot dynamicly
-	for (int i = 0; i <= 10; i++) {
+	for (int i = 0; i <= MAX_PROCS_QUEUED; i++) {
 		if (task_queue[i].entry_point == NULL) {
 			//use this slot
 			task_count = i;
 			break;
 		}
-		if (i == 10) {
+		if (i == MAX_PROCS_QUEUED) {
 			//no free slot
 			panic("no more proc space", 10);
 		}
@@ -95,7 +95,7 @@ void proc_destroy(int id) {
 	}
 
 	//lets destroy its subprocesses
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < MAX_PROCS_QUEUED; i++) {
 		if (task_queue[i].parent_id == id) {
 			//lets destroy this process
 			task_queue[id].entry_point = NULL;
@@ -109,14 +109,33 @@ void proc_destroy(int id) {
 	
 	//now lets slide things down
 	for (int i = 0; i < task_queue[id].subprocesses_active; i++) {
-		for (int j = id; j < 10; j++) {
+		for (int j = id; j < MAX_PROCS_QUEUED; j++) {
 			task_queue[j] = task_queue[j + 1];
 		}
 	}
 }
 
+//function to kill the current task
+void proc_kill() {
+	//lets get the current process
+	proc_control_block current_proc = task_queue[0];
+	
+	//lets skip to next process
+	//lets destory the current process
+	proc_destroy(current_proc.id);
+
+	//lets slide down the process pool
+	//lets slide it down!
+	for (int i = 0; i < MAX_PROCS_QUEUED; i++) {
+		task_queue[i] = task_queue[i + 1];
+	}
+
+	//now lets recall the schedualer
+	proc_scheduler();
+}
+
 //the SlyLockOS process scheduler
-void proc_scheduler() {
+__attribute__ ((noreturn)) void proc_scheduler() {
 	static bool initalized;
 	if (!initalized) {
 		module_t modules_proc = MODULE("kernel.modules.proc", "task scheduler for the kernel (CORE)");
@@ -151,7 +170,7 @@ void proc_scheduler() {
 		}
 		
 		//lets slide it down!
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < MAX_PROCS_QUEUED; i++) {
 			task_queue[i] = task_queue[i + 1];
 		}
 

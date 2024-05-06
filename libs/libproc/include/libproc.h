@@ -26,11 +26,14 @@
 #define PROC_STATUS_READY 0
 #define PROC_STATUS_RUNNING 1
 #define PROC_STATUS_ABORTED 2
+#define PROC_STATUS_FROZEN 3
 
 #define PROC_PRIORITY_HIGH 0
 #define PROC_PRIORITY_LOW 1
 
-#define KERNEL_PROC_ID 11
+#define MAX_PROCS_QUEUED 10
+
+#define KERNEL_PROC_ID (MAX_PROCS_QUEUED + 1)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -79,16 +82,19 @@ extern "C" {
 	} proc_control_block;
 
 	//taskqueue
-	proc_control_block task_queue[10];
+	proc_control_block task_queue[MAX_PROCS_QUEUED];
 
 	//function to create a task to task queue
 	void proc_create(int (*entry_point)(), int priority, int parent);
 
 	//function to destroy a task from task queue
 	void proc_destroy(int id);
+
+	//function to kill the current task
+	void proc_kill();
 	
-	//schedualer
-	void proc_scheduler();
+	//scheduler
+	__attribute__ ((noreturn)) void proc_scheduler();
 
 	
 
