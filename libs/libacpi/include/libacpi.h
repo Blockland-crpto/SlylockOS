@@ -127,8 +127,6 @@ extern "C" {
 
 	//saw this in linux kernel, figured we should do the same
 	#pragma pack(1)
-
-	
 	
 	struct RSDPtr {
 		int8_t Signature[8];
@@ -182,6 +180,13 @@ extern "C" {
 		int8_t RESET_VALUE;
 		int8_t unneeded[244-131];
 	};
+
+	struct FACS {
+		int8_t Signature[4];
+		unsigned long Length;
+		int8_t Hardware_signature[4];
+		unsigned long* Firmware_waking_vector;
+	};
 	
 	struct MADT {
 		struct acpi_header header;
@@ -217,12 +222,6 @@ extern "C" {
 	
 	};
 
-	struct SBST {
-		struct acpi_header header;
-		unsigned long warning_energy_lvl;
-		unsigned long low_energy_lvl;
-		unsigned long critical_energy_lvl;
-	};
 
 
 #if defined(__cplusplus)

@@ -23,6 +23,7 @@
 #include <libmem.h>
 #include <libmodule.h>
 #include <libports.h>
+#include <libpower.h>
 #include <libdevmgr.h>
 #include <system/types.h>
 #include <libvga.h>
@@ -46,6 +47,8 @@ int load_acpi(void) {
 			if (acpiCheckHeader((uint32_t *) *ptr, "FACP") == 0) {
 				entrys = -2;
 				struct FACP *facp = (struct FACP *) *ptr;
+
+				//lets get the DSDT
 				if (acpiCheckHeader((uint32_t *) facp->DSDT, "DSDT") == 0) {
 					// search the \_S5 package in the DSDT
 					char *S5Addr = (char *) facp->DSDT +36; // skip header
@@ -134,6 +137,14 @@ int load_acpi(void) {
 					}
 				} else {
 					panic("DSDT parse error.", ACPI_ERROR);
+				}
+
+				//lets get the FACS
+				if (acpiCheckHeader((uint32_t *) facp->FIRMWARE_CTRL, "FACS") == 0) {
+					struct FACS *facs = (struct FACS *) facp->FIRMWARE_CTRL;
+
+					//we need to report to libpower the firmware waking vector
+					FWV = facs->Firmware_waking_vector;
 				}
 			}
 			ptr++;

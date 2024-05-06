@@ -41,6 +41,7 @@
 #include <libpci.h>
 #include <libpic.h>
 #include <libports.h>
+#include <libpower.h>
 #include <libproc.h>
 #include <librtc.h>
 #include <libserial.h>
@@ -83,6 +84,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	
 	apic_init();
 
+	power_init();
+	
 	devmgr_init();
 	
 	timer_install();
