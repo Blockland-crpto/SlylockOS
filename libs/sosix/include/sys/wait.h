@@ -21,13 +21,16 @@
 #ifndef __SYS_WAIT_H__
 #define __SYS_WAIT_H__
 
-#define WEXITSTATUS(status) (((status) & 0xff00) >> 8)
-#define WIFEXITED(status) (((status) & 0x7f) == 0)
-#define WIFSIGNALED(status) (((status) & 0x7f) && !WIFSTOPPED(status))
-#define WIFSTOPPED(status) (((status) & 0xff) == 0x7f)
+#include <libproc.h>
+#include <system/types.h>
+
+#define WEXITSTATUS(status) (status)
+#define WIFEXITED(status) (status == NULL)
+#define WIFSIGNALED(status) (true)
+#define WIFSTOPPED(status) (status == PROC_STATUS_YIELDED)
 #define WNOHANG 1
-#define WSTOPSIG(status) (((status) & 0xff00) >> 8)
-#define WTERMSIG(status) (((status) & 0x7f))
+#define WSTOPSIG(status) (status)
+#define WTERMSIG(status) (status)
 #define WUNTRACED 2
 
 #endif

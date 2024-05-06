@@ -45,7 +45,7 @@ extern "C" {
 		bool pcie_ctrls_supported;
 		bool cmos_not_present;
 	} ia_boot_arch_t;
-
+	
 	//the current boot configuration
 	ia_boot_arch_t boot_cfg;
 	
@@ -54,6 +54,8 @@ extern "C" {
 
 	//device manager authorization request
 	bool devmgr_authorize_device(enum device_type dev);
+
+	//
 	
 #if defined(__cplusplus)
 } /* extern "C" */

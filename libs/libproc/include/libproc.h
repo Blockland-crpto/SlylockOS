@@ -26,7 +26,7 @@
 #define PROC_STATUS_READY 0
 #define PROC_STATUS_RUNNING 1
 #define PROC_STATUS_ABORTED 2
-#define PROC_STATUS_FROZEN 3
+#define PROC_STATUS_YIELDED 3
 
 #define PROC_PRIORITY_HIGH 0
 #define PROC_PRIORITY_LOW 1
@@ -90,11 +90,14 @@ extern "C" {
 	//function to destroy a task from task queue
 	void proc_destroy(int id);
 
+	//function to yield a process
+	void proc_yield();
+
 	//function to kill the current task
 	void proc_kill();
 	
 	//scheduler
-	__attribute__ ((noreturn)) void proc_scheduler();
+	void proc_scheduler();
 
 	
 

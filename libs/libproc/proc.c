@@ -134,8 +134,24 @@ void proc_kill() {
 	proc_scheduler();
 }
 
+//function to yield a process
+void proc_yield() {
+	//lets switch process queues
+	proc_control_block current_proc = task_queue[0];
+	proc_control_block next_proc = task_queue[1];
+	task_queue[0] = next_proc;
+	task_queue[1] = current_proc;
+
+	//lets set the process to yielded
+	task_queue[1].status = PROC_STATUS_YIELDED;
+
+	//now lets recall the schedualer
+	proc_scheduler();
+	
+}
+
 //the SlyLockOS process scheduler
-__attribute__ ((noreturn)) void proc_scheduler() {
+void proc_scheduler() {
 	static bool initalized;
 	if (!initalized) {
 		module_t modules_proc = MODULE("kernel.modules.proc", "task scheduler for the kernel (CORE)");
@@ -153,6 +169,15 @@ __attribute__ ((noreturn)) void proc_scheduler() {
 			//if yes, lets continue
 			continue;
 		}
+
+		//is the current task yielded?
+		if (current_task.status == PROC_STATUS_YIELDED) {
+			//if yes, we need to break so it can continue
+			break;
+		}
+		
+		//set the task as running
+		current_task.status = PROC_STATUS_RUNNING;
 		
 		//call its entry point
 		int status = current_task.entry_point();

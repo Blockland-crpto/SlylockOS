@@ -145,7 +145,6 @@ extern "C" {
 
 	//TODO: add MBLen, mbtowc, mbstowcs
 
-
 	//mkdtemp implementation
 	char *mkdtemp(char *temp);
 	
@@ -157,7 +156,7 @@ extern "C" {
 
 	//strtoll implementation
 	long long strtoll(const char *restrict str, char **restrict endptr, int base);
-	/*
+ 	/*
 	int rand(void);
 	
 	

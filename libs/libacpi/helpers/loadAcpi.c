@@ -159,7 +159,18 @@ int load_acpi(void) {
 				//lets get I/O apic info
 				ioapic_addr = madt->io_apic_address;
 				gsi_base = madt->global_system_interrupt_base;
-				
+
+				//lets get the interrupt override structure
+				//we need to make sure were using the ISA bus
+				//because if were not we need to panic
+				if (madt->bus == 0x1) {
+					//panic!
+					panic("invalid bus type reported by ACPI", ACPI_ERROR);
+				}
+
+				//lets get the actual global system interrupt and other data
+				GLOBAL_SYSTEM_INT = madt->global_system_interrupt;
+				MPS_INTI_FLAGS = madt->inti_flags;
 				return 0;
 			}
 			ptr++;

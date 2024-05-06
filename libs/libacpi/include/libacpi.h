@@ -102,6 +102,10 @@ extern "C" {
 	unsigned long FADT_FLAGS;
 	struct GAS_usable RESET_REG;
 	int8_t reset_value;
+
+	//MADT data
+	int8_t GLOBAL_SYSTEM_INT;
+	int16_t MPS_INTI_FLAGS;
 	
 	//ACPI commands
 	uint16_t SLP_TYPa;
@@ -201,10 +205,24 @@ extern "C" {
 			unsigned long global_system_interrupt_base;
 		};
 
+		//Interrupt source override
+		struct {
+			struct acpi_subheader subheader3;
+			int8_t bus;
+			int8_t source;
+			uint32_t global_system_interrupt;
+			int16_t inti_flags;
+		};
+		
 	
 	};
 
-
+	struct SBST {
+		struct acpi_header header;
+		unsigned long warning_energy_lvl;
+		unsigned long low_energy_lvl;
+		unsigned long critical_energy_lvl;
+	};
 
 
 #if defined(__cplusplus)
