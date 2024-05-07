@@ -1,4 +1,4 @@
-#include <drivers/nmi.h>
+#include <libnmi.h>
 #include <libports.h>
 #include <system/types.h>
 #include <libssp.h>

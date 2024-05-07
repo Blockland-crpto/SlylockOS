@@ -22,16 +22,13 @@
 #include <libapic.h>
 #include <libssp.h>
 #include <libmem.h>
+#include <libnmi.h>
 #include <libpower.h>
 #include <libdebug.h>
 #include <system/types.h>
 
 //function to get the MADT table
-int load_madt(uint32_t* ptr) {
-	int entrys = *(ptr + 1);
-	entrys = (entrys-36) /4;
-	ptr += 36/4;   // skip header information
-
+int load_madt(uint32_t* ptr, int entrys) {
 	while (0<entrys--) {
 		//check if the desired table is reached
 		if (acpiCheckHeader((uint32_t *) *ptr, "APIC") == 0) {
@@ -58,6 +55,9 @@ int load_madt(uint32_t* ptr) {
 			//lets get the actual global system interrupt and other data
 			GLOBAL_SYSTEM_INT = madt->global_system_interrupt;
 			MPS_INTI_FLAGS = madt->inti_flags;
+
+			//lets get the non maskable interrupt source info
+			nmi_source = madt->nmi_global_system_interrupt;
 			return 0;
 		}
 		ptr++;

@@ -18,18 +18,33 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libvga.h>
-#include <libdebug.h>
-#include <libssp.h>
+#ifndef __LIBNMI_H__
+#define __LIBNMI_H__
+
+#include <system/types.h>
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+	
+	
+	void nmi_init();
+
+	bool nmi_enabled;
+
+	void nmi_enable();
+
+	void nmi_disable();
+
+	uint32_t retrive_nmi_data_a();
+	uint32_t retrive_nmi_data_b();
+
+	uint32_t nmi_source;
+	
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
 
 
-void panic(char* reason, int errno) {
-	char* buf;
-	color_screen(3, 3);
-	putstr("KERNEL PANIC HAS OCCURED.\n", COLOR_WHT, COLOR_GRN);
-	putstr("ERROR CODE: 0x", COLOR_LBU, COLOR_GRN);
-	putstr(itoa(errno, buf, 10), COLOR_LBU, COLOR_GRN);
-	putstr("\nREASON: ", COLOR_WHT, COLOR_GRN);
-	putstr(reason, COLOR_LBU, COLOR_GRN);
-	while(1);
-}
+#endif

@@ -24,7 +24,7 @@
 #include <drivers/idt.h>
 #include <libdmgctrl.h>
 #include <libmodule.h>
-#include <drivers/nmi.h>
+#include <libnmi.h>
 #include <libssp.h>
 #include <libdebug.h>
 #include <libproc.h>

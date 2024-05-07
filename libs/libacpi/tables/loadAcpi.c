@@ -42,11 +42,31 @@ int load_acpi(void) {
 	// check if address is correct  ( if acpi is available on this pc )
 	if (ptr != NULL && acpiCheckHeader(ptr, "RSDT") == 0) {
 
-		//lets get the tables
-		int fadt_found = load_fadt(ptr);
-		ptr = acpiGetRSDPtr();
-		int madt_found = load_madt(ptr);
-
+		//table results
+		int fadt_found;
+		int madt_found;
+		
+		//lets loop through the tables
+		for (int i = 0; i < 2; i++) {
+			ptr = acpiGetRSDPtr();
+			
+			// the RSDT contains an unknown number of pointers to acpi tables
+			int entrys = *(ptr + 1);
+			entrys = (entrys-36) /4;
+			ptr += 36/4;   // skip header information
+			
+			//switch through
+			switch(i) {
+				case 1: {
+					madt_found = load_madt(ptr, entrys);
+					break;
+				}
+				case 0: {
+					fadt_found = load_fadt(ptr, entrys);
+					break;
+				}
+			}
+		}
 		
 		//lets check if its okay
 		if (fadt_found == 0 && madt_found == 0) {

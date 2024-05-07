@@ -28,12 +28,7 @@
 
 
 //function to load the FADT
-int load_fadt(uint32_t* ptr) {
-	// the RSDT contains an unknown number of pointers to acpi tables
-	int entrys = *(ptr + 1);
-	entrys = (entrys-36) /4;
-	ptr += 36/4;   // skip header information
-
+int load_fadt(uint32_t* ptr, int entrys) {
 	while (0<entrys--) {
 		// check if the desired table is reached
 		if (acpiCheckHeader((uint32_t *) *ptr, "FACP") == 0) {

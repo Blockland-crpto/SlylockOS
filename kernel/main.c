@@ -25,7 +25,6 @@
 #include <drivers/irq.h>
 #include <drivers/gdt.h>
 #include <drivers/idt.h>
-#include <drivers/nmi.h>
 
 #include <libacpi.h>
 #include <libapic.h>
@@ -38,6 +37,7 @@
 #include <libkeyboard.h>
 #include <libmultiboot.h>
 #include <libmouse.h>
+#include <libnmi.h>
 #include <libpci.h>
 #include <libpic.h>
 #include <libports.h>

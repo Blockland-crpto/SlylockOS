@@ -1,4 +1,3 @@
-
 #include <drivers/gdt.h>
 #include <libvga.h>
 #include <libmodule.h>
@@ -21,8 +20,8 @@ struct gdt_ptr
     unsigned int base;
 } __attribute__((packed));
 
-/* Our GDT, with 3 entries, and finally our special GDT pointer */
-struct gdt_entry gdt[3];
+/* Our GDT, with 5 entries, and finally our special GDT pointer */
+struct gdt_entry gdt[5];
 struct gdt_ptr gp;
 
 /* This is in start.asm. We use this to properly reload
@@ -71,6 +70,15 @@ void gdt_install() {
     *  same as our code segment, but the descriptor type in
     *  this entry's access byte says it's a Data Segment */
     gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
+
+    /* The fourth entry is our usermode code segment */
+    gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF);
+
+    /* the fifth entry is our usermode data segment */
+    gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);
+    
+    /* The sixth entry is our task status segment */
+    gdt_set_gate(5, &gdt[5], sizeof(gdt[5])-1, 0x89, 0x0);
 
     /* Flush out the old GDT and install the new changes! */
     _gdt_flush();

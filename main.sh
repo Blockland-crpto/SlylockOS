@@ -16,6 +16,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libmodule/include
 						-I./libs/libmouse/include
 						-I./libs/libmultiboot/include
+						-I./libs/libnmi/include
 						-I./libs/libpci/include
 						-I./libs/libpic/include
 						-I./libs/libports/include
@@ -48,6 +49,7 @@ export optimize=$(echo "-Og -g")
 ./build/libmodule_build.sh
 ./build/libmouse_build.sh
 ./build/libmultiboot_build.sh
+./build/libnmi_build.sh
 ./build/libpci_build.sh
 ./build/libpic_build.sh
 ./build/libports_build.sh
@@ -149,4 +151,4 @@ objcopy --only-keep-debug kernel.bin kernel.sym
 
 rm -f kernel.bin
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6 -curses
+qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6

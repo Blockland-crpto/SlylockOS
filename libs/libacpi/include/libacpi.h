@@ -219,7 +219,13 @@ extern "C" {
 			int16_t inti_flags;
 		};
 		
-	
+		//Non maskable interrupt source
+		struct {
+			struct acpi_subheader subheader4;
+			int16_t init_flags;
+			uint32_t nmi_global_system_interrupt;
+		};
+		
 	};
 
 
