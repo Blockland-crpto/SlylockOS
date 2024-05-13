@@ -91,8 +91,8 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	uint16_t validity_section = identify_data[53];
 
 	//we should also define some bools to check if the drives sections are valid
-	bool valid_sect_1 = (validity_section & (1 << 1)) ? true : false; // is 64-70 valid?
-	bool valid_sect_2 = (validity_section & (1 << 2)) ? true : false; // is 88 valid?
+	bool valid_sect_1 = ((1 << 1) & validity_section) ? true : false; // is 64-70 valid?
+	bool valid_sect_2 = ((1 << 2) & validity_section) ? true : false; // is 88 valid?
 
 	//lets get the ata specific data
 	if (!drive.atapi_info.is_atapi) {
@@ -156,8 +156,12 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	get_drive_cmd_set_enabled_2(&drive, identify_data);
 	
 	//gets the drive udma support
-	get_drive_udma_support(&drive, identify_data);
-
+	//if the section is valid lets look for udma support
+	if (valid_sect_2) {
+		//lets get the udma support
+		get_drive_udma_support(&drive, identify_data);
+	}
+	
 	//lets get time required for security erase completion
 	drive.time_required_for_security_erase = identify_data[89];
 

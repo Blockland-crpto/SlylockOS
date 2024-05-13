@@ -1,4 +1,4 @@
-#
+#!/bin/bash
 sources=$(find ./libs/sosix/* -type f -name "*.c")
 objects=$(echo ${sources//\.c/.o})
 objb=''
@@ -10,7 +10,12 @@ for i in $(seq 1 $end); do
 ta=$(echo ./sosixbin/$(basename $(echo $objects | cut -d" " -f$i )))
 tb=$(echo $sources | cut -d" " -f$i)
 objb="${objb} ${ta}"
+if [ $tb = "./libs/sosix/stdlib/random/rand.c" ]
+then
+gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin -fno-stack-protector $debug $headers -c -o $ta $tb
+else 
 gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin  -fstack-protector-all $debug $headers -c -o $ta $tb
+fi
 done
 
 cppsources=$(find ./libs/sosix/* -type f -name "*.cpp")

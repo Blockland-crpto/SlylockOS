@@ -27,9 +27,9 @@
 
 //static function to check sse (copied from OSdev.org's apic and modified for sse)
 static int check_sse(void) {
-	unsigned int eax, unused, edx;
+	unsigned int eax = 0, unused = 0, edx = 0;
 	__get_cpuid(1, &eax, &unused, &unused, &edx);
-	return edx & CPUID_FEAT_EDX_SSE;
+	return (edx & CPUID_FEAT_EDX_SSE);
 }
 
 // function to initalize the SSE driver

@@ -55,6 +55,7 @@
 
 //the kernel constructor
 __attribute__ ((constructor)) void init_kernel() {
+	ssp_init();
 	set_cursor_pos(0,0);
 	clear(COLOR_WHT, COLOR_BLK);
 	return;
@@ -119,8 +120,6 @@ int kmain(multiboot_info_t* mb_info, uint32_t magic){
 	delegate_init();
 
 	__asm__ __volatile__("sti");
-
-	slog("core count %d", cpu.core_count);
 	
 	proc_scheduler();
 

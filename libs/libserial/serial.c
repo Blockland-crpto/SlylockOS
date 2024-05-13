@@ -39,7 +39,7 @@ void serial_handler(struct regs *r) {
 
 //serial port writer
 void serial_write_char(int8_t data) {
-	while(inb(COM1 + 5) & 0x20 == 0);
+	while(!(inb(COM1 + 5) & 0x20));
 	outb(COM1, data);
 }
 
@@ -70,7 +70,7 @@ void set_serial_baud(uint8_t level) {
 	outb(COM1_DATA, level_lo);
 
 	//lets find the most significant bit of divisor
-	uint8_t level_hi = level & 0x10000000;
+	uint8_t level_hi = level & (uint8_t)0x10000000;
 
 	//lets send the most significant bit of the divisor to int enable
 	outb(COM1_INT_ENABLE, level_hi);

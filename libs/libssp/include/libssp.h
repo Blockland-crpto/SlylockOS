@@ -31,7 +31,7 @@
 #define STACK_CHK_GUARD 0x595e9fbd94fda766
 #endif
 
-void stack_chk_init(void);
+void ssp_init(void);
 
 __attribute__((noreturn)) void __stack_chk_fail(void);
 __attribute__((noreturn)) void __stack_chk_fail_local(void);

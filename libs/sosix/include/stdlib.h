@@ -156,11 +156,12 @@ extern "C" {
 
 	//strtoll implementation
 	long long strtoll(const char *restrict str, char **restrict endptr, int base);
- 	/*
+
+	//exclusives
 	int rand(void);
-	
-	
 	void srand(unsigned int seed);
+	/*
+	
 	
 	void *realloc(void *ptr, long numbytes);
 	

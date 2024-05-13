@@ -24,8 +24,9 @@
 #include <libdebug.h>
 #include <libssp.h>
 #include <string.h>
+#include <libtimer.h>
 
-uintptr_t __stack_chk_guard = STACK_CHK_GUARD;
+uintptr_t __stack_chk_guard;
 
 
 __attribute__((noreturn)) void __stack_chk_fail(void) {
@@ -38,7 +39,28 @@ __attribute__((noreturn)) void __stack_chk_fail_local(void) {
 
 void __memcpy_chk (void *__restrict__ dest, const void *__restrict__ src, size_t len, size_t slen) {
 	if (len > slen) {
-		panic("Invalid memory access by memcpy, length is bigger then starting length", 10);
+		panic("Invalid memory access by memcpy, length is bigger then starting length", SSP_ERROR);
 	}
-	return memcpy(dest, src, len);
+	memcpy(dest, src, len);
+	return;
+}
+
+void ssp_init() {
+	srand(1492304);
+
+	for (int i = 0; i < 2048; i++) {
+		int rando = rand();
+		srand(rando + i);
+	}
+
+	srand(rand() & 0x7FFFFFFF);
+
+	for (int i = 0; i < 2048; i++) {
+		int rando = rand();
+		srand(rando - i);
+	}
+
+	srand(rand() & 0xA0B2C2D0);
+	
+	__stack_chk_guard = rand();
 }

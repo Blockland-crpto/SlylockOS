@@ -43,15 +43,7 @@ unsigned char get_RTC_register(int reg) {
 
 void read_rtc() {
 	while (get_update_in_progress_flag());  
-	unsigned char century = NULL;
-	unsigned char last_second;
-	unsigned char last_minute;
-	unsigned char last_hour;
-	unsigned char last_day;
-	unsigned char last_month;
-	unsigned char last_year;
-	unsigned char last_century;
-	unsigned char registerB;
+	unsigned char century, last_second, last_minute, last_hour, last_day, last_month, last_year, last_century, registerB;
 
 	// Note: This uses the "read registers until you get the same values twice in a row" technique
 	//       to avoid getting dodgy/inconsistent values due to RTC updates
@@ -66,6 +58,8 @@ void read_rtc() {
 	
 	if(century_register != 0) {
 		century = get_RTC_register(century_register);
+	} else {
+		century = 0;
 	}
 
 	do {

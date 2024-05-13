@@ -2,8 +2,12 @@ iso/
 bin/
 lib/
 
+*.o
+*.a
+*.bin
 *.log
 *.sym
+
 
 .replit
 replt.nix
