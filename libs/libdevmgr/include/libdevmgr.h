@@ -22,6 +22,8 @@
 #define __LIBDEVMGR_H__
 
 #include <system/types.h>
+#include <libapic.h>
+#include <libmouse.h>
 
 enum device_type {
 	DEVICE_TYPE_ISA = 0,
@@ -36,6 +38,23 @@ enum device_type {
 extern "C" {
 #endif
 
+	//a CPU core
+	typedef struct {
+		int corenum;
+		bool enabled;
+		int8_t lapic_id;
+		int8_t acpi_uid;
+		unsigned long lapic_flags;
+	} cpu_core_t;
+
+	//a processor object
+	typedef struct {
+		int core_count;
+		int io_apic_count;
+		cpu_core_t cores[8];
+		io_apic_t ioapics[8];
+	} cpu_t;
+	
 	//a IA_BOOT_ARCH parsed object
 	typedef struct {
 		bool isa_supported;
@@ -48,6 +67,12 @@ extern "C" {
 	
 	//the current boot configuration
 	ia_boot_arch_t boot_cfg;
+	
+	//the current CPU object
+	cpu_t cpu;
+
+	//the current stream
+	mouse_packet_t* mouse_stream;
 	
 	//Device manager initalization function
 	void devmgr_init();

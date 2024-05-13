@@ -102,13 +102,10 @@ fs_node_t *finddir_fs(fs_node_t *node, char *name) {
 
 void filesystem_init() {
 	module_t modules_fs = MODULE("kernel.modules.fs", "Filesystem for the initrd and kernel");
-	char** deps;
-	deps[0] = "kernel.modules.initrd";
+	char* deps[1] = {"kernel.modules.initrd"};
 	DEPS(modules_fs, deps);
 	INIT(modules_fs); 
 	uint32_t initrd_location = *((uint32_t*)mbi->mods_addr);
-   	uint32_t initrd_end = *(uint32_t*)(mbi->mods_addr+4);
-   	uint32_t placement_address = initrd_end;
 	DONE(modules_fs);
 	
 	fs_root = initialise_initrd(initrd_location);

@@ -170,19 +170,9 @@ void fault_handler(struct regs *r) {
 			//a process triggered a exception
 			putstr(exception_messages[r->int_no], COLOR_RED, COLOR_BLK);
 			putstr(" Exception.\n", COLOR_RED, COLOR_BLK);
-
-			//lets skip to next process
-			//lets destory the current process
-			proc_destroy(current_proc.id);
-
-			//lets slide down the process pool
-			//lets slide it down!
-			for (int i = 0; i < 10; i++) {
-				task_queue[i] = task_queue[i + 1];
-			}
-
-			//now lets recall the schedualer
-			proc_scheduler();
+			
+			//good by process
+			proc_kill(current_proc.id);
 		}
 
 	} else if (r->int_no == 48) {

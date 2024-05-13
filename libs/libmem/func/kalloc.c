@@ -68,6 +68,8 @@ void *kalloc(long numbytes) {
 void kfree(void *firstbyte) {
 	mem_control_block *mcb;
 	mcb = firstbyte - asizeof(pmcb);
+	int size = mcb->size;
 	mcb->is_available = 1;
+	memset(mcb, 0, size);
 	return;
 }

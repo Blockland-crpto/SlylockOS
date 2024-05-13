@@ -131,4 +131,5 @@ ia_boot_arch_t ia_boot_parser() {
 			}
 		}
 	}
+	return ret;
 }

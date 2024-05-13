@@ -136,7 +136,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		uint16_t command_check = identify_data[i];
 
 		//first lets see if its valid
-		if ((command_check & (1 << 15)) == 1) {
+		if ((command_check & (1 << 15))) {
 			//its not valid, error out
 			drive.exists = false;
 			return drive;
@@ -174,7 +174,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	uint16_t cable_type = identify_data[93];
 
 	//it a 80-pin cable
-	if ((cable_type & (1 << 11)) == 1) {
+	if ((cable_type & (1 << 11))) {
 		drive.pin80_connector = true;
 	} else {
 		drive.pin80_connector = false;
@@ -187,13 +187,16 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	uint16_t addressable_space_6 = identify_data[103];
 	uint64_t addressable_space_lba48 = ((uint64_t)addressable_space_3 << 48) | ((uint64_t)addressable_space_4 << 32) | ((uint64_t)addressable_space_5 << 16) | addressable_space_6;
 
-	if ((addressable_space_lba48 & 0x00) == 1) {
+	if ((addressable_space_lba48 & 0x00)) {
 		drive.lba48_enabled = false;
 	} else {
 		drive.addressable_space_lba48 = addressable_space_lba48;
 	}
 	
 	drive.exists = true;
-	drive.identify_data_ptr = &identify_data;
+	//lets copy the id data to ata dev t
+	for (int i = 0; i < 256; i++) {
+		drive.identify_data[i] = identify_data[i];
+	}
 	return drive;
 }

@@ -20,6 +20,7 @@
 */
 #include <libdebug.h>
 #include <libvga.h>
+#include <libmem.h>
 #include <libssp.h>
 #include <libserial.h>
 #include <libtimer.h>
@@ -28,14 +29,15 @@
 #include <system/types.h>
 
 
-void panic(char* reason, int errno) {
-	char* buf;
+__attribute__((noreturn)) void panic(char* reason, int errno) {
+	char* buf = (char*)kalloc(256);
 	color_screen(3, 3);
 	putstr("KERNEL PANIC HAS OCCURED.\n", COLOR_WHT, COLOR_GRN);
 	putstr("ERROR CODE: 0x", COLOR_LBU, COLOR_GRN);
 	putstr(itoa(errno, buf, 10), COLOR_LBU, COLOR_GRN);
 	putstr("\nREASON: ", COLOR_WHT, COLOR_GRN);
 	putstr(reason, COLOR_LBU, COLOR_GRN);
+	kfree(buf);
 	while(1);
 }
 

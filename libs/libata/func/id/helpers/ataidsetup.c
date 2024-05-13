@@ -34,7 +34,7 @@ extern void atapi_identify();
 //function to setup needed things for ata id
 void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
 	//sets the drive type
-	if ((dev & SELECT_DEVICE_MASTER) == 1) {
+	if ((dev & SELECT_DEVICE_MASTER)) {
 		drive->driveType = DRIVE_TYPE_MASTER;
 	} else {
 		drive->driveType = DRIVE_TYPE_SLAVE;
@@ -76,9 +76,9 @@ void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
 	} else if (status == 2) {
 		//the drive errored out while running identify
 		//lets check if the drive is ATAPI and act accordingly
-		if ((inb(IO_PORT_CYL_LOW) & 0x14) == 1) {
+		if ((inb(IO_PORT_CYL_LOW) & 0x14)) {
 			//the drive is ATAPI, lets just make sure
-			if ((inb(IO_PORT_CYL_HIGH) & 0xEB) == 1) {
+			if ((inb(IO_PORT_CYL_HIGH) & 0xEB)) {
 				//the drive is definatly a ATAPI drive, lets act accordingly
 				drive->atapi_info.is_atapi = true;
 

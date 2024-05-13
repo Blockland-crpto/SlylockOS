@@ -26,8 +26,6 @@
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
-	
 	
 	void nmi_init();
 
@@ -40,7 +38,6 @@ extern "C" {
 	uint32_t retrive_nmi_data_a();
 	uint32_t retrive_nmi_data_b();
 
-	uint32_t nmi_source;
 	
 #if defined(__cplusplus)
 } /* extern "C" */

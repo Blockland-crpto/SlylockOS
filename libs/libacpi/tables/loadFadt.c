@@ -24,6 +24,7 @@
 #include <libmem.h>
 #include <libpower.h>
 #include <libdebug.h>
+#include <string.h>
 #include <system/types.h>
 
 

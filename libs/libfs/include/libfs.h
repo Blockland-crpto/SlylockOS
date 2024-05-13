@@ -33,6 +33,9 @@
 
 #include <system/types.h>
 
+//patch to make the compiler shut up
+struct fs_node;
+
 /**
   \def FS_FILE
   \brief File flag for the filesystem

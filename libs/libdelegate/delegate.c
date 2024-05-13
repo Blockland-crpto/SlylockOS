@@ -19,6 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libdelegate.h>
+#include <libdebug.h>
 #include <libmodule.h>
 #include <libproc.h>
 #include <system/types.h>
@@ -94,6 +95,14 @@ int delegate_request(enum resource_type type, proc_control_block* proc, size_t a
 			//todo:
 			return 1;
 		}
-		
+		//if its unknown
+		default: {
+			// uh oh! invalid access request
+			panic("Invalid access request", DELEGATE_ERROR);
+		}
 	}
+
+	//uh oh! we returned here instead of returning earlier
+	panic("Delegate request did not return", DELEGATE_ERROR);
+	return 3;
 }

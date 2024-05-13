@@ -125,7 +125,7 @@ uint32_t initrd_delete_file(char *name) {
 	return header->length;
 }
 
-static uint32_t initrd_rename_file(fs_node_t *node, char *name) {
+uint32_t initrd_rename_file(fs_node_t *node, char *name) {
 	initrd_file_header_t header = file_headers[node->inode];
 	strcpy(header.name, name);
 	strcpy(node->name, name);
@@ -174,11 +174,12 @@ uint32_t initrd_delete_dir(char *name) {
 	return -1; // Directory not found
 }
 
-static uint32_t initrd_rename_dir(fs_node_t *node, char *name) {
+uint32_t initrd_rename_dir(fs_node_t *node, char *name) {
 	strcpy(node->name, name);
+	return 0;
 }
 
-static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
+uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
 	if (node->flags & FS_DIRECTORY)
 		return 0; // Directories are read-only in this example
 
@@ -187,12 +188,12 @@ static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, ui
 		size = header->length - offset;
 
 	// Copy the data from the buffer to the initrd
-	memcpy((uint8_t *)(header->offset + offset), buffer, size);
+	memcpy((uint8_t *)(header->offset) + offset, buffer, size);
 
 	return size;
 }
 
-static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
+uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
    initrd_file_header_t header = file_headers[node->inode];
    if (offset > header.length)
        return 0;
@@ -202,7 +203,7 @@ static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uin
    return size;
 } 
 
-static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
+struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
    if (node == initrd_root && index == 0)
    {
      strcpy(dirent.name, "dev");
@@ -219,7 +220,7 @@ static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
    return &dirent;
 }
 
-static fs_node_t *initrd_finddir(fs_node_t *node, char *name) {
+fs_node_t *initrd_finddir(fs_node_t *node, char *name) {
 
    int i;
    for (i = 0; i < nroot_nodes; i++)
@@ -275,7 +276,7 @@ fs_node_t *initialise_initrd(uint32_t location) {
        	file_headers[i].offset += location;
        	
 		// Create a new file node.
-       	strcpy(root_nodes[i].name, &file_headers[i].name);
+       	strcpy(root_nodes[i].name, file_headers[i].name);
        	root_nodes[i].mask = root_nodes[i].uid = root_nodes[i].gid = 0;
        	root_nodes[i].length = file_headers[i].length;
        	root_nodes[i].inode = i;

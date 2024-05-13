@@ -25,7 +25,7 @@
 
 //function to see if a CPU has MSRs
 bool cpu_has_msr() {
-	unsigned int eax, unused, edx;
+	unsigned int eax = 0, unused = 0, edx = 0;
 	__get_cpuid(1, &eax, &unused, &unused, &edx);
 	return (edx & (1 << 5));
 } 

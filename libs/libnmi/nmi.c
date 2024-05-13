@@ -26,13 +26,6 @@
 void nmi_init() {
 	module_t modules_nmi = MODULE("kernel.modules.nmi", "provides a handler for non maskable interrupts (CORE)");
 	INIT(modules_nmi);
-
-	//lets see if the NMI that ACPI reported is valid
-	if (nmi_source == NULL) {
-		//uh oh gotta fail!
-		FAIL(modules_nmi, "invalid NMI source");
-		return;
-	}
 	
 	//lets first enable NMI
 	nmi_enable();

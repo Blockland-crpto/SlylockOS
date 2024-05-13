@@ -23,17 +23,24 @@
 
 #include <system/types.h>
 
-#define PROC_STATUS_READY 0
-#define PROC_STATUS_RUNNING 1
-#define PROC_STATUS_ABORTED 2
-#define PROC_STATUS_YIELDED 3
+//enum for process status
+enum proc_status {
+	PROC_STATUS_READY,
+	PROC_STATUS_RUNNING,
+	PROC_STATUS_YIELDED,
+	PROC_STATUS_ABORTED,
+};
 
-#define PROC_PRIORITY_HIGH 0
-#define PROC_PRIORITY_LOW 1
+//enum for priority
+enum proc_priority {
+	PROC_PRIORITY_LOW,
+	PROC_PRIORITY_NORMAL,
+	PROC_PRIORITY_HIGH,
+};
 
 #define MAX_PROCS_QUEUED 10
-
 #define KERNEL_PROC_ID (MAX_PROCS_QUEUED + 1)
+#define MAX_PROCS_USABLE (MAX_PROCS_QUEUED - 1)
 
 #if defined(__cplusplus)
 extern "C" {
@@ -51,13 +58,13 @@ extern "C" {
 		int (*entry_point)();
 
 		//process priority
-		int priority;
+		enum proc_priority priority;
+
+		//process status
+		enum proc_status status;
 
 		//process heap
 		int heap_used;
-	
-		//process status
-		int status;
 
 		//storage delegated
 		size_t storage_delegated;
@@ -85,7 +92,7 @@ extern "C" {
 	proc_control_block task_queue[MAX_PROCS_QUEUED];
 
 	//function to create a task to task queue
-	void proc_create(int (*entry_point)(), int priority, int parent);
+	void proc_create(int (*entry_point)(), enum proc_priority priority, int parent);
 
 	//function to destroy a task from task queue
 	void proc_destroy(int id);
@@ -98,8 +105,6 @@ extern "C" {
 	
 	//scheduler
 	void proc_scheduler();
-
-	
 
 #if defined(__cplusplus)
 } /* extern "C" */

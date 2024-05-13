@@ -25,7 +25,7 @@
 #include <libmodule.h>
 
 //function to create a task
-void proc_create(int (*entry_point)(), int priority, int parent) {
+void proc_create(int (*entry_point)(), enum proc_priority priority, int parent) {
 
 	//we need to validate the entry point
 	if (entry_point == NULL) {
@@ -34,14 +34,8 @@ void proc_create(int (*entry_point)(), int priority, int parent) {
 	}
 
 	//lets validate the parent id
-	if (parent > MAX_PROCS_QUEUED+1 || parent < 0) {
+	if (parent > KERNEL_PROC_ID || parent < 0) {
 		//exit invalid parent id
-		return;
-	}
-
-	//lets validate the priority
-	if (priority > 1 || priority < 0) {
-		//exit invalid priority
 		return;
 	}
 	
@@ -54,7 +48,7 @@ void proc_create(int (*entry_point)(), int priority, int parent) {
 	//kalloc(128);
 
 	//lets find a free slot dynamicly
-	for (int i = 0; i <= MAX_PROCS_QUEUED; i++) {
+	for (int i = 0; i < MAX_PROCS_QUEUED; i++) {
 		if (task_queue[i].entry_point == NULL) {
 			//use this slot
 			task_count = i;
@@ -62,7 +56,7 @@ void proc_create(int (*entry_point)(), int priority, int parent) {
 		}
 		if (i == MAX_PROCS_QUEUED) {
 			//no free slot
-			panic("no more proc space", 10);
+			panic("no more proc space", TASK_MAX);
 		}
 	}
 
@@ -95,7 +89,7 @@ void proc_destroy(int id) {
 	}
 
 	//lets destroy its subprocesses
-	for (int i = 0; i < MAX_PROCS_QUEUED; i++) {
+	for (int i = 0; i < MAX_PROCS_USABLE; i++) {
 		if (task_queue[i].parent_id == id) {
 			//lets destroy this process
 			task_queue[id].entry_point = NULL;
@@ -109,7 +103,7 @@ void proc_destroy(int id) {
 	
 	//now lets slide things down
 	for (int i = 0; i < task_queue[id].subprocesses_active; i++) {
-		for (int j = id; j < MAX_PROCS_QUEUED; j++) {
+		for (int j = id; j < MAX_PROCS_USABLE; j++) {
 			task_queue[j] = task_queue[j + 1];
 		}
 	}
@@ -126,7 +120,7 @@ void proc_kill() {
 
 	//lets slide down the process pool
 	//lets slide it down!
-	for (int i = 0; i < MAX_PROCS_QUEUED; i++) {
+	for (int i = 0; i < MAX_PROCS_USABLE; i++) {
 		task_queue[i] = task_queue[i + 1];
 	}
 
@@ -183,7 +177,7 @@ void proc_scheduler() {
 		int status = current_task.entry_point();
 
 		//lets see if the task is done
-		if (status == 0) {
+		if (!status) {
 			//if yes, we need to slide down the tasks
 		} else {
 			//if not, we need to eventually provide error info
@@ -195,7 +189,7 @@ void proc_scheduler() {
 		}
 		
 		//lets slide it down!
-		for (int i = 0; i < MAX_PROCS_QUEUED; i++) {
+		for (int i = 0; i < MAX_PROCS_USABLE; i++) {
 			task_queue[i] = task_queue[i + 1];
 		}
 

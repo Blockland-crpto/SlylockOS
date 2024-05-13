@@ -34,7 +34,7 @@ void apic_init() {
 	//apic should already be enabled if its present, SlyLock didn't modify it!
 
 	//lets get the bits we need
-	volatile uint8_t spurious_interrupt = 0x10000030;
+	volatile uint32_t spurious_interrupt = (unsigned)0x10000030;
 
 	//lets get the current status of the spurious interrupt
 	volatile uint32_t* base = (uint32_t*)apic_address;
@@ -42,11 +42,11 @@ void apic_init() {
 	volatile uint32_t* svr = base + offset;
 
 	//lets see it!
-	volatile uint32_t start_svr = svr;
+	volatile uint32_t start_svr = *svr;
 	start_svr |= spurious_interrupt;
 	
 	//lets set the spurious interrupt register
-	svr = start_svr;
+	svr = (volatile uint32_t*)start_svr;
 	
 	DONE(modules_apic);
 }

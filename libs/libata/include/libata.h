@@ -254,7 +254,7 @@ extern "C" {
 		uint8_t sectors_per_interrupt_rw_multiple;
 		bool set_features_spinup_needed;
 		uint16_t current_apm_value;
-		uint16_t* identify_data_ptr;
+		uint16_t identify_data[256];
 
 	} ata_device_t;
 	

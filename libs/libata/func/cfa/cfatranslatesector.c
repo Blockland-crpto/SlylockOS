@@ -33,7 +33,7 @@
 uint8_t* cfa_translate_sector(ata_device_t* dev, uint32_t LBA) {
 
 	//variable for the output
-	uint8_t output[512];
+	static uint8_t output[512];
 	
 	//lets first see if CFA is supported
 	if(!dev->cmd_set_supported[CFA_FEATURE_SET_SUPPORTED].supported) {

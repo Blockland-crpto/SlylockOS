@@ -31,7 +31,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libtimer/include
 						-I./libs/libvga/include
 						-I./libs/sosix/include")
-export debug=$(echo "-DDEBUG")
+export debug=$(echo "-DDEBUG -Wno-discarded-qualifiers")
 export optimize=$(echo "-Og -g")
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
@@ -151,4 +151,4 @@ objcopy --only-keep-debug kernel.bin kernel.sym
 
 rm -f kernel.bin
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6
+qemu-system-i386 -smp cores=4 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6 -curses

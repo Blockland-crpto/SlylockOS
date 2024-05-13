@@ -65,6 +65,23 @@ extern "C" {
 		int8_t type;
 		int8_t length;
 	};
+
+	//structure representing a LAPIC table
+	struct MADT_LAPIC {
+		struct acpi_subheader subheader;
+		int8_t acpi_processor_uid;
+		int8_t apic_id;
+		unsigned long flags; 
+	};
+
+	//structure representing a IOAPIC table
+	struct MADT_IOAPIC {
+		struct acpi_subheader subheader;
+		int8_t io_apic_id;
+		int8_t reserved;
+		uint32_t io_apic_address;
+		uint32_t global_system_interrupt_base;
+	};
 	
 	//FADT info
 	int8_t PREFERED_PM_PROFILE;
@@ -191,41 +208,7 @@ extern "C" {
 	struct MADT {
 		struct acpi_header header;
 		unsigned long *local_apic_address;
-		unsigned long flags;
-	
-		//Local APIC data for core 
-		struct {
-			struct acpi_subheader subheader1;
-			int8_t acpi_processor_id;
-			int8_t lapic_id;
-			unsigned long lflags; 
-		};
-
-		//Input/output APIC data for core
-		struct {
-			struct acpi_subheader subheader2;
-			int8_t io_apic_id;
-			int8_t reserved1;
-			unsigned long io_apic_address;
-			unsigned long global_system_interrupt_base;
-		};
-
-		//Interrupt source override
-		struct {
-			struct acpi_subheader subheader3;
-			int8_t bus;
-			int8_t source;
-			uint32_t global_system_interrupt;
-			int16_t inti_flags;
-		};
-		
-		//Non maskable interrupt source
-		struct {
-			struct acpi_subheader subheader4;
-			int16_t init_flags;
-			uint32_t nmi_global_system_interrupt;
-		};
-		
+		unsigned long flags;	
 	};
 
 

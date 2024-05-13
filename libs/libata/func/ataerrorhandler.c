@@ -27,8 +27,7 @@
 //ATA error handler
 void ata_error_handler() {
 	uint8_t error = inb(IO_PORT_ERROR);
-	warn("ATA error occured ");
-	warn(error);
+	slog("ATA error occured %d", error);
 	if ((error & ERROR_AMNF)) {
 		//todo: implement a ata not found error handler
 	} else if ((error & ERROR_TKZNF)) {

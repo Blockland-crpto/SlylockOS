@@ -42,7 +42,8 @@ unsigned char get_RTC_register(int reg) {
 }
 
 void read_rtc() {
-	unsigned char century;
+	while (get_update_in_progress_flag());  
+	unsigned char century = NULL;
 	unsigned char last_second;
 	unsigned char last_minute;
 	unsigned char last_hour;
@@ -55,7 +56,7 @@ void read_rtc() {
 	// Note: This uses the "read registers until you get the same values twice in a row" technique
 	//       to avoid getting dodgy/inconsistent values due to RTC updates
 
-	while (get_update_in_progress_flag());                // Make sure an update isn't in progress
+	// Make sure an update isn't in progress
 	second = get_RTC_register(0x00);
 	minute = get_RTC_register(0x02);
 	hour = get_RTC_register(0x04);

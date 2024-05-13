@@ -25,11 +25,10 @@
 #include <libkeyboard.h>
 #include <libmodule.h>
 #include <libssp.h>
-
-
+#include <string.h>
+#include <libmem.h>
 
 #define sizeof(type) (char *)(&type+1)-(char*)(&type)
-
 
 char *buffer="";
 
@@ -103,17 +102,19 @@ char get_key(){
 
 	//Read the Keyboard's data port
 	scancode = inb(0x60);
-	char *buf;
-	kprintf(itoa(scancode, buf, 10));
-	if(scancode & 0x80){
+	char *buf = (char*)kalloc(sizeof(scancode));
+	kprintf((const char*)itoa(scancode, buf, 10));
+	if((scancode & 0x80)) {
 		//use Shift, Alt, CTRL keys here
-	}
-	else{
+	} else{
 		char c = ascii_values[scancode];
+		//lets free it
+		kfree(buf);
 		return c;
 	}
-	return 0;
 
+	kfree(buf);
+	return 0;
 }
 
 void track_input(char c){

@@ -71,7 +71,7 @@ extern "C" {
 		\brief Initializes the module `module`,
 		\returns int so the token overlay can work
 	*/
-	int INIT(module_t module);
+	void INIT(module_t module);
 
 	/**
 		\brief Sets the module as failed

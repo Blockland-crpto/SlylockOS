@@ -28,11 +28,16 @@
 extern "C" {
 #endif
 
+	//a IOAPIC object
+	typedef struct {
+		int8_t io_apic_id;
+		uint32_t io_apic_address;
+		uint32_t global_system_interrupt_base;
+	} io_apic_t;
+	
 	//MADT informatiom that contains the apic address
 	unsigned long* apic_address;
 	unsigned long apic_flags;
-	int8_t core_apic_id;
-	unsigned long starting_core_apic_flags;
 
 	//io apic info
 	unsigned long ioapic_addr;

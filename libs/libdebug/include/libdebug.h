@@ -89,16 +89,28 @@
 	\brief Happens if more then maximum tasks are attempted to be created
 */
 #define TASK_MAX 11
+/**
+	\def DELEGATE_ERROR
+	\brief Happens if the delegate errors for some reason
+*/
+#define DELEGATE_ERROR 12
+/**
+	\def DEVMGR_ERROR
+	\brief Happens if the devmgr errors for some reason
+*/
+#define DEVMGR_ERROR 13
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
-	
-	void panic(char* reason, int errno);
+
+	//panic function
+	__attribute__((noreturn)) void panic(char* reason, int errno);
 
 	//warn function
 	void warn(char* reason);
 
+	//function to log to serial
 	int slog(const char *format, ...);
 
 #if defined(__cplusplus)

@@ -30,13 +30,13 @@ mboot:
 
 stublet:
  	extern init_kernel
-    extern main
+    extern kmain
 
 	push ebx
 
 	call init_kernel
 
-    call main
+    call kmain
     jmp $
 
 global _gdt_flush

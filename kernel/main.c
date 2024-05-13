@@ -53,13 +53,15 @@
 
 #define MB_MAGIC 0x1BADB002
 
+//the kernel constructor
 __attribute__ ((constructor)) void init_kernel() {
 	set_cursor_pos(0,0);
 	clear(COLOR_WHT, COLOR_BLK);
 	return;
 }
 
-int main(multiboot_info_t* mb_info, uint32_t magic){
+//The kernel main function
+int kmain(multiboot_info_t* mb_info, uint32_t magic){
 	mbi = mb_info;
 
 	// check the grub memory map
@@ -118,6 +120,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 
 	__asm__ __volatile__("sti");
 
+	slog("core count %d", cpu.core_count);
+	
 	proc_scheduler();
 
   	return 0;

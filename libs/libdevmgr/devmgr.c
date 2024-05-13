@@ -19,7 +19,10 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libdevmgr.h>
+#include <libdebug.h>
 #include <libmodule.h>
+#include <libmouse.h>
+#include <libmem.h>
 #include <libacpi.h>
 #include <system/types.h>
 
@@ -39,6 +42,15 @@ void devmgr_init() {
 	
 	//gotta parse the IA_BOOT_ARCH
 	boot_cfg = ia_boot_parser();
+
+	//lets create a stream for the mouse
+	mouse_stream = (mouse_packet_t*)kalloc(256);
+
+	//lets check if the kalloc returned valid
+	if (mouse_stream == NULL) {
+		//oops no memory!
+		panic("No more memory!", INSUFFICIENT_RAM);
+	}
 	
 	//were done!
 	DONE(modules_kernel_devmgr);
@@ -73,5 +85,14 @@ bool devmgr_authorize_device(enum device_type dev) {
 			//check if CMOS is supported
 			return !boot_cfg.cmos_not_present;
 		}
+		default: {
+			//why you trying to ask us a unknown question!?
+			panic("invalid devmgr request", DEVMGR_ERROR);
+		}
 	}
+	//we should not be here....
+	panic("internal devmgr error", DEVMGR_ERROR);
+	
+	//return to get the compiler to shutup
+	return false;
 }
