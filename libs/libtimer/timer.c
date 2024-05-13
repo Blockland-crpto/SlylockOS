@@ -25,6 +25,7 @@
 #include <string.h>
 #include <libmodule.h>
 #include <libssp.h>
+#include <drivers/irq.h>
 
 #define FREQ 100
 
@@ -53,9 +54,7 @@ void timer_handler(struct regs *r){
 //let's install timer handler into IRQ0
 void timer_install(){
     module_t modules_timer = MODULE("kernel.modules.timer", "Adds PIT support for the kernel (CORE)");
-	char** deps;
-	deps[0] = "kernel.modules.isr";
-	deps[1] = "kernel.modules.irq";
+	char* deps[2] = {"kernel.modules.dmgctrl", "kernel.modules.irq"};
 	INIT(modules_timer);
 	DEPS(modules_timer, deps);
     timer_phase(FREQ);

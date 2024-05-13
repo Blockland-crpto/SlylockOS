@@ -178,7 +178,7 @@ extern "C" {
 		Prints a character with the foreground being white and the background being black.
 		\param{in} ch Character to print
 	*/
-	void kprintc(const char *ch);
+	void kprintc(const char ch);
 	/**
 		\brief Prints a string
 
