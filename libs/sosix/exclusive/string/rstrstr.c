@@ -4,7 +4,7 @@
 
 char *rstrstr(const char *str, const char *sub) {
 	char *result;
-	int i, j, k;
+	int i, j;
 	int sub_len = strlen(sub);
 	int found = 0;
 

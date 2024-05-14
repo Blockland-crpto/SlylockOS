@@ -60,7 +60,7 @@ int slog(const char *format, ...) {
 	serial_write_string(time);
 	serial_write_string("]: ");
 
-	char *ptr = format;
+	const char *ptr = format;
 	int len = 0;
 	while(*ptr) {
 		if (*ptr == '%') {

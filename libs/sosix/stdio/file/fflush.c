@@ -8,9 +8,9 @@
 #include <libfs.h>
 
 int fflush(FILE *stream) {
-	uint8_t buff = stream->stream;
-	uint32_t size = (strlen((char*)buff) * sizeof(char));
-	if (stream->node->length == NULL) {
+	uint8_t* buff = stream->stream;
+	uint32_t size = (strlen((const char*)buff) * sizeof(char));
+	if (!stream->node->length) {
 		errno = EBADF;
 		return EOF;
 	}

@@ -44,7 +44,7 @@ void serial_write_char(int8_t data) {
 }
 
 //serial port write string
-void serial_write_string(char *data) {
+void serial_write_string(const char* data) {
 	for(int i = 0; i < strlen(data); i++) {
 		serial_write_char(data[i]);
 	}

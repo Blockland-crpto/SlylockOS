@@ -70,7 +70,7 @@ extern "C" {
 	void set_serial_baud(uint8_t level);
 
 	//serial port writer
-	void serial_write_string(char *data);
+	void serial_write_string(const char *data);
 
 	//serial port write char
 	void serial_write_char(int8_t data);

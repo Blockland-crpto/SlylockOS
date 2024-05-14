@@ -164,7 +164,7 @@ extern "C" {
 	int octtodec(int n);
 	unsigned short *memsetw(unsigned short *dest, unsigned short val, int count);
 	char* rstrstr(const char *str, const char *sub);
-	
+	int *create_delim_dict(int *delim);
 	
 #if defined(__cplusplus)
 } /* extern "C" */

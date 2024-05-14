@@ -31,7 +31,8 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libtimer/include
 						-I./libs/libvga/include
 						-I./libs/sosix/include")
-export debug=$(echo "-DDEBUG -Wno-discarded-qualifiers")
+export debug=$(echo "-DDEBUG")
+#-Wno-discarded-qualifiers
 export optimize=$(echo "-Og -g")
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
