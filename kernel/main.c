@@ -37,6 +37,7 @@
 #include <libkeyboard.h>
 #include <libmultiboot.h>
 #include <libmouse.h>
+#include <libmem.h>
 #include <libnmi.h>
 #include <libpci.h>
 #include <libpic.h>
@@ -51,11 +52,17 @@
 #include <libtimer.h>
 #include <libvga.h>
 
+#include <libc.h>
+
 #define MB_MAGIC 0x1BADB002
 
 //the kernel constructor
+//NOTE: the kernel constructor is called before the main function
+//and is used to setup runtime features such as SSP, LIBC and MM
 __attribute__ ((constructor)) void init_kernel() {
 	ssp_init();
+	libc_init();
+	kalloc_init();
 	set_cursor_pos(0,0);
 	clear(COLOR_WHT, COLOR_BLK);
 	return;
@@ -100,8 +107,6 @@ int kmain(multiboot_info_t* mb_info, uint32_t magic){
 	nmi_init();
 
   	pci_init();
-	
-	kalloc_init();
 		
 	rtc_init();
 	
@@ -112,8 +117,6 @@ int kmain(multiboot_info_t* mb_info, uint32_t magic){
 	mouse_install();
 	
 	vga_init();
-	
-	libc_init();
 
 	sound_init();
 

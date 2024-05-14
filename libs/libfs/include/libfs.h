@@ -93,7 +93,7 @@ extern "C" {
 	  \typedef uint32_t (*rename_type_t)(struct fs_node*,char*)
 	  \brief This is equal to read_type_t.
 	*/
-	typedef uint32_t (*rename_type_t)(struct fs_node*,char*);
+	typedef uint32_t (*rename_type_t)(struct fs_node*,const char*);
 
 	/**
 	  \typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*)
@@ -122,7 +122,7 @@ extern "C" {
 
 	typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
 
-	typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char *name); 
+	typedef struct fs_node * (*finddir_type_t)(struct fs_node*,const char *name); 
 
 	/**
 	  \struct fs_node
@@ -193,7 +193,7 @@ extern "C" {
 
 	uint32_t delete_dir_fs(char *name);
 
-	uint32_t rename_fs(fs_node_t *node, char *name);
+	uint32_t rename_fs(fs_node_t *node, const char *name);
 
 	uint32_t read_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 
@@ -205,7 +205,7 @@ extern "C" {
 
 	struct dirent *readdir_fs(fs_node_t *node, uint32_t index);
 
-	fs_node_t *finddir_fs(fs_node_t *node, char *name); 
+	fs_node_t *finddir_fs(fs_node_t *node, const char *name); 
 
 
 #if defined(__cplusplus)

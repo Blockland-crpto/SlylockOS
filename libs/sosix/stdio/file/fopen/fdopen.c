@@ -16,7 +16,7 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 		return NULL;
 	}
 
-	file->stream = (char *)malloc(MAX_FILE_SIZE); // Allocate buffer for file content
+	file->stream = (uint8_t*)malloc(MAX_FILE_SIZE); // Allocate buffer for file content
 	if (file->stream == NULL) {
 		// Out of memory error
 		free(file);
@@ -33,6 +33,7 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 			return NULL;
 		}
 		fsetpos(file, (fpos_t*)0);
+		
 	} else if (strchr(mode, 'w') != NULL) {
 		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);
 		if (sz == 0xFFFFFFFF) {
@@ -41,7 +42,12 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 			free(file);
 			return NULL;
 		}
-		fsetpos(file, (fpos_t*)0);
+		//lets make a fpos_t
+		fpos_t pos;
+		pos.file = file;
+		pos.offset = 0;
+		fsetpos(file, &pos);
+		
 	} else if (strchr(mode, 'a') != NULL) {
 		// Append to the existing file content if opened in append mode
 		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);
@@ -51,7 +57,13 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 			free(file);
 			return NULL;
 		}
-		fsetpos(file, (fpos_t*)fd->length);
+
+		//lets make a fpos_t
+		fpos_t pos;
+		pos.file = file;
+		pos.offset = fd->length;
+		fsetpos(file, &pos);
+		
 	} else {
 		errno = EINVAL; // Invalid mode error
 		free(file->stream);

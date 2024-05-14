@@ -65,20 +65,20 @@ extern "C" {
 		int eof;
 		int error;
 		int bufmod;
-		char* name;
-		char* mode;
 		bool locked;
 		size_t length;
+		long position;
 		char* lockedBy;
-		long* position;
 		uint8_t* stream;
 		fs_node_t* node;
+		const char* name;
+		const char* mode;
 	} FILE;
 	
 	//file position structure
 	typedef struct {
 		FILE *file;
-		long offset;
+		size_t offset;
 	} fpos_t;
 	
 	FILE *stdin;   // Standard input stream

@@ -46,7 +46,7 @@ uint32_t delete_dir_fs(char *name) {
 }
 
 
-uint32_t rename_fs(fs_node_t *node, char *name) {
+uint32_t rename_fs(fs_node_t *node, const char *name) {
 	// Has the node got a rename callback?
 	if (node->rename != 0)
 		return node->rename(node, name);
@@ -91,7 +91,7 @@ struct dirent *readdir_fs(fs_node_t *node, uint32_t index) {
         return 0;
 }
 
-fs_node_t *finddir_fs(fs_node_t *node, char *name) {
+fs_node_t *finddir_fs(fs_node_t *node, const char *name) {
     // Is the node a directory, and does it have a callback?
     if ( (node->flags&0x7) == FS_DIRECTORY &&
          node->finddir != 0 )

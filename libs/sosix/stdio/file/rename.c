@@ -7,6 +7,6 @@ int rename(const char *old, const char *newName) {
 	if(oldNode == NULL) {
 		return EOF;
 	}
-	rename_file_fs(oldNode, newName);
+	rename_fs(oldNode, newName);
 	return 0;
 }

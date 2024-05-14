@@ -148,6 +148,9 @@ extern "C" {
 	//mkdtemp implementation
 	char *mkdtemp(char *temp);
 	
+	//realloc implementation
+	void *realloc(void *ptr, size_t numbytes);
+	
 	//strtod implementation
 	double strtod(const char *restrict nptr, char **restrict endptr);
 
@@ -160,13 +163,11 @@ extern "C" {
 	//exclusives
 	int rand(void);
 	void srand(unsigned int seed);
-	/*
 	
 	
-	void *realloc(void *ptr, long numbytes);
 	
 	
-	*/
+
 
 #if defined(__cplusplus)
 } /* extern "C" */

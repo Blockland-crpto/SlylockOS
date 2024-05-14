@@ -10,18 +10,21 @@
 
 FILE *fopen(const char *filename, const char *mode) {
 	FILE* file = (FILE*)malloc(sizeof(FILE));
+	
 	if (file == NULL) {
 		free(file);
 		return NULL; // Allocation failed
 	}
 
 	fs_node_t *fsnode = finddir_fs(fs_root, filename);
+	
 	if (fsnode == NULL) {
 		free(file); // Clean up allocated memory
 		return NULL; // File not found
 	}
 
-	char* buff = (char*)malloc(fsnode->length);
+	uint8_t* buff = (uint8_t*)malloc(fsnode->length);
+	
 	if (buff == NULL) {
 		free(file); // Clean up allocated memory
 		free(buff); // Clean up allocated memory
@@ -36,9 +39,13 @@ FILE *fopen(const char *filename, const char *mode) {
 			free(file);
 			return NULL;
 		}
-		file->mode = 'r';
+		file->mode = "r";
 		// Handle reading data into the buffer
-		fsetpos(file, (fpos_t*)0);
+		//lets make a fpos
+		fpos_t pos;
+		pos.file = file;
+		pos.offset = 0;
+		fsetpos(file, &pos);
 	}
 
 	if (strchr(mode, 'w') != NULL) {
@@ -49,9 +56,12 @@ FILE *fopen(const char *filename, const char *mode) {
 			free(file);
 			return NULL;
 		}
-		file->mode = 'w';
+		file->mode = "w";
 		// Handle writing data
-		fsetpos(file, (fpos_t*)0);
+		fpos_t pos;
+		pos.file = file;
+		pos.offset = 0;
+		fsetpos(file, &pos);
 	}
 
 	if (strchr(mode, 'a') != NULL) {
@@ -62,8 +72,11 @@ FILE *fopen(const char *filename, const char *mode) {
 			free(file);
 			return NULL;
 		}
-		fsetpos(file, (fpos_t*)fsnode->length);
-		file->mode = 'a';
+		fpos_t pos;
+		pos.file = file;
+		pos.offset = fsnode->length;
+		fsetpos(file, &pos);
+		file->mode = "a";
 		// Handle appending data
 	}
 

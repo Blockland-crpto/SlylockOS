@@ -4,7 +4,7 @@
 #include <libssp.h>
 #include <string.h>
 
-void *realloc(void *ptr, long numbytes) {
+void *realloc(void *ptr, size_t numbytes) {
 	if (numbytes == 0) {
 		free(ptr);
 		return NULL;

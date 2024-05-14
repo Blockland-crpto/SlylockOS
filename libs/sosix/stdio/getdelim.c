@@ -11,7 +11,7 @@ ssize_t getdelim(char **restrict lineptr, size_t *restrict n, int delimiter, FIL
 
 	size_t bufsize = 256;  // Initial buffer size
 	size_t len = 0;        // Current line length
-	char *line = malloc(bufsize);
+	char *line = (char*)malloc(bufsize);
 	if (line == NULL) {
 		return -1;  // Allocation error
 	}
@@ -20,7 +20,7 @@ ssize_t getdelim(char **restrict lineptr, size_t *restrict n, int delimiter, FIL
 	while ((c = fgetc(stream)) != EOF) {
 		if (len + 1 >= bufsize) {
 			bufsize *= 2;  // Double the buffer size
-			char *new_line = realloc(line, bufsize);
+			char *new_line = (char*)realloc(line, bufsize);
 			if (new_line == NULL) {
 				free(line);
 				return -1;  // Reallocation error

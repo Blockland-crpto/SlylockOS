@@ -21,7 +21,7 @@ FILE* open_memstream(char **bufp, size_t *sizep) {
 	}
 
 	file->name = "membuf";
-	file->mode = 'w';
+	file->mode = "w";
 	file->stream = (uint8_t*)bufp;
 	file->node = fsnode;
 	return file;

@@ -123,7 +123,7 @@ extern "C" {
 	   \param{in}   name The directories new name.
 	   \returns 0 if successful.
 	*/
-	uint32_t initrd_rename_file(fs_node_t *node, char *name);
+	uint32_t initrd_rename_file(fs_node_t *node, const char *name);
 
 	/**
 	   \brief       Directory renaming function
@@ -133,7 +133,7 @@ extern "C" {
 	   \param{in}   name The directories new name.
 	   \returns 0 if successful.
 	*/
-	uint32_t initrd_rename_dir(fs_node_t *node, char *name);
+	uint32_t initrd_rename_dir(fs_node_t *node, const char *name);
 	/**
 	   \brief       Standard initrd write function
 
@@ -174,7 +174,7 @@ extern "C" {
 	   \param{in}   name The name of the directory.
 	   \returns The size of the buffer.
 	*/
-	fs_node_t *initrd_finddir(fs_node_t *node, char *name);
+	fs_node_t *initrd_finddir(fs_node_t *node, const char *name);
 
 	// Initialises the initial ramdisk. It gets passed the address of the multiboot module,
 	// and returns a completed filesystem node.

@@ -125,7 +125,7 @@ uint32_t initrd_delete_file(char *name) {
 	return header->length;
 }
 
-uint32_t initrd_rename_file(fs_node_t *node, char *name) {
+uint32_t initrd_rename_file(fs_node_t *node, const char *name) {
 	initrd_file_header_t header = file_headers[node->inode];
 	strcpy(header.name, name);
 	strcpy(node->name, name);
@@ -174,7 +174,7 @@ uint32_t initrd_delete_dir(char *name) {
 	return -1; // Directory not found
 }
 
-uint32_t initrd_rename_dir(fs_node_t *node, char *name) {
+uint32_t initrd_rename_dir(fs_node_t *node, const char *name) {
 	strcpy(node->name, name);
 	return 0;
 }
@@ -220,13 +220,11 @@ struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
    return &dirent;
 }
 
-fs_node_t *initrd_finddir(fs_node_t *node, char *name) {
-
-   int i;
-   for (i = 0; i < nroot_nodes; i++)
-       if (!strcmp(name, root_nodes[i].name))
-           return &root_nodes[i];
-   return 0;
+fs_node_t* initrd_finddir(fs_node_t *node, const char *name) {
+   	for (int i = 0; i < nroot_nodes; i++)
+       	if (!strcmp(name, root_nodes[i].name))
+           	return &root_nodes[i];
+   	return 0;
 } 
 
 fs_node_t *initialise_initrd(uint32_t location) {

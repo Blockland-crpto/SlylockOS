@@ -7,7 +7,7 @@ int printf(const char *format, ...) {
 	va_list ap;
 	va_start(ap, format);
 
-	char *ptr = format;
+	const char *ptr = format;
 	int len = 0;
 	while(*ptr) {
 		if (*ptr == '%') {

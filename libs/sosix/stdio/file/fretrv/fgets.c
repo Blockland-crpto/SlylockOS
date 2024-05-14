@@ -2,7 +2,7 @@
 #include <libssp.h>
 
 char *fgets(char *restrict s, int n, FILE *restrict stream) {
-	int c;
+	int c = 0;
 	int i = 0;
 
 	while (i < n - 1) {

@@ -18,7 +18,7 @@ int fgetc(FILE *stream) {
 	}
 	
 	uint8_t buf;
-	uint32_t sz = read_fs(stream->node, stream->position, 1, &buf);
+	uint32_t sz = read_fs(stream->node, (uint32_t)stream->position, 1, &buf);
 
 	
 	if (sz == 0xFFFFFFFF) {

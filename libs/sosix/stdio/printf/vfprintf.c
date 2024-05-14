@@ -5,29 +5,27 @@
 #include <libssp.h>
 
 int vfprintf(FILE* stream, const char *format, va_list ap) {
-	char *ptr = format;
+	const char *ptr = format;
 	int len = 0;
 	while(*ptr) {
 		if (*ptr == '%') {
 			ptr++;
 			char buf[256];
-			int num;
-			char* str;
 			switch (*ptr++) {
 				case 's': {
 					fputs(va_arg(ap, const char *), stream);
 					break;
 				} case 'd': {
-					num = va_arg(ap, int);
-					str = itoa(num, buf, 10);
+					int num = va_arg(ap, int);
+					const char* str = itoa(num, buf, 10);
 					fputs(str, stream);
 					break;
-				} case 'x':
-					num = va_arg(ap, int);
-					str = itoa(num, buf, 16);
+				} case 'x': {
+					int num = va_arg(ap, int);
+					const char* str = itoa(num, buf, 16);
 					fputs(str, stream);
 					break;
-				default: {
+				} default: {
 					return -1;
 				}
 			}
