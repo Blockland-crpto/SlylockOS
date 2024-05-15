@@ -27,6 +27,7 @@
 #include <libssp.h>
 #include <string.h>
 #include <libmem.h>
+#include <libdebug.h>
 
 #define sizeof(type) (char *)(&type+1)-(char*)(&type)
 
@@ -77,7 +78,11 @@ int i = 0;
 
 void keyboard_handler(struct regs *r){
 	unsigned char scancode;
-
+	if (r->int_no > 256) {
+		//got a weird ass interrupt number
+		panic("Got a strange interrupt number", INT_ERROR);
+	}
+	
 	//Read the Keyboard's data port
 	scancode = inb(0x60);
 
@@ -117,7 +122,8 @@ char get_key(){
 	return 0;
 }
 
-void track_input(char c){
+void track_input(const char c){
+	kprintc(c);
 	return;
 }
 

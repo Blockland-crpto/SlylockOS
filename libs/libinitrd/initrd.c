@@ -111,10 +111,10 @@ uint32_t initrd_delete_file(char *name) {
 	file_headers = (initrd_file_header_t *)(location + sizeof(initrd_header_t));
 
 	// Find and remove the file node
-	for (uint32_t i = 0; i < nroot_nodes; i++) {
+	for (int i = 0; i < nroot_nodes; i++) {
 		if (strcmp(root_nodes[i].name, name) == 0) {
 			// Shift the remaining file nodes to remove the deleted file
-			for (uint32_t j = i; j < nroot_nodes - 1; j++) {
+			for (int j = i; j < nroot_nodes - 1; j++) {
 				root_nodes[j] = root_nodes[j + 1];
 			}
 			nroot_nodes--;
@@ -204,23 +204,27 @@ uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *b
 } 
 
 struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
-   if (node == initrd_root && index == 0)
-   {
-     strcpy(dirent.name, "dev");
-     dirent.name[3] = 0; // Make sure the string is NULL-terminated.
-     dirent.ino = 0;
-     return &dirent;
-   }
 
-   if (index-1 >= nroot_nodes)
-       return 0;
-   strcpy(dirent.name, root_nodes[index-1].name);
-   dirent.name[strlen(root_nodes[index-1].name)] = 0; // Make sure the string is NULL-terminated.
-   dirent.ino = root_nodes[index-1].inode;
-   return &dirent;
+	// lets first convert index into a int
+	int iindex = (int)index;
+	
+   	if (node == initrd_root && index == 0) {
+     	strcpy(dirent.name, "dev");
+     	dirent.name[3] = 0; // Make sure the string is NULL-terminated.
+     	dirent.ino = 0;
+     	return &dirent;
+   	}
+
+   	if (iindex-1 >= nroot_nodes)
+		return 0;
+   	
+	strcpy(dirent.name, root_nodes[index-1].name);
+   	dirent.name[strlen(root_nodes[index-1].name)] = 0; // Make sure the string is NULL-terminated.
+   	dirent.ino = root_nodes[index-1].inode;
+   	return &dirent;
 }
 
-fs_node_t* initrd_finddir(fs_node_t *node, const char *name) {
+fs_node_t* initrd_finddir(const char *name) {
    	for (int i = 0; i < nroot_nodes; i++)
        	if (!strcmp(name, root_nodes[i].name))
            	return &root_nodes[i];
@@ -266,8 +270,7 @@ fs_node_t *initialise_initrd(uint32_t location) {
    	nroot_nodes = initrd_header->nfiles; 
    	
 	// For every file...
-   	int i;
-   	for (i = 0; i < initrd_header->nfiles; i++) {
+   	for (uint32_t i = 0; i < initrd_header->nfiles; i++) {
        	// Edit the file's header - currently it holds the file offset
        	// relative to the start of the ramdisk. We want it relative to the start
        	// of memory.

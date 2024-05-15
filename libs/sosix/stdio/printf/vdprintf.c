@@ -50,9 +50,7 @@ int vdprintf(fs_node_t *fd, const char *format, va_list ap) {
 					return -1;
 			}
 		} else {
-			//FIXME: compiler does not like casting to 
-			//smaller types
-			write_fs(fd, startsize, fd->length, (uint8_t*)*ptr++);
+			write_fs(fd, startsize, fd->length, (uint8_t*)ptr++);
 			len++;
 		}
 	}

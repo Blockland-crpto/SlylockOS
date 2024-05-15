@@ -99,6 +99,11 @@
 	\brief Happens if the devmgr errors for some reason
 */
 #define DEVMGR_ERROR 13
+/**
+	\def INT_ERROR
+	\brief Happens if the interrupt manager errors for some reason
+*/
+#define INT_ERROR 14
 
 #if defined(__cplusplus)
 extern "C" {

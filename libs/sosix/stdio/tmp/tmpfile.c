@@ -19,7 +19,9 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
+#include <stdlib.h>
 #include <libfs.h>
+
 
 FILE* tmpfile(void) {
 	static int openfiles;
@@ -27,14 +29,23 @@ FILE* tmpfile(void) {
 		return NULL;
 	}
 	FILE* file = (FILE*)malloc(sizeof(FILE));
+	if (file == NULL) {
+		//ouch! out of memory!
+		return NULL;
+	}
 	char *dir = tempnam("./tmp/", "tmp_");
 	char *tmp = tmpnam(dir);
-	create_file_fs(tmpnam, "", 100);
+	create_file_fs(tmp, 0, 100);
 	file->name = "tmpfile";
-	file->mode = 'w';
+	file->mode = "w";
 	file->bufmod = _IOFBF;
 	file->node = finddir_fs(fs_root, tmp); 
 	file->stream = (uint8_t*)malloc(file->node->length);
+	if (file->stream == NULL) {
+		//ouch! out of memory!
+		free(file);
+		return NULL;
+	}
 	openfiles++;
 	return file;
 }

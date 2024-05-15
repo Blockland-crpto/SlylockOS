@@ -23,7 +23,6 @@
 #include <libssp.h>
 
 char *tmpnam(char *s) {
-	char *str;
 	fs_node_t *exists0 = finddir_fs(fs_root, "tmpfile0");
 	if (exists0 == NULL) {
 		strcat(s, "tmpfile0");
@@ -49,4 +48,6 @@ char *tmpnam(char *s) {
 		strcat(s, "tmpfile4");
 		return s; 
 	}
+	//uhoh no new ones avaliable!
+	return NULL;
 }

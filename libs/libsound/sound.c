@@ -26,10 +26,15 @@
 #include <system/types.h>
 #include <libdmgctrl.h>
 #include <drivers/irq.h>
+#include <libdebug.h>
 
 //sound handler function
 void sound_handler(struct regs* r) {
-	//todo
+	//lets validate the handler
+	if (r->int_no > 256) {
+		//got a weird ass interrupt number
+		panic("Got a strange interrupt number", INT_ERROR);
+	}
 }
 
 //dsp reset function

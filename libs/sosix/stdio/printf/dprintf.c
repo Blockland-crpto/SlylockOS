@@ -53,9 +53,7 @@ int dprintf(fs_node_t *fd, const char *format, ...) {
 					return EOF;
 			}
 		} else {
-			//FIXME: the compiler doesn't like that were
-			//casting a smaller char to a unsigned char
-			write_fs(fd, startsize, fd->length, (uint8_t*)*ptr++);
+			write_fs(fd, startsize, fd->length, (uint8_t*)ptr++);
 			len++;
 		}
 	}

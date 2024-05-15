@@ -25,47 +25,6 @@
 
 //TODO: needs drastic overhaul
 
-static int my_sscanf_int(const char **restrict str, int *result) {
-	int value = 0;
-	int sign = 1;
-
-	// Check for sign
-	if (**str == '-') {
-		sign = -1;
-		(*str)++;  // Move past sign character
-	}
-
-	// Read digits
-	while (isdigit(**str)) {
-		value = value * 10 + (**str - '0');
-		(*str)++;  // Move to next character in input string
-	}
-
-	*result = value * sign;
-	return 1;  // Successfully read an integer
-}
-
-static int my_sscanf_string(const char **restrict str, char *result) {
-	int count = 0;
-
-	// Skip leading whitespace
-	while (isspace(**str)) {
-		(*str)++;  // Move to next character in input string
-	}
-
-	// Read characters until whitespace
-	while (**str != '\0' && !isspace(**str)) {
-		*result++ = **str;
-		(*str)++;  // Move to next character in input string
-		count++;
-	}
-
-	// Null-terminate the string
-	*result = '\0';
-
-	return count > 0 ? 1 : 0;  // Successfully read a string if count > 0
-}
-
 int sscanf(const char *restrict str, const char *restrict format, ...) {
 	va_list args;
 	va_start(args, format);
@@ -86,16 +45,43 @@ int sscanf(const char *restrict str, const char *restrict format, ...) {
 			if (*ptr == 'd') {
 				// Integer conversion
 				int *arg = va_arg(args, int*);
-				if (my_sscanf_int(&str, arg) != 1) {
-					break;  // Failed to read integer, stop scanning
+				int value = 0;
+				int sign = 1;
+				// Check for sign
+				if (*str == '-') {
+					sign = -1;
+					str++;  // Move past sign character
 				}
+				// Read digits
+				while (isdigit(*str)) {
+					value = value * 10 + (*str - '0');
+					str++;  // Move to next character in input string
+				}
+				*arg = value * sign;
 				count++;
 			} else if (*ptr == 's') {
 				// String conversion
 				char *arg = va_arg(args, char*);
-				if (my_sscanf_string(&str, arg) != 1) {
-					break;  // Failed to read string, stop scanning
+				int count = 0;
+
+				// Skip leading whitespace
+				while (isspace(*str)) {
+					str++;  // Move to next character in input string
 				}
+
+				// Read characters until whitespace
+				while (*str != '\0' && !isspace(*str)) {
+					*arg++ = *str;
+					str++;  // Move to next character in input string
+					count++;
+				}
+
+				// Null-terminate the string
+				*arg = '\0';
+
+				if(count == 0) {
+					break;
+				}  // Successfully read a string if count > 0
 				count++;
 			} else if (*ptr == 'c') {
 				// Character conversion

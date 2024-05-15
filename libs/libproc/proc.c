@@ -84,7 +84,7 @@ void proc_destroy(int id) {
 	task_queue[id].entry_point = NULL;
 
 	//now lets free the memory
-	for (int i = 0; i <= task_queue[id].heap_allocations_used; i++) {
+	for (size_t i = 0; i <= task_queue[id].heap_allocations_used; i++) {
 		kfree(task_queue[id].heap_allocations[i]);
 	}
 
@@ -95,14 +95,14 @@ void proc_destroy(int id) {
 			task_queue[id].entry_point = NULL;
 			
 			//now lets free the memory
-			for (int i = 0; i <= task_queue[id].heap_allocations_used; i++) {
+			for (size_t i = 0; i <= task_queue[id].heap_allocations_used; i++) {
 				kfree(task_queue[id].heap_allocations[i]);
 			}
 		} 
 	}
 	
 	//now lets slide things down
-	for (int i = 0; i < task_queue[id].subprocesses_active; i++) {
+	for (size_t i = 0; i < task_queue[id].subprocesses_active; i++) {
 		for (int j = id; j < MAX_PROCS_USABLE; j++) {
 			task_queue[j] = task_queue[j + 1];
 		}
@@ -184,7 +184,7 @@ void proc_scheduler() {
 		}
 
 		//now lets free the memory
-		for (int i = 0; i <= current_task.heap_allocations_used; i++) {
+		for (size_t i = 0; i <= current_task.heap_allocations_used; i++) {
 			kfree(current_task.heap_allocations[i]);
 		}
 		

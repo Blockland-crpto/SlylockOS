@@ -34,7 +34,12 @@
 
 //serial port handler
 void serial_handler(struct regs *r) {
-	//not used here 
+	//ensure were getting OK interrupts
+	//lets validate the handler
+	if (r->int_no > 256) {
+		//got a weird ass interrupt number
+		panic("Got a strange interrupt number", INT_ERROR);
+	}
 }
 
 //serial port writer
@@ -45,7 +50,7 @@ void serial_write_char(int8_t data) {
 
 //serial port write string
 void serial_write_string(const char* data) {
-	for(int i = 0; i < strlen(data); i++) {
+	for(size_t i = 0; i < strlen(data); i++) {
 		serial_write_char(data[i]);
 	}
 }

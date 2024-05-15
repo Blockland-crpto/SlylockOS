@@ -20,6 +20,7 @@
 */
 #include <libvga.h>
 #include <libdmgctrl.h>
+#include <libdebug.h>
 #include <libtimer.h>
 #include <libports.h>
 #include <string.h>
@@ -44,6 +45,11 @@ int seconds = 0;
 //the timer PIT is connected to IRQ0, so evrytime it fires, we increment it
 //by default, the timer fires 18.222 times/second.
 void timer_handler(struct regs *r){
+    //lets validate the handler
+    if (r->int_no > 256) {
+        //got a weird ass interrupt number
+        panic("Got a strange interrupt number", INT_ERROR);
+    }
     //increment number of ticks
     ticks++;
     if(ticks % FREQ == 0){
@@ -64,7 +70,7 @@ void timer_install(){
 }
 
 void timer_wait(int val){
-    unsigned int end = seconds + val;
+   int end = seconds + val;
     while(seconds < end){
         asm volatile("" : : : "memory");
     }

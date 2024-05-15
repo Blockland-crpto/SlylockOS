@@ -52,8 +52,8 @@ void pic_init() {
 		//we are using APIC
 		//we need to disable PIC
 		//this is what the osdev.org code shows
-		outb(PIC1_DATA, 0xff);
-		outb(PIC2_DATA, 0xff);
+		//outb(PIC1_DATA, 0xff);
+		//outb(PIC2_DATA, 0xff);
 		
 	}
 

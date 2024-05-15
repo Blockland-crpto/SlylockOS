@@ -46,7 +46,9 @@ void apic_init() {
 	start_svr |= spurious_interrupt;
 	
 	//lets set the spurious interrupt register
-	svr = (volatile uint32_t*)start_svr;
+	//svr = (volatile uint32_t*)start_svr;
+
+	//next we need to enable the IO APIC
 	
 	DONE(modules_apic);
 }

@@ -58,6 +58,7 @@ void get_drive_cmd_set_enabled_2(ata_device_t* drive, uint16_t* identify_data) {
 			case 4: {
 				//is removable set enabled
 				drive->cmd_set_supported[REMOVEABLE_MEDIA_STATUS_SUPPORTED].enabled = enabled;
+				break;
 			}
 			case 3: {
 				//is the power management set enabled

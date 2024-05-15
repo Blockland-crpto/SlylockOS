@@ -122,7 +122,7 @@ extern "C" {
 
 	typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
 
-	typedef struct fs_node * (*finddir_type_t)(struct fs_node*,const char *name); 
+	typedef struct fs_node * (*finddir_type_t)(const char *name); 
 
 	/**
 	  \struct fs_node
@@ -199,7 +199,7 @@ extern "C" {
 
 	uint32_t write_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 
-	void open_fs(fs_node_t *node, uint8_t read, uint8_t write);
+	void open_fs(fs_node_t *node);
 
 	void close_fs(fs_node_t *node);
 

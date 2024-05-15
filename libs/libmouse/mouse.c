@@ -39,6 +39,13 @@
 //the mouse_handler
 void mouse_handler(struct regs *r){
 	//todo: implement mouse handler
+
+	//lets validate the handler
+	if (r->int_no > 256) {
+		//got a weird ass interrupt number
+		panic("Got a strange interrupt number", INT_ERROR);
+	}
+	
 	//lets set the time variables so we can check for double clicking
 	static int time_old;
 	
