@@ -20,7 +20,7 @@
 */
 #include <libports.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 unsigned char inb(unsigned short port){
     unsigned char result;

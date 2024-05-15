@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 char *strpbrk(const char *s1, const char *s2) {
 	while (*s1 != '\0') {

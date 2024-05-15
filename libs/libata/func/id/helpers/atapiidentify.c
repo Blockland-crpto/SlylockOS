@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 #define IDENTIFY_CMD_PI 0xA1
 

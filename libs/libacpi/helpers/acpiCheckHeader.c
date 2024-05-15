@@ -28,7 +28,7 @@
 #include <libdebug.h>
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 
 //function to check if the ACPI header is valid

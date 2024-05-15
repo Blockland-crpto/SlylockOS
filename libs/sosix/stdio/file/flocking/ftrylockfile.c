@@ -20,7 +20,7 @@
 */
 #include <stdio.h>
 #include <stdbool.h>
-#include <libssp.h>
+ 
 
 int ftrylockfile(FILE *file) {
 	if (!file->locked) {

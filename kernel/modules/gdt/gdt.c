@@ -1,7 +1,7 @@
 #include <drivers/gdt.h>
 #include <libvga.h>
 #include <libmodule.h>
-#include <libssp.h>
+ 
 
 /* Defines a GDT entry */
 struct gdt_entry

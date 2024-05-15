@@ -20,7 +20,7 @@
 */
 #include <stdio.h>
 #include <string.h>
-#include <libssp.h>
+ 
 
 char *tmpnam(char *s) {
 	fs_node_t *exists0 = finddir_fs(fs_root, "tmpfile0");

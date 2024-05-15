@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <libssp.h>
+ 
 
 int fputc(int c, FILE *stream) {
 	if (stream->position >= BUFSIZ || stream->bufmod == _IONBF) {

@@ -2,7 +2,7 @@
 
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 
 char* strndup(const char* s, size_t size) {

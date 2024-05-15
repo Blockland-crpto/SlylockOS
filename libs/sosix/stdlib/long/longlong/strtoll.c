@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <ctype.h>
-#include <libssp.h>
+ 
 
 long long strtoll(const char *restrict str, char **restrict endptr, int base) {
 	long long result = 0;

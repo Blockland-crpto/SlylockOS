@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <libssp.h>
+ 
 
 char *fgets(char *restrict s, int n, FILE *restrict stream) {
 	int c = 0;

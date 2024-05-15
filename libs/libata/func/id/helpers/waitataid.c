@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //Poll ATA till the status is 7
 int wait_ata_id() {

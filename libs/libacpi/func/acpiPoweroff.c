@@ -22,7 +22,7 @@
 #include <libvga.h>
 #include <system/types.h>
 #include <libacpi.h>
-#include <libssp.h>
+ 
 
 
 void acpiPowerOff(void) {

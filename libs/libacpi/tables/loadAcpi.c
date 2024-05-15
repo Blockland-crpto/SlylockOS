@@ -30,7 +30,7 @@
 #include <libdebug.h>
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 //helpers
 extern int load_fadt();

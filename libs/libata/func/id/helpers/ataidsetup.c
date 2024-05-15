@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //ATA Identify Command
 #define IDENTIFY_CMD 0xEC

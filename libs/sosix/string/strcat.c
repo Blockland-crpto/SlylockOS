@@ -1,5 +1,5 @@
 #include <string.h>
-#include <libssp.h>
+ 
 
 char* strcat(char *restrict s1, const char *restrict s2) {
 	// make `ptr` point to the end of the destination string

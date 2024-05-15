@@ -23,7 +23,7 @@
 #include <libacpi.h>
 #include <libports.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //the cache flush command, needed to manually flush the cache
 #define CACHE_FLUSH_CMD 0xE7

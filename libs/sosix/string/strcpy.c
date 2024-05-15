@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 char *strcpy(char *restrict s1, const char *restrict s2) {
 	// return if no memory is allocated to the destination

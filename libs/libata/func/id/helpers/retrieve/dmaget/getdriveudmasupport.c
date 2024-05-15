@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //function to iterate through the drives mdma support
 void get_drive_udma_support(ata_device_t* drive, uint16_t* identify_data) {

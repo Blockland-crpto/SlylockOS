@@ -22,10 +22,17 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
+#include <stddef.h>
 
 //function to iterate through the drives mdma support
 void get_drive_mdma_support(ata_device_t* drive, uint16_t* identify_data) {
+
+	//input validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops!
+		return;
+	}
 	
 	//for loop to iterate over the supported MDMA's
 	for (int i = 0; i < 3; i++) {

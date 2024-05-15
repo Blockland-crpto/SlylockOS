@@ -21,7 +21,7 @@
 #include <libacpi.h>
 #include <system/types.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 unsigned int *acpiGetRSDPtr(void) {
    	unsigned int *addr;

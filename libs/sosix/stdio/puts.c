@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <libssp.h>
+ 
 
 int puts(const char* s) {
 	while (*s != '\0') {

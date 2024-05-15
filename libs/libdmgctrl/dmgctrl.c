@@ -25,9 +25,9 @@
 #include <libdmgctrl.h>
 #include <libmodule.h>
 #include <libnmi.h>
-#include <libssp.h>
 #include <libdebug.h>
 #include <libproc.h>
+#include <stddef.h>
 
 extern void _isr0();
 extern void _isr1();

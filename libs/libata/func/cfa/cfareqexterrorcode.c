@@ -24,13 +24,18 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
+#include <stddef.h>
 
 //CFA error code command
 #define CFA_REQ_EXT_ERROR_CODE 0x03
 
 //function to get a extended CFA error code
 uint8_t cfa_req_ext_error_code(ata_device_t* dev) {
+	//input validation!
+	if (dev == NULL) {
+		return 0;
+	}
 	//lets first see if CFA is supported
 	if(!dev->cmd_set_supported[CFA_FEATURE_SET_SUPPORTED].supported) {
 		//oops! cfa feature set isn't supported

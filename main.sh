@@ -27,7 +27,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libserial/include
 						-I./libs/libsound/include
 						-I./libs/libsse/include
-						-I./libs/libssp/include
+						-I./libs/libssp/
 						-I./libs/libtimer/include
 						-I./libs/libvga/include
 						-I./libs/sosix/include")

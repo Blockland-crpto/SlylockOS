@@ -20,7 +20,7 @@
 */
 #include <libnmi.h>
 #include <libmodule.h>
-#include <libssp.h>
+ 
 #include <system/types.h>
 
 void nmi_init() {

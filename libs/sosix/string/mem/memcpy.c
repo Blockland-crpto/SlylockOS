@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdint.h>
-#include <libssp.h>
+ 
 
 void *memcpy(void *restrict s1, const void *restrict s2, size_t n) {
 	uint8_t *p1 = (uint8_t*)s1;

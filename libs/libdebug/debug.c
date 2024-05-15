@@ -21,7 +21,7 @@
 #include <libdebug.h>
 #include <libvga.h>
 #include <libmem.h>
-#include <libssp.h>
+ 
 #include <libserial.h>
 #include <libtimer.h>
 #include <string.h>

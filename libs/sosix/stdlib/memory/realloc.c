@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <libmem.h>
-#include <libssp.h>
+ 
 #include <string.h>
 
 void *realloc(void *ptr, size_t numbytes) {

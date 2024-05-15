@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <ctype.h>
-#include <libssp.h>
+ 
 
 int vsscanf(const char *restrict str, const char *restrict format, va_list args) {
 	int count = 0; // Number of successfully matched and assigned input items

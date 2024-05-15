@@ -21,7 +21,7 @@
 #include <libmem.h>
 #include <libmultiboot.h>
 #include <string.h>
-#include <libssp.h>
+ 
 
 
 uintptr_t current_break;

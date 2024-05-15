@@ -18,23 +18,9 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+#ifndef __LIMITS_H_
+#define __LIMITS_H_
 
-#ifndef __LIBSSP_H__
-
-#include <stdint.h>
-#include <stdlib.h>
-#include <libdebug.h>
-
-#if UINT32_MAX == UINTPTR_MAX
-#define STACK_CHK_GUARD 0xe2dee396
-#else
-#define STACK_CHK_GUARD 0x595e9fbd94fda766
-#endif
-
-void ssp_init(void);
-
-__attribute__((noreturn)) void __stack_chk_fail(void);
-__attribute__((noreturn)) void __stack_chk_fail_local(void);
-void __memcpy_chk (void *__restrict__ dest, const void *__restrict__ src, size_t len, size_t slen);
+#define INT_MAX 2147483647
 
 #endif

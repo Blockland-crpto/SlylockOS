@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <libssp.h>
+ 
 
 long ftell(FILE *stream) {
 	return stream->position;

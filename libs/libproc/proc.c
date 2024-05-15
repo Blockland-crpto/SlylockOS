@@ -20,7 +20,8 @@
 */
 #include <libproc.h>
 #include <system/types.h>
-#include <libssp.h>
+#include <stddef.h>
+#include <libdebug.h>
 #include <libmem.h>
 #include <libmodule.h>
 

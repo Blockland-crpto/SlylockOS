@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <system/types.h>
 #include <libmodule.h>
-#include <libssp.h>
+ 
 
 //ATA initializer
 void ata_init() {

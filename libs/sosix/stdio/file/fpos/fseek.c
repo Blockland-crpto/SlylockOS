@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <libssp.h>
+ 
 
 int fseek(FILE *stream, long offset, int whence) {
 	if (stream == NULL) {

@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 size_t strspn(const char *s1, const char *s2) {
 	const char *p;

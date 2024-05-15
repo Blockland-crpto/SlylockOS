@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libsound.h>
-#include <libssp.h>
+ 
 #include <libports.h>
 #include <libmodule.h>
 #include <libmem.h>

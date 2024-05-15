@@ -24,7 +24,7 @@
 #include <libvga.h>
 #include <libmodule.h>
 #include <stdio.h>
-#include <libssp.h>
+ 
 #include <libdebug.h>
 #include <libdevmgr.h>
 

@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <system/types.h>
 #include <libdebug.h>
-#include <libssp.h>
+ 
 
 void nmi_enable() {
 	if (!nmi_enabled) {

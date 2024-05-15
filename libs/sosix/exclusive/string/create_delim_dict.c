@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <libmem.h>
-#include <libssp.h>
+ 
 
 #define DICT_LEN 256
 

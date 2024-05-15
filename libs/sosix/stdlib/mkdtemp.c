@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <libssp.h>
+ 
 #include <libfs.h>
 
 char *mkdtemp(char *temp) {

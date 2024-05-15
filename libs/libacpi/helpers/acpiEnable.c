@@ -27,7 +27,7 @@
 #include <libdebug.h>
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 
 int acpiEnable(void) {

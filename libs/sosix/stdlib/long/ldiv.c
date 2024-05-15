@@ -16,7 +16,7 @@
    <https://www.gnu.org/licenses/>. 
 */
 #include <stdlib.h>
-#include <libssp.h>
+ 
 
 ldiv_t ldiv(long int numer, long int denom) {
 	ldiv_t result;

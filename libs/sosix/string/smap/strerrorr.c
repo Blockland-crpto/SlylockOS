@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 #include <errno.h>
 
 int strerror_r(int errnum, char* strerrbuf, size_t buflen) {

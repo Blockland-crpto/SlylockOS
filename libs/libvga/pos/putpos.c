@@ -20,7 +20,7 @@
 */
 #include <libvga.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 void putpos(unsigned char c, unsigned char forecolour, unsigned char backcolour, int x, int y) {
 	 uint16_t attrib = (backcolour << 4) | (forecolour & 0x0F);

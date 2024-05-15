@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libexe.h>
-#include <libssp.h>
+ 
 #include <libfs.h>
 #include <libmem.h>
 #include <system/types.h>

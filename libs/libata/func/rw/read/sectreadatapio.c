@@ -23,7 +23,7 @@
 #include <libacpi.h>
 #include <libports.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //helpers
 extern void sect_read_lba48();

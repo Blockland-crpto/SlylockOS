@@ -23,7 +23,7 @@
 #include <drivers/cpuid.h>
 #include <libmodule.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //static function to check sse (copied from OSdev.org's apic and modified for sse)
 static int check_sse(void) {

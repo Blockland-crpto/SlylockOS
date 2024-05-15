@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //function to retreive info from valid dependent area 1
 void get_drive_sect_valid(ata_device_t* drive, uint16_t* identify_data) {

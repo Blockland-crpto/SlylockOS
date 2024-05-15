@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <libssp.h>
+ 
 
 void clearerr(FILE *stream) {
 	if (stream == NULL || stream->node == NULL) {

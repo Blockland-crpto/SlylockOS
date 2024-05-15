@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 char *strremove(char *str, const char *sub) {
 	char *p, *q, *r;

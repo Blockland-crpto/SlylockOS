@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <string.h>
-#include <libssp.h>
+ 
 
 char *strrchr(const char *s, int c) {
 	const char *last = NULL;

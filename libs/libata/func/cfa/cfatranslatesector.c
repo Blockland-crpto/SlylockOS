@@ -24,7 +24,8 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
+#include <stddef.h>
 
 //CFA translate sector command
 #define CFA_TRANSLATE_SECTOR 0x87
@@ -32,6 +33,12 @@
 //function to get a translated CFA sector
 uint8_t* cfa_translate_sector(ata_device_t* dev, uint32_t LBA) {
 
+	//input validation
+	if (dev == NULL || LBA == NULL) {
+		//oops!
+		return 0;
+	}
+	
 	//variable for the output
 	static uint8_t output[512];
 	

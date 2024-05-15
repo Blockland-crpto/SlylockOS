@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libssp.h>
+ 
 
 char* getenv(const char *name) {
 	uint8_t* env;

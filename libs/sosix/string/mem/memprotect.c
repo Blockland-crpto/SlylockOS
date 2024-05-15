@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 //This functions works as a security feature by preventing programs from modifing the memory
 //located at the void*.

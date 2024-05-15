@@ -36,7 +36,7 @@
 
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 char* strdup(const char* s) {
 	size_t len;

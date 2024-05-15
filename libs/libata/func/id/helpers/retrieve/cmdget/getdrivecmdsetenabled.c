@@ -23,10 +23,16 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
+#include <stddef.h>
 
 //function to get the drive cmd set 2
 void get_drive_cmd_set_enabled(ata_device_t* drive, uint16_t* identify_data) {
+	//input validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops
+		return;
+	}
 	//lets now get word 85
 	uint16_t command_sets_enabled = identify_data[85];
 

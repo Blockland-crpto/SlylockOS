@@ -22,7 +22,7 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //function to get drive capabilities
 void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {

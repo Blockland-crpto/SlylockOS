@@ -21,7 +21,7 @@
 #include <libnmi.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <libssp.h>
+ 
 
 void nmi_disable() {
 	if (nmi_enabled) {

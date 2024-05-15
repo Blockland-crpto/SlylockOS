@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libpower.h>
-#include <libssp.h>
+ 
 #include <libproc.h>
 #include <libdevmgr.h>
 #include <libmodule.h>

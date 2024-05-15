@@ -26,7 +26,7 @@
 #include <libmodule.h>
 #include <libkeyboard.h>
 #include <libdebug.h>
-#include <libssp.h>
+ 
 
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;

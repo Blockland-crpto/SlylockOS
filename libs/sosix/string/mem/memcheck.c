@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 //This functions searches to see if a memory block is protected
 enum protected_mem_modes memcheck(const void *s) {

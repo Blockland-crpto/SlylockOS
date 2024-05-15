@@ -1,5 +1,5 @@
 #include <string.h>
-#include <libssp.h>
+ 
 
 char *stpcpy(char *restrict s1, const char *restrict s2) {
 	while ((*s1++ = *s2++));

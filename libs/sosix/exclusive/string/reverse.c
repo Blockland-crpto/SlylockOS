@@ -1,5 +1,5 @@
 #include <string.h>
-#include <libssp.h>
+ 
 
 // function to reverse buffer[i..j]
 char* reverse(char *buffer, int i, int j)

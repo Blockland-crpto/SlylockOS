@@ -21,7 +21,7 @@
 #include <libata.h>
 #include <libports.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 void sect_read_lba28(uint32_t LBA, uint8_t sector_count, uint32_t target_address) {
 	outb(IO_PORT_SECTOR_COUNT, sector_count);

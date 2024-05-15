@@ -20,7 +20,7 @@
 */
 #include <libvga.h>
 #include <libports.h>
-#include <libssp.h>
+ 
 
 void show_cursor(){ // Sends a bunch of out port byte commands to show the cursor
 	unsigned char current;

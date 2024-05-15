@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <system/types.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 ssize_t getdelim(char **restrict lineptr, size_t *restrict n, int delimiter, FILE *restrict stream) {
 	if (lineptr == NULL || n == NULL || stream == NULL) {

@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <stdbool.h>
-#include <libssp.h>
+ 
 
 static char *strtok_state;
 

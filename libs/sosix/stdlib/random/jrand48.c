@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <iso646.h>
-#include <libssp.h>
+ 
 
 long jrand48(unsigned short xsubi[3]) {
 	const unsigned long long a = 0x5DEECE66DULL;

@@ -24,13 +24,20 @@
 #include <libports.h>
 #include <libdebug.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
+#include <stddef.h>
 
 //the CFA erase sectors command
 #define CFA_ERASE_SECTORS 0xC0
 
 //function to erase sectors using CFA
 void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev) {
+
+	//lets first validate the input
+	if (LBA == NULL || sector_count == NULL || dev == NULL) {
+		return;
+	}
+	
 	//lets first see if CFA is supported
 	if(!dev->cmd_set_supported[CFA_FEATURE_SET_SUPPORTED].supported) {
 		//oops! cfa erase sectors isn't supported

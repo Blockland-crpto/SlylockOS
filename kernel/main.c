@@ -48,7 +48,7 @@
 #include <libserial.h>
 #include <libsound.h>
 #include <libsse.h>
-#include <libssp.h>
+ 
 #include <libtimer.h>
 #include <libvga.h>
 
@@ -56,11 +56,13 @@
 
 #define MB_MAGIC 0x1BADB002
 
+extern void __guard_setup();
+
 //the kernel constructor
 //NOTE: the kernel constructor is called before the main function
 //and is used to setup runtime features such as SSP, LIBC and MM
 __attribute__ ((constructor)) void init_kernel() {
-	ssp_init();
+	__guard_setup();
 	libc_init();
 	kalloc_init();
 	set_cursor_pos(0,0);

@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <string.h>
-#include <libssp.h>
+ 
 
 char *strtok_r(char *restrict s, const char *restrict sep, char **restrict state) {
 	char *token_start;

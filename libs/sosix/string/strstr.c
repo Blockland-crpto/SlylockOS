@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 // Function to implement `strstr()` function
 char* strstr(const char *s1, const char *s2) {

@@ -24,7 +24,7 @@
 #include <libmultiboot.h>
 #include <libvga.h>
 #include <libmodule.h>
-#include <libssp.h>
+ 
  
 
 fs_node_t *fs_root = 0; // The root of the filesystem.

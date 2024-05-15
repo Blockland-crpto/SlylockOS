@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <libssp.h>
+ 
 
 void *bsearch(const void *key, const void *base, size_t nel, size_t width, int (*compar)(const void *, const void *)) {
 	const char *ptr = (const char *)base;

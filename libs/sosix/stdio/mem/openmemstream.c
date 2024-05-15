@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 #include <libfs.h>
 
 FILE* open_memstream(char **bufp, size_t *sizep) {

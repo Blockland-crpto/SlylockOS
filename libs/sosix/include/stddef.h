@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 
-	#define NULL ((void * ) 0)
+	#define NULL 0
 	
 	typedef signed int ptrdiff_t;
 	typedef int wchar_t;

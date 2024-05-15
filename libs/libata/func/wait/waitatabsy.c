@@ -21,7 +21,7 @@
 #include <libata.h>
 #include <libports.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 //Wait for ATA
 int wait_ata_bsy() {

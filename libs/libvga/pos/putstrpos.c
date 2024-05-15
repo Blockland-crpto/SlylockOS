@@ -20,7 +20,7 @@
 */
 #include <libvga.h>
 #include <string.h>
-#include <libssp.h>
+ 
 #include <system/types.h>
 
 

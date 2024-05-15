@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 //add error handling
 FILE *freopen(const char *restrict pathname, const char *restrict mode, FILE *restrict stream) {

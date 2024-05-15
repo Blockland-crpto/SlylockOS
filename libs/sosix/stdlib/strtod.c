@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stddef.h>
-#include <libssp.h>
+ 
 
 double strtod(const char *restrict nptr, char **restrict endptr) {
 	double result = 0.0;

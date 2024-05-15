@@ -1,5 +1,6 @@
 { pkgs }: {
 	deps = [
+   pkgs.unzip
 		pkgs.ccls
    		pkgs.pciutils
   		pkgs.gdb

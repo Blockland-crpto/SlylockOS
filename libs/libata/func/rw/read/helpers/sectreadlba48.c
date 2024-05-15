@@ -21,7 +21,7 @@
 #include <libata.h>
 #include <libports.h>
 #include <system/types.h>
-#include <libssp.h>
+ 
 
 void sect_read_lba48(uint64_t LBA, uint16_t sector_count, uint32_t target_address) {
 	// Setup 48-bit LBA

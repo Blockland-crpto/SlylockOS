@@ -20,7 +20,7 @@
 */
 #include <libacpi.h>
 #include <libapic.h>
-#include <libssp.h>
+ 
 #include <libmem.h>
 #include <libpower.h>
 #include <libdebug.h>

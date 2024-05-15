@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
-#include <libssp.h>
+ 
 
 char *rstrstr(const char *str, const char *sub) {
 	char *result;
