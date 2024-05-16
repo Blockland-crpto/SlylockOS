@@ -23,7 +23,8 @@
 #include <libmodule.h>
 #include <libports.h>
 #include <libproc.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libvga.h>
 #include <libdebug.h>
 #include <string.h>
@@ -39,7 +40,7 @@ int acpiCheckHeader(uint32_t *ptr, char *sig) {
 	//as its a kernel only function
 	if (task_queue[0].entry_point != NULL) {
 		//oops a process initiated the request! we gotta kill the process!
-		proc_kill();
+		proc_kill(PROC_EXIT_STATUS_ABORTED);
 	}
 
 	//lets validate the input

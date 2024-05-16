@@ -104,6 +104,11 @@
 	\brief Happens if the interrupt manager errors for some reason
 */
 #define INT_ERROR 14
+/**
+	\def PROC_RET_INVALID
+	\brief Happens if a process returns an invalid value
+*/
+#define PROC_RET_INVALID 15
 
 #if defined(__cplusplus)
 extern "C" {

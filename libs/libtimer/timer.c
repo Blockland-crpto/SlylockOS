@@ -26,7 +26,7 @@
 #include <string.h>
 #include <libmodule.h>
  
-#include <drivers/irq.h>
+#include <kernel/irq.h>
 
 #define FREQ 100
 

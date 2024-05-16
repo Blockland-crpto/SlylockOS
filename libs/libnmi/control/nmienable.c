@@ -20,10 +20,9 @@
 */
 #include <libnmi.h>
 #include <libports.h>
-#include <system/types.h>
+#include <stdbool.h>
 #include <libdebug.h>
  
-
 void nmi_enable() {
 	if (!nmi_enabled) {
 		outb(0x70, inb(0x70) & 0x7F);

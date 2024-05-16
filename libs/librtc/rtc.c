@@ -19,7 +19,8 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <librtc.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libmodule.h>
 #include <libports.h>
  

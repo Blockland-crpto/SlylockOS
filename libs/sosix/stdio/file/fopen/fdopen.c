@@ -24,12 +24,19 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <errno.h>
- 
+#include <libproc.h>
 #include <libfs.h>
 
 #define MAX_FILE_SIZE 4096
 
 FILE *fdopen(fs_node_t* fd, const char *mode) {
+
+	//lets check if the process is allowed to
+	if (task_queue[0].file_stream_allocations_used == FOPEN_MAX) {
+		//if its used then we cant open any more
+		return NULL;
+	}
+	
 	FILE *file = (FILE *)malloc(sizeof(FILE));
 	if (file == NULL) {
 		// Out of memory error
@@ -94,6 +101,13 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 	file->name = fd->name;
 	file->node = fd;
 	file->mode = mode;
-
+	for (int i = 0; i < FOPEN_MAX; i++) {
+		if (task_queue[0].file_streams[i] == NULL) {
+			task_queue[0].file_streams[i] = file;
+			task_queue[0].file_stream_allocations_used++;
+			break;
+		}
+	}
+	
 	return file;
 }

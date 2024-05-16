@@ -31,7 +31,8 @@
 #ifndef __LIBFS_H
 #define __LIBFS_H
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 //patch to make the compiler shut up
 struct fs_node;

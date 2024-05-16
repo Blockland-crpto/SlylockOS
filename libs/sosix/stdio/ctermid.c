@@ -23,6 +23,11 @@
 
 //test it out
 char *ctermid(char *s) {
+	//lets just check if its null just so the
+	//compiler will shut up
 	char *cstr = "/boot/kernel.bin";
+	if (s == NULL) {
+		return cstr;
+	}
 	return cstr;
 }

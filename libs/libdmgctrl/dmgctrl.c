@@ -21,7 +21,7 @@
 //contains AbridOS code
 
 #include <libvga.h>
-#include <drivers/idt.h>
+#include <kernel/idt.h>
 #include <libdmgctrl.h>
 #include <libmodule.h>
 #include <libnmi.h>
@@ -172,7 +172,7 @@ void fault_handler(struct regs *r) {
 			putstr(" Exception.\n", COLOR_RED, COLOR_BLK);
 			
 			//good by process
-			proc_kill(current_proc.id);
+			proc_kill(PROC_EXIT_STATUS_ABORTED);
 		}
 
 	} else if (r->int_no == 48) {

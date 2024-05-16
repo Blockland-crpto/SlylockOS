@@ -26,7 +26,8 @@
 #include <libtimer.h>
 #include <string.h>
 #include <stdarg.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 
 __attribute__((noreturn)) void panic(char* reason, int errno) {

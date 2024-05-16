@@ -29,6 +29,13 @@
 
 
 FILE *fopen(const char *filename, const char *mode) {
+
+	//lets check if the process is allowed to
+	if (task_queue[0].file_stream_allocations_used == FOPEN_MAX) {
+		//if its used then we cant open any more
+		return NULL;
+	}
+	
 	FILE* file = (FILE*)malloc(sizeof(FILE));
 	
 	if (file == NULL) {
@@ -104,7 +111,8 @@ FILE *fopen(const char *filename, const char *mode) {
 	file->node = fsnode;
 	file->mode = mode;
 	file->stream = buff; // Store the buffer in the file stream
-	
+	task_queue[0].file_stream_allocations_used++;
+	task_queue[0].file_streams[task_queue[0].file_stream_allocations_used] = file;
 	free(buff);
 	return file;
 }

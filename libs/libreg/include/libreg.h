@@ -21,7 +21,8 @@
 #ifndef __LIBMSR_H__
 #define __LIBMSR_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #if defined(__cplusplus)
 extern "C" {

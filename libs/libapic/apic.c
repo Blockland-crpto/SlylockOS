@@ -20,7 +20,8 @@
 */
 #include <libapic.h>
 #include <libmodule.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 
 

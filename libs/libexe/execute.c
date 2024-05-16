@@ -22,7 +22,8 @@
  
 #include <libfs.h>
 #include <libmem.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 extern void run_external();
 

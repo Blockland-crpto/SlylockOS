@@ -21,7 +21,7 @@
 #include <libports.h>
 #include <libvga.h>
 #include <libdmgctrl.h>
-#include <drivers/irq.h>
+#include <kernel/irq.h>
 #include <libkeyboard.h>
 #include <libmodule.h>
  

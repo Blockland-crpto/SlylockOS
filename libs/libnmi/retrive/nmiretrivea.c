@@ -20,7 +20,7 @@
 */
 #include <libnmi.h>
 #include <libports.h>
-#include <system/types.h>
+#include <stdint.h>
  
 
 uint32_t retrive_nmi_data_a() {

@@ -1,5 +1,5 @@
-#ifndef __DRIVERS_X86_IDT_H
-#define __DRIVERS_X86_IDT_H
+#ifndef __KERNEL_IDT_H
+#define __KERNEL_IDT_H
 
 #if defined(__cplusplus)
 extern "C" {

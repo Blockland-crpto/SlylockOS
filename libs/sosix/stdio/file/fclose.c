@@ -23,7 +23,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <errno.h>
- 
+#include <libproc.h>
 #include <libfs.h>
 
 int fclose(FILE *stream) {
@@ -41,5 +41,16 @@ int fclose(FILE *stream) {
 	}
 	write_fs(stream->node, 0, size, buff);
 	free(stream);
+
+	//lets look for the file stream
+	for (int i = 0; i < FOPEN_MAX; i++) {
+		if (task_queue[0].file_streams[i]->name == stream->name) {
+			//okay this is it
+			task_queue[0].file_streams[i] = NULL;
+			task_queue[0].file_stream_allocations_used--;
+			break;
+		}
+	}
+	
 	return 0;
 }

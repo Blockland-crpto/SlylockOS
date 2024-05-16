@@ -26,7 +26,9 @@ extern "C" {
 #endif
 
 
-	#define NULL 0
+	#define NULL ((void*)0)
+
+	#define offsetof(st, m) __builtin_offsetof(st, m)
 	
 	typedef signed int ptrdiff_t;
 	typedef int wchar_t;

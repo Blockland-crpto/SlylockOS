@@ -20,7 +20,8 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <stddef.h>
  
 

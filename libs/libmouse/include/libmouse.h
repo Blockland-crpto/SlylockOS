@@ -22,7 +22,8 @@
 #ifndef __LIBMOUSE_H__
 #define __LIBMOUSE_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 //Mouse commands
 enum mouse_commands {

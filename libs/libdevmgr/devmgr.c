@@ -24,8 +24,8 @@
 #include <libmouse.h>
 #include <libmem.h>
 #include <libacpi.h>
-#include <system/types.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 //function to initalize the device manager
 void devmgr_init() {

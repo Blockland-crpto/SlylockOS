@@ -19,7 +19,8 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libports.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 unsigned char inb(unsigned short port){

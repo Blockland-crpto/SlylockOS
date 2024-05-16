@@ -21,7 +21,8 @@
 #include <libata.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 //function to iterate through the drives mdma support

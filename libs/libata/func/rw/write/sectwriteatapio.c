@@ -22,7 +22,8 @@
 #include <libata.h>
 #include <libacpi.h>
 #include <libports.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 //the cache flush command, needed to manually flush the cache

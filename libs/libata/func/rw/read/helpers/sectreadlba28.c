@@ -20,7 +20,8 @@
 */
 #include <libata.h>
 #include <libports.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 void sect_read_lba28(uint32_t LBA, uint8_t sector_count, uint32_t target_address) {

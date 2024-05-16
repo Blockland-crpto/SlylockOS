@@ -22,7 +22,8 @@
 #include <libmultiboot.h>
 #include <libinitrd.h>
 #include <libmem.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libmodule.h>
 #include <string.h>
  

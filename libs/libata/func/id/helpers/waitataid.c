@@ -21,7 +21,8 @@
 #include <libata.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 //Poll ATA till the status is 7

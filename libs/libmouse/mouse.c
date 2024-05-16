@@ -26,7 +26,7 @@
 #include <libvga.h>
 #include <libdmgctrl.h>
 #include <libdevmgr.h>
-#include <drivers/irq.h>
+#include <kernel/irq.h>
 #include <libmodule.h>
  
 #include <string.h>

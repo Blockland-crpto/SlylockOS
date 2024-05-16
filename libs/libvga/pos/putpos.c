@@ -19,7 +19,8 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libvga.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 void putpos(unsigned char c, unsigned char forecolour, unsigned char backcolour, int x, int y) {

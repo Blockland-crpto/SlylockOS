@@ -20,7 +20,8 @@
 */
 #include <stdio.h>
  
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 int fseeko(FILE *stream, off_t offset, int whence) {
 	return fseek(stream, (long)offset, whence);

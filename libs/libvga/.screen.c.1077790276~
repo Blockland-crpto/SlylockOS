@@ -2,7 +2,8 @@
 #include <libvga.h>
 #include <stdarg.h>
 #include <string.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 volatile vga_char *TEXT_AREA = (vga_char*) VGA_START;
 

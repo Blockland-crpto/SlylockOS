@@ -1,7 +1,7 @@
 #include <libvga.h>
-#include <drivers/idt.h>
+#include <kernel/idt.h>
 #include <libdmgctrl.h>
-#include <drivers/irq.h>
+#include <kernel/irq.h>
 #include <libmodule.h>
 #include <libports.h>
  

@@ -23,11 +23,12 @@
 #include <libdebug.h>
 #include <libvga.h>
 #include <libdmgctrl.h>
-#include <drivers/irq.h>
+#include <kernel/irq.h>
 #include <libmodule.h>
  
 #include <string.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <stdarg.h>
 
 //TODO: add COM2 support and input handling

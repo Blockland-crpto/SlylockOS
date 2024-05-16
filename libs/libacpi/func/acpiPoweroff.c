@@ -20,7 +20,8 @@
 */
 #include <libports.h>
 #include <libvga.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libacpi.h>
  
 

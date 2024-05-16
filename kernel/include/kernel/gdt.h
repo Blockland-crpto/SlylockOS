@@ -8,8 +8,8 @@
   \copyright MIT License.
 */
 
-#ifndef __DRIVERS_X86_GDT_H
-#define __DRIVERS_X86_GDT_H
+#ifndef __KERNEL_GDT_H
+#define __KERNEL_GDT_H
 
 #if defined(__cplusplus)
 extern "C" {

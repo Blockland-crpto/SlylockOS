@@ -1,5 +1,5 @@
-#ifndef __DRIVERS_X86_IRQ_H
-#define __DRIVERS_X86_IRQ_H
+#ifndef __KERNEL_IRQ_H
+#define __KERNEL_IRQ_H
 
 #if defined(__cplusplus)
 extern "C" {

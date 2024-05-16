@@ -21,8 +21,6 @@
 #ifndef __LIBPIC_H__
 #define __LIBPIC_H__
 
-#include <system/types.h>
-
 #if defined(__cplusplus)
 extern "C" {
 #endif

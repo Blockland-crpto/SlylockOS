@@ -19,7 +19,8 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libmmio.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 uint8_t mmioRead8 (uint32_t* p_address) {

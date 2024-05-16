@@ -22,7 +22,8 @@
 #include <libdebug.h>
 #include <libmodule.h>
 #include <libproc.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #define STORAGE_DEMAND_THRESHOLD 102400
 #define MEMORY_DEMAND_THRESHOLD 102400

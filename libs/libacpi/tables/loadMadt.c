@@ -26,7 +26,8 @@
 #include <libpower.h>
 #include <libdebug.h>
 #include <libdevmgr.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 //function to get the MADT table
 int load_madt(uint32_t* ptr, int entrys) {

@@ -33,7 +33,8 @@
 #define LIBINITRD_H
 
 #include <libfs.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #define MAX_INITRD_FILES 1000
 

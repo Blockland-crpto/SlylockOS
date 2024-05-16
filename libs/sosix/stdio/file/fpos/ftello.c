@@ -19,7 +19,8 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 off_t ftello(FILE *stream) {

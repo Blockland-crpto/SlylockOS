@@ -20,9 +20,10 @@
 */
 #include <libsse.h>
 #include <float.h>
-#include <drivers/cpuid.h>
+#include <kernel/cpuid.h>
 #include <libmodule.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 //static function to check sse (copied from OSdev.org's apic and modified for sse)

@@ -22,7 +22,8 @@
 #define __SYS_WAIT_H__
 
 #include <libproc.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #define WEXITSTATUS(status) (status)
 #define WIFEXITED(status) (status == NULL)

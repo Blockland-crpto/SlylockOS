@@ -20,11 +20,10 @@
 */
 //Slylock OS Kernel
 
-#include <system/types.h>
 
-#include <drivers/irq.h>
-#include <drivers/gdt.h>
-#include <drivers/idt.h>
+#include <kernel/irq.h>
+#include <kernel/gdt.h>
+#include <kernel/idt.h>
 
 #include <libacpi.h>
 #include <libapic.h>

@@ -21,7 +21,9 @@
 #ifndef __LIBPROC_H__
 #define __LIBPROC_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 //enum for process status
 enum proc_status {
@@ -36,6 +38,13 @@ enum proc_priority {
 	PROC_PRIORITY_LOW,
 	PROC_PRIORITY_NORMAL,
 	PROC_PRIORITY_HIGH,
+};
+
+//enum for exit status
+enum proc_exit_status {
+	PROC_EXIT_STATUS_SUCCESS,
+	PROC_EXIT_STATUS_FAILURE,
+	PROC_EXIT_STATUS_ABORTED,
 };
 
 #define MAX_PROCS_QUEUED 10
@@ -80,12 +89,19 @@ extern "C" {
 
 		//process allocations
 		size_t heap_allocations_used;
+
+		//file stream allocations
+		size_t file_stream_allocations_used;
 	
 		//heap allocations
 		void* heap_allocations[100];
 
+		//file streams
+		FILE* file_streams[FOPEN_MAX];
+	
 		//ACPI permissions
 		bool acpi_allowed;
+
 	} proc_control_block;
 
 	//taskqueue
@@ -101,7 +117,7 @@ extern "C" {
 	void proc_yield();
 
 	//function to kill the current task
-	void proc_kill();
+	void proc_kill(enum proc_exit_status status);
 	
 	//scheduler
 	void proc_scheduler();

@@ -31,7 +31,8 @@
 #ifndef __LIBVGA_H
 #define __LIBVGA_H
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 /**
 	\def VGA_START

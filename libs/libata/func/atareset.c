@@ -20,7 +20,8 @@
 */
 #include <libata.h>
 #include <libports.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libmodule.h>
  
 

@@ -52,7 +52,7 @@ FILE *freopen(const char *restrict pathname, const char *restrict mode, FILE *re
 		
 		return newstream;
 	} else {
-		//TODO: set the stream to be unbuffered
+		stream->bufmod = _IONBF;
 		stream->mode = mode;
 	}
 	return stream;

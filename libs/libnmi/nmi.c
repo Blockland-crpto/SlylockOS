@@ -20,8 +20,6 @@
 */
 #include <libnmi.h>
 #include <libmodule.h>
- 
-#include <system/types.h>
 
 void nmi_init() {
 	module_t modules_nmi = MODULE("kernel.modules.nmi", "provides a handler for non maskable interrupts (CORE)");

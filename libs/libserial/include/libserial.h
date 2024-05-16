@@ -21,7 +21,8 @@
 #ifndef __LIBSERIAL_H__
 #define __LIBSERIAL_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 //serial ports
 enum serial_ports {

@@ -31,7 +31,8 @@
 #ifndef __LIBPORTS_H
 #define __LIBPORTS_H
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #if defined(__cplusplus)
 extern "C" {

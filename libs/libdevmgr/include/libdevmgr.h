@@ -21,7 +21,8 @@
 #ifndef __LIBDEVMGR_H__
 #define __LIBDEVMGR_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libapic.h>
 #include <libmouse.h>
 

@@ -19,8 +19,10 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libproc.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <libdebug.h>
 #include <libmem.h>
 #include <libmodule.h>
@@ -76,6 +78,7 @@ void proc_create(int (*entry_point)(), enum proc_priority priority, int parent) 
 	proc.subprocesses_active = 0;
 	proc.heap_allocations_used = 0;
 	proc.acpi_allowed = false;
+	proc.file_stream_allocations_used = 0;
 	task_queue[task_count] = proc;
 }
 
@@ -111,9 +114,17 @@ void proc_destroy(int id) {
 }
 
 //function to kill the current task
-void proc_kill() {
+void proc_kill(enum proc_exit_status status) {
 	//lets get the current process
 	proc_control_block current_proc = task_queue[0];
+
+	//we need to close its file streams
+	for (int i = 0; i < FOPEN_MAX; i++) {
+		//is it used?
+		if (current_proc.file_streams[i] != NULL) {
+			fclose(current_proc.file_streams[i]);
+		}
+	}
 	
 	//lets skip to next process
 	//lets destory the current process
@@ -125,6 +136,22 @@ void proc_kill() {
 		task_queue[i] = task_queue[i + 1];
 	}
 
+	//lets see if it errored
+	switch (status) {
+		case PROC_EXIT_STATUS_SUCCESS:
+			//exit with success
+			break;
+		case PROC_EXIT_STATUS_FAILURE:
+			//oops!
+			break;
+		case PROC_EXIT_STATUS_ABORTED:
+			//aborted
+			break;
+		default:
+			//panic!!
+			panic("oops! a process exited with an invalid status", PROC_RET_INVALID);
+	}
+	
 	//now lets recall the schedualer
 	proc_scheduler();
 }

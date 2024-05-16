@@ -21,8 +21,7 @@
 #include <libpic.h>
 #include <libports.h>
 #include <libmodule.h>
-#include <system/types.h>
-#include <drivers/cpuid.h>
+#include <kernel/cpuid.h>
 
 //pic ports
 #define PIC1 0x20

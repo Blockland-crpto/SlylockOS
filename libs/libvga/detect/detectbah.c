@@ -19,7 +19,8 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libvga.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
  
 
 uint16_t detect_bios_area_hardware() {

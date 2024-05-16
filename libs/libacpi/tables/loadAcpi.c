@@ -25,7 +25,8 @@
 #include <libports.h>
 #include <libpower.h>
 #include <libdevmgr.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libvga.h>
 #include <libdebug.h>
 #include <string.h>

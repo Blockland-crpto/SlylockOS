@@ -18,27 +18,17 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-
-#ifndef __LIBMMIO_H
-#define __LIBMMIO_H
-
-#include <stdint.h>
-#include <stdbool.h>
+#ifndef __SYS_TYPES_H
+#define __SYS_TYPES_H
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
-	uint8_t mmioRead8(uint32_t* p_address);
-	uint16_t mmioRead16(uint32_t* p_address);
-	uint32_t mmioRead32(uint32_t* p_address);
 
-	void mmioWrite8(uint32_t* p_address, uint8_t p_value);
-	void mmioWrite16(uint32_t* p_address, uint16_t p_value);
-	void mmioWrite32(uint32_t* p_address, uint32_t p_value);
-#if defined(__cplusplus)
+	typedef int ssize_t;
+	
+	typedef long off_t;
+#if defined(__cpluscplus)
 } /* extern "C" */
 #endif
-
-
-
 #endif

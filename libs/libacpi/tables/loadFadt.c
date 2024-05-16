@@ -25,7 +25,8 @@
 #include <libpower.h>
 #include <libdebug.h>
 #include <string.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 
 //function to load the FADT

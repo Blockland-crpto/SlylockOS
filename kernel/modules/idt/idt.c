@@ -1,4 +1,4 @@
-#include <drivers/idt.h>
+#include <kernel/idt.h>
 #include <libmodule.h>
 #include <libvga.h>
 #include <libmem.h>

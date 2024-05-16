@@ -1,4 +1,4 @@
-#include <drivers/gdt.h>
+#include <kernel/gdt.h>
 #include <libvga.h>
 #include <libmodule.h>
  

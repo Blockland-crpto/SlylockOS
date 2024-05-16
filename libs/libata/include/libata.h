@@ -21,7 +21,8 @@
 #ifndef __LIBATA_H
 #define __LIBATA_H
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libports.h>
 #include "cmdset.h"
 

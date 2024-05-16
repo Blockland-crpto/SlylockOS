@@ -19,8 +19,9 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libreg.h>
-#include <system/types.h>
-#include <drivers/cpuid.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <kernel/cpuid.h>
 
 
 //function to see if a CPU has MSRs

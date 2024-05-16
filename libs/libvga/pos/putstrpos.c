@@ -21,7 +21,8 @@
 #include <libvga.h>
 #include <string.h>
  
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 
 void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start) {

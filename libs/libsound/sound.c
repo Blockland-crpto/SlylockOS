@@ -19,13 +19,14 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libsound.h>
- 
+#include <stddef.h>
 #include <libports.h>
 #include <libmodule.h>
 #include <libmem.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libdmgctrl.h>
-#include <drivers/irq.h>
+#include <kernel/irq.h>
 #include <libdebug.h>
 
 //sound handler function

@@ -21,7 +21,8 @@
 #ifndef __LIBACPI_H__
 #define __LIBACPI_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libdevmgr.h>
 
 #if defined(__cplusplus)

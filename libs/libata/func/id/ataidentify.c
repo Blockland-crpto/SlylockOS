@@ -21,8 +21,9 @@
 #include <libata.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
- 
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 #include <cmdset.h>
 
 //helpers

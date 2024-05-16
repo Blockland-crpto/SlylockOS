@@ -20,7 +20,8 @@
 */
 #include <libfs.h>
 #include <libinitrd.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libmultiboot.h>
 #include <libvga.h>
 #include <libmodule.h>

@@ -22,7 +22,8 @@
 #include <libmem.h>
 #include <libmodule.h>
 #include <libports.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libvga.h>
 #include <libdebug.h>
 #include <string.h>
