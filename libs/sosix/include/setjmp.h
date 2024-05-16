@@ -35,7 +35,7 @@ extern "C" {
 	typedef uint32_t jmp_buf[6];
 	
 	int setjmp(jmp_buf env);
-	void longjmp(jmp_buf env, int val);
+	void longjmp(jmp_buf env);
 
 #if defined(__cplusplus)
 } /* extern "C" */

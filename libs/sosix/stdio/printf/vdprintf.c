@@ -21,14 +21,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
- 
+#include <stdlib.h>
 #include <libfs.h>
 
 
 //REQUIRES REWRITE
 
 int vdprintf(fs_node_t *fd, const char *format, va_list ap) {
-	uint8_t *fbuf = (uint8_t*)malloc(fd->length);
+	uint8_t *fbuf = (uint8_t*)malloc(sizeof(char) * fd->length);
+	//lets check if it worked
+	if (fbuf == NULL) {
+		//oop!
+		return -1;
+	} 
 	uint32_t startsize = read_fs(fd, 0, fd->length, fbuf);
 	const char *ptr = format;
 	int len = 0;

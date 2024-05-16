@@ -33,7 +33,7 @@ int fgetc(FILE *stream) {
 		return EOF;
 	}
 
-	if (stream->position >= stream->node->length) {
+	if ((uint32_t)stream->position >= stream->node->length) {
 		return EOF; // End of file
 	}
 	

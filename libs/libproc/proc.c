@@ -29,7 +29,7 @@
 void proc_create(int (*entry_point)(), enum proc_priority priority, int parent) {
 
 	//we need to validate the entry point
-	if (entry_point == NULL) {
+	if (entry_point == NULL || priority == NULL) {
 		//exit, invalid entry point
 		return;
 	}

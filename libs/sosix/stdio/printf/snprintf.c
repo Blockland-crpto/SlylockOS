@@ -29,7 +29,7 @@ int snprintf(char *restrict s, size_t size, const char *restrict template, ...) 
 
 	const char *ptr = template;
 	int len = 0;
-	while (*ptr && len <= size) {
+	while (*ptr && (unsigned)len <= size) {
 		if (*ptr == '%') {
 			ptr++;
 			char buf[256];
