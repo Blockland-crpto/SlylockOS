@@ -24,7 +24,6 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
 #include <stddef.h>
 
 //function to get the drive cmd set 1

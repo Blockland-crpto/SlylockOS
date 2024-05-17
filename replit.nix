@@ -1,6 +1,6 @@
 { pkgs }: {
 	deps = [
-   pkgs.unzip
+   		pkgs.unzip
 		pkgs.ccls
    		pkgs.pciutils
   		pkgs.gdb
@@ -12,5 +12,9 @@
 		pkgs.xorriso
 		pkgs.nasm
 		pkgs.python37
+		pkgs.clang
+
+		#pentesting tools
+		
 	];
 }

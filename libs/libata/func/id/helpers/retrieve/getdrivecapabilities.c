@@ -23,10 +23,17 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
+#include <stddef.h> 
 
 //function to get drive capabilities
 void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {
+
+	//validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops!
+		return;
+	}
+	
 	//next lets see the capabilities blocks
 	uint16_t capabilities_one = identify_data[49];
 	uint16_t capabilities_two = identify_data[50];
@@ -43,12 +50,12 @@ void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {
 		switch(i) {
 			case 11: {
 				//lets see if iordy is avalible
-				drive->iordy_supported = (compare & (1 << i)) ? true : false;
+				drive->iordy_data.iordy_supported = (compare & (1 << i)) ? true : false;
 				break;
 			}
 			case 10: {
 				//is it disabled?
-				drive->iordy_disabled =  (compare & (1 << i)) ? true : false;
+				drive->iordy_data.iordy_disabled =  (compare & (1 << i)) ? true : false;
 				break;
 			}
 			case 8: {

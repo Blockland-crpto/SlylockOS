@@ -23,7 +23,7 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
+#include <stddef.h>
 
 //ATA Identify Command
 #define IDENTIFY_CMD 0xEC
@@ -34,6 +34,11 @@ extern void atapi_identify();
 
 //function to setup needed things for ata id
 void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
+	//validate
+	if (drive == NULL) {
+		//oops!
+		return;
+	}
 	//sets the drive type
 	if ((dev & SELECT_DEVICE_MASTER)) {
 		drive->driveType = DRIVE_TYPE_MASTER;

@@ -23,10 +23,16 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
+#include <stddef.h>
 
 //function to retreive info from valid dependent area 1
 void get_drive_sect_valid(ata_device_t* drive, uint16_t* identify_data) {
+	//validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops!
+		return;
+	}
+	
 	//lets get the supported pio modes
 	uint16_t pio_mode = identify_data[64];
 

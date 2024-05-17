@@ -25,9 +25,14 @@
 extern "C" {
 #endif
 
+	typedef signed int blkcnt_t;
+	typedef signed int blksize_t;
+	typedef float clock_t;
+	typedef float clockid_t;
+	typedef int dev_t;
 	typedef int ssize_t;
-	
 	typedef long off_t;
+	
 #if defined(__cpluscplus)
 } /* extern "C" */
 #endif

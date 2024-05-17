@@ -116,8 +116,8 @@ enum ata_device_select {
 
 //ATAPI byte command types
 enum atapi_byte_command_types {
-	ATAPI_CMD_BYTE_12BYTES = 0,
-	ATAPI_CMD_BYTE_16BYTES = 1,
+	ATAPI_CMD_BYTE_12BYTES,
+	ATAPI_CMD_BYTE_16BYTES,
 };
 
 //ATA Device Write Addresses (LBA28)
@@ -136,8 +136,8 @@ enum ata_drive_type {
 
 //times to set DRQ
 enum atapi_drq_set_times {
-	DRQ_SET_TIMES_3MS = 0,
-	DRQ_SET_TIMES_50MICROS = 1,
+	DRQ_SET_TIMES_3MS,
+	DRQ_SET_TIMES_50MICROS,
 };
 
 //ATA power management
@@ -181,6 +181,12 @@ extern "C" {
 	
 	} atapi_info_t;
 
+
+	//iordy info 
+	typedef struct {
+		bool iordy_supported :1;
+		bool iordy_disabled :1;
+	} iordy_info_t;
 	
 	//a structure representing a ATA harddrive
 	typedef struct {
@@ -203,8 +209,7 @@ extern "C" {
 		uint16_t model_number[20];
 	
 		//Iordy information
-		bool iordy_supported;
-		bool iordy_disabled;
+		iordy_info_t iordy_data;
 	
 		//LBA modes
 		bool lba_supported;
@@ -258,6 +263,8 @@ extern "C" {
 		uint16_t identify_data[256];
 
 	} ata_device_t;
+
+
 	
 	//a array representing the ATA drives
 	ata_device_t ata_drives[2];

@@ -23,11 +23,18 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
+#include <stddef.h>
 
 
 //function to retrieve vendor info
 void get_drive_vendor(ata_device_t* drive, uint16_t* identify_data) {
+
+	//validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops!
+		return;
+	}
+	
 	//next lets get the serial number
 	for (int i = 10; i < 19; i++) {
 		//map it to serial number

@@ -18,40 +18,44 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libata.h>
-#include <libports.h>
-#include <libdebug.h>
-#include <stdint.h>
+#include <libvalidate.h>
+#include <libmodule.h>
 #include <stdbool.h>
-#include <stddef.h>
+#include <stdint.h>
+#include <string.h>
+#include <libproc.h>
 
-#define IDENTIFY_CMD_PI 0xA1
+//function to initate the validation system
+void validate_init() {
+	module_t modules_validater = MODULE("kernel.modules.validater", "The kernels validation system (CORE)");
 
-//function to send the identifiy command to ATAPI devices
-void atapi_identify(ata_device_t* drive) {
+	//let the initalization begin!
+	INIT(modules_validater);
 
-	//validate
-	if (drive == NULL) {
-		//oops!
-		return;
-	}
-	
-	//send the identify command
-	outb(IO_PORT_COMMAND, IDENTIFY_CMD_PI);
 
-	//wait...
-	wait_ata_bsy();
+	//were done!
+	DONE(modules_validater);
+}
 
-	//let retrive id status
-	uint8_t identify = inb(IO_PORT_STATUS);
-
-	//now we parse it
-	if ((identify & 0x00) == 1) {
-		//the drive does not exist
-		drive->exists = false;
-		return;
+//function to validate input
+bool valid_check_char(char* test, const char** valid, size_t validlen, size_t arraylen) {
+	//lets check if the input fits the requirements
+	if (test == NULL || valid == NULL || validlen == 0 || arraylen == 0) {
+		return false;
 	}
 
-	//lets return!
-	return;
+	//lets see if test is a valid length
+	if (strlen(test) > validlen) {
+		return false;
+	}
+
+	// lets see if it meets the requirements for validity
+	for (size_t i = 0; i < arraylen; i++) {
+		if (strcmp(test, valid[i]) == 0) {
+			return true;
+		}
+	}
+
+	//if it doesn't work
+	return false;
 }

@@ -21,12 +21,14 @@
 #ifndef __LIBPOWER_H__
 #define __LIBPOWER_H__
 
+#include <stdint.h>
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
 	//the address of the firmware_waking_vector
-	unsigned long* FWV;
+	uint32_t* FWV;
 	
 	//function to wake the system up
 	void power_wake(void);

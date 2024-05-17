@@ -37,12 +37,12 @@ extern "C" {
 	} io_apic_t;
 	
 	//MADT informatiom that contains the apic address
-	unsigned long* apic_address;
-	unsigned long apic_flags;
+	uint32_t* apic_address;
+	uint32_t apic_flags;
 
 	//io apic info
-	unsigned long ioapic_addr;
-	unsigned long gsi_base; //Global system interrupt base
+	uint32_t ioapic_addr;
+	uint32_t gsi_base; //Global system interrupt base
 	
 	//function to initialize the apic drivers
 	void apic_init();

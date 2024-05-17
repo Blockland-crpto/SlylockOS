@@ -20,7 +20,6 @@
 */
 #include <libacpi.h>
 #include <libapic.h>
- 
 #include <libmem.h>
 #include <libpower.h>
 #include <libdebug.h>
@@ -38,7 +37,7 @@ int load_fadt(uint32_t* ptr, int entrys) {
 			struct FACP *facp = (struct FACP *) *ptr;
 
 			//lets get the FACS
-			if (acpiCheckHeader((uint32_t *) facp->FIRMWARE_CTRL, "FACS") == 0) {
+			if (acpiCheckHeader(facp->FIRMWARE_CTRL, "FACS") == 0) {
 				struct FACS *facs = (struct FACS *) facp->FIRMWARE_CTRL;
 
 				//we need to report to libpower the firmware waking vector
@@ -46,7 +45,7 @@ int load_fadt(uint32_t* ptr, int entrys) {
 			}
 			
 			//lets get the DSDT
-			if (acpiCheckHeader((uint32_t *) facp->DSDT, "DSDT") == 0) {
+			if (acpiCheckHeader(facp->DSDT, "DSDT") == 0) {
 				// search the \_S5 package in the DSDT
 				char *S5Addr = (char *) facp->DSDT +36; // skip header
 				int dsdtLength = *(facp->DSDT+1) -36;

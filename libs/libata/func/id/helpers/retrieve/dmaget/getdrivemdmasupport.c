@@ -23,7 +23,6 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
 #include <stddef.h>
 
 //function to iterate through the drives mdma support

@@ -23,11 +23,18 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
+#include <stddef.h>
 
 
 //function to retrieve config info
 void get_drive_config(ata_device_t* drive, uint16_t* identify_data) {
+	
+	//validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops!
+		return;
+	}
+	
 	//compare variable
 	uint16_t compare = identify_data[0];
 	

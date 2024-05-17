@@ -23,11 +23,17 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
+#include <stddef.h>
 
 
 //get the drives ata version
 void get_drive_ata_version(ata_device_t* drive, uint16_t* identify_data) {
+	//validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops!
+		return;
+	}
+	
 	//lets now get the major version supported number
 	volatile uint16_t major_version = identify_data[80];
 	

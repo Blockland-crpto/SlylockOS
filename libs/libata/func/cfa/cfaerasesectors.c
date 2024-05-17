@@ -35,7 +35,7 @@
 void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev) {
 
 	//lets first validate the input
-	if (LBA == NULL || sector_count == NULL || dev == NULL) {
+	if (LBA == 0 || sector_count == 0 || dev == NULL) {
 		return;
 	}
 	

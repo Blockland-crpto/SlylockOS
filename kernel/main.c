@@ -47,8 +47,8 @@
 #include <libserial.h>
 #include <libsound.h>
 #include <libsse.h>
- 
 #include <libtimer.h>
+#include <libvalidate.h>
 #include <libvga.h>
 
 #include <libc.h>
@@ -80,6 +80,8 @@ int kmain(multiboot_info_t* mb_info, uint32_t magic){
 	} 
 
 	sse_init();
+
+	validate_init();
 	
   	gdt_install();
 	

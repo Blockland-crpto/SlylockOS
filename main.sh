@@ -29,6 +29,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libsse/include
 						-I./libs/libssp/
 						-I./libs/libtimer/include
+						-I./libs/libvalidate/include
 						-I./libs/libvga/include
 						-I./libs/sosix/include")
 export debug=$(echo "-DDEBUG -Wextra -Wstack-protector")
@@ -63,6 +64,7 @@ export optimize=$(echo "-Og -g")
 ./build/libsse_build.sh
 ./build/libssp_build.sh
 ./build/libtimer_build.sh
+./build/libvalidate_build.sh
 ./build/libvga_build.sh
 ./build/sosix_build.sh
 

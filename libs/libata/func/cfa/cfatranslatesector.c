@@ -25,7 +25,6 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
 #include <stddef.h>
 
 //CFA translate sector command
@@ -35,7 +34,7 @@
 uint8_t* cfa_translate_sector(ata_device_t* dev, uint32_t LBA) {
 
 	//input validation
-	if (dev == NULL || LBA == NULL) {
+	if (dev == NULL || LBA == 0) {
 		//oops!
 		return 0;
 	}

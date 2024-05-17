@@ -18,40 +18,23 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libata.h>
-#include <libports.h>
-#include <libdebug.h>
+#ifndef __LIBVALIDATE_H
+#define __LIBVALIDATE_H
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
 
-#define IDENTIFY_CMD_PI 0xA1
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
-//function to send the identifiy command to ATAPI devices
-void atapi_identify(ata_device_t* drive) {
+	void validate_init();
 
-	//validate
-	if (drive == NULL) {
-		//oops!
-		return;
-	}
+	bool valid_check_char(char* test, const char** valid, size_t validlen, size_t arraylen);
 	
-	//send the identify command
-	outb(IO_PORT_COMMAND, IDENTIFY_CMD_PI);
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
 
-	//wait...
-	wait_ata_bsy();
-
-	//let retrive id status
-	uint8_t identify = inb(IO_PORT_STATUS);
-
-	//now we parse it
-	if ((identify & 0x00) == 1) {
-		//the drive does not exist
-		drive->exists = false;
-		return;
-	}
-
-	//lets return!
-	return;
-}
+#endif
