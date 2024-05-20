@@ -103,7 +103,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		uint32_t addressable_space_lba28 = (addressable_space_2 << 8) | addressable_space_1;
 
 		if ((addressable_space_lba28 & 0x00)) {
-			drive.lba28_enabled = false;
+			drive.lba_data.lba28_enabled = false;
 		} else {
 			drive.addressable_space_lba28 = addressable_space_lba28;
 		}
@@ -193,7 +193,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	uint64_t addressable_space_lba48 = ((uint64_t)addressable_space_3 << 48) | ((uint64_t)addressable_space_4 << 32) | ((uint64_t)addressable_space_5 << 16) | addressable_space_6;
 
 	if ((addressable_space_lba48 & 0x00)) {
-		drive.lba48_enabled = false;
+		drive.lba_data.lba48_enabled = false;
 	} else {
 		drive.addressable_space_lba48 = addressable_space_lba48;
 	}

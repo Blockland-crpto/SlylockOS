@@ -73,7 +73,7 @@ void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {
 	compare = capabilities_two;
 
 	//is there a minimum standby
-	drive->min_standby_timer_enabled = (capabilities_two & (1 << 0)) ? true : false;
+	drive->standby_timer_data.min_standby_timer_enabled = (capabilities_two & (1 << 0)) ? true : false;
 
 	//lets first see the ATAPI stuff
 	if (drive->atapi_info.is_atapi) {
@@ -122,11 +122,11 @@ void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {
 			//lets switch
 			switch(i) {
 				case 13: {
-					drive->standby_timer_enabled = supported;
+					drive->standby_timer_data.standby_timer_enabled = supported;
 					break;
 				}
 				case 9: {
-					drive->lba_supported = supported;
+					drive->lba_data.lba_supported = supported;
 					break;
 				}
 				default: {

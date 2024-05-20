@@ -60,6 +60,20 @@ uint8_t* cfa_translate_sector(ata_device_t* dev, uint32_t LBA) {
 	outb(IO_PORT_CYL_LOW, (uint8_t)(LBA >> 8));
 	outb(IO_PORT_CYL_HIGH, (uint8_t)(LBA >> 16)); 
 
+	uint32_t select = SELECT_DEVICE_MASTER;
+	uint32_t selects = SELECT_DEVICE_SLAVE;
+	select |= (LBA >> 24);
+	selects |= (LBA >> 24);
+
+	//lets set the drive select
+	if (dev->driveType == DRIVE_TYPE_MASTER) {
+		//its a master drive
+		outb(IO_PORT_DRIVE_HEAD, select);
+	} else {
+		//its a slave drive
+		outb(IO_PORT_DRIVE_HEAD, selects);
+	}
+	
 	//lets run it!
 	//lets first wait till the drive is ready
 	wait_ata_drq();

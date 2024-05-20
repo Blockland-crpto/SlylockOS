@@ -55,7 +55,7 @@ void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev) {
 
 	//now if wee made it this far, we first need to load the operands into registers
 	//we should also see the addressing mode
-	if (!dev->lba28_enabled) {
+	if (!dev->lba_data.lba28_enabled) {
 		//function is only supported on LBA28
 		return;
 	}
@@ -68,14 +68,19 @@ void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev) {
 	outb(IO_PORT_SECTOR_NUMBER, (uint8_t) LBA);
 	outb(IO_PORT_CYL_LOW, (uint8_t)(LBA >> 8));
 	outb(IO_PORT_CYL_HIGH, (uint8_t)(LBA >> 16));
+
+	uint32_t select = SELECT_DEVICE_MASTER;
+	uint32_t selects = SELECT_DEVICE_SLAVE;
+	select |= (LBA >> 24);
+	selects |= (LBA >> 24);
 	
 	//lets set the drive select
 	if (dev->driveType == DRIVE_TYPE_MASTER) {
 		//its a master drive
-		outb(IO_PORT_DRIVE_HEAD, SELECT_DEVICE_MASTER);
+		outb(IO_PORT_DRIVE_HEAD, select);
 	} else {
 		//its a slave drive
-		outb(IO_PORT_DRIVE_HEAD, SELECT_DEVICE_SLAVE);
+		outb(IO_PORT_DRIVE_HEAD, selects);
 	}
 	
 	//now lets send the command!

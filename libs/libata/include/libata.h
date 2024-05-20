@@ -150,25 +150,44 @@ extern "C" {
 	//a structure representing a UDMA mode
 	typedef struct {
 		int id;
-		bool supported;
+		bool supported :1;
 	} udma_mode_t;
 
 	//a structure representing a MDMA mode
 	typedef struct {
 		int id;
-		bool supported;
+		bool supported :1;
 	} mdma_mode_t;
 
 	//a structure representing a PIO mode
 	typedef struct {
 		int id;
-		bool supported;
+		bool supported :1;
 	} pio_mode_t;
 
+	//iordy info 
+	typedef struct {
+		bool iordy_supported :1;
+		bool iordy_disabled :1;
+	} iordy_info_t;
+
+	//standby timer info
+	typedef struct {
+		bool standby_timer_enabled :1;
+		bool min_standby_timer_enabled :1;
+	} standby_timer_info_t;
+
+	//lba info
+	typedef struct {
+		bool lba_supported :1;
+		bool lba48_enabled :1;
+		bool lba28_enabled :1;
+	} lba_info_t;
+	
 	//a structure representing ATAPI information
 	typedef struct {
 		//Is it ATAPI?
-		bool is_atapi;
+		bool is_atapi :1;
 	
 		//the atapi cmd packet size
 		enum atapi_byte_command_types atapi_cmd_packet_size;
@@ -181,13 +200,6 @@ extern "C" {
 	
 	} atapi_info_t;
 
-
-	//iordy info 
-	typedef struct {
-		bool iordy_supported :1;
-		bool iordy_disabled :1;
-	} iordy_info_t;
-	
 	//a structure representing a ATA harddrive
 	typedef struct {
 
@@ -212,10 +224,8 @@ extern "C" {
 		iordy_info_t iordy_data;
 	
 		//LBA modes
-		bool lba_supported;
-		bool lba48_enabled;
-		bool lba28_enabled;
-
+		lba_info_t lba_data;
+		
 		//DMA support
 		bool dma_supported;
 	
@@ -234,8 +244,7 @@ extern "C" {
 		cmd_set_t cmd_set_supported[36];
 	
 		//Standby timer information
-		bool standby_timer_enabled;
-		bool min_standby_timer_enabled;
+		standby_timer_info_t standby_timer_data;
 
 		//Transfer time information
 		uint16_t min_mdma_transfer_time_per_word;
@@ -264,7 +273,13 @@ extern "C" {
 
 	} ata_device_t;
 
-
+	//a struct representing a full LBA address
+	typedef struct {
+		uint32_t lba_lo :7;
+		uint32_t lba_mid :7;
+		uint32_t lba_hi :7;
+		uint32_t lba_top :3;
+	} lba_address_t;
 	
 	//a array representing the ATA drives
 	ata_device_t ata_drives[2];
