@@ -27,6 +27,11 @@
 #define EBADF 5
 #define EIO 6
 #define EINVAL 7
+#define EFBIG 8
+#define EINTR 9
+#define ENOSPC 10
+#define ENOMEM 11
+#define EMFILE 12
 
 int errno;
 

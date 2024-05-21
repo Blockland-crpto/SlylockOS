@@ -307,7 +307,6 @@ extern "C" {
 	//function to put ATA into standby
 	void ata_standby();
 
-
 	//CFA FUNCTIONS
 	//function to use the CFA erase sectors
 	void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev);

@@ -35,8 +35,6 @@ void ata_init() {
 	//lets register the master drive
 	ata_device_t master = ata_identify(SELECT_DEVICE_MASTER);
 
-	//lets get the slave device
-	ata_device_t slave __attribute__((unused)) = ata_identify(SELECT_DEVICE_SLAVE);
 
 	//does the master exist?
 	if (!master.exists) {

@@ -59,10 +59,10 @@ extern "C" {
 	//process control block
 	typedef struct {
 		//process id
-		int id;
+		int id :4;
 
 		//parent proccess id
-		int parent_id;
+		int parent_id :4;
 
 		//entry point
 		int (*entry_point)();
@@ -98,16 +98,16 @@ extern "C" {
 		size_t file_stream_allocations_used;
 	
 		//heap allocations
-		void* heap_allocations[100];
+		void* heap_allocations[40];
 
 		//memaligned allocations
-		mem_aligned_ctrl_block memaligned_allocations[100];
+		mem_aligned_ctrl_block memaligned_allocations[20];
 	
 		//file streams
 		FILE* file_streams[FOPEN_MAX];
 	
 		//ACPI permissions
-		bool acpi_allowed;
+		bool acpi_allowed :1;
 
 	} proc_control_block;
 

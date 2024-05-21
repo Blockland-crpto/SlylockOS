@@ -27,18 +27,34 @@
 #include <libfs.h>
 
 int fclose(FILE *stream) {
-	uint8_t* buff = stream->stream;
-	uint32_t size = stream->node->length;
 	
-	if (size == 0) {
+	if (stream->node->length == 0) {
 		errno = EBADF;
 		return EOF;
 	}
+
+	if (stream->node->length > BUFSIZ) {
+		errno = EFBIG;
+		return EOF;
+	}
 	
-	if (buff == NULL) {
+	if (stream->stream == NULL) {
 		errno = EIO;
 		return EOF;
 	}
+
+	//lets see if we have enough space on initrd
+	void* test = kalloc(stream->node->length);
+
+	//lets see if we have enough space on initrd
+	if (test == NULL) {
+		//nope
+		errno = ENOSPC;
+		return EOF;
+	}
+
+	
+	kfree(test);
 	
 	//lets look for the file stream
 	for (int i = 0; i < FOPEN_MAX; i++) {
@@ -50,7 +66,7 @@ int fclose(FILE *stream) {
 		}
 	}
 
-	write_fs(stream->node, 0, size, buff);
+	write_fs(stream->node, 0, stream->node->length, stream->stream);
 	free(stream);
 	
 	return 0;

@@ -34,22 +34,32 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 	//lets check if the process is allowed to
 	if (task_queue[0].file_stream_allocations_used == FOPEN_MAX) {
 		//if its used then we cant open any more
+		errno = EMFILE;
 		return NULL;
 	}
 	
 	FILE *file = (FILE *)malloc(sizeof(FILE));
 	if (file == NULL) {
 		// Out of memory error
+		errno = ENOMEM;
 		return NULL;
 	}
 
 	file->stream = (uint8_t*)malloc(MAX_FILE_SIZE); // Allocate buffer for file content
 	if (file->stream == NULL) {
 		// Out of memory error
+		errno = ENOMEM;
 		free(file);
 		return NULL;
 	}
 
+	if (fd == NULL) {
+		// Invalid file descriptor error
+		free(file->stream);
+		free(file);
+		errno = EBADF;
+		return NULL;
+	}
 	
 	if (strchr(mode, 'r') != NULL) {
 		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);

@@ -30,5 +30,5 @@ void exit(int status) {
 		void (*func)() = runAtExit[i];
 		func();
 	}
-	_Exit(0);
+	_Exit(status);
 }

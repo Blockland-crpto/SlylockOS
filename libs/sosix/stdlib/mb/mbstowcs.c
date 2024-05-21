@@ -25,13 +25,15 @@
 
 size_t mbstowcs(wchar_t *restrict pwcs, const char *restrict s, size_t n) {
 	//lets get the string and cut of size N
-	char str[n];
+	char* str = (char*)malloc(n);
 
 	//lets copy the string
 	strncpy(str, s, n);
 
 	//lets cast it to a wchar_t
-	pwcs = (wchar_t*)str;
+	memmove(pwcs, (wchar_t*)str, n);
+
+	free(str);
 
 	//return N as we should have hypotheticly converted N characters
 	return n;

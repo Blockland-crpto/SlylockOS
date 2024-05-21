@@ -57,6 +57,7 @@
 #define putchar(c) putc(c, stdout)
 #define putchar_unlocked(c) putc_unlocked(c, stdout) 
 
+
 //redefinitons as POSIX demands
 #define NULL ((void*)0)
 
@@ -66,8 +67,8 @@ extern "C" {
 	
 	//the file structure
 	typedef struct {
-		int eof;
-		int error;
+		int eof :1;
+		int error :1;
 		int bufmod;
 		bool locked;
 		size_t length;

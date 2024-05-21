@@ -24,7 +24,7 @@
 
 int mbtowc(wchar_t *restrict pwc, const char *restrict s, size_t n) {
 	//lets use mbstowcs and strncpy
-	char str[n];
+	char str[10];
 	strncpy(str, s, n);
 	return (int)mbstowcs(pwc, str, n);
 }

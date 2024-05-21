@@ -61,7 +61,6 @@ extern void _isr28();
 extern void _isr29();
 extern void _isr30();
 extern void _isr31();
-extern void _svi();
 
 void isr_install() {
 
@@ -100,7 +99,6 @@ void isr_install() {
 	idt_set_gate(29, (unsigned)_isr29, 0x08, 0x8E);
 	idt_set_gate(30, (unsigned)_isr30, 0x08, 0x8E);
 	idt_set_gate(31, (unsigned)_isr31, 0x08, 0x8E);
-	idt_set_gate(47, (unsigned)_svi, 0x08, 0x8E);
 }
 
 //function to initate damage control
@@ -156,15 +154,10 @@ char *exception_messages[] = {
 };
 
 void fault_handler(struct regs *r) {
-
-	
 	if (r->int_no < 32)	{
 
-		//lets get the current process
-		proc_control_block current_proc = task_queue[0];
-
 		//lets check if the entry is null because if it is we have to panic
-		if (current_proc.entry_point == NULL) {
+		if (task_queue[0].entry_point == NULL) {
 			panic("Kernel triggered a exception", r->int_no);
 		} else {
 			//a process triggered a exception
@@ -173,11 +166,8 @@ void fault_handler(struct regs *r) {
 			
 			//good by process
 			proc_kill(PROC_EXIT_STATUS_ABORTED);
+			
 		}
 
-	} else if (r->int_no == 48) {
-		//oop
-		putstr("Spurious vector interrupt", COLOR_RED, COLOR_BLK);
-		putstr(" Exception.\n", COLOR_RED, COLOR_BLK);
 	}
 }

@@ -27,13 +27,10 @@ char *fgets(char *restrict s, int n, FILE *restrict stream) {
 
 	while (i < n - 1) {
 		c = fgetc(stream);
-		if (c == EOF) {
+		if (c == EOF || c == '\n') {
 			break;
 		}
 		s[i++] = c;
-		if (c == '\n') {
-			break;
-		}
 	}
 
 	if (i == 0 && c == EOF) {

@@ -23,6 +23,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <errno.h>
 #include <libdebug.h>
 #include <libmem.h>
 #include <libmodule.h>
@@ -64,21 +65,20 @@ void proc_create(int (*entry_point)(), enum proc_priority priority, int parent) 
 	}
 	
 	//create a new task
-	proc_control_block proc;
-	proc.entry_point = entry_point;
-	proc.priority = priority;
-	proc.status = PROC_STATUS_READY;
-	proc.heap_used = 0;
-	proc.id = task_count;
-	proc.parent_id = parent;
-	proc.storage_delegated = 0;
-	proc.memory_delegated = 1024;
-	proc.subprocesses_delegated = 1;
-	proc.subprocesses_active = 0;
-	proc.heap_allocations_used = 0;
-	proc.acpi_allowed = false;
-	proc.file_stream_allocations_used = 0;
-	task_queue[task_count] = proc;
+	task_queue[task_count].entry_point = entry_point;
+	task_queue[task_count].priority = priority;
+	task_queue[task_count].status = PROC_STATUS_READY;
+	task_queue[task_count].heap_used = 0;
+	task_queue[task_count].id = task_count;
+	task_queue[task_count].parent_id = parent;
+	task_queue[task_count].storage_delegated = 0;
+	task_queue[task_count].memory_delegated = 1024;
+	task_queue[task_count].subprocesses_delegated = 1;
+	task_queue[task_count].subprocesses_active = 0;
+	task_queue[task_count].heap_allocations_used = 0;
+	task_queue[task_count].acpi_allowed = false;
+	task_queue[task_count].file_stream_allocations_used = 0;
+	task_queue[task_count].memaligned_allocations_used = 0;
 }
 
 //function to remove a task
@@ -130,20 +130,20 @@ void proc_destroy(int id) {
 
 //function to kill the current task
 void proc_kill(enum proc_exit_status status) {
-	//lets get the current process
-	proc_control_block current_proc = task_queue[0];
 
 	//we need to close its file streams
 	for (int i = 0; i < FOPEN_MAX; i++) {
 		//is it used?
-		if (current_proc.file_streams[i] != NULL) {
-			fclose(current_proc.file_streams[i]);
+		if (task_queue[0].file_streams[i] != NULL) {
+			fclose(task_queue[0].file_streams[i]);
 		}
 	}
+
+	errno = EINTR;
 	
 	//lets skip to next process
 	//lets destory the current process
-	proc_destroy(current_proc.id);
+	proc_destroy(task_queue[0].id);
 
 	//lets slide down the process pool
 	//lets slide it down!
@@ -175,8 +175,7 @@ void proc_kill(enum proc_exit_status status) {
 void proc_yield() {
 	//lets switch process queues
 	proc_control_block current_proc = task_queue[0];
-	proc_control_block next_proc = task_queue[1];
-	task_queue[0] = next_proc;
+	task_queue[0] = task_queue[1];
 	task_queue[1] = current_proc;
 
 	//lets set the process to yielded
@@ -198,26 +197,24 @@ void proc_scheduler() {
 	}
 	
 	while (1) {
-		//get the current task
-		proc_control_block current_task = task_queue[0];
 
 		//lets check if the entry point is null
-		if (current_task.entry_point == NULL) {
+		if (task_queue[0].entry_point == NULL) {
 			//if yes, lets continue
 			continue;
 		}
 
 		//is the current task yielded?
-		if (current_task.status == PROC_STATUS_YIELDED) {
+		if (task_queue[0].status == PROC_STATUS_YIELDED) {
 			//if yes, we need to break so it can continue
 			break;
 		}
 		
 		//set the task as running
-		current_task.status = PROC_STATUS_RUNNING;
+		task_queue[0].status = PROC_STATUS_RUNNING;
 		
 		//call its entry point
-		int status = current_task.entry_point();
+		int status = task_queue[0].entry_point();
 
 		//lets see if the task is done
 		if (!status) {
@@ -227,8 +224,8 @@ void proc_scheduler() {
 		}
 
 		//now lets free the memory
-		for (size_t i = 0; i <= current_task.heap_allocations_used; i++) {
-			kfree(current_task.heap_allocations[i]);
+		for (size_t i = 0; i <= task_queue[0].heap_allocations_used; i++) {
+			kfree(task_queue[0].heap_allocations[i]);
 		}
 		
 		//lets slide it down!

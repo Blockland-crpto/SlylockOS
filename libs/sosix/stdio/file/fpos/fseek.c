@@ -26,15 +26,22 @@ int fseek(FILE *stream, long offset, int whence) {
 		//throw error, invalid stream
 		return 1;
 	}
-	if (whence == SEEK_SET) {
-		stream->position = offset;
-		return 0;
-	} else if (whence == SEEK_CUR) {
-		stream->position += offset;
-		return 0;
-	} else if (whence == SEEK_END) {
-		stream->position = stream->length - offset;
-		return 0;
+	switch (whence) {
+		case SEEK_SET:
+			//set the position to the offsetq
+			stream->position = offset;
+			return 0;
+		case SEEK_CUR:
+			//set the position to the current position + offset
+			stream->position += offset;
+			return 0;
+		case SEEK_END:
+			//set the position to the end of offset
+			stream->position = stream->length - offset;
+			return 0;
+		default:
+			//oops, invalid whence
+			return 1;
 	}
 
 	return 1;
