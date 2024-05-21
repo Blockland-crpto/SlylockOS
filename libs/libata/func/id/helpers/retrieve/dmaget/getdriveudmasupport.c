@@ -33,19 +33,8 @@ void get_drive_udma_support(ata_device_t* drive, uint16_t* identify_data) {
 		//lets reset the variable
 		uint16_t udma_mode = identify_data[88];
 
-		if ((udma_mode & (1 << i)) == 1) {
-			//the udma mode is supported
-			udma_mode_t udma;
-			udma.supported = true;
-			udma.id = i;
-			drive->supported_udma[i] = udma;
-		} else {
-			//the udma mode is not supported
-			udma_mode_t udma;
-			udma.supported = false;
-			udma.id = i;
-			drive->supported_udma[i] = udma;
-		}
+		drive->supported_udma[i].supported = enabled(i, udma_mode);
+		drive->supported_udma[i].id = i;
 
 		udma_mode = identify_data[88];
 		
