@@ -21,21 +21,31 @@
 #ifndef __STDLIB_H
 #define __STDLIB_H
 
+#include <libfs.h>
+#include <sys/wait.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <libproc.h>
+
+#define EXIT_FAILURE 1
+#define EXIT_SUCCESS 0
+
+#define RAND_MAX 32767
+#define MB_CUR_MAX 1
+
+#define WEXITSTATUS(status) (status)
+#define WIFEXITED(status) (status == NULL)
+#define WIFSIGNALED(status) (true)
+#define WIFSTOPPED(status) (status == PROC_STATUS_YIELDED)
+#define WNOHANG 1
+#define WSTOPSIG(status) (status)
+#define WTERMSIG(status) (status)
+#define WUNTRACED 2
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
-	#include <libfs.h>
-	#include <sys/wait.h>
-	#include <stdint.h>
-	#include <stddef.h>
-	
-	#define EXIT_FAILURE 1
-	#define EXIT_SUCCESS 0
-	
-	#define RAND_MAX 32767
-	#define MB_CUR_MAX 4
-	
 	typedef struct {
 		int quot;
 		int rem;
@@ -52,6 +62,9 @@ extern "C" {
 	} lldiv_t;
 
 	unsigned short _rand48_seed[3];
+
+	typedef int wchar_t;
+	typedef unsigned int size_t;
 
 	//functions to run at exit
 	void (*runAtExit[32])();
@@ -143,10 +156,20 @@ extern "C" {
 	//malloc implementation
 	void *malloc(size_t numbytes);
 
-	//TODO: add MBLen, mbtowc, mbstowcs
+	//mblen implementation
+	int mblen(const char *s, size_t n);
 
+	//mbstowcs implementation
+	size_t mbstowcs(wchar_t *restrict pwcs, const char *restrict s, size_t n);
+
+	//mbtowc implementation 
+	int mbtowc(wchar_t *restrict pwc, const char *restrict s, size_t n);
+	
 	//mkdtemp implementation
 	char *mkdtemp(char *temp);
+
+	//posix_memalign implementation
+	int posix_memalign(void **memptr, size_t alignment, size_t size);
 	
 	//realloc implementation
 	void *realloc(void *ptr, size_t numbytes);

@@ -18,38 +18,21 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libata.h>
-#include <libports.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <libmodule.h>
- 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-//ATA initializer
-void ata_init() {
-	module_t modules_ata = MODULE("kernel.modules.ata", "Provides ATA support for the kernel, read/write (CORE)");
 
-	//let the initalization begin!
-	INIT(modules_ata);
+size_t mbstowcs(wchar_t *restrict pwcs, const char *restrict s, size_t n) {
+	//lets get the string and cut of size N
+	char str[n];
 
-	//lets register the master drive
-	ata_device_t master = ata_identify(SELECT_DEVICE_MASTER);
+	//lets copy the string
+	strncpy(str, s, n);
 
-	//lets get the slave device
-	ata_device_t slave __attribute__((unused)) = ata_identify(SELECT_DEVICE_SLAVE);
+	//lets cast it to a wchar_t
+	pwcs = (wchar_t*)str;
 
-	//does the master exist?
-	if (!master.exists) {
-
-		//it doesn't error out
-		FAIL(modules_ata, "Master ATA drive does not exist");
-	} else {
-
-		//it does exist
-		ata_drives[0] = master;
-
-		//were done!
-		DONE(modules_ata);
-	}
-	
+	//return N as we should have hypotheticly converted N characters
+	return n;
 }

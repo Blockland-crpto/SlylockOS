@@ -33,18 +33,14 @@ void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {
 		//oops!
 		return;
 	}
-	
-	//next lets see the capabilities blocks
-	uint16_t capabilities_one = identify_data[49];
-	uint16_t capabilities_two = identify_data[50];
 
 	//lets have a compare variable
-	uint16_t compare;
+	uint16_t compare = identify_data[49];
 
 	//for loop to iterate through common functions
 	for (int i = 11; i >= 8; i--) {
 		//lets reset the compare variable
-		compare = capabilities_one;
+		compare = identify_data[49];
 
 		//lets switch i
 		switch(i) {
@@ -70,36 +66,33 @@ void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {
 	}
 	
 	//lets make compare capabilites two
-	compare = capabilities_two;
+	compare = identify_data[50];
 
 	//is there a minimum standby
-	drive->standby_timer_data.min_standby_timer_enabled = (capabilities_two & (1 << 0)) ? true : false;
+	drive->standby_timer_data.min_standby_timer_enabled = (compare & (1 << 0)) ? true : false;
 
 	//lets first see the ATAPI stuff
 	if (drive->atapi_info.is_atapi) {
 		//lets iterate over it
 		for (int i = 15; i >= 8; i--) {
 			//lets reset to compare variable
-			compare = capabilities_one;
-			
-			//lets see if its supported
-			bool supported = (compare & (1 << i)) ? true : false;
+			compare = identify_data[49];
 
 			//switch!
 			switch (i) {
 				case 15: {
 					//is interleaved dma supported?
-					drive->atapi_info.feature_set_supported[INTERLEAVED_DMA_SUPPORTED].supported = supported;
+					drive->atapi_info.feature_set_supported[INTERLEAVED_DMA_SUPPORTED].supported = (compare & (1 << i)) ? true : false;
 					break;
 				}
 				case 14: {
 					//is command queueing supported?
-					drive->atapi_info.feature_set_supported[COMMAND_QUEUEING_SUPPORTED].supported = supported;
+					drive->atapi_info.feature_set_supported[COMMAND_QUEUEING_SUPPORTED].supported = (compare & (1 << i)) ? true : false;
 					break;
 				}
 				case 13: {
 					//is overlap operation supported?
-					drive->atapi_info.feature_set_supported[OVERLAP_OPERATION_SUPPORTED].supported = supported;
+					drive->atapi_info.feature_set_supported[OVERLAP_OPERATION_SUPPORTED].supported = (compare & (1 << i)) ? true : false;
 					break;
 				}
 				default: {
@@ -114,19 +107,16 @@ void get_drive_capabilities(ata_device_t* drive, uint16_t* identify_data) {
 		//for loop to iterate!
 		for (int i = 13; i > 8; i--) {
 			//lets reset to compare variable
-			compare = capabilities_one;
-			
-			//lets see if its supported
-			bool supported = (compare & (1 << i)) ? true : false;
+			compare = identify_data[49];
 
 			//lets switch
 			switch(i) {
 				case 13: {
-					drive->standby_timer_data.standby_timer_enabled = supported;
+					drive->standby_timer_data.standby_timer_enabled = (compare & (1 << i)) ? true : false;
 					break;
 				}
 				case 9: {
-					drive->lba_data.lba_supported = supported;
+					drive->lba_data.lba_supported = (compare & (1 << i)) ? true : false;
 					break;
 				}
 				default: {

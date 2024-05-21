@@ -39,20 +39,9 @@ void get_drive_mdma_support(ata_device_t* drive, uint16_t* identify_data) {
 
 		//lets reset the variable
 		uint16_t mdma_mode = identify_data[63];
-
-		if ((mdma_mode & (1 << i)) == 1) {
-			//the mdma mode is supported
-			mdma_mode_t mdma;
-			mdma.supported = true;
-			mdma.id = i;
-			drive->supported_mdma[i] = mdma;
-		} else {
-			//the mdma mode is not supported
-			mdma_mode_t mdma;
-			mdma.supported = false;
-			mdma.id = i;
-			drive->supported_mdma[i] = mdma;
-		}
+		
+		drive->supported_mdma[i].supported = enabled(i, mdma_mode);
+		drive->supported_mdma[i].id = i;
 
 		//lets reset the variable
 		mdma_mode = identify_data[63];

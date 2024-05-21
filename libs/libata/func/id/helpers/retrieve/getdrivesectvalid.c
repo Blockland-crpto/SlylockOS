@@ -32,35 +32,15 @@ void get_drive_sect_valid(ata_device_t* drive, uint16_t* identify_data) {
 		//oops!
 		return;
 	}
-	
-	//lets get the supported pio modes
-	uint16_t pio_mode = identify_data[64];
-
-	//lets see the pio mask
-	uint16_t pio_mode_mask;
 
 	//iterate through supported pio modes
 	for (int i = 0; i < 8; i++) {
-		//pio mask
-		pio_mode_mask = 1 << i;
-
 		//lets reset the variable
-		pio_mode = identify_data[64];
+		uint16_t pio_mode = identify_data[64];
 		
 		//lets check it!
-		if ((pio_mode & pio_mode_mask) == 1) {
-			//it is supported
-			pio_mode_t pio;
-			pio.supported = true;
-			pio.id = i;
-			drive->supported_pio[i] = pio;
-		} else {
-			//it is not supported
-			pio_mode_t pio;
-			pio.supported = false;
-			pio.id = i;
-			drive->supported_pio[i] = pio;
-		}
+		drive->supported_pio[i].supported = enabled(i, pio_mode);
+		drive->supported_pio[i].id = i;
 	}
 
 	//lets get the minimum mdma transfer per word

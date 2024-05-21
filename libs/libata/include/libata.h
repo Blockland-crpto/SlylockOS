@@ -204,7 +204,7 @@ extern "C" {
 	typedef struct {
 
 		//Does it exist?
-		bool exists;
+		bool exists :1;
 
 		//The drivetype
 		enum ata_drive_type driveType;
@@ -213,7 +213,7 @@ extern "C" {
 		atapi_info_t atapi_info;
 	
 		//Is it removable?
-		bool removable;
+		bool removable :1;
 
 		//Manufacturer information
 		uint16_t serial_number[8];
@@ -227,7 +227,7 @@ extern "C" {
 		lba_info_t lba_data;
 		
 		//DMA support
-		bool dma_supported;
+		bool dma_supported :1;
 	
 		//UDMA modes
 		udma_mode_t supported_udma[7];
@@ -241,7 +241,7 @@ extern "C" {
 		pio_mode_t supported_pio[7];
 
 		//Command set supported information
-		cmd_set_t cmd_set_supported[36];
+		cmd_set_t cmd_set_supported[37];
 	
 		//Standby timer information
 		standby_timer_info_t standby_timer_data;
@@ -264,10 +264,10 @@ extern "C" {
 		//Misc information
 		int major_ata_version;
 		uint16_t minor_ata_version;
-		bool pin80_connector;
+		bool pin80_connector :1;
 		uint8_t max_queue_depth;
 		uint8_t sectors_per_interrupt_rw_multiple;
-		bool set_features_spinup_needed;
+		bool set_features_spinup_needed :1;
 		uint16_t current_apm_value;
 		uint16_t identify_data[256];
 

@@ -17,4 +17,17 @@ void free(void *ptr) {
 			return;
 		}
 	}
+
+	//lets see if it was posix memaligned
+	for (size_t i = 0; i <= current_task.memaligned_allocations_used; i++) {
+		if (current_task.memaligned_allocations[i].mem_address == ptr) {
+			//lets free it
+			kfree(current_task.memaligned_allocations[i].mem_address);
+			//and its padding
+			if (current_task.memaligned_allocations[i].pad_address != NULL) {
+				kfree(current_task.memaligned_allocations[i].pad_address);
+			}
+			
+		}
+	}
 }

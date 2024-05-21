@@ -18,38 +18,22 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libata.h>
-#include <libports.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <libmodule.h>
- 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-//ATA initializer
-void ata_init() {
-	module_t modules_ata = MODULE("kernel.modules.ata", "Provides ATA support for the kernel, read/write (CORE)");
 
-	//let the initalization begin!
-	INIT(modules_ata);
-
-	//lets register the master drive
-	ata_device_t master = ata_identify(SELECT_DEVICE_MASTER);
-
-	//lets get the slave device
-	ata_device_t slave __attribute__((unused)) = ata_identify(SELECT_DEVICE_SLAVE);
-
-	//does the master exist?
-	if (!master.exists) {
-
-		//it doesn't error out
-		FAIL(modules_ata, "Master ATA drive does not exist");
-	} else {
-
-		//it does exist
-		ata_drives[0] = master;
-
-		//were done!
-		DONE(modules_ata);
+int mblen(const char *s, size_t n) {
+	if (s == NULL) {
+		return 0;
 	}
-	
+	if (s == 0) {
+		return 0;
+	}
+
+	//now lets multiply that by the local
+	int retlen = (signed)n * MB_CUR_MAX;
+
+	//lets return 
+	return retlen;
 }

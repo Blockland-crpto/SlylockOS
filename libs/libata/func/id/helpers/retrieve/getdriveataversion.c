@@ -34,9 +34,6 @@ void get_drive_ata_version(ata_device_t* drive, uint16_t* identify_data) {
 		return;
 	}
 	
-	//lets now get the major version supported number
-	volatile uint16_t major_version = identify_data[80];
-	
 	//int representing the major version
 	int major_version_int = 3;
 
@@ -46,7 +43,7 @@ void get_drive_ata_version(ata_device_t* drive, uint16_t* identify_data) {
 		//lets now compare
 		//i have a variable here because if i don't it will modifiy the actual identfiy data for some reason...
 		//lets first copy it
-		uint16_t compare = major_version;
+		uint16_t compare = identify_data[80];
 		
 		//lets check it!
 		if ((compare & (1 << i)) == 1) {

@@ -22,6 +22,10 @@
 #ifndef __CMDSET_H
 #define __CMDSET_H
 
+#include <stdbool.h>
+
+#define enabled(i, cse) ((cse & (1 << i)) ? true : false)
+
 //ATA supported array key
 enum ata_supported_array_key {
 	NOP_SUPPORTED = 0,
@@ -77,8 +81,8 @@ extern "C" {
 
 	//a sturcture representing a command set feature
 	typedef struct {
-		bool enabled;
-		bool supported;
+		bool enabled :1;
+		bool supported :1;
 	} cmd_set_t;
 
 #if defined(__cplusplus)

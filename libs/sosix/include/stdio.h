@@ -21,47 +21,49 @@
 #ifndef __STDIO_H
 #define __STDIO_H
 
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+#include <stdarg.h>
+#include <libfs.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <sys/types.h>
+
+#define BUFSIZ 1024
+
+#define L_ctermid 11
+#define L_tempnam 15
+
+#define _IOFBF 0
+#define _IOLBF 1
+#define _IONBF 2
+
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
+
+#define FILENAME_MAX 512
+#define FOPEN_MAX 8
+#define TMP_MAX 5
+
+#define EOF -1
+
+#define P_tmpdir "tmp"
+
+#define getc(s) fgetc(s)
+#define getchar() getc(stdin)
+#define putc(c, s) fputc(c, s) 
+#define putchar(c) putc(c, stdout)
+#define putchar_unlocked(c) putc_unlocked(c, stdout) 
+
+//redefinitons as POSIX demands
+#define NULL ((void*)0)
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
-	#include <stdint.h>
-	#include <stddef.h>
-	#include <stdbool.h>
-	#include <stdarg.h>
-	#include <libfs.h>
-	#include <stdint.h>
-	#include <stdbool.h>
-	#include <sys/types.h>
 	
-	#define BUFSIZ 1024
-	
-	#define L_ctermid 11
-	#define L_tempnam 15
-
-	#define _IOFBF 0
-	#define _IOLBF 1
-	#define _IONBF 2
-
-	#define SEEK_SET 0
-	#define SEEK_CUR 1
-	#define SEEK_END 2
-		
-	#define FILENAME_MAX 512
-	#define FOPEN_MAX 8
-	#define TMP_MAX 5
-	
-	#define EOF -1
-	
-	#define P_tmpdir "tmp"
-	
-	#define getc(s) fgetc(s)
-	#define getchar() getc(stdin)
-	#define putc(c, s) fputc(c, s) 
-	#define putchar(c) putc(c, stdout)
-	#define putchar_unlocked(c) putc_unlocked(c, stdout) 
-		
 	//the file structure
 	typedef struct {
 		int eof;
@@ -86,7 +88,11 @@ extern "C" {
 	FILE *stdin;   // Standard input stream
 	FILE *stdout;  // Standard output stream
 	FILE *stderr;  // Standard error stream
-	
+
+	//redefinitions as prescribed by POSIX
+	typedef long off_t;
+	typedef unsigned int size_t;
+	typedef int ssize_t;
 		
 	//clearerr implementation
 	void clearerr(FILE *stream);

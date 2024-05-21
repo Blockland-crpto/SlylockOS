@@ -31,7 +31,7 @@
 void proc_create(int (*entry_point)(), enum proc_priority priority, int parent) {
 
 	//we need to validate the entry point
-	if (entry_point == NULL || priority == NULL) {
+	if (entry_point == NULL || priority == 0) {
 		//exit, invalid entry point
 		return;
 	}
@@ -62,7 +62,6 @@ void proc_create(int (*entry_point)(), enum proc_priority priority, int parent) 
 			panic("no more proc space", TASK_MAX);
 		}
 	}
-
 	
 	//create a new task
 	proc_control_block proc;
@@ -92,6 +91,14 @@ void proc_destroy(int id) {
 		kfree(task_queue[id].heap_allocations[i]);
 	}
 
+	//lets also free mem aligned stuff
+	for (size_t i = 0; i <= task_queue[id].memaligned_allocations_used; i++) {
+		kfree(task_queue[id].memaligned_allocations[i].mem_address);
+		if (task_queue[id].memaligned_allocations[i].pad_address != NULL) {
+			kfree(task_queue[id].memaligned_allocations[i].pad_address);
+		}
+	}
+
 	//lets destroy its subprocesses
 	for (int i = 0; i < MAX_PROCS_USABLE; i++) {
 		if (task_queue[i].parent_id == id) {
@@ -101,6 +108,14 @@ void proc_destroy(int id) {
 			//now lets free the memory
 			for (size_t i = 0; i <= task_queue[id].heap_allocations_used; i++) {
 				kfree(task_queue[id].heap_allocations[i]);
+			}
+
+			//lets also free mem aligned stuff
+			for (size_t i = 0; i <= task_queue[id].memaligned_allocations_used; i++) {
+				kfree(task_queue[id].memaligned_allocations[i].mem_address);
+				if (task_queue[id].memaligned_allocations[i].pad_address != NULL) {
+					kfree(task_queue[id].memaligned_allocations[i].pad_address);
+				}
 			}
 		} 
 	}

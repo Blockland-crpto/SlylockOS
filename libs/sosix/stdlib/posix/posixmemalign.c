@@ -20,38 +20,56 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdint.h>
-#include <stddef.h>
-#include <errno.h>
+#include <libmem.h>
+#include <libdebug.h>
 #include <libproc.h>
-#include <libfs.h>
 
-int fclose(FILE *stream) {
-	uint8_t* buff = stream->stream;
-	uint32_t size = stream->node->length;
+int posix_memalign(void **memptr, size_t alignment, size_t size) {
+	//lets first find the nearest address
+	int* memaddress = (int*)kalloc(1);
+
+	//lets turn memaddress to a value
+	uint64_t addr = (uint64_t)memaddress;
+
+	mem_aligned_ctrl_block block;
 	
-	if (size == 0) {
-		errno = EBADF;
-		return EOF;
-	}
-	
-	if (buff == NULL) {
-		errno = EIO;
-		return EOF;
-	}
-	
-	//lets look for the file stream
-	for (int i = 0; i < FOPEN_MAX; i++) {
-		if (task_queue[0].file_streams[i]->name == stream->name) {
-			//okay this is it
-			task_queue[0].file_streams[i] = NULL;
-			task_queue[0].file_stream_allocations_used--;
-			break;
-		}
+	//if its null we need to error out
+	if (memaddress == 0) {
+		//uh oh!
+		panic("not enough memory when posix_memalign was called", INSUFFICIENT_RAM);
+		return -1;
 	}
 
-	write_fs(stream->node, 0, size, buff);
-	free(stream);
-	
+	//okay now lets see if the address is aligned
+	if (addr % alignment != 0) {
+		//iterate to compare 
+		bool checking = true;
+		long dist = 0;
+		do {
+			//lets increment the address
+			addr++;
+			dist++;
+			if (addr % alignment != 0) {
+				//next!
+				continue;
+			} else {
+				checking = false;
+				break;
+			}
+		} while(checking);
+
+		//next lets get the padding
+		void* padding = kalloc(dist);
+
+		//add to the list of padded area
+		block.pad_address = padding;
+	} else {	
+		block.pad_address = NULL;
+	}
+
+	void* data = malloc(size);
+	block.mem_address = memaddress;
+	task_queue[0].memaligned_allocations[task_queue[0].memaligned_allocations_used++] = block;
+	*memptr = data;
 	return 0;
 }

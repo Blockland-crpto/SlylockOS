@@ -37,6 +37,7 @@ void get_drive_config(ata_device_t* drive, uint16_t* identify_data) {
 	
 	//compare variable
 	uint16_t compare = identify_data[0];
+
 	
 	//check if the ATA device is valid
 	if ((compare & 0x00) == 1) {
@@ -51,7 +52,7 @@ void get_drive_config(ata_device_t* drive, uint16_t* identify_data) {
 	//is the device a ATAPI device?
 	if (!drive->atapi_info.is_atapi) {
 		//check if the drive is a hard drive
-		if ((compare & (1 << 15))) {
+		if ((compare & (1 << 15)) == 1) {
 			//the drive is a packet device
 			drive->exists = false;
 			return;

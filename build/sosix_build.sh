@@ -14,7 +14,7 @@ if [ $tb = "./libs/sosix/stdlib/random/rand.c" ]
 then
 gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin -fno-stack-protector $debug $headers -c -o $ta $tb
 else 
-gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin  -fstack-protector-all $debug $headers -c -o $ta $tb
+gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -fno-inline-functions -nostdinc -fno-builtin $security $debug $headers -c -o $ta $tb
 fi
 done
 
