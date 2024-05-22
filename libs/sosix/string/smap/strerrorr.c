@@ -5,9 +5,9 @@
 
 int strerror_r(int errnum, char* strerrbuf, size_t buflen) {
 	//todo: add locale function
-	int err = strerror(errnum);
+	const char* err = strerror(errnum);
 	if (buflen < strlen(err)) {
-		return;
+		return 1;
 	}
 	strcpy(strerrbuf, err);
 	return 0;

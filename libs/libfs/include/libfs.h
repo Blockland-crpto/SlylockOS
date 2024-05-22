@@ -186,6 +186,9 @@ extern "C" {
 
 	extern fs_node_t *fs_root; // The root of the filesystem.
 
+	//function to initalize the filesystem
+	void filesystem_init();
+	
 	uint32_t create_file_fs(char *name, uint8_t *buffer, uint32_t size);
 
 	uint32_t delete_file_fs(char *name);

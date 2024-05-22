@@ -284,6 +284,10 @@ extern "C" {
 	//a array representing the ATA drives
 	ata_device_t ata_drives[2];
 
+	//the ata initalizer
+	void ata_init();
+
+	//function to identify a ata drive
 	ata_device_t ata_identify(enum ata_device_select dev);
 
 	//the main function for reading

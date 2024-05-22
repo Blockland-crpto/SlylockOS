@@ -1,3 +1,23 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include <string.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -6,13 +26,11 @@
 int strncmp(const char *s1, const char *s2, size_t n) {
 	size_t len = 0;
 	int i;
-	uint8_t *p1 = (uint8_t*)s1;
-	uint8_t *p2 = (uint8_t*)s2;
+	int *p1 = (int*)s1;
+	int *p2 = (int*)s2;
 	for (i = 0; p1[i] == p2[i] && len < n; i++) {
 		if (p1[i] == '\0' || len == n-1) return 0;
 		len++;
 	}
-	int *r1 = (int*)p1[i];
-	int *r2 = (int*)p2[i];
-	return r1[i] - r2[i];
+	return p1[i] - p2[i];
 }

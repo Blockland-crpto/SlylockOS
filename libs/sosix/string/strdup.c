@@ -33,16 +33,27 @@
  * $Id: strdup.c,v 12.1 2006/05/05 14:53:08 bostic Exp $
  */
 //based off apple XNU
+//customizations by Alexander Herbert <herbgamerwow@gmail.com>
 
 #include <string.h>
 #include <stddef.h>
- 
+#include <stdlib.h>
 
 char* strdup(const char* s) {
-	size_t len;
-	char* copy;
-	len = strlen(s) + 1;
+	static bool reuse;
+	static char* copy;
+	static char* lastcopy;
+	size_t len = strlen(s) + 1;
+	if (reuse) {
+		copy = (char*)realloc(lastcopy, len);
+	} else {
+		copy = (char*)malloc(len);
+	}
 	memcpy(copy, s, len);
+	if (!reuse) {
+		reuse = true;
+	} 
+	lastcopy = copy;
 	return (copy);
 }
 

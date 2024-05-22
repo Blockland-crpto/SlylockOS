@@ -17,4 +17,5 @@ char *strsignal(int signum) {
 		case SIGTERM:
 			return "Termination signal.";
 	}
+	return "Unknown signal.";
 }

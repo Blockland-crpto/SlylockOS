@@ -155,4 +155,4 @@ objcopy --only-keep-debug kernel.bin kernel.sym
 
 rm -f kernel.bin
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 256M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6
+qemu-system-i386 -cdrom SlylockOS.iso -m 256M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6 -curses

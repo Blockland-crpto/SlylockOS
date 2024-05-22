@@ -78,7 +78,7 @@ void gdt_install() {
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);
     
     /* The sixth entry is our task status segment */
-    gdt_set_gate(5, &gdt[5], sizeof(gdt[5])-1, 0x89, 0x0);
+    gdt_set_gate(5, &gdt[0], (sizeof(gdt) * 5)-1, 0x89, 0x0);
 
     /* Flush out the old GDT and install the new changes! */
     _gdt_flush();
