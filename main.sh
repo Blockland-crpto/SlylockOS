@@ -120,7 +120,10 @@ rm -r iso
 mkdir env
 mkdir sys
 mkdir tmp
+mkdir dev
 echo '' >> sys/membuf
+echo '' >> sys/pty
+echo '' >> sys/tty
 
 mkdir iso
 mkdir iso/boot
@@ -136,7 +139,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme ./lib/sosix.a ./sys/membuf ./tmp ./env"
+inp="./lib/sosix.a ./sys/membuf ./sys/pty ./sys/tty ./tmp ./env ./dev"
 res=''
 for word in $inp; do
 res="${res} ${word}"
@@ -150,7 +153,7 @@ rm -r iso
 rm -r sys
 rm -r tmp
 rm -r env
-
+rm -r dev
 objcopy --only-keep-debug kernel.bin kernel.sym
 
 rm -f kernel.bin

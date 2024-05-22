@@ -34,6 +34,7 @@ rm -rf SlylockOS.iso
 rm -rf sys
 rm -rf tmp
 rm -rf env
+rm -rf dev
 rm -rf initrd.img
 rm -rf kernel.bin
 rm -rf kernel.sym

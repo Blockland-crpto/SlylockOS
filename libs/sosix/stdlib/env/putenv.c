@@ -18,42 +18,41 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libmem.h>
-#include <libmultiboot.h>
+#include <stdlib.h>
 #include <string.h>
 #include <libproc.h>
+#include <libmem.h>
 
-
-uintptr_t current_break;
-int has_initialized = 0;
-void *managed_memory_start;
-void *last_valid_address;
-mem_control_block pmcb; 
+int putenv(char* string) {
+	//lets look through env for a variable with name
+	//but we have to get it first
+	size_t len = 0;
+	while (string[len] != '=') {
+		len++;
+	}
+	char* str = (char*)kalloc(len);
+	strncpy(str, string, len);
 	
-int ram_size() {
-	return (mbi->mem_lower + mbi->mem_upper)+513;
-}
+	//lets search the enviorment for this variable name
+	for (int i = 0; i < MAX_ENVS; i++) {
+		if (strncmp(env[i], str, len) != 0) {
+			//lets set it 
+			strcpy(env[i], string);
+			kfree(str);
+			return 0;
+		}
+	}
 
-void *sbrk(intptr_t incr) {
-	uintptr_t old_break = current_break;
-    current_break += incr;
-    return (void*) old_break;
-}
+	//if we get here, we need to add one
+	for (int i = 0; i < MAX_ENVS; i++) {
+		if (env[i] == NULL) {
+			//yeah!
+			strcpy(env[i], string);
+			kfree(str);
+			return 0;
+		}
+	}
 
-void kalloc_init() {
-  	last_valid_address = sbrk(0);
-  	managed_memory_start = last_valid_address;
- 	has_initialized = 1;  
-    for (int i = 0; i < 10; i++) {
-        env[i] = (char*)kalloc(256);
-    }
-    
-}
-
-
-void bzero(void *s, int n) {
-  	char * c = s; // Can't work with void *s directly.
-  	int i;
-  	for (i = 0; i < n; ++i)
-   		c[i] = '\0';
+	//if we get here, we need to return an error
+	return 1;
 }

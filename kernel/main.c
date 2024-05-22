@@ -62,8 +62,9 @@ extern void __guard_setup();
 //and is used to setup runtime features such as SSP, LIBC and MM
 __attribute__ ((constructor)) void init_kernel() {
 	__guard_setup();
-	libc_init();
 	kalloc_init();
+	filesystem_init();
+	libc_init();
 	set_cursor_pos(0,0);
 	clear(COLOR_WHT, COLOR_BLK);
 	return;
@@ -112,8 +113,6 @@ int kmain(multiboot_info_t* mb_info, uint32_t magic){
   	pci_init();
 		
 	rtc_init();
-	
-	filesystem_init();
 	
 	keyboard_install();
 	

@@ -42,6 +42,11 @@ void delegate_init() {
 
 //function to handle delegate requests
 int delegate_request(enum resource_type type, proc_control_block* proc, size_t amount) {
+	//lets validate the proc
+	if (proc == NULL || amount == 0) {
+		return -1;
+	}
+	
 	//lets first check if the requesting process has used its quota'
 	//lets switch!
 	switch(type) {

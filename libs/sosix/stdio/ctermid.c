@@ -19,7 +19,6 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
- 
 
 //test it out
 char *ctermid(char *s) {

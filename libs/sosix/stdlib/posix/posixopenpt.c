@@ -18,42 +18,22 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libmem.h>
-#include <libmultiboot.h>
-#include <string.h>
-#include <libproc.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <libfs.h>
 
-
-uintptr_t current_break;
-int has_initialized = 0;
-void *managed_memory_start;
-void *last_valid_address;
-mem_control_block pmcb; 
-	
-int ram_size() {
-	return (mbi->mem_lower + mbi->mem_upper)+513;
-}
-
-void *sbrk(intptr_t incr) {
-	uintptr_t old_break = current_break;
-    current_break += incr;
-    return (void*) old_break;
-}
-
-void kalloc_init() {
-  	last_valid_address = sbrk(0);
-  	managed_memory_start = last_valid_address;
- 	has_initialized = 1;  
-    for (int i = 0; i < 10; i++) {
-        env[i] = (char*)kalloc(256);
-    }
-    
-}
-
-
-void bzero(void *s, int n) {
-  	char * c = s; // Can't work with void *s directly.
-  	int i;
-  	for (i = 0; i < n; ++i)
-   		c[i] = '\0';
+fs_node_t *posix_openpt(int oflags) {
+	//lets find the serial terminal
+	char* mode;
+	if (((1 << 1) & oflags) == 0) {
+		mode = "w";
+	}
+	if (((1 << 0) & oflags) == 0) {
+		//we got to switch control to this terminal
+		//todo: implement this
+	}
+	FILE* file = fopen("./sys/pty", "r");
+	fs_node_t* node = file->node;
+	fclose(file);
+	return node;
 }

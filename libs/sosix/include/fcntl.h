@@ -18,42 +18,10 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libmem.h>
-#include <libmultiboot.h>
-#include <string.h>
-#include <libproc.h>
+#ifndef __FCNTL_H
+#define __FCNTL_H
 
+#define O_RDWR 0x10
+#define O_NOCTTY 0x01
 
-uintptr_t current_break;
-int has_initialized = 0;
-void *managed_memory_start;
-void *last_valid_address;
-mem_control_block pmcb; 
-	
-int ram_size() {
-	return (mbi->mem_lower + mbi->mem_upper)+513;
-}
-
-void *sbrk(intptr_t incr) {
-	uintptr_t old_break = current_break;
-    current_break += incr;
-    return (void*) old_break;
-}
-
-void kalloc_init() {
-  	last_valid_address = sbrk(0);
-  	managed_memory_start = last_valid_address;
- 	has_initialized = 1;  
-    for (int i = 0; i < 10; i++) {
-        env[i] = (char*)kalloc(256);
-    }
-    
-}
-
-
-void bzero(void *s, int n) {
-  	char * c = s; // Can't work with void *s directly.
-  	int i;
-  	for (i = 0; i < n; ++i)
-   		c[i] = '\0';
-}
+#endif 

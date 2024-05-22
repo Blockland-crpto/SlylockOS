@@ -51,6 +51,7 @@ enum proc_exit_status {
 #define MAX_PROCS_QUEUED 10
 #define KERNEL_PROC_ID (MAX_PROCS_QUEUED + 1)
 #define MAX_PROCS_USABLE (MAX_PROCS_QUEUED - 1)
+#define MAX_ENVS 10
 
 #if defined(__cplusplus)
 extern "C" {
@@ -114,6 +115,9 @@ extern "C" {
 	//taskqueue
 	proc_control_block task_queue[MAX_PROCS_QUEUED];
 
+	//enviorment variables
+	char* env[MAX_ENVS];
+	
 	//function to create a task to task queue
 	void proc_create(int (*entry_point)(), enum proc_priority priority, int parent);
 

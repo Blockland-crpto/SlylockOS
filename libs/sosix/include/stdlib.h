@@ -168,8 +168,20 @@ extern "C" {
 	//mkdtemp implementation
 	char *mkdtemp(char *temp);
 
+	//mkstemp implementation
+	fs_node_t *mkstemp(char *temp);
+
 	//posix_memalign implementation
 	int posix_memalign(void **memptr, size_t alignment, size_t size);
+
+	//posix_openpt implementation
+	fs_node_t *posix_openpt(int oflags);
+
+	//ptsname implementation
+	char* ptsname(fs_node_t* filedes);
+
+	//putenv implementation
+	int putenv(char* string);
 	
 	//realloc implementation
 	void *realloc(void *ptr, size_t numbytes);

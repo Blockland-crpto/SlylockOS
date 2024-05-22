@@ -25,11 +25,13 @@
 #include <libdmgctrl.h>
 #include <kernel/irq.h>
 #include <libmodule.h>
- 
+#include <libfs.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <libmem.h>
 
 //TODO: add COM2 support and input handling
 
@@ -119,6 +121,10 @@ void serial_init() {
 
 	//lets enable the serial port
 	outb(COM1_MODEM_CTRL, 0x0F);
+
+	//now lets create a file for the terminal
+	uint8_t* buffer = (uint8_t*)kalloc(BUFSIZ);
+	create_file_fs("com1", buffer, BUFSIZ);
 
 	//were done!
 	DONE(modules_serial);

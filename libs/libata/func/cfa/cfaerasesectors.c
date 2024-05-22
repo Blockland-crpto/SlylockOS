@@ -25,7 +25,6 @@
 #include <libdebug.h>
 #include <stdint.h>
 #include <stdbool.h>
- 
 #include <stddef.h>
 
 //the CFA erase sectors command

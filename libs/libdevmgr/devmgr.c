@@ -50,7 +50,7 @@ void devmgr_init() {
 	//lets check if the kalloc returned valid
 	if (mouse_stream == NULL) {
 		//oops no memory!
-		panic("No more memory!", INSUFFICIENT_RAM);
+		panic("No memory for the mouse stream!", INSUFFICIENT_RAM);
 	}
 	
 	//were done!

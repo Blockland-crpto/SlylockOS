@@ -18,42 +18,26 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libmem.h>
-#include <libmultiboot.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-#include <libproc.h>
+#include <libfs.h>
 
-
-uintptr_t current_break;
-int has_initialized = 0;
-void *managed_memory_start;
-void *last_valid_address;
-mem_control_block pmcb; 
-	
-int ram_size() {
-	return (mbi->mem_lower + mbi->mem_upper)+513;
-}
-
-void *sbrk(intptr_t incr) {
-	uintptr_t old_break = current_break;
-    current_break += incr;
-    return (void*) old_break;
-}
-
-void kalloc_init() {
-  	last_valid_address = sbrk(0);
-  	managed_memory_start = last_valid_address;
- 	has_initialized = 1;  
-    for (int i = 0; i < 10; i++) {
-        env[i] = (char*)kalloc(256);
-    }
-    
-}
-
-
-void bzero(void *s, int n) {
-  	char * c = s; // Can't work with void *s directly.
-  	int i;
-  	for (i = 0; i < n; ++i)
-   		c[i] = '\0';
+fs_node_t *mkstemp(char *temp) {
+	static int numberid;
+	char buf[256];
+	char* strfound = strstr(temp, "xxxxxx");
+	if (strfound == NULL) {
+		return NULL;
+	}
+	temp = rstrstr(temp, "xxxxxx");
+	char* strid = itoa(numberid, buf, 10);
+	strcat(temp, strid); 
+	numberid++;
+	uint8_t* buffer = (uint8_t*)kalloc(BUFSIZ);
+	create_file_fs(temp, buffer, BUFSIZ);
+	FILE* newFile = fopen(temp, "w");
+	fs_node_t* node = newFile->node;
+	fclose(newFile);
+	return node;
 }

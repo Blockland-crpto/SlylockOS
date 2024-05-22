@@ -28,24 +28,22 @@
 #include <libdebug.h>
 #include <string.h>
 #include <stddef.h>
- 
-
 
 int acpiEnable(void) {
 	// check if acpi is enabled
-	if ((inw((uint32_t) PM1a_CNT)&SCI_EN) == 0) {
+	if ((inw((uintptr_t) PM1a_CNT)&SCI_EN) == 0) {
 		// check if acpi can be enabled
 		if (SMI_CMD != 0 && ACPI_ENABLE != 0) {
-			outb((uint32_t) SMI_CMD, ACPI_ENABLE); // send acpi enable command
+			outb((uintptr_t) SMI_CMD, ACPI_ENABLE); // send acpi enable command
 			// give 3 seconds time to enable acpi
 			int i;
 			for (i=0; i<300; i++ ) {
-				if ( (inw((uint32_t) PM1a_CNT) &SCI_EN) == 1 )
+				if ( (inw((uintptr_t) PM1a_CNT) &SCI_EN) == 1 )
 					break;
 			}
 			if (PM1b_CNT != 0)
 				for (; i<300; i++ ) {
-					if ( (inw((uint32_t) PM1b_CNT) &SCI_EN) == 1 )
+					if ( (inw((uintptr_t) PM1b_CNT) &SCI_EN) == 1 )
 						break;
 				}
 			if (i<300) {
