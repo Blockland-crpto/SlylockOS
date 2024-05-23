@@ -20,24 +20,21 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <libfs.h>
 
-fs_node_t *mkstemp(char *temp) {
-	static int numberid;
-	char buf[256];
-	char* strfound = strstr(temp, "xxxxxx");
-	if (strfound == NULL) {
-		return NULL;
+int posix_openpt(int oflags) {
+	//lets find the serial terminal
+	char* mode;
+	if (((1 << 1) & oflags) == 0) {
+		mode = "w";
 	}
-	temp = rstrstr(temp, "xxxxxx");
-	char* strid = itoa(numberid, buf, 10);
-	strcat(temp, strid); 
-	numberid++;
-	uint8_t* buffer = (uint8_t*)kalloc(BUFSIZ);
-	create_file_fs(temp, buffer, BUFSIZ);
-	FILE* newFile = fopen(temp, "w");
-	fs_node_t* node = newFile->node;
-	fclose(newFile);
-	return node;
+	if (((1 << 0) & oflags) == 0) {
+		//we got to switch control to this terminal
+		//todo: implement this
+	}
+	FILE* file = fopen("./sys/pty", "r");
+	fs_node_t* node = file->node;
+	int ret = (signed)node->inode;
+	fclose(file);
+	return ret;
 }

@@ -18,12 +18,18 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+#include <stdlib.h>
 #include <stdio.h>
+#include <libinitrd.h>
 #include <libfs.h>
-#include <string.h>
- 
 
-int renameat(fs_node_t* oldfd, const char *newName) {
-	strcpy(oldfd->name, newName);
+extern fs_node_t* root_nodes;
+
+int grantpt(int node) {
+	//the permissions flag is open to all by default
+	FILE* file = fdopen(node, "w");
+	file->node->gid = 0x0;
+	file->node->uid= 0x1;
+	fclose(file);
 	return 0;
 }

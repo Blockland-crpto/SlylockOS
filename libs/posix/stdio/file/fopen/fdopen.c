@@ -26,10 +26,13 @@
 #include <errno.h>
 #include <libproc.h>
 #include <libfs.h>
+#include <libinitrd.h>
 
 #define MAX_FILE_SIZE 4096
 
-FILE *fdopen(fs_node_t* fd, const char *mode) {
+extern fs_node_t* root_nodes;
+
+FILE *fdopen(int fd, const char *mode) {
 
 	//lets check if the process is allowed to
 	if (task_queue[0].file_stream_allocations_used == FOPEN_MAX) {
@@ -53,16 +56,21 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 		return NULL;
 	}
 
-	if (fd == NULL) {
+	fs_node_t* node = (fs_node_t*)malloc(sizeof(fs_node_t));
+	
+	node = &root_nodes[fd];
+	
+	if (node->inode == 0) {
 		// Invalid file descriptor error
 		free(file->stream);
 		free(file);
 		errno = EBADF;
 		return NULL;
 	}
+
 	
 	if (strchr(mode, 'r') != NULL) {
-		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);
+		uint32_t sz = read_fs(node, 0, node->length, file->stream);
 		if (sz == 0xFFFFFFFF) {
 			//File does not exist 
 			free(file->stream);
@@ -72,7 +80,7 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 		fsetpos(file, (fpos_t*)0);
 		
 	} else if (strchr(mode, 'w') != NULL) {
-		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);
+		uint32_t sz = read_fs(node, 0, node->length, file->stream);
 		if (sz == 0xFFFFFFFF) {
 			//File does not exist 
 			free(file->stream);
@@ -87,7 +95,7 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 		
 	} else if (strchr(mode, 'a') != NULL) {
 		// Append to the existing file content if opened in append mode
-		uint32_t sz = read_fs(fd, 0, fd->length, file->stream);
+		uint32_t sz = read_fs(node, 0, node->length, file->stream);
 		if (sz == 0xFFFFFFFF) {
 			//File does not exist 
 			free(file->stream);
@@ -98,7 +106,7 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 		//lets make a fpos_t
 		fpos_t pos;
 		pos.file = file;
-		pos.offset = fd->length;
+		pos.offset = node->length;
 		fsetpos(file, &pos);
 		
 	} else {
@@ -108,8 +116,8 @@ FILE *fdopen(fs_node_t* fd, const char *mode) {
 		return NULL;
 	}
 
-	file->name = fd->name;
-	file->node = fd;
+	file->name = node->name;
+	file->node = node;
 	file->mode = mode;
 	for (int i = 0; i < FOPEN_MAX; i++) {
 		if (task_queue[0].file_streams[i] == NULL) {

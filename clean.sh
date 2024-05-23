@@ -29,7 +29,7 @@ rm -rf libssebin
 rm -rf libsspbin
 rm -rf libtimerbin
 rm -rf libvgabin
-rm -rf sosixbin
+rm -rf posixbin
 rm -rf SlylockOS.iso
 rm -rf sys
 rm -rf tmp

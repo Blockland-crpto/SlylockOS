@@ -42,7 +42,8 @@ FILE *fopen(const char *filename, const char *mode) {
 		return NULL; // Allocation failed
 	}
 
-	fs_node_t *fsnode = finddir_fs(fs_root, filename);
+	fs_node_t *fsnode = (fs_node_t*)malloc(sizeof(fs_node_t));
+	fsnode = finddir_fs(fs_root, filename);
 	
 	if (fsnode == NULL) {
 		free(file); // Clean up allocated memory

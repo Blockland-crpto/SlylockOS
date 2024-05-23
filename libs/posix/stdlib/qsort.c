@@ -18,56 +18,51 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+//i know this is very crappy but i just want somthing here
+//todo: handle equal responces
+
 #include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
 #include <stddef.h>
-#include <errno.h>
-#include <libproc.h>
-#include <libfs.h>
+#include <string.h>
 
-int fclose(FILE *stream) {
+void qsort(void *base, size_t nel, size_t width, int (*compar)(const void *, const void *)) {
+	typedef struct {
+		void* value;
+		int id;
+	} qsort_t;
 	
-	if (stream->node->length == 0) {
-		errno = EBADF;
-		return EOF;
+	if (nel == 0) {
+		return;
+	}
+	//get a array of values
+	qsort_t vals[nel];
+	for (size_t i = 0; i < nel; i++) {
+		vals[i].id = (int)compar((base+i), (base+i+1));
+		vals[i].value = (base+i);
+		i++;
 	}
 
-	if (stream->node->length > BUFSIZ) {
-		errno = EFBIG;
-		return EOF;
+	int highest;
+	qsort_t order[nel];
+
+	for (size_t i = 0; i < nel; i++) {
+		if (vals[i].id > highest) {
+			highest = vals[i].id;
+			vals[nel-1].id = highest;
+		}
 	}
 	
-	if (stream->stream == NULL) {
-		errno = EIO;
-		return EOF;
-	}
-
-	//lets see if we have enough space on initrd
-	void* test = kalloc(stream->node->length);
-
-	//lets see if we have enough space on initrd
-	if (test == NULL) {
-		//nope
-		errno = ENOSPC;
-		return EOF;
-	}
-
-	
-	kfree(test);
-	
-	//lets look for the file stream
-	for (int i = 0; i < FOPEN_MAX; i++) {
-		if (task_queue[0].file_streams[i]->name == stream->name) {
-			//okay this is it
-			task_queue[0].file_streams[i] = NULL;
-			task_queue[0].file_stream_allocations_used--;
-			break;
+	for (size_t i = 0; i < nel; i++) {
+		for (size_t j = 0; j < nel; j++) {
+			if (vals[j].id > order[nel-i-1].id) {
+				order[nel-i-1] = vals[j];
+			}
 		}
 	}
 
-	write_fs(stream->node, 0, stream->node->length, stream->stream);
-	free(stream);
-	
-	return 0;
+	//now lets make a array
+	for (size_t i = 0; i < nel; i++) {
+		memmove(base+i, order[i].value, width);
+	}
+	return;
 }

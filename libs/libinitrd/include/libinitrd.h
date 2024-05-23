@@ -41,6 +41,9 @@
 #if defined(__cplusplus)
 extern "C" {
 #endif
+
+	int nroot_nodes;  
+	
 	fs_node_t *initrd_root;             // Our root directory node.
 
 	/**

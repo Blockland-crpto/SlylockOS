@@ -102,13 +102,13 @@ extern "C" {
 	char *ctermid(char *s);
 	
 	//dprintf implementation
-	int dprintf(fs_node_t *fd, const char *format, ...);
+	int dprintf(int fd, const char *format, ...);
 	
 	//fclose implementation
 	int fclose(FILE *stream);
 	
 	//fdopen implementation (note this implementation only has R,A,W inputs for mode)
-	FILE *fdopen(fs_node_t *fd, const char *mode);
+	FILE *fdopen(int fd, const char *mode);
 	
 	//feof implementation
 	int feof(FILE *stream);
@@ -216,7 +216,7 @@ extern "C" {
 	int rename(const char *old, const char *newName);
 
 	//renameat implementation
-	int renameat(fs_node_t* oldfd, const char *newName);
+	int renameat(int oldfd, const char *newName);
 
 	//rewind implementation
 	void rewind(FILE *stream);
@@ -252,7 +252,7 @@ extern "C" {
 	int ungetc(int c, FILE *stream);
 
 	//vdprintf implementation
-	int vdprintf(fs_node_t *fd, const char *format, va_list ap);
+	int vdprintf(int fd, const char *format, va_list ap);
 
 	//fprintf implementation
 	int vfprintf(FILE *stream, const char *format, va_list ap);

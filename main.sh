@@ -31,7 +31,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libtimer/include
 						-I./libs/libvalidate/include
 						-I./libs/libvga/include
-						-I./libs/sosix/include")
+						-I./libs/posix/include")
 export debug=$(echo "-DDEBUG -Wextra -Wstack-protector -fanalyzer")
 #-Wno-discarded-qualifiers
 export security=$(echo "-fstack-protector-all -fstack-clash-protection")
@@ -67,7 +67,7 @@ export optimize=$(echo "-Og -g -Wstack-usage=1100")
 ./build/libtimer_build.sh
 ./build/libvalidate_build.sh
 ./build/libvga_build.sh
-./build/sosix_build.sh
+./build/posix_build.sh
 
 csources=$(find ./kernel/modules/* -type f -name "*.c")
 
@@ -139,7 +139,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="./lib/sosix.a ./sys/membuf ./sys/pty ./sys/tty ./tmp ./env ./dev"
+inp="./lib/posix.a ./sys/membuf ./sys/pty ./sys/tty ./tmp ./env ./dev"
 res=''
 for word in $inp; do
 res="${res} ${word}"

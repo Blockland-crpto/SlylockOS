@@ -18,22 +18,47 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+#include <stdlib.h>
 #include <libfs.h>
 
-fs_node_t *posix_openpt(int oflags) {
-	//lets find the serial terminal
-	char* mode;
-	if (((1 << 1) & oflags) == 0) {
-		mode = "w";
+
+//REQUIRES REWRITE
+
+int dprintf(int fd, const char *format, ...) {
+	
+	FILE* file = fdopen(fd, "w");
+	va_list ap;
+	va_start(ap, format);
+	
+	const char *ptr = format;
+	int len = 0;
+	while(*ptr) {
+		if (*ptr == '%') {
+			ptr++;
+			char buf[256];
+			switch (*ptr++) {
+				case 's':
+					write_fs(file->node, file->length, (sizeof(ap)), (uint8_t*)va_arg(ap, const char *));
+					break;
+				case 'd':
+					write_fs(file->node, file->length, (sizeof(ap)), (uint8_t*)itoa(va_arg(ap, int), buf, 10));
+					break;
+				case 'x':
+					write_fs(file->node, file->length, (sizeof(ap)), (uint8_t*)itoa(va_arg(ap, int), buf, 16));
+					break;
+				default:
+					return EOF;
+			}
+		} else {
+			write_fs(file->node, file->length, (sizeof(ptr+1)), (uint8_t*)ptr++);
+			len++;
+		}
 	}
-	if (((1 << 0) & oflags) == 0) {
-		//we got to switch control to this terminal
-		//todo: implement this
-	}
-	FILE* file = fopen("./sys/pty", "r");
-	fs_node_t* node = file->node;
+
+	va_end(ap);
 	fclose(file);
-	return node;
+	return len-1;
 }

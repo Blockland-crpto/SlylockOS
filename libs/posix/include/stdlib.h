@@ -124,7 +124,7 @@ extern "C" {
 	int getsubopt(char **optionp, char * const *keylistp, char **valuep);
 
 	//grantpt implementation
-	int grantpt(fs_node_t* node);
+	int grantpt(int node);
 
 	//initstate implementation
 	char *initstate(unsigned seed, char *state, size_t size);
@@ -169,19 +169,25 @@ extern "C" {
 	char *mkdtemp(char *temp);
 
 	//mkstemp implementation
-	fs_node_t *mkstemp(char *temp);
+	int mkstemp(char *temp);
 
 	//posix_memalign implementation
 	int posix_memalign(void **memptr, size_t alignment, size_t size);
 
 	//posix_openpt implementation
-	fs_node_t *posix_openpt(int oflags);
+	int posix_openpt(int oflags);
 
 	//ptsname implementation
-	char* ptsname(fs_node_t* filedes);
+	char* ptsname(int filedes);
 
 	//putenv implementation
 	int putenv(char* string);
+
+	//qsort implementation
+	void qsort(void *base, size_t nel, size_t width, int (*compar)(const void *, const void *));
+
+	//rand implementation
+	int rand(void);
 	
 	//realloc implementation
 	void *realloc(void *ptr, size_t numbytes);
@@ -196,7 +202,7 @@ extern "C" {
 	long long strtoll(const char *restrict str, char **restrict endptr, int base);
 
 	//exclusives
-	int rand(void);
+	
 	void srand(unsigned int seed);
 	
 	

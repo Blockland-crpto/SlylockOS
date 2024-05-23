@@ -18,25 +18,27 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <errno.h>
+#include <stdlib.h>
 #include <stdio.h>
-#include <libc.h>
-#include <libmodule.h>
-#include <libmem.h>
+#include <string.h>
+#include <libfs.h>
 
-void libc_init() {
-	module_t modules_libc = MODULE("kernel.modules.libc", "Defines the C standard library from http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1124.pdf for convenient use.");
-	INIT(modules_libc);
-	errno_init();
-	
-	stdin = (FILE*)kalloc(sizeof(FILE));
-	stdin->stream = (uint8_t*)kalloc(BUFSIZ);
-
-	stdout = (FILE*)kalloc(sizeof(FILE));
-	stdout->stream = (uint8_t*)kalloc(BUFSIZ);
-
-	stderr = (FILE*)kalloc(sizeof(FILE));
-	stderr->stream = (uint8_t*)kalloc(BUFSIZ);
-	
-	DONE(modules_libc);
+int mkstemp(char *temp) {
+	static int numberid;
+	char buf[256];
+	char* strfound = strstr(temp, "xxxxxx");
+	if (strfound == NULL) {
+		return NULL;
+	}
+	temp = rstrstr(temp, "xxxxxx");
+	char* strid = itoa(numberid, buf, 10);
+	strcat(temp, strid); 
+	numberid++;
+	uint8_t* buffer = (uint8_t*)kalloc(BUFSIZ);
+	create_file_fs(temp, buffer, BUFSIZ);
+	FILE* newFile = fopen(temp, "w");
+	fs_node_t* node = newFile->node;
+	int ret = (signed)node->inode;
+	fclose(newFile);
+	return ret;
 }

@@ -27,14 +27,14 @@
 
 //REQUIRES REWRITE
 
-int vdprintf(fs_node_t *fd, const char *format, va_list ap) {
-	uint8_t *fbuf = (uint8_t*)malloc(sizeof(char) * fd->length);
+int vdprintf(int fd, const char *format, va_list ap) {
+	FILE* file = fdopen(fd, "w");
+	uint8_t *fbuf = (uint8_t*)malloc(file->length);
 	//lets check if it worked
 	if (fbuf == NULL) {
 		//oop!
 		return -1;
 	} 
-	uint32_t startsize = read_fs(fd, 0, fd->length, fbuf);
 	const char *ptr = format;
 	int len = 0;
 	while(*ptr) {
@@ -43,23 +43,24 @@ int vdprintf(fs_node_t *fd, const char *format, va_list ap) {
 			char buf[256];
 			switch (*ptr++) {
 				case 's':
-					write_fs(fd, startsize, fd->length, (uint8_t*)va_arg(ap, char *));
+					write_fs(file->node, file->length, file->length, (uint8_t*)va_arg(ap, char *));
 					break;
 				case 'd':
-					write_fs(fd, startsize, fd->length, (uint8_t*)itoa(va_arg(ap, int), buf, 10));
+					write_fs(file->node, file->length, file->length, (uint8_t*)itoa(va_arg(ap, int), buf, 10));
 					break;
 				case 'x':
-					write_fs(fd, startsize, fd->length, (uint8_t*)itoa(va_arg(ap, int), buf, 16));
+					write_fs(file->node, file->length, file->length, (uint8_t*)itoa(va_arg(ap, int), buf, 16));
 					break;
 				default:
 					return -1;
 			}
 		} else {
-			write_fs(fd, startsize, fd->length, (uint8_t*)ptr++);
+			write_fs(file->node, file->length, file->length, (uint8_t*)ptr++);
 			len++;
 		}
 	}
 
 	va_end(ap);
+	fclose(file);
 	return len-1;
 }

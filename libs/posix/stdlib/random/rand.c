@@ -1,5 +1,5 @@
 /*
-* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* Authors: Alexander Herbert <herbgamerwow@gmail.com>, Matthyos
 * License: MIT
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of this 
@@ -19,18 +19,19 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdlib.h>
-#include <libfs.h>
-#include <stdio.h>
-#include <string.h>
+ 
 
-char* ptsname(fs_node_t* filedes) {
-	FILE* file = fdopen(filedes, "r");
+// From https://stackoverflow.com/a/4768189
 
-	char* str = "tty";
-	if (strcmp(file->name,"tty") > 0) {
-		//it is tty
-		str = "pty";
-	}
-	fclose(file);
-	return str;
+unsigned long int rnext;
+
+void srand(unsigned int seed) {
+	rnext = seed;
+}
+
+int rand(void) { // RAND_MAX assumed to be the max int number
+	rnext = rnext * 1103515245 + 12345;
+	uint32_t num = (uint32_t)(rnext/65536) % RAND_MAX;
+	srand(num);
+	return num;
 }
