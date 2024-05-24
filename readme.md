@@ -21,5 +21,4 @@ These are the minimal requirements to run SlyLock
 
 Workflow statues
 ===========================
-![codacy status]
-(https://github.com/Blockland-crpto/SlylockOS/actions/workflows/codacy.yml/badge.svg?branch=dev)
+![codacy status](https://github.com/Blockland-crpto/SlylockOS/actions/workflows/codacy.yml/badge.svg?branch=dev)
