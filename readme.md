@@ -18,3 +18,8 @@ These are the minimal requirements to run SlyLock
 - a single core x86 processor (more cores unnessecary)
 - a VGA textmode compatable GPU
 - a DVD drive
+
+Workflow statues
+===========================
+![Codacy status]
+(https://github.com/Blockland-crpto/SlylockOS/actions/workflows/codacy.yml/badge.svg)
