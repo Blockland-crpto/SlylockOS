@@ -20,7 +20,8 @@
 */
 #include <stdlib.h>
 #include <iso646.h>
- 
+#include "r48state.h"
+
 extern unsigned long long multiplier;
 extern unsigned long long addend;
 

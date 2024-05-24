@@ -23,8 +23,8 @@
 #include <stddef.h>
  
 
-double strtod(const char *restrict nptr, char **restrict endptr) {
-	double result = 0.0;
+long double strtold(const char *restrict nptr, char **restrict endptr) {
+	long double result = 0.0;
 	int sign = 1;
 	int decimal = 0;
 	int exp_sign = 1;

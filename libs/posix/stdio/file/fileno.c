@@ -22,9 +22,9 @@
 #include <libfs.h>
  
 
-fs_node_t *fileno(FILE* stream) {
+int fileno(FILE* stream) {
 	if (stream == NULL) {
-		return NULL;
+		return -1;
 	}
-	return stream->node;
+	return (int)stream->node->inode;
 }

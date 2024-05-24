@@ -24,7 +24,6 @@
 #include <libmodule.h>
 #include <libmem.h>
 #include <libdebug.h>
-
 extern long int rnext;
 extern unsigned long int rrnext;
 
@@ -35,7 +34,6 @@ void libc_init() {
 	errno_init();
 
 	rnext = (long int)kalloc(sizeof(long int));
-	
 	rrnext = (unsigned long int)kalloc(sizeof(unsigned long int));
 
 	//lets see if next worked

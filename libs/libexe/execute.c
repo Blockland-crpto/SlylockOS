@@ -19,19 +19,14 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libexe.h>
- 
 #include <libfs.h>
 #include <libmem.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <libvga.h>
 
-extern void run_external();
-
-void execute_program(char* filename) {
-	uint8_t buf[256];
-	fs_node_t *fsnode = finddir_fs(fs_root, filename);
-	read_fs(fsnode, 0, 256, buf);
-	kalloc(256);
-	char* heap = (char*) kalloc(128);
-	run_external(buf, heap);
-}	
+//
+int cmd_hello() {
+	kprintf("hi");	
+	return 0;
+}

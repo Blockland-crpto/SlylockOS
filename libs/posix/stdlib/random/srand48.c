@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include "rstate.h"
+#include "r48state.h"
 
 void srand48(long seed) {
 	_rand48_seed[0] = (unsigned short)0x330E16;

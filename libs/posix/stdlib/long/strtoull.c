@@ -19,22 +19,61 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdlib.h>
+#include <stddef.h>
+#include <ctype.h>
  
 
-double erand48(unsigned short xsubi[3]) {
-	const unsigned long long a = 0x5DEECE66DULL;
-	const unsigned long long c = 0xBULL;
-	const unsigned long long m = (1ULL << 48);
+unsigned long long strtoull(const char *restrict str, char **restrict endptr, int base) {
+	unsigned long long result = 0;
+	int sign = 1;
 
-	unsigned long long next = xsubi[0] * a + c;
-	xsubi[0] = (unsigned short)(next & 0xFFFF);
-	next >>= 16;
-	next += xsubi[1] * a + c;
-	xsubi[1] = (unsigned short)(next & 0xFFFF);
-	next >>= 16;
-	next += xsubi[2] * a + c;
-	xsubi[2] = (unsigned short)(next & 0xFFFF);
+	// Skip leading whitespace
+	while (isspace(*str)) {
+		str++;
+	}
 
-	double result = next / (double)m;
-	return result;
+	// Check for sign
+	if (*str == '-') {
+		sign = -1;
+		str++;
+	} else if (*str == '+') {
+		str++;
+	}
+
+	// Determine base if not provided
+	if (base == 0) {
+		if (*str == '0') {
+			if (*(str + 1) == 'x' || *(str + 1) == 'X') {
+				base = 16;
+				str += 2;
+			} else {
+				base = 8;
+				str++;
+			}
+		} else {
+			base = 10;
+		}
+	}
+
+	// Parse digits
+	while (isalnum(*str)) {
+		int digit;
+		if (isdigit(*str)) {
+			digit = *str - '0';
+		} else {
+			digit = tolower(*str) - 'a' + 10;
+		}
+		if (digit >= base) {
+			break;
+		}
+		result = result * base + digit;
+		str++;
+	}
+
+	// Set endptr if provided
+	if (endptr != NULL) {
+		*endptr = (char *)str;
+	}
+
+	return sign * result;
 }

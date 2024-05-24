@@ -50,6 +50,7 @@ enum proc_exit_status {
 
 #define MAX_PROCS_QUEUED 10
 #define KERNEL_PROC_ID (MAX_PROCS_QUEUED + 1)
+#define CURRENT_PROC_ID ((task_queue[0].id))
 #define MAX_PROCS_USABLE (MAX_PROCS_QUEUED - 1)
 #define MAX_ENVS 10
 

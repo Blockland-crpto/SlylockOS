@@ -1,5 +1,5 @@
 /*
-* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* Authors: Alexander Herbert <herbgamerwow@gmail.com>, Matthyos
 * License: MIT
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of this 
@@ -19,22 +19,11 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdlib.h>
- 
+#include <string.h>
 
-double erand48(unsigned short xsubi[3]) {
-	const unsigned long long a = 0x5DEECE66DULL;
-	const unsigned long long c = 0xBULL;
-	const unsigned long long m = (1ULL << 48);
-
-	unsigned long long next = xsubi[0] * a + c;
-	xsubi[0] = (unsigned short)(next & 0xFFFF);
-	next >>= 16;
-	next += xsubi[1] * a + c;
-	xsubi[1] = (unsigned short)(next & 0xFFFF);
-	next >>= 16;
-	next += xsubi[2] * a + c;
-	xsubi[2] = (unsigned short)(next & 0xFFFF);
-
-	double result = next / (double)m;
-	return result;
+size_t wcstombs(char *restrict s, const wchar_t *restrict pwcs, size_t n) {
+	for (size_t i = 0; i < n; i++) {
+		s[i] = (char)pwcs[i];
+	}
+	return n;
 }

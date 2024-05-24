@@ -19,7 +19,8 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdlib.h>
- 
+#include "r48state.h"
+
 extern unsigned long long multiplier;
 extern unsigned long long addend;
 

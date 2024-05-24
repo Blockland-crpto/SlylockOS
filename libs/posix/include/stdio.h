@@ -129,7 +129,7 @@ extern "C" {
 	char *fgets(char *restrict s, int n, FILE *restrict stream);
 	
 	//fileno implementation
-	fs_node_t *fileno(FILE* stream);
+	int fileno(FILE* stream);
 		
 	//flockfile implementation
 	void flockfile(FILE *file);

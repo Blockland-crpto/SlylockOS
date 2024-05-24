@@ -61,7 +61,6 @@ extern "C" {
 		long long int rem;
 	} lldiv_t;
 
-	unsigned short _rand48_seed[3];
 
 	typedef int wchar_t;
 	typedef unsigned int size_t;
@@ -215,23 +214,45 @@ extern "C" {
 
 	//srand48 implementation
 	void srand48(long seed);
+
+	//srandom implementation
+	void srandom(unsigned seed);
 	
 	//strtod implementation
 	double strtod(const char *restrict nptr, char **restrict endptr);
 
+	//strtof
+	float strtof(const char *restrict nptr, char **restrict endptr);
+	
 	//strtol implmentation
 	long strtol(const char *restrict str, char **restrict endptr, int base);
+
+	//strtold implementation
+	long double strtold(const char *restrict nptr, char **restrict endptr);
 
 	//strtoll implementation
 	long long strtoll(const char *restrict str, char **restrict endptr, int base);
 	
-	//srandom implementation
-	void srandom(unsigned seed);
-	
-	
-	
+	//strtoul implementation
+	unsigned long strtoul(const char *restrict str, char **restrict endptr, int base);
 
+	//strtoull implementation
+	unsigned long long strtoull(const char *restrict str, char **restrict endptr, int base);
 
+	//system implmentation
+	int system(const char* command);
+
+	//unlockpt implementation
+	int unlockpt(int filedes);
+
+	//unsetenv implementation
+	int unsetenv(const char *name);
+
+	//wcstombs implementation
+	size_t wcstombs(char *restrict s, const wchar_t *restrict pwcs, size_t n);
+	
+	//wctomb implementation
+	int wctomb(char *s, wchar_t wchar);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif
