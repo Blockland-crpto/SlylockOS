@@ -18,41 +18,23 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+#ifndef RSTATE_H
+#define RSTATE_H
+
 #include <stdlib.h>
-#include <string.h>
-#include <libproc.h>
-#include <libmem.h>
 
-int putenv(char* string) {
-	//lets look through env for a variable with name
-	//but we have to get it first
-	size_t len = 0;
-	while (string[len] != '=') {
-		len++;
-	}
-	char* str = (char*)malloc(len);
-	strncpy(str, string, len);
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+	typedef struct {
+		char* state;
+		size_t size;
+	} rstate_t;
+	rstate_t rstates[16];
+
+#if defined(__cplusplus)
+} /* extern "C" */
+#endif
 	
-	//lets search the enviorment for this variable name
-	for (int i = 0; i < MAX_ENVS; i++) {
-		if (strncmp(env[i], str, len) == 0) {
-			//lets set it 
-			strcpy(env[i], string);
-			free(str);
-			return 0;
-		}
-	}
-
-	//if we get here, we need to add one
-	for (int i = 0; i < MAX_ENVS; i++) {
-		if (env[i] == NULL) {
-			//yeah!
-			strcpy(env[i], string);
-			free(str);
-			return 0;
-		}
-	}
-
-	//if we get here, we need to return an error
-	return 1;
-}
+#endif

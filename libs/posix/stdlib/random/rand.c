@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdlib.h>
- 
+#include <stdint.h>
 
 // From https://stackoverflow.com/a/4768189
 
@@ -34,4 +34,10 @@ int rand(void) { // RAND_MAX assumed to be the max int number
 	uint32_t num = (uint32_t)(rnext/65536) % RAND_MAX;
 	srand(num);
 	return num;
+}
+
+int rand_r(unsigned *seed) {
+	unsigned sed = *seed;
+	sed = sed * 1103515245 + 12345;
+	return (uint32_t)(sed/65536) % RAND_MAX;
 }

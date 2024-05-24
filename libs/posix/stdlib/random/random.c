@@ -1,5 +1,5 @@
 /*
-* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* Authors: Alexander Herbert <herbgamerwow@gmail.com>, Matthyos
 * License: MIT
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of this 
@@ -18,41 +18,30 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+
 #include <stdlib.h>
-#include <string.h>
-#include <libproc.h>
-#include <libmem.h>
+#include <stdint.h>
+#include "rstate.h"
 
-int putenv(char* string) {
-	//lets look through env for a variable with name
-	//but we have to get it first
-	size_t len = 0;
-	while (string[len] != '=') {
-		len++;
-	}
-	char* str = (char*)malloc(len);
-	strncpy(str, string, len);
-	
-	//lets search the enviorment for this variable name
-	for (int i = 0; i < MAX_ENVS; i++) {
-		if (strncmp(env[i], str, len) == 0) {
-			//lets set it 
-			strcpy(env[i], string);
-			free(str);
-			return 0;
-		}
-	}
+unsigned long int rrnext = 1;
+extern size_t rstate_size;
+extern char* rstate;
 
-	//if we get here, we need to add one
-	for (int i = 0; i < MAX_ENVS; i++) {
-		if (env[i] == NULL) {
-			//yeah!
-			strcpy(env[i], string);
-			free(str);
-			return 0;
-		}
-	}
 
-	//if we get here, we need to return an error
-	return 1;
+void srandom(unsigned seed) {
+	rrnext = seed;
+}
+
+long random(void) {
+	//todo: implement
+	unsigned long long next = rstate[0];
+
+	for (size_t i = 0; i < rstate_size; i++) {
+		rstate[i] = (unsigned short)(next & 0xFFFF);
+		next >>= 16;
+		next += rstate[i+1];
+	}
+	uint32_t num = (uint32_t)(next/65536) % RAND_MAX;
+	srandom(num);
+	return num;
 }

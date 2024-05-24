@@ -188,9 +188,33 @@ extern "C" {
 
 	//rand implementation
 	int rand(void);
+
+	//rand_r implementation
+	int rand_r(unsigned *seed);
+
+	//random implementation
+	long random(void);
 	
 	//realloc implementation
 	void *realloc(void *ptr, size_t numbytes);
+
+	//realpath implementation
+	char *realpath(const char *restrict file_name, char *restrict resolved_name);
+
+	//seed48 implementation
+	unsigned short *seed48(unsigned short seed16v[3]);
+
+	//setenv implementation
+	int setenv(const char *envname, const char *envval, int overwrite);
+
+	//setstate implementatin
+	char *setstate(char *state);
+
+	//srand implementation
+	void srand(unsigned int seed);
+
+	//srand48 implementation
+	void srand48(long seed);
 	
 	//strtod implementation
 	double strtod(const char *restrict nptr, char **restrict endptr);
@@ -200,11 +224,9 @@ extern "C" {
 
 	//strtoll implementation
 	long long strtoll(const char *restrict str, char **restrict endptr, int base);
-
-	//exclusives
 	
-	void srand(unsigned int seed);
-	
+	//srandom implementation
+	void srandom(unsigned seed);
 	
 	
 	

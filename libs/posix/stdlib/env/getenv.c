@@ -24,11 +24,18 @@
  
 
 char* getenv(const char *name) {
-	uint8_t* env;
-	char* dir = "./env/";
-	strcat(dir, name);
-	FILE* envfile = fopen(dir, "r");
-	env = envfile->stream;
-	fclose(envfile);
-	return (char*)env;
+	int i;
+	size_t len;
+	char* value;
+	for (i = 0; i < MAX_ENVS; i++) {
+		if (strncmp(env[i], name, strlen(name)) == 0) {
+			len = (strlen(env[i]) - strlen(name));
+			value = (char*)malloc(len);
+			if (value == NULL) {
+				//error
+			}
+			strcpy(value, (env[i]+strlen(name)));
+		}
+	}
+	return value;
 }

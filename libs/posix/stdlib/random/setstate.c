@@ -1,5 +1,5 @@
 /*
-* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* Authors: Alexander Herbert <herbgamerwow@gmail.com>, Matthyos
 * License: MIT
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of this 
@@ -19,40 +19,23 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
-#include <libproc.h>
-#include <libmem.h>
+#include "rstate.h"
 
-int putenv(char* string) {
-	//lets look through env for a variable with name
-	//but we have to get it first
-	size_t len = 0;
-	while (string[len] != '=') {
-		len++;
-	}
-	char* str = (char*)malloc(len);
-	strncpy(str, string, len);
-	
-	//lets search the enviorment for this variable name
-	for (int i = 0; i < MAX_ENVS; i++) {
-		if (strncmp(env[i], str, len) == 0) {
-			//lets set it 
-			strcpy(env[i], string);
-			free(str);
-			return 0;
+extern size_t rstate_size;
+extern char* rstate;
+
+char* setstate(char *state) {
+	//lets set the state for random numbers
+	char* states = rstate;
+	for (int i = 0; i < 16; i++) {
+		if (memcmp(state, rstates[i].state, (sizeof(char) * rstate_size)) == 0) {
+			rstate = rstates[i].state;
+			rstate_size = rstates[i].size;
+			return states;
 		}
 	}
-
-	//if we get here, we need to add one
-	for (int i = 0; i < MAX_ENVS; i++) {
-		if (env[i] == NULL) {
-			//yeah!
-			strcpy(env[i], string);
-			free(str);
-			return 0;
-		}
-	}
-
-	//if we get here, we need to return an error
-	return 1;
+	//return NULL
+	return states;
 }

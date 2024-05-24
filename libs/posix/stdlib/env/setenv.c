@@ -1,5 +1,5 @@
 /*
-* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* Authors: Alexander Herbert <herbgamerwow@gmail.com>, Matthyos
 * License: MIT
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy of this 
@@ -19,40 +19,23 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-#include <libproc.h>
-#include <libmem.h>
 
-int putenv(char* string) {
-	//lets look through env for a variable with name
-	//but we have to get it first
-	size_t len = 0;
-	while (string[len] != '=') {
-		len++;
-	}
-	char* str = (char*)malloc(len);
-	strncpy(str, string, len);
-	
-	//lets search the enviorment for this variable name
-	for (int i = 0; i < MAX_ENVS; i++) {
-		if (strncmp(env[i], str, len) == 0) {
-			//lets set it 
-			strcpy(env[i], string);
-			free(str);
+int setenv(const char *envname, const char *envval, int overwrite) {
+	size_t len1 = strlen(envname);
+	size_t len2 = strlen(envval);
+	char* envstr = malloc(len1 + len2 +1);
+	strcpy(envstr, envname);
+	strcat(envstr, "=");
+	strcat(envstr, envval);
+	//lets see if it is writable
+	if (getenv(envname) != NULL) {
+		if (overwrite == 0) {
+			//return null
 			return 0;
 		}
 	}
-
-	//if we get here, we need to add one
-	for (int i = 0; i < MAX_ENVS; i++) {
-		if (env[i] == NULL) {
-			//yeah!
-			strcpy(env[i], string);
-			free(str);
-			return 0;
-		}
-	}
-
-	//if we get here, we need to return an error
-	return 1;
+	putenv(envstr);
+	return 0;
 }

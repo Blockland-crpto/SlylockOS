@@ -26,6 +26,7 @@
 #include <libdebug.h>
 
 extern long int rnext;
+extern unsigned long int rrnext;
 
 //it initalizes the OS runtime
 void libc_init() {
@@ -34,9 +35,11 @@ void libc_init() {
 	errno_init();
 
 	rnext = (long int)kalloc(sizeof(long int));
+	
+	rrnext = (unsigned long int)kalloc(sizeof(unsigned long int));
 
 	//lets see if next worked
-	if (rnext == 0) {
+	if (rnext == 0 || rrnext == 0) {
 		//libc failed
 		panic("LIBC failed to get enough ram to start", INSUFFICIENT_RAM);
 	}
