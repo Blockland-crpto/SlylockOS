@@ -24,8 +24,10 @@
 #include <libmodule.h>
 #include <libmem.h>
 #include <libdebug.h>
+
 extern long int rnext;
 extern unsigned long int rrnext;
+extern char* cstr;
 
 //it initalizes the OS runtime
 void libc_init() {
@@ -86,6 +88,16 @@ void libc_init() {
 		//libc failed
 		panic("LIBC failed to get enough ram to start (stderr stream)", INSUFFICIENT_RAM);
 	}
+
+	cstr = (char*)kalloc(128);
+
+	//lets see if next worked
+	if (cstr == NULL) {
+		//libc failed
+		panic("LIBC failed to get enough ram to start (cstr)", INSUFFICIENT_RAM);
+	}
+	
+	cstr = "/boot/kernel.bin";
 	
 	DONE(modules_libc);
 }

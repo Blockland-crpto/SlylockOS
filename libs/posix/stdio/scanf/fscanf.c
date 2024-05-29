@@ -21,9 +21,13 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <ctype.h>
- 
+#include <string.h>
+#include <stdlib.h>
 
 static int my_fscanf_int(FILE *stream, int *result) {
+	if (strlen((const char*)stream->stream) > BUFSIZ) {
+		return EOF;
+	}
 	int ch;
 	int value = 0;
 	int sign = 1;
@@ -56,6 +60,9 @@ static int my_fscanf_int(FILE *stream, int *result) {
 }
 
 static int my_fscanf_string(FILE *stream, char *result) {
+	if (strlen((const char*)stream->stream) > BUFSIZ) {
+		return EOF;
+	}
 	int ch;
 	int count = 0;
 	int success = 0;
@@ -109,6 +116,11 @@ int fscanf(FILE *restrict stream, const char *restrict format, ...) {
 				count++;
 			} else if (*ptr == 's') {
 				// String conversion
+				size_t arglen = strlen(va_arg(args, char*));
+				if (arglen > BUFSIZ) {
+					// this might be a buffer overflow attempt
+					return EOF;
+				}
 				char *arg = va_arg(args, char*);
 				if (my_fscanf_string(stream, arg) != 1) {
 					break;  // Failed to read string, stop scanning

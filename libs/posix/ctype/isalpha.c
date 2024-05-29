@@ -18,27 +18,8 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <libfs.h>
+#include <ctype.h>
 
-int mkstemp(char *temp) {
-	static int numberid;
-	char buf[256];
-	char* strfound = strstr(temp, "xxxxxx");
-	if (strfound == NULL) {
-		return 0;
-	}
-	temp = rstrstr(temp, "xxxxxx");
-	char* strid = itoa(numberid, buf, 10);
-	strcat(temp, strid); 
-	numberid++;
-	uint8_t* buffer = (uint8_t*)kalloc(BUFSIZ);
-	create_file_fs(temp, buffer, BUFSIZ);
-	FILE* newFile = fopen(temp, "w");
-	fs_node_t* node = newFile->node;
-	int ret = (signed)node->inode;
-	fclose(newFile);
-	return ret;
+int isalpha(int c) {
+	return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
 }

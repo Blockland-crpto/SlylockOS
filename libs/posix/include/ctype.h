@@ -25,9 +25,21 @@
 extern "C" {
 #endif
 
+	//for posix standard
+	typedef void *locale_t;
+	
+	int isalnum(int c);
+	int isalnum_l(int c, locale_t locale);
+	int isalpha(int c);
+	int isalpha_l(int c, locale_t locale);
+	int isascii(int c);
+	int isblank(int c);
+	int isblank_l(int c, locale_t locale);
+	int iscntrl(int c);
+	int iscntrl_l(int c, locale_t locale);
 	int isdigit(char c);
 	int isspace(char c);
-	int isalnum(int c);
+	
 	int tolower(int c);
 
 #if defined(__cplusplus)

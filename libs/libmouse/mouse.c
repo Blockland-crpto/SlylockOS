@@ -28,7 +28,6 @@
 #include <libdevmgr.h>
 #include <kernel/irq.h>
 #include <libmodule.h>
- 
 #include <string.h>
 
 //TODO:

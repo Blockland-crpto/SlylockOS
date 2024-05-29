@@ -22,17 +22,20 @@
 #include <stdio.h>
 #include <libfs.h>
 
+extern char* cstr;
+
 int posix_openpt(int oflags) {
 	//lets find the serial terminal
-	char* mode;
+	char* mode = "r";
 	if (((1 << 1) & oflags) == 0) {
 		mode = "w";
 	}
 	if (((1 << 0) & oflags) == 0) {
 		//we got to switch control to this terminal
 		//todo: implement this
+		cstr = "./sys/pty";
 	}
-	FILE* file = fopen("./sys/pty", "r");
+	FILE* file = fopen("./sys/pty", mode);
 	fs_node_t* node = file->node;
 	int ret = (signed)node->inode;
 	fclose(file);

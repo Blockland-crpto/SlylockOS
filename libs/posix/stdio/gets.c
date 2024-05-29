@@ -25,6 +25,12 @@
  
 
 char *gets(char *s) {
+	//to check for overflows
+	size_t len = strlen(s);
+	if (len > BUFSIZ) {
+		//its a overflow attempt
+		return NULL;
+	}
 	if (s == NULL) {
 		return NULL;
 	}
@@ -35,7 +41,6 @@ char *gets(char *s) {
 	}
 
 	// Remove the newline character if it was read
-	size_t len = strlen(s);
 	if (len > 0 && s[len - 1] == '\n') {
 		s[len - 1] = '\0';
 	}

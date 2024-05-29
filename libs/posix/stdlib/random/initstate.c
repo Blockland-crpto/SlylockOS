@@ -44,7 +44,7 @@ char *initstate(unsigned seed, char *state, size_t size) {
 		// Generate pseudo-random values for the state array
 		state[i] = (state[i - 4] + state[i - 3] + state[i - 2] + state[i - 1]) & 0xFF;
 	}
-	for (int i = 0; i < num_integers; i++) {
+	for (size_t i = 0; i < num_integers; i++) {
 		rstate[i] = state[i];
 	}
 	rstate_size = num_integers;

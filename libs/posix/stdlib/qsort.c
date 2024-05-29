@@ -25,6 +25,7 @@
 #include <stddef.h>
 #include <string.h>
 
+//todo: implement some security feature stack wise with compar
 void qsort(void *base, size_t nel, size_t width, int (*compar)(const void *, const void *)) {
 	typedef struct {
 		void* value;
@@ -42,7 +43,7 @@ void qsort(void *base, size_t nel, size_t width, int (*compar)(const void *, con
 		i++;
 	}
 
-	int highest;
+	int highest = 0;
 	qsort_t order[nel];
 
 	for (size_t i = 0; i < nel; i++) {

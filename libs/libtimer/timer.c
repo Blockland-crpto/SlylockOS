@@ -28,7 +28,7 @@
  
 #include <kernel/irq.h>
 
-#define FREQ 100
+#define FREQ 18
 
 //The timer has 3 channels, 0,1,2
 //0 is for IRQ0

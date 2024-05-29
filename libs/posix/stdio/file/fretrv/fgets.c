@@ -19,7 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
- 
+#include <string.h>
 
 char *fgets(char *restrict s, int n, FILE *restrict stream) {
 	int c = 0;
@@ -27,9 +27,11 @@ char *fgets(char *restrict s, int n, FILE *restrict stream) {
 
 	while (i < n - 1) {
 		c = fgetc(stream);
-		if (c == EOF || c == '\n') {
+		//added \0 incase its null terminated
+		if (c == EOF || c == '\n' || c == '\0') {
 			break;
 		}
+		//check for overflows
 		s[i++] = c;
 	}
 

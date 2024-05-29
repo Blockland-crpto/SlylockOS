@@ -28,5 +28,6 @@ extern unsigned long long addend;
 unsigned short *seed48(unsigned short seed16v[3]) {
 	multiplier = ((unsigned long long)seed16v[0] << 16) | ((unsigned long long)seed16v[1] << 16);
 	addend = ((unsigned long long)seed16v[3] << 16) | 0x330E;
-
+	//lets return it
+	return seed16v;
 }
