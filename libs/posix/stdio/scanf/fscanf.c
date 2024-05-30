@@ -97,6 +97,11 @@ int fscanf(FILE *restrict stream, const char *restrict format, ...) {
 	int count = 0;
 	const char *ptr = format;
 
+	//lets make sure were not derefrencing a null pointer
+	if (ptr == NULL || stream == NULL) {
+		return EOF;
+	}
+	
 	while (*ptr != '\0') {
 		if (*ptr != '%') {
 			// Regular character, match with input stream

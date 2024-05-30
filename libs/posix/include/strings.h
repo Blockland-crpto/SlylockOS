@@ -18,23 +18,23 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef __SYS_TYPES_H
-#define __SYS_TYPES_H
+
+#ifndef __STRINGS_H
+#define __STRINGS_H
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
-	typedef signed int blkcnt_t;
-	typedef signed int blksize_t;
-	typedef float clock_t;
-	typedef float clockid_t;
-	typedef int dev_t;
-	typedef int ssize_t;
-	typedef long off_t;
 	typedef unsigned int size_t;
-	
-#if defined(__cpluscplus)
+	typedef void *locale_t; // Simplified definition
+
+	int ffs(int i);
+	int strcasecmp(const char *s1, const char *s2);
+	int strcasecmp_l(const char *s1, const char *s2, locale_t locale);
+	int strncasecmp(const char *s1, const char *s2, size_t n);
+#if defined(__cplusplus)
 } /* extern "C" */
 #endif
+	
 #endif

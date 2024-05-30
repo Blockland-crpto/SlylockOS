@@ -87,6 +87,9 @@ int vfscanf(FILE *restrict stream, const char *restrict format, va_list args) {
 
 	int count = 0;
 	const char *ptr = format;
+	if (stream == NULL || format == NULL) {
+		return count;
+	} 
 
 	while (*ptr != '\0') {
 		if (*ptr != '%') {

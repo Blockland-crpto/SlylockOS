@@ -18,23 +18,15 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef __SYS_TYPES_H
-#define __SYS_TYPES_H
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#include <strings.h>
 
-	typedef signed int blkcnt_t;
-	typedef signed int blksize_t;
-	typedef float clock_t;
-	typedef float clockid_t;
-	typedef int dev_t;
-	typedef int ssize_t;
-	typedef long off_t;
-	typedef unsigned int size_t;
-	
-#if defined(__cpluscplus)
-} /* extern "C" */
-#endif
-#endif
+int ffs(int i) {
+	for (int j = 1; j <= 32; j++) {
+		if (((1 << j) & i) == 0) {
+			continue;
+		} else {
+			return j;
+		}
+	}
+}

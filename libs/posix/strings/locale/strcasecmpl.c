@@ -18,23 +18,39 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef __SYS_TYPES_H
-#define __SYS_TYPES_H
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#include <strings.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-	typedef signed int blkcnt_t;
-	typedef signed int blksize_t;
-	typedef float clock_t;
-	typedef float clockid_t;
-	typedef int dev_t;
-	typedef int ssize_t;
-	typedef long off_t;
-	typedef unsigned int size_t;
+//todo: implement locale
+int strcasecmp_l(const char *s1, const char *s2, locale_t locale) {
+	printf(locale);
+	char* ls1 = (char*)malloc(strlen(s1) * sizeof(char));
+	char* ls2 = (char*)malloc(strlen(s2) * sizeof(char));
+	if (ls1 == NULL) {
+		return -1;
+	}
+	if (ls2 == NULL) {
+		free(ls1);
+		return -1;
+	}
+	strcpy(ls1, s1);
+	strcpy(ls2, s2);
+	for (size_t i = 0; i < strlen(ls1); i++) {
+		ls1[i] = tolower(ls1[i]);
+	}
+
+	for (size_t i = 0; i < strlen(ls2); i++) {
+		ls2[i] = tolower(ls2[i]);
+	}
+
+	int ret = strcmp(ls1, ls2);
+
+	free(ls1);
+	free(ls2);
 	
-#if defined(__cpluscplus)
-} /* extern "C" */
-#endif
-#endif
+	return ret;
+}

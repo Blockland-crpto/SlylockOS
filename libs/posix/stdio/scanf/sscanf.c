@@ -29,6 +29,10 @@ int sscanf(const char *restrict str, const char *restrict format, ...) {
 	va_list args;
 	va_start(args, format);
 
+	if (str == NULL || format == NULL) {
+		return 0;
+	}
+	
 	int count = 0; // Number of successfully matched and assigned input items
 	const char *ptr = format;
 

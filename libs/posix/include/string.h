@@ -23,12 +23,12 @@
 #ifndef __STRING_H
 #define __STRING_H
 
+#include <stddef.h>
+#include <locale.h>
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
-	#include <stddef.h>
-	#include <locale.h>
 
 	//memccpy implementation
 	void *memccpy(void *restrict s1, const void *restrict s2, int c, size_t n);

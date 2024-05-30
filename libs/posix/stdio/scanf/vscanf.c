@@ -22,7 +22,7 @@
 #include <stdarg.h>
  
 
-int vscanf(const char *restrict format, va_list args) {;
+int vscanf(const char *restrict format, va_list args) {
 
 	va_list args_copy;
 	va_copy(args_copy, args);  // Create a copy of the va_list

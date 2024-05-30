@@ -20,6 +20,7 @@
 */
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
 #include <libc.h>
 #include <libmodule.h>
 #include <libmem.h>
@@ -96,8 +97,8 @@ void libc_init() {
 		//libc failed
 		panic("LIBC failed to get enough ram to start (cstr)", INSUFFICIENT_RAM);
 	}
-	
-	cstr = "/boot/kernel.bin";
+
+	strcpy(cstr, "/boot/kernel.bin");
 	
 	DONE(modules_libc);
 }

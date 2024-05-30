@@ -18,23 +18,29 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef __SYS_TYPES_H
-#define __SYS_TYPES_H
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#include <strings.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
-	typedef signed int blkcnt_t;
-	typedef signed int blksize_t;
-	typedef float clock_t;
-	typedef float clockid_t;
-	typedef int dev_t;
-	typedef int ssize_t;
-	typedef long off_t;
-	typedef unsigned int size_t;
+int strncasecmp(const char *s1, const char *s2, size_t n) {	
+	char* ls1 = (char*)malloc(strlen(s1) * sizeof(char));
+	char* ls2 = (char*)malloc(strlen(s2) * sizeof(char));
+	if (ls1 == NULL) {
+		return -1;
+	}
+	if (ls2 == NULL) {
+		free(ls1);
+		return -1;
+	}
+	strncpy(ls1, s1, n);
+	strncpy(ls2, s2, n);
 	
-#if defined(__cpluscplus)
-} /* extern "C" */
-#endif
-#endif
+	int ret = strcasecmp(ls1, ls2);
+
+	free(ls1);
+	free(ls2);
+
+	return ret;
+}

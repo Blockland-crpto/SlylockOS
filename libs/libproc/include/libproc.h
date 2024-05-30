@@ -57,7 +57,6 @@ enum proc_exit_status {
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
 	//process control block
 	typedef struct {
 		//process id

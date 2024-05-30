@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <libmem.h>
- 
 #include <libproc.h>
 #include <libdelegate.h>
 
@@ -27,6 +26,8 @@ void *malloc(size_t numbytes) {
 		current_task.heap_used += numbytes;
 	}
 
+	//todo: see if we can free anything before doing this
+	
 	//next lets get the kalloc'ed memory
 	void* addr = kalloc((long)numbytes);
 
