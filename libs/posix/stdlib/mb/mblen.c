@@ -27,9 +27,6 @@ int mblen(const char *s, size_t n) {
 	if (s == NULL) {
 		return 0;
 	}
-	if (s == 0) {
-		return 0;
-	}
 
 	//now lets multiply that by the local
 	int retlen = (signed)n * MB_CUR_MAX;

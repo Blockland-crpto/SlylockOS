@@ -30,6 +30,7 @@ int sscanf(const char *restrict str, const char *restrict format, ...) {
 	va_start(args, format);
 
 	if (str == NULL || format == NULL) {
+		va_end(args);
 		return 0;
 	}
 	

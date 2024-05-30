@@ -27,7 +27,7 @@ long double strtold(const char *restrict nptr, char **restrict endptr) {
 	long double result = 0.0;
 	int sign = 1;
 	int decimal = 0;
-	int exp_sign = 1;
+
 	int exponent = 0;
 	const char *str = nptr;
 
@@ -60,6 +60,8 @@ long double strtold(const char *restrict nptr, char **restrict endptr) {
 		}
 	}
 
+	int exp_sign = 1;
+	
 	// Parse exponent
 	if (*str == 'e' || *str == 'E') {
 		str++;

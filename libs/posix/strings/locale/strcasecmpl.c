@@ -29,10 +29,10 @@
 int strcasecmp_l(const char *s1, const char *s2, locale_t locale) {
 	printf(locale);
 	char* ls1 = (char*)malloc(strlen(s1) * sizeof(char));
-	char* ls2 = (char*)malloc(strlen(s2) * sizeof(char));
 	if (ls1 == NULL) {
 		return -1;
 	}
+	char* ls2 = (char*)malloc(strlen(s2) * sizeof(char));
 	if (ls2 == NULL) {
 		free(ls1);
 		return -1;

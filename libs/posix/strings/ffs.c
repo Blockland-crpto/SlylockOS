@@ -22,8 +22,9 @@
 #include <strings.h>
 
 int ffs(int i) {
-	for (int j = 1; j <= 32; j++) {
-		if (((1 << j) & i) == 0) {
+	for (int j = 1; j < 32; j++) {
+		int k = i;
+		if ((k & (1 << j)) == 0) {
 			continue;
 		} else {
 			return j;

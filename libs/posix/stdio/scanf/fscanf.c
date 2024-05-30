@@ -99,6 +99,7 @@ int fscanf(FILE *restrict stream, const char *restrict format, ...) {
 
 	//lets make sure were not derefrencing a null pointer
 	if (ptr == NULL || stream == NULL) {
+		va_end(args);
 		return EOF;
 	}
 	

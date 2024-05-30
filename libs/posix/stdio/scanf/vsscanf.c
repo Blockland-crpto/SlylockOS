@@ -57,7 +57,7 @@ int vsscanf(const char *restrict str, const char *restrict format, va_list args)
 			} else if (*ptr == 's') {
 				// String conversion
 				char *arg = va_arg(args, char*);
-				int count = 0;
+				count = 0;
 
 				// Skip leading whitespace
 				while (isspace(*str)) {
