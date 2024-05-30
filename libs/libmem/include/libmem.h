@@ -54,6 +54,11 @@ extern "C" {
 		int size;
 	} mem_control_block;
 
+	//a posix memaligned control block
+	typedef struct mem_aligned_ctrl_block {
+		void* pad_address;
+		void* mem_address;
+	} mem_aligned_ctrl_block;
 	
 
 	#define asizeof(x) ((char *)(&x + 1) - (char *)&x)
@@ -84,7 +89,7 @@ extern "C" {
 	/**
 	  \brief Allocates memory with the size being numbytes
 	*/
-	void *kalloc(long numbytes);
+	 __attribute__ ((malloc, alloc_size(1))) void *kalloc(long numbytes);
 
 #if defined(__cplusplus)
 } /* extern "C" */

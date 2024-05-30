@@ -21,7 +21,7 @@
 #include <libmem.h>
 #include <libmultiboot.h>
 #include <string.h>
-#include <libssp.h>
+#include <libproc.h>
 
 
 uintptr_t current_break;
@@ -44,6 +44,10 @@ void kalloc_init() {
   	last_valid_address = sbrk(0);
   	managed_memory_start = last_valid_address;
  	has_initialized = 1;  
+    for (int i = 0; i < 10; i++) {
+        env[i] = (char*)kalloc(256);
+    }
+    
 }
 
 

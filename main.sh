@@ -5,6 +5,7 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libata/include		
 						-I./libs/libdebug/include
 						-I./libs/libdelegate/include
+						-I./libs/libdevmgr/include
 						-I./libs/libdmgctrl/include
 						-I./libs/libexe/include
 						-I./libs/libfs/include
@@ -15,24 +16,32 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libmodule/include
 						-I./libs/libmouse/include
 						-I./libs/libmultiboot/include
+						-I./libs/libnmi/include
 						-I./libs/libpci/include
+						-I./libs/libpic/include
 						-I./libs/libports/include
+						-I./libs/libpower/include
 						-I./libs/libproc/include
+						-I./libs/libreg/include
 						-I./libs/librtc/include
 						-I./libs/libserial/include
 						-I./libs/libsound/include
 						-I./libs/libsse/include
-						-I./libs/libssp/include
+						-I./libs/libssp/
 						-I./libs/libtimer/include
+						-I./libs/libvalidate/include
 						-I./libs/libvga/include
-						-I./libs/sosix/include")
-export debug=$(echo "-DDEBUG")
-export optimize=$(echo "-Og -g")
+						-I./libs/posix/include")
+export debug=$(echo "-DDEBUG -Wextra -Wstack-protector -fanalyzer")
+#-Wno-discarded-qualifiers
+export security=$(echo "-fstack-protector-all -fstack-clash-protection")
+export optimize=$(echo "-Og -g -Wstack-usage=1100")
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
 ./build/libata_build.sh
 ./build/libdebug_build.sh
 ./build/libdelegate_build.sh
+./build/libdevmgr_build.sh
 ./build/libdmgctrl_build.sh
 ./build/libexe_build.sh
 ./build/libfs_build.sh
@@ -43,17 +52,22 @@ export optimize=$(echo "-Og -g")
 ./build/libmodule_build.sh
 ./build/libmouse_build.sh
 ./build/libmultiboot_build.sh
+./build/libnmi_build.sh
 ./build/libpci_build.sh
+./build/libpic_build.sh
 ./build/libports_build.sh
+./build/libpower_build.sh
 ./build/libproc_build.sh
+./build/libreg_build.sh
 ./build/librtc_build.sh
 ./build/libserial_build.sh
 ./build/libsound_build.sh
 ./build/libsse_build.sh
 ./build/libssp_build.sh
 ./build/libtimer_build.sh
+./build/libvalidate_build.sh
 ./build/libvga_build.sh
-./build/sosix_build.sh
+./build/posix_build.sh
 
 csources=$(find ./kernel/modules/* -type f -name "*.c")
 
@@ -95,9 +109,6 @@ done
 objbp="${objbp:1}"
 
 
-
-
-
 gcc -m32 -elf_i386 -Wall $optimize -fstrength-reduce -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin $debug $headers -fno-stack-protector  -c -o ./bin/main.o ./kernel/main.c
 
 export LD_LIBRARY_PATH=/home/runner/SlylockOS/
@@ -109,7 +120,10 @@ rm -r iso
 mkdir env
 mkdir sys
 mkdir tmp
+mkdir dev
 echo '' >> sys/membuf
+echo '' >> sys/pty
+echo '' >> sys/tty
 
 mkdir iso
 mkdir iso/boot
@@ -125,7 +139,7 @@ echo '  boot' >> iso/boot/grub/grub.cfg
 echo '}' >> iso/boot/grub/grub.cfg
 rm initrdgen
 gcc initrdgen.c -o initrdgen
-inp="readme ./lib/sosix.a ./sys/membuf ./tmp ./env"
+inp="./lib/posix.a ./sys/membuf ./sys/pty ./sys/tty ./tmp ./env ./dev"
 res=''
 for word in $inp; do
 res="${res} ${word}"
@@ -139,9 +153,9 @@ rm -r iso
 rm -r sys
 rm -r tmp
 rm -r env
-
+rm -r dev
 objcopy --only-keep-debug kernel.bin kernel.sym
 
 rm -f kernel.bin
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 512M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6 -curses
+qemu-system-i386 -cdrom SlylockOS.iso -m 256M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6 -curses

@@ -21,7 +21,7 @@
 #include <libvga.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <libssp.h>
+ 
 
 void advance_cursor(int mode){
 	unsigned short pos = get_cursor_pos(); // Gets the cursor position

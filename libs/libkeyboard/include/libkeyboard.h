@@ -37,7 +37,7 @@ extern "C" {
 	char *buffer;
 	char get_key();
 	void keyboard_install();
-	void track_input(char c);
+	void track_input(const char c);
 
 	void input_reset();
 #if defined(__cplusplus)

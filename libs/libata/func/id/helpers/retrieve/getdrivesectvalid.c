@@ -1,39 +1,46 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include <libata.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 //function to retreive info from valid dependent area 1
 void get_drive_sect_valid(ata_device_t* drive, uint16_t* identify_data) {
-	//lets get the supported pio modes
-	uint16_t pio_mode = identify_data[64];
-
-	//lets see the pio mask
-	uint16_t pio_mode_mask;
+	//validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops!
+		return;
+	}
 
 	//iterate through supported pio modes
 	for (int i = 0; i < 8; i++) {
-		//pio mask
-		pio_mode_mask = 1 << i;
-
 		//lets reset the variable
-		pio_mode = identify_data[64];
+		uint16_t pio_mode = identify_data[64];
 		
 		//lets check it!
-		if ((pio_mode & pio_mode_mask) == 1) {
-			//it is supported
-			pio_mode_t pio;
-			pio.supported = true;
-			pio.id = i;
-			drive->supported_pio[i] = pio;
-		} else {
-			//it is not supported
-			pio_mode_t pio;
-			pio.supported = false;
-			pio.id = i;
-			drive->supported_pio[i] = pio;
-		}
+		drive->supported_pio[i].supported = enabled(i, pio_mode);
+		drive->supported_pio[i].id = i;
 	}
 
 	//lets get the minimum mdma transfer per word

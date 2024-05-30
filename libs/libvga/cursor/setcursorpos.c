@@ -20,7 +20,7 @@
 */
 #include <libvga.h>
 #include <libports.h>
-#include <libssp.h>
+ 
 
 void set_cursor_pos(unsigned char x, unsigned char y){
 	unsigned short pos = (unsigned short) x + ((unsigned short) VGA_WIDTH * y); // Factors the cursor position together like get_cursor_pos

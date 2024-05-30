@@ -19,9 +19,11 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libdelegate.h>
+#include <libdebug.h>
 #include <libmodule.h>
 #include <libproc.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #define STORAGE_DEMAND_THRESHOLD 102400
 #define MEMORY_DEMAND_THRESHOLD 102400
@@ -40,6 +42,11 @@ void delegate_init() {
 
 //function to handle delegate requests
 int delegate_request(enum resource_type type, proc_control_block* proc, size_t amount) {
+	//lets validate the proc
+	if (proc == NULL || amount == 0) {
+		return -1;
+	}
+	
 	//lets first check if the requesting process has used its quota'
 	//lets switch!
 	switch(type) {
@@ -94,6 +101,14 @@ int delegate_request(enum resource_type type, proc_control_block* proc, size_t a
 			//todo:
 			return 1;
 		}
-		
+		//if its unknown
+		default: {
+			// uh oh! invalid access request
+			panic("Invalid access request", DELEGATE_ERROR);
+		}
 	}
+
+	//uh oh! we returned here instead of returning earlier
+	panic("Delegate request did not return", DELEGATE_ERROR);
+	return 3;
 }

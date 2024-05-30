@@ -20,11 +20,13 @@
 */
 #include <libvga.h>
 #include <string.h>
-#include <libssp.h>
+ 
+#include <stdint.h>
+#include <stdbool.h>
 
 
 void putstrpos(const char *string, unsigned char x, unsigned char y, unsigned char fg_color, unsigned char bg_color, int start) {
-  for (int i = 0; i < strlen(string); i++) {
+  for (size_t i = 0; i < strlen(string); i++) {
 	if (string[i] == '\n') {
 	  x = start;
 	  y++;

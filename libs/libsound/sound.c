@@ -19,17 +19,23 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libsound.h>
-#include <libssp.h>
+#include <stddef.h>
 #include <libports.h>
 #include <libmodule.h>
 #include <libmem.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libdmgctrl.h>
-#include <drivers/irq.h>
+#include <kernel/irq.h>
+#include <libdebug.h>
 
 //sound handler function
 void sound_handler(struct regs* r) {
-	//todo
+	//lets validate the handler
+	if (r->int_no > 256) {
+		//got a weird ass interrupt number
+		panic("Got a strange interrupt number", INT_ERROR);
+	}
 }
 
 //dsp reset function

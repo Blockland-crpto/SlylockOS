@@ -18,13 +18,18 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+#include <stddef.h>
 #include <libacpi.h>
 #include <string.h>
-#include <stddef.h>
-#include <libssp.h>
+ 
 
 unsigned int *acpiCheckRSDPtr(uint32_t *ptr) {
 	const char *sig = "RSD PTR ";
+	//lets first if the ptr to not null to prevent derefrencing a null pointer
+	if (ptr == NULL) {
+		//oop
+		return NULL;
+	}
 	struct RSDPtr *rsdp = (struct RSDPtr *) ptr;
 
 

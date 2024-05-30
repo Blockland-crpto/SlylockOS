@@ -21,14 +21,14 @@
 #include <libmem.h>
 #include <libmultiboot.h>
 #include <string.h>
-#include <libssp.h>
+ 
 
 extern int has_initialized;
 extern mem_control_block pmcb; 
 extern void *last_valid_address;
 extern void *managed_memory_start;
 
-void *kalloc(long numbytes) {
+__attribute__ ((malloc, alloc_size(1))) void *kalloc(long numbytes) {
 	void *current_location;
 	mem_control_block *current_location_mcb;
 	void *memory_location;
@@ -68,6 +68,8 @@ void *kalloc(long numbytes) {
 void kfree(void *firstbyte) {
 	mem_control_block *mcb;
 	mcb = firstbyte - asizeof(pmcb);
+	int size = mcb->size;
 	mcb->is_available = 1;
+	memset(mcb, 0, size);
 	return;
 }

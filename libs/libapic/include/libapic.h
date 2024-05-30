@@ -22,10 +22,28 @@
 #ifndef __LIBAPIC_H__
 #define __LIBAPIC_H__
 
+#include <stdint.h>
+#include <stdbool.h>
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
+	//a IOAPIC object
+	typedef struct {
+		int8_t io_apic_id;
+		uint32_t io_apic_address;
+		uint32_t global_system_interrupt_base;
+	} io_apic_t;
+	
+	//MADT informatiom that contains the apic address
+	uint32_t* apic_address;
+	uint32_t apic_flags;
+
+	//io apic info
+	uint32_t ioapic_addr;
+	uint32_t gsi_base; //Global system interrupt base
+	
 	//function to initialize the apic drivers
 	void apic_init();
 	

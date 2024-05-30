@@ -23,8 +23,9 @@
 #include <cmdset.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 //CFA translate sector command
 #define CFA_TRANSLATE_SECTOR 0x87
@@ -32,8 +33,14 @@
 //function to get a translated CFA sector
 uint8_t* cfa_translate_sector(ata_device_t* dev, uint32_t LBA) {
 
+	//input validation
+	if (dev == NULL || LBA == 0) {
+		//oops!
+		return 0;
+	}
+	
 	//variable for the output
-	uint8_t output[512];
+	static uint8_t output[512];
 	
 	//lets first see if CFA is supported
 	if(!dev->cmd_set_supported[CFA_FEATURE_SET_SUPPORTED].supported) {
@@ -53,6 +60,20 @@ uint8_t* cfa_translate_sector(ata_device_t* dev, uint32_t LBA) {
 	outb(IO_PORT_CYL_LOW, (uint8_t)(LBA >> 8));
 	outb(IO_PORT_CYL_HIGH, (uint8_t)(LBA >> 16)); 
 
+	uint32_t select = SELECT_DEVICE_MASTER;
+	uint32_t selects = SELECT_DEVICE_SLAVE;
+	select |= (LBA >> 24);
+	selects |= (LBA >> 24);
+
+	//lets set the drive select
+	if (dev->driveType == DRIVE_TYPE_MASTER) {
+		//its a master drive
+		outb(IO_PORT_DRIVE_HEAD, select);
+	} else {
+		//its a slave drive
+		outb(IO_PORT_DRIVE_HEAD, selects);
+	}
+	
 	//lets run it!
 	//lets first wait till the drive is ready
 	wait_ata_drq();

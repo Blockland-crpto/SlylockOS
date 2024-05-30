@@ -22,15 +22,39 @@
 #include <libmem.h>
 #include <libmodule.h>
 #include <libports.h>
-#include <system/types.h>
+#include <libproc.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libvga.h>
 #include <libdebug.h>
 #include <string.h>
 #include <stddef.h>
-#include <libssp.h>
+#include <libvalidate.h>
 
 
+//function to check if the ACPI header is valid
 int acpiCheckHeader(uint32_t *ptr, char *sig) {
+	//lets check if a process initiated the request
+	//processes are not allowed to initiate the request
+	//as its a kernel only function
+	if (task_queue[0].entry_point != NULL) {
+		//oops a process initiated the request! we gotta kill the process!
+		proc_kill(PROC_EXIT_STATUS_ABORTED);
+	}
+	const char* sigdb[6] = {"RSD PTR ", "APIC", "DSDT", "FACP", "FACS", "RSDT"};
+
+	//lets validate
+	if (!valid_check_char(sig, sigdb, 8, 6)) {
+		//uh oh!
+		panic("invalid input for acpi sig reported by libvalidate", ACPI_ERROR);
+	}
+
+	//lets validate the input
+	if (ptr == NULL) {
+		//if its invalid, we need to panic
+		panic("invalid input for acpi check header", ACPI_ERROR);
+	}
+	
 	if (memcmp(ptr, sig, 4) == 0) {
 		char *checkPtr = (char *) ptr;
 		int len = *(ptr + 1);

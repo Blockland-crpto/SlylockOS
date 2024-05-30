@@ -1,6 +1,0 @@
-SOSIX
-SOSIX or the Secure OS interface is a modified version of the posix standard oriented more towards security
-
-In exclusive, there are API's that are Sly specific
-
-Abstract- contains app apis for hardware abstraction

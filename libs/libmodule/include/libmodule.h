@@ -31,7 +31,8 @@
 #ifndef __LIBMODULE_H
 #define __LIBMODULE_H
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #if defined(__cplusplus)
 extern "C" {
@@ -71,7 +72,7 @@ extern "C" {
 		\brief Initializes the module `module`,
 		\returns int so the token overlay can work
 	*/
-	int INIT(module_t module);
+	void INIT(module_t module);
 
 	/**
 		\brief Sets the module as failed

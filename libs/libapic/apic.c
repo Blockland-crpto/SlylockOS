@@ -20,15 +20,10 @@
 */
 #include <libapic.h>
 #include <libmodule.h>
-#include <system/types.h>
-#include <drivers/cpuid.h>
+#include <stdint.h>
+#include <stdbool.h>
 
-//static function to check apic (copied from OSdev.org)
-static int check_apic(void) {
-	unsigned int eax, unused, edx;
-	__get_cpuid(1, &eax, &unused, &unused, &edx);
-	return edx & CPUID_FEAT_EDX_APIC;
-}
+
 
 // function to initalize the APIC driver
 void apic_init() {
@@ -37,15 +32,24 @@ void apic_init() {
 	//let the apic initalization begin!
 	INIT(modules_apic);
 
-	//first lets see if a APIC is present
-	if (!check_apic()) {
-		
-		//APIC is not avalible, gota fail!
-		FAIL(modules_apic, "APIC is unsupported");
-		return;
-	}
+	//apic should already be enabled if its present, SlyLock didn't modify it!
 
-	//todo: implement apic driver
+	//lets get the bits we need
+	volatile uint32_t spurious_interrupt = (unsigned)0x10000030;
+
+	//lets get the current status of the spurious interrupt
+	volatile uint32_t* base = apic_address;
+	volatile uint32_t offset = 0xf0;
+	volatile uint32_t* svr = base + offset;
+
+	//lets see it!
+	volatile uint32_t start_svr = *svr;
+	start_svr |= spurious_interrupt;
+	
+	//lets set the spurious interrupt register
+	//svr = (volatile uint32_t*)start_svr;
+
+	//next we need to enable the IO APIC
 	
 	DONE(modules_apic);
 }

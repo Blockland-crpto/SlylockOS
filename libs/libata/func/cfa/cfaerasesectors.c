@@ -23,14 +23,21 @@
 #include <cmdset.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 //the CFA erase sectors command
 #define CFA_ERASE_SECTORS 0xC0
 
 //function to erase sectors using CFA
 void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev) {
+
+	//lets first validate the input
+	if (LBA == 0 || sector_count == 0 || dev == NULL) {
+		return;
+	}
+	
 	//lets first see if CFA is supported
 	if(!dev->cmd_set_supported[CFA_FEATURE_SET_SUPPORTED].supported) {
 		//oops! cfa erase sectors isn't supported
@@ -47,7 +54,7 @@ void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev) {
 
 	//now if wee made it this far, we first need to load the operands into registers
 	//we should also see the addressing mode
-	if (!dev->lba28_enabled) {
+	if (!dev->lba_data.lba28_enabled) {
 		//function is only supported on LBA28
 		return;
 	}
@@ -60,14 +67,19 @@ void cfa_erase_sectors(uint32_t LBA, uint8_t sector_count, ata_device_t* dev) {
 	outb(IO_PORT_SECTOR_NUMBER, (uint8_t) LBA);
 	outb(IO_PORT_CYL_LOW, (uint8_t)(LBA >> 8));
 	outb(IO_PORT_CYL_HIGH, (uint8_t)(LBA >> 16));
+
+	uint32_t select = SELECT_DEVICE_MASTER;
+	uint32_t selects = SELECT_DEVICE_SLAVE;
+	select |= (LBA >> 24);
+	selects |= (LBA >> 24);
 	
 	//lets set the drive select
 	if (dev->driveType == DRIVE_TYPE_MASTER) {
 		//its a master drive
-		outb(IO_PORT_DRIVE_HEAD, SELECT_DEVICE_MASTER);
+		outb(IO_PORT_DRIVE_HEAD, select);
 	} else {
 		//its a slave drive
-		outb(IO_PORT_DRIVE_HEAD, SELECT_DEVICE_SLAVE);
+		outb(IO_PORT_DRIVE_HEAD, selects);
 	}
 	
 	//now lets send the command!

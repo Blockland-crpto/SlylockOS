@@ -21,7 +21,8 @@
 #ifndef __LIBSOUND_H
 #define __LIBSOUND_H
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 //audio port addresses
 enum audio_dsp_ports {

@@ -1,8 +1,29 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include <libata.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 //ATA Identify Command
 #define IDENTIFY_CMD 0xEC
@@ -13,8 +34,13 @@ extern void atapi_identify();
 
 //function to setup needed things for ata id
 void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
+	//validate
+	if (drive == NULL) {
+		//oops!
+		return;
+	}
 	//sets the drive type
-	if ((dev & SELECT_DEVICE_MASTER) == 1) {
+	if ((dev & SELECT_DEVICE_MASTER)) {
 		drive->driveType = DRIVE_TYPE_MASTER;
 	} else {
 		drive->driveType = DRIVE_TYPE_SLAVE;
@@ -56,9 +82,9 @@ void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
 	} else if (status == 2) {
 		//the drive errored out while running identify
 		//lets check if the drive is ATAPI and act accordingly
-		if ((inb(IO_PORT_CYL_LOW) & 0x14) == 1) {
+		if ((inb(IO_PORT_CYL_LOW) & 0x14)) {
 			//the drive is ATAPI, lets just make sure
-			if ((inb(IO_PORT_CYL_HIGH) & 0xEB) == 1) {
+			if ((inb(IO_PORT_CYL_HIGH) & 0xEB)) {
 				//the drive is definatly a ATAPI drive, lets act accordingly
 				drive->atapi_info.is_atapi = true;
 

@@ -2,8 +2,13 @@ iso/
 bin/
 lib/
 
+
+*.o
+*.a
+*.bin
 *.log
 *.sym
+
 
 .replit
 replt.nix
@@ -20,5 +25,5 @@ os.iso
 .ccls-cache
 1.1.0/
 2.0.0/
-*.log
-*.sym
+.ccls-cache
+.ccls

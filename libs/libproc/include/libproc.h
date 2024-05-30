@@ -21,40 +21,61 @@
 #ifndef __LIBPROC_H__
 #define __LIBPROC_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <libmem.h>
 
-#define PROC_STATUS_READY 0
-#define PROC_STATUS_RUNNING 1
-#define PROC_STATUS_ABORTED 2
+//enum for process status
+enum proc_status {
+	PROC_STATUS_READY,
+	PROC_STATUS_RUNNING,
+	PROC_STATUS_YIELDED,
+	PROC_STATUS_ABORTED,
+};
 
-#define PROC_PRIORITY_HIGH 0
-#define PROC_PRIORITY_LOW 1
+//enum for priority
+enum proc_priority {
+	PROC_PRIORITY_LOW,
+	PROC_PRIORITY_NORMAL,
+	PROC_PRIORITY_HIGH,
+};
 
-#define KERNEL_PROC_ID 11
+//enum for exit status
+enum proc_exit_status {
+	PROC_EXIT_STATUS_SUCCESS,
+	PROC_EXIT_STATUS_FAILURE,
+	PROC_EXIT_STATUS_ABORTED,
+};
+
+#define MAX_PROCS_QUEUED 10
+#define KERNEL_PROC_ID (MAX_PROCS_QUEUED + 1)
+#define CURRENT_PROC_ID ((task_queue[0].id))
+#define MAX_PROCS_USABLE (MAX_PROCS_QUEUED - 1)
+#define MAX_ENVS 10
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
-
 	//process control block
 	typedef struct {
 		//process id
-		int id;
+		int id :4;
 
 		//parent proccess id
-		int parent_id;
+		int parent_id :4;
 
 		//entry point
 		int (*entry_point)();
 
 		//process priority
-		int priority;
+		enum proc_priority priority;
+
+		//process status
+		enum proc_status status;
 
 		//process heap
 		int heap_used;
-	
-		//process status
-		int status;
 
 		//storage delegated
 		size_t storage_delegated;
@@ -70,27 +91,47 @@ extern "C" {
 
 		//process allocations
 		size_t heap_allocations_used;
+
+		//process memaligned allocations
+		size_t memaligned_allocations_used;
+
+		//file stream allocations
+		size_t file_stream_allocations_used;
 	
 		//heap allocations
-		void* heap_allocations[100];
+		void* heap_allocations[40];
 
+		//memaligned allocations
+		mem_aligned_ctrl_block memaligned_allocations[20];
+	
+		//file streams
+		FILE* file_streams[FOPEN_MAX];
+	
 		//ACPI permissions
-		bool acpi_allowed;
+		bool acpi_allowed :1;
+
 	} proc_control_block;
 
 	//taskqueue
-	proc_control_block task_queue[10];
+	proc_control_block task_queue[MAX_PROCS_QUEUED];
 
+	//enviorment variables
+	char* env[MAX_ENVS];
+	
 	//function to create a task to task queue
-	void proc_create(int (*entry_point)(), int priority, int parent);
+	void proc_create(int (*entry_point)(), enum proc_priority priority, int parent);
 
 	//function to destroy a task from task queue
 	void proc_destroy(int id);
-	
-	//schedualer
-	void proc_scheduler();
 
+	//function to yield a process
+	void proc_yield();
+
+	//function to kill the current task
+	void proc_kill(enum proc_exit_status status);
 	
+	//scheduler
+	void proc_scheduler();
 
 #if defined(__cplusplus)
 } /* extern "C" */

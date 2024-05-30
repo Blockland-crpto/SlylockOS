@@ -22,8 +22,9 @@
 #include <libata.h>
 #include <libacpi.h>
 #include <libports.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+ 
 
 //the cache flush command, needed to manually flush the cache
 #define CACHE_FLUSH_CMD 0xE7
@@ -38,7 +39,7 @@ void sect_write_atapio(uint64_t LBA, uint16_t sector_count, uint32_t* bytes, ata
 	wait_ata_bsy();
 
 	//lets check if its a lba48 or lba28 device
-	if (dev->lba48_enabled) {
+	if (dev->lba_data.lba48_enabled) {
 		//now lets see if its a master or slave device
 		if (dev->driveType == DRIVE_TYPE_MASTER) {
 			outb(IO_PORT_DRIVE_HEAD, DEVICE_MASTER_LBA48);
@@ -48,7 +49,7 @@ void sect_write_atapio(uint64_t LBA, uint16_t sector_count, uint32_t* bytes, ata
 		//call the write lba28 function
 		sect_write_lba48(LBA, sector_count, bytes);
 		
-	} else if (dev->lba28_enabled) {
+	} else if (dev->lba_data.lba28_enabled) {
 		//now lets see if its a master or slave device
 		if (dev->driveType == DRIVE_TYPE_MASTER) {
 			outb(IO_PORT_DRIVE_HEAD, DEVICE_MASTER_LBA28 | ((LBA >>24) & 0xF));

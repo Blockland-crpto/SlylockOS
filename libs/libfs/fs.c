@@ -20,11 +20,12 @@
 */
 #include <libfs.h>
 #include <libinitrd.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libmultiboot.h>
 #include <libvga.h>
 #include <libmodule.h>
-#include <libssp.h>
+ 
  
 
 fs_node_t *fs_root = 0; // The root of the filesystem.
@@ -46,7 +47,7 @@ uint32_t delete_dir_fs(char *name) {
 }
 
 
-uint32_t rename_fs(fs_node_t *node, char *name) {
+uint32_t rename_fs(fs_node_t *node, const char *name) {
 	// Has the node got a rename callback?
 	if (node->rename != 0)
 		return node->rename(node, name);
@@ -70,12 +71,14 @@ uint32_t write_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buff
         return 0;
 }
 
-void open_fs(fs_node_t *node, uint8_t read, uint8_t write) {
+//todo: add this functionality
+void open_fs(fs_node_t *node) {
     // Has the node got an open callback?
     if (node->open != 0)
         return node->open(node);
 }
 
+//todo: add this functionality
 void close_fs(fs_node_t *node) {
     // Has the node got a close callback?
     if (node->close != 0)
@@ -91,24 +94,17 @@ struct dirent *readdir_fs(fs_node_t *node, uint32_t index) {
         return 0;
 }
 
-fs_node_t *finddir_fs(fs_node_t *node, char *name) {
+fs_node_t *finddir_fs(fs_node_t *node, const char *name) {
     // Is the node a directory, and does it have a callback?
-    if ( (node->flags&0x7) == FS_DIRECTORY &&
-         node->finddir != 0 )
-        return node->finddir(node, name);
-    else
-        return 0;
+    return node->finddir(name);
 }
 
 void filesystem_init() {
 	module_t modules_fs = MODULE("kernel.modules.fs", "Filesystem for the initrd and kernel");
-	char** deps;
-	deps[0] = "kernel.modules.initrd";
+	char* deps[1] = {"kernel.modules.initrd"};
 	DEPS(modules_fs, deps);
 	INIT(modules_fs); 
 	uint32_t initrd_location = *((uint32_t*)mbi->mods_addr);
-   	uint32_t initrd_end = *(uint32_t*)(mbi->mods_addr+4);
-   	uint32_t placement_address = initrd_end;
 	DONE(modules_fs);
 	
 	fs_root = initialise_initrd(initrd_location);

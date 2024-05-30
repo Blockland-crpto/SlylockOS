@@ -1,7 +1,10 @@
 { pkgs }: {
 	deps = [
-   pkgs.pciutils
-   pkgs.gdb
+   pkgs.lynx
+   		pkgs.unzip
+		pkgs.ccls
+   		pkgs.pciutils
+  		pkgs.gdb
    		pkgs.imagemagick6
 		pkgs.qemu
 		pkgs.gcc
@@ -10,5 +13,9 @@
 		pkgs.xorriso
 		pkgs.nasm
 		pkgs.python37
+		pkgs.clang
+
+		#pentesting tools
+		
 	];
 }

@@ -22,10 +22,11 @@
 #include <libmultiboot.h>
 #include <libinitrd.h>
 #include <libmem.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libmodule.h>
 #include <string.h>
-#include <libssp.h>
+ 
  
 
 
@@ -33,7 +34,6 @@ initrd_header_t *initrd_header;     // The header.
 initrd_file_header_t *file_headers; // The list of file headers.
 fs_node_t *initrd_dev;              // We also add a directory node for /dev, so we can mount devfs later on.
 fs_node_t *root_nodes;              // List of file nodes.
-int nroot_nodes;                    // Number of file nodes.
 
 struct dirent dirent; 
 
@@ -111,10 +111,10 @@ uint32_t initrd_delete_file(char *name) {
 	file_headers = (initrd_file_header_t *)(location + sizeof(initrd_header_t));
 
 	// Find and remove the file node
-	for (uint32_t i = 0; i < nroot_nodes; i++) {
+	for (int i = 0; i < nroot_nodes; i++) {
 		if (strcmp(root_nodes[i].name, name) == 0) {
 			// Shift the remaining file nodes to remove the deleted file
-			for (uint32_t j = i; j < nroot_nodes - 1; j++) {
+			for (int j = i; j < nroot_nodes - 1; j++) {
 				root_nodes[j] = root_nodes[j + 1];
 			}
 			nroot_nodes--;
@@ -125,7 +125,7 @@ uint32_t initrd_delete_file(char *name) {
 	return header->length;
 }
 
-static uint32_t initrd_rename_file(fs_node_t *node, char *name) {
+uint32_t initrd_rename_file(fs_node_t *node, const char *name) {
 	initrd_file_header_t header = file_headers[node->inode];
 	strcpy(header.name, name);
 	strcpy(node->name, name);
@@ -174,11 +174,12 @@ uint32_t initrd_delete_dir(char *name) {
 	return -1; // Directory not found
 }
 
-static uint32_t initrd_rename_dir(fs_node_t *node, char *name) {
+uint32_t initrd_rename_dir(fs_node_t *node, const char *name) {
 	strcpy(node->name, name);
+	return 0;
 }
 
-static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
+uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
 	if (node->flags & FS_DIRECTORY)
 		return 0; // Directories are read-only in this example
 
@@ -187,12 +188,12 @@ static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, ui
 		size = header->length - offset;
 
 	// Copy the data from the buffer to the initrd
-	memcpy((uint8_t *)(header->offset + offset), buffer, size);
+	memcpy((uint8_t *)(header->offset) + offset, buffer, size);
 
 	return size;
 }
 
-static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
+uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
    initrd_file_header_t header = file_headers[node->inode];
    if (offset > header.length)
        return 0;
@@ -202,30 +203,32 @@ static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uin
    return size;
 } 
 
-static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
-   if (node == initrd_root && index == 0)
-   {
-     strcpy(dirent.name, "dev");
-     dirent.name[3] = 0; // Make sure the string is NULL-terminated.
-     dirent.ino = 0;
-     return &dirent;
-   }
+struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
 
-   if (index-1 >= nroot_nodes)
-       return 0;
-   strcpy(dirent.name, root_nodes[index-1].name);
-   dirent.name[strlen(root_nodes[index-1].name)] = 0; // Make sure the string is NULL-terminated.
-   dirent.ino = root_nodes[index-1].inode;
-   return &dirent;
+	// lets first convert index into a int
+	int iindex = (int)index;
+	
+   	if (node == initrd_root && index == 0) {
+     	strcpy(dirent.name, "dev");
+     	dirent.name[3] = 0; // Make sure the string is NULL-terminated.
+     	dirent.ino = 0;
+     	return &dirent;
+   	}
+
+   	if (iindex-1 >= nroot_nodes)
+		return 0;
+   	
+	strcpy(dirent.name, root_nodes[index-1].name);
+   	dirent.name[strlen(root_nodes[index-1].name)] = 0; // Make sure the string is NULL-terminated.
+   	dirent.ino = root_nodes[index-1].inode;
+   	return &dirent;
 }
 
-static fs_node_t *initrd_finddir(fs_node_t *node, char *name) {
-
-   int i;
-   for (i = 0; i < nroot_nodes; i++)
-       if (!strcmp(name, root_nodes[i].name))
-           return &root_nodes[i];
-   return 0;
+fs_node_t* initrd_finddir(const char *name) {
+   	for (int i = 0; i < nroot_nodes; i++)
+       	if (!strcmp(name, root_nodes[i].name))
+           	return &root_nodes[i];
+   	return 0;
 } 
 
 fs_node_t *initialise_initrd(uint32_t location) {
@@ -267,15 +270,14 @@ fs_node_t *initialise_initrd(uint32_t location) {
    	nroot_nodes = initrd_header->nfiles; 
    	
 	// For every file...
-   	int i;
-   	for (i = 0; i < initrd_header->nfiles; i++) {
+   	for (uint32_t i = 0; i < initrd_header->nfiles; i++) {
        	// Edit the file's header - currently it holds the file offset
        	// relative to the start of the ramdisk. We want it relative to the start
        	// of memory.
        	file_headers[i].offset += location;
        	
 		// Create a new file node.
-       	strcpy(root_nodes[i].name, &file_headers[i].name);
+       	strcpy(root_nodes[i].name, file_headers[i].name);
        	root_nodes[i].mask = root_nodes[i].uid = root_nodes[i].gid = 0;
        	root_nodes[i].length = file_headers[i].length;
        	root_nodes[i].inode = i;

@@ -20,13 +20,15 @@
 */
 #include <libvga.h>
 #include <libdmgctrl.h>
+#include <libdebug.h>
 #include <libtimer.h>
 #include <libports.h>
 #include <string.h>
 #include <libmodule.h>
-#include <libssp.h>
+ 
+#include <kernel/irq.h>
 
-#define FREQ 100
+#define FREQ 18
 
 //The timer has 3 channels, 0,1,2
 //0 is for IRQ0
@@ -43,6 +45,11 @@ int seconds = 0;
 //the timer PIT is connected to IRQ0, so evrytime it fires, we increment it
 //by default, the timer fires 18.222 times/second.
 void timer_handler(struct regs *r){
+    //lets validate the handler
+    if (r->int_no > 256) {
+        //got a weird ass interrupt number
+        panic("Got a strange interrupt number", INT_ERROR);
+    }
     //increment number of ticks
     ticks++;
     if(ticks % FREQ == 0){
@@ -53,9 +60,7 @@ void timer_handler(struct regs *r){
 //let's install timer handler into IRQ0
 void timer_install(){
     module_t modules_timer = MODULE("kernel.modules.timer", "Adds PIT support for the kernel (CORE)");
-	char** deps;
-	deps[0] = "kernel.modules.isr";
-	deps[1] = "kernel.modules.irq";
+	char* deps[2] = {"kernel.modules.dmgctrl", "kernel.modules.irq"};
 	INIT(modules_timer);
 	DEPS(modules_timer, deps);
     timer_phase(FREQ);
@@ -65,7 +70,7 @@ void timer_install(){
 }
 
 void timer_wait(int val){
-    unsigned int end = seconds + val;
+   int end = seconds + val;
     while(seconds < end){
         asm volatile("" : : : "memory");
     }
@@ -74,4 +79,3 @@ void timer_wait(int val){
 int get_tracked_seconds() {
 	return seconds;
 }
-

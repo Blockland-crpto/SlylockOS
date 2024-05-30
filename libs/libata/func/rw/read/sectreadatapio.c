@@ -22,8 +22,9 @@
 #include <libata.h>
 #include <libacpi.h>
 #include <libports.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+ 
 
 //helpers
 extern void sect_read_lba48();
@@ -41,7 +42,7 @@ void sect_read_atapio(uint32_t target_address, uint64_t LBA, uint16_t sector_cou
 	}
 
 	//lets check if its a lba48 or lba28 device
-	if (dev->lba48_enabled) {
+	if (dev->lba_data.lba48_enabled) {
 		//now lets see if its a master or slave device
 		if (dev->driveType == DRIVE_TYPE_MASTER) {
 			outb(IO_PORT_DRIVE_HEAD, DEVICE_MASTER_LBA48);
@@ -51,7 +52,7 @@ void sect_read_atapio(uint32_t target_address, uint64_t LBA, uint16_t sector_cou
 		//call the read lba48 function
 		sect_read_lba48(LBA, sector_count, target_address);
 
-	} else if (dev->lba28_enabled) {
+	} else if (dev->lba_data.lba28_enabled) {
 		//now lets see if its a master or slave device
 		if (dev->driveType == DRIVE_TYPE_MASTER) {
 			outb(IO_PORT_DRIVE_HEAD, DEVICE_MASTER_LBA28 | ((LBA >>24) & 0xF));

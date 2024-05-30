@@ -21,7 +21,8 @@
 #ifndef __LIBPCI_H
 #define __LIBPCI_H
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #if defined(__cplusplus)
 extern "C" {

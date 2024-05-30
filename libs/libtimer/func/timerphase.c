@@ -20,7 +20,7 @@
 */
 #include <libtimer.h>
 #include <libports.h>
-#include <libssp.h>
+ 
 
 //set the phase of the timer
 //the value divisor is sent into the PIT to make it divide its

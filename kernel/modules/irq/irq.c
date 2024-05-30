@@ -1,10 +1,10 @@
 #include <libvga.h>
-#include <drivers/idt.h>
+#include <kernel/idt.h>
 #include <libdmgctrl.h>
-#include <drivers/irq.h>
+#include <kernel/irq.h>
 #include <libmodule.h>
 #include <libports.h>
-#include <libssp.h>
+ 
 
 extern void _irq0();
 extern void _irq1();
@@ -53,7 +53,7 @@ void irq_install(){
 	module_t modules_irq = MODULE("kernel.modules.irq", "Provides IRQ support for the kernel (CORE)");
 	char** deps;
 	deps[0] = "kernel.modules.idt";
-	deps[1] = "kernel.modules.isr";
+	deps[1] = "kernel.modules.dmgctrl";
 	DEPS(modules_irq, deps);
 	INIT(modules_irq);
 	irq_remap();

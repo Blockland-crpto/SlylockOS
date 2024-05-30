@@ -22,7 +22,8 @@
 #ifndef __LIBMOUSE_H__
 #define __LIBMOUSE_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 //Mouse commands
 enum mouse_commands {
@@ -41,9 +42,32 @@ enum mouse_commands {
 #if defined(__cplusplus)
 extern "C" {
 #endif
+	
 	//mouse id in int
 	int mouse_id;
 
+	//a mouse output structure
+	typedef struct {
+		//mouse coordinates
+		int mousex;
+		int mousey;
+		int mousez;
+
+		//negatives
+		bool negx;
+		bool negy;
+
+		//buttons pressed
+		bool middle_pressed;
+		bool right_pressed;
+		bool left_pressed;
+
+		//double clicks
+		bool double_left;
+		bool double_right;
+		
+	} mouse_packet_t;
+	
 	//function to wait on mouse
 	void mouse_wait(uint8_t a_type);
 

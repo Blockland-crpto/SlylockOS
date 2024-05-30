@@ -20,43 +20,58 @@
 */
 //Slylock OS Kernel
 
-#include <system/types.h>
 
-#include <drivers/irq.h>
-#include <drivers/gdt.h>
-#include <drivers/idt.h>
-#include <drivers/nmi.h>
+#include <kernel/irq.h>
+#include <kernel/gdt.h>
+#include <kernel/idt.h>
 
 #include <libacpi.h>
 #include <libapic.h>
 #include <libata.h>
 #include <libdebug.h>
 #include <libdelegate.h>
+#include <libdevmgr.h>
 #include <libdmgctrl.h>
 #include <libfs.h>
 #include <libkeyboard.h>
 #include <libmultiboot.h>
 #include <libmouse.h>
+#include <libmem.h>
+#include <libnmi.h>
 #include <libpci.h>
+#include <libpic.h>
 #include <libports.h>
+#include <libpower.h>
 #include <libproc.h>
 #include <librtc.h>
 #include <libserial.h>
 #include <libsound.h>
 #include <libsse.h>
-#include <libssp.h>
 #include <libtimer.h>
+#include <libvalidate.h>
 #include <libvga.h>
+
+#include <libc.h>
 
 #define MB_MAGIC 0x1BADB002
 
+extern void __guard_setup();
+
+//the kernel constructor
+//NOTE: the kernel constructor is called before the main function
+//and is used to setup runtime features such as SSP, LIBC and MM
 __attribute__ ((constructor)) void init_kernel() {
+	__guard_setup();
+	kalloc_init();
+	filesystem_init();
+	libc_init();
 	set_cursor_pos(0,0);
 	clear(COLOR_WHT, COLOR_BLK);
 	return;
 }
 
-int main(multiboot_info_t* mb_info, uint32_t magic){
+//The kernel main function
+int kmain(multiboot_info_t* mb_info, uint32_t magic){
 	mbi = mb_info;
 
 	// check the grub memory map
@@ -66,6 +81,8 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	} 
 
 	sse_init();
+
+	validate_init();
 	
   	gdt_install();
 	
@@ -75,40 +92,39 @@ int main(multiboot_info_t* mb_info, uint32_t magic){
 	
   	irq_install();
 
-	timer_install();
-	
-	serial_init();
+	acpi_init();
+
+	pic_init();
 	
 	apic_init();
+
+	power_init();
+	
+	devmgr_init();
+	
+	timer_install();
+
+	serial_init();
 	
   	ata_init();
 
 	nmi_init();
 
   	pci_init();
-	
-	acpi_init();
-	
-	kalloc_init();
 		
 	rtc_init();
-	
-	filesystem_init();
 	
 	keyboard_install();
 	
 	mouse_install();
 	
 	vga_init();
-	
-	libc_init();
 
 	sound_init();
 
 	delegate_init();
 
 	__asm__ __volatile__("sti");
-
 	
 	proc_scheduler();
 

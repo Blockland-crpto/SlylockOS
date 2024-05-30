@@ -25,9 +25,9 @@
 #include <libdebug.h>
 #include <libvga.h>
 #include <libdmgctrl.h>
-#include <drivers/irq.h>
+#include <libdevmgr.h>
+#include <kernel/irq.h>
 #include <libmodule.h>
-#include <libssp.h>
 #include <string.h>
 
 //TODO:
@@ -38,6 +38,13 @@
 //the mouse_handler
 void mouse_handler(struct regs *r){
 	//todo: implement mouse handler
+
+	//lets validate the handler
+	if (r->int_no > 256) {
+		//got a weird ass interrupt number
+		panic("Got a strange interrupt number", INT_ERROR);
+	}
+	
 	//lets set the time variables so we can check for double clicking
 	static int time_old;
 	
@@ -49,99 +56,100 @@ void mouse_handler(struct regs *r){
 	uint8_t data_copy = data;
 
 	//is data avalible?
-	if ((data_copy & (1 << 0)) == 1) {
+	if (((1 << 0) & data_copy)) {
 		//data is avalible for read from mouse
 		//lets now see if the data is from mouse
 		//lets reset the data copy variable
 		data_copy = data;
 		
 		//lets check
-		if ((data_copy & (1 << 5)) == 1) {
+		if ((data_copy & (1 << 5))) {
 			//it is!
-			//lets have booleans ready
-			bool y_neg;
-			bool x_neg;
 
-			//lets have mouse coordinates ready
-			int mouse_x;
-			int mouse_y;
-			int mouse_z;
+			//lets make a mouse packet variable
+			mouse_packet_t mouse;
 			
 			//lets read byte 1
 			uint8_t byte1 = inb(0x60);
 
 			//lets see if there set
-			if ((byte1 & (1 << 0)) == 1 || (byte1 & (1 << 1)) == 1) {
+			if (((1 << 0) & byte1) || ((1 << 1) & byte1 )) {
 				//OSDEV.org suggests discarding the packet
 				return;
 			}
 
 			//is y negative?
-			if ((byte1 & (1 << 5)) == 1) {
+			if (((1 << 5) & byte1)) {
 				//its negative
-				y_neg = true;
+				mouse.negy = true;
 			}
 
 			//is x negative?
-			if ((byte1 & (1 << 4)) == 1) {
+			if (((1 << 4) & byte1)) {
 				//its negative
-				x_neg = true;
+				mouse.negx = true;
 			}
 
-			//now lets see if any of the button bits set
-			uint8_t mid_butn_mask = 1 << 2;
-			uint8_t rgt_butn_mask = 1 << 1;
-			uint8_t lft_butn_mask = 1 << 0;
-			
-
 			//is middle button pressed?
-			if (byte1&mid_butn_mask) {
+			if (((1 << 2) & byte1)) {
 				//middle button pressed
+				mouse.middle_pressed = true;
 				//log("Middle mouse button pressed");
 			} else {
 				//middle button not pressed
+				mouse.middle_pressed = false;
 				//log("Middle mouse button not pressed");
 			}
 
 			//is the left button pressed?
-			if (byte1&lft_butn_mask) {
+			if (((1 << 0) & byte1)) {
 				//left button pressed
 				//log("Left mouse button pressed");
 				//lets see if its double click
-				if (time_old == 0) {
+				mouse.left_pressed = true;
+				if (!time_old) {
 					//its not double click
+					mouse.double_left = false;
 					time_old = get_tracked_seconds();
 				} else {
 					//lets see if its a double click
 					if (get_tracked_seconds() < time_old+1) {
 						//its a double click
+						mouse.double_left = true;
 						//log("left Double click");
 					}
 					time_old = 0;
 				}
 			} else {
 				//left button not pressed
+				mouse.left_pressed = false;
+				mouse.double_left = false;
 				//log("Left mouse button not pressed");
 			}
 
 			//is the right button pressed?
-			if (byte1&rgt_butn_mask) {
+			if (((1 << 1) & byte1)) {
 				//right button pressed
 				//log("Right mouse button pressed");
 				//lets see if its double click
-				if (time_old == 0) {
+				mouse.right_pressed = true;
+				if (!time_old) {
 					//its not double click
+					mouse.double_right = false;
 					time_old = get_tracked_seconds();
 				} else {
 					//lets see if its a double click
 					if (get_tracked_seconds() < time_old+1) {
 						//its a double click
+						mouse.double_right = true;
 						//log("left Double click");
 					}
 					time_old = 0;
 				}
 			} else {
 				//right button not pressed
+				mouse.right_pressed = false;
+				mouse.double_right = false;
 				//log("Right mouse button not pressed");
 			}
 
@@ -149,21 +157,20 @@ void mouse_handler(struct regs *r){
 			uint8_t byte2 = inb(0x60);
 
 			//lets see the x coordinate
-			if (x_neg) {
+			if (mouse.negx) {
 				//lets add the negative symbol
 				uint8_t signedByte2 = byte2|0xFFFFFF00;
 				
 				//lets cast it
-				mouse_x = (int)signedByte2;
+				mouse.mousex = (int)signedByte2;
 			} else {
 				//lets cast it
-				mouse_x = (int)byte2;
+				mouse.mousex = (int)byte2;
 			}
 			
 
 			//make a buffer for itoa
-			char buf[1024];
-			
+			//char buf[1024];
 			//lets print it
 			//log(itoa(mouse_x, buf, 10));
 
@@ -172,15 +179,15 @@ void mouse_handler(struct regs *r){
 
 			
 			//lets cast it
-			if (y_neg) {
+			if (mouse.negy) {
 				//lets change it to negative
 				uint8_t signedByte3 = byte3|0xFFFFFF00;
 
 				//lets cast it
-				mouse_y = (int)signedByte3;
+				mouse.mousey = (int)signedByte3;
 			} else {
 				//cast it normally
-				mouse_y = (int)byte3;
+				mouse.mousey = (int)byte3;
 			}
 
 			//lets print it
@@ -193,9 +200,12 @@ void mouse_handler(struct regs *r){
 
 				//lets store the z coordinate
 				//TODO: see if there are more than 4 buttons
-				mouse_z = (int)byte4;
+				mouse.mousez = (int)byte4;
 				
 			}
+
+			//now we need to append it to the stream
+			*mouse_stream = mouse;
 		}
 	}
 }
@@ -207,12 +217,12 @@ void mouse_wait(uint8_t a_type) {
 	uint32_t timeout = 100000;
 
 	//what is our atype?
-	if (a_type == 0) {
+	if (!a_type) {
 
 		//wait for the mouse to be avalible
 		while(timeout--) { // DATA
 			//if the mouse is avalible
-			if((inb(0x64) & 1) == 1) {
+			if((inb(0x64) & 1)) {
 				//we have a mouse
 				return;
 			}
@@ -224,7 +234,7 @@ void mouse_wait(uint8_t a_type) {
 		//wait for the mouse to be avalible
 		while(timeout--) { // SIGNAL
 			//if the mouse is avalible
-			if ((inb(0x64) & 2) == 0) {
+			if (!(inb(0x64) & 2)) {
 				//we have a mouse
 				return;
 			}

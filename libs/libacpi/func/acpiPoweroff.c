@@ -20,20 +20,27 @@
 */
 #include <libports.h>
 #include <libvga.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libacpi.h>
-#include <libssp.h>
+ 
 
 
 void acpiPowerOff(void) {
    	// SCI_EN is set to 1 if acpi shutdown is possible
-   	if (SCI_EN == 0)
-	  	return;
+   	if (SCI_EN == 0) {
+        return;
+    }
 
    	// send the shutdown command
-   	outw((uint32_t) PM1a_CNT, SLP_TYPa | SLP_EN );
-   	if ( PM1b_CNT != 0 )
-	  	outw((uint32_t) PM1b_CNT, SLP_TYPb | SLP_EN );
-
+    //we should have a for loop to try multiple times
+    for (int i = 0; i < 10; i++) {
+        outw((uint32_t)PM1a_CNT, SLP_TYPa|SLP_EN);
+        if (PM1b_CNT != 0) {
+            outw((uint32_t) PM1b_CNT, SLP_TYPb | SLP_EN );
+        }
+    }
+    
+    //if it did not go within the timeout
    	kprintf("acpi poweroff failed.\n");
 }

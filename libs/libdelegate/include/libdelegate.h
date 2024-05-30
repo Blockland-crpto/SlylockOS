@@ -21,7 +21,8 @@
 #ifndef __LIBDELEGATE_H__
 #define __LIBDELEGATE_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <libproc.h>
 
 enum resource_type {

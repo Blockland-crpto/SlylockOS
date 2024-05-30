@@ -1,8 +1,29 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include <libata.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 #include <cmdset.h>
 
 //helpers
@@ -71,8 +92,8 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	uint16_t validity_section = identify_data[53];
 
 	//we should also define some bools to check if the drives sections are valid
-	bool valid_sect_1 = (validity_section & (1 << 1)) ? true : false; // is 64-70 valid?
-	bool valid_sect_2 = (validity_section & (1 << 2)) ? true : false; // is 88 valid?
+	bool valid_sect_1 = ((1 << 1) & validity_section) ? true : false; // is 64-70 valid?
+	bool valid_sect_2 = ((1 << 2) & validity_section) ? true : false; // is 88 valid?
 
 	//lets get the ata specific data
 	if (!drive.atapi_info.is_atapi) {
@@ -82,7 +103,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		uint32_t addressable_space_lba28 = (addressable_space_2 << 8) | addressable_space_1;
 
 		if ((addressable_space_lba28 & 0x00)) {
-			drive.lba28_enabled = false;
+			drive.lba_data.lba28_enabled = false;
 		} else {
 			drive.addressable_space_lba28 = addressable_space_lba28;
 		}
@@ -116,7 +137,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		uint16_t command_check = identify_data[i];
 
 		//first lets see if its valid
-		if ((command_check & (1 << 15)) == 1) {
+		if ((command_check & (1 << 15))) {
 			//its not valid, error out
 			drive.exists = false;
 			return drive;
@@ -136,8 +157,12 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	get_drive_cmd_set_enabled_2(&drive, identify_data);
 	
 	//gets the drive udma support
-	get_drive_udma_support(&drive, identify_data);
-
+	//if the section is valid lets look for udma support
+	if (valid_sect_2) {
+		//lets get the udma support
+		get_drive_udma_support(&drive, identify_data);
+	}
+	
 	//lets get time required for security erase completion
 	drive.time_required_for_security_erase = identify_data[89];
 
@@ -154,7 +179,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	uint16_t cable_type = identify_data[93];
 
 	//it a 80-pin cable
-	if ((cable_type & (1 << 11)) == 1) {
+	if ((cable_type & (1 << 11))) {
 		drive.pin80_connector = true;
 	} else {
 		drive.pin80_connector = false;
@@ -167,13 +192,16 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	uint16_t addressable_space_6 = identify_data[103];
 	uint64_t addressable_space_lba48 = ((uint64_t)addressable_space_3 << 48) | ((uint64_t)addressable_space_4 << 32) | ((uint64_t)addressable_space_5 << 16) | addressable_space_6;
 
-	if ((addressable_space_lba48 & 0x00) == 1) {
-		drive.lba48_enabled = false;
+	if ((addressable_space_lba48 & 0x00)) {
+		drive.lba_data.lba48_enabled = false;
 	} else {
 		drive.addressable_space_lba48 = addressable_space_lba48;
 	}
 	
 	drive.exists = true;
-	drive.identify_data_ptr = &identify_data;
+	//lets copy the id data to ata dev t
+	for (int i = 0; i < 256; i++) {
+		drive.identify_data[i] = identify_data[i];
+	}
 	return drive;
 }

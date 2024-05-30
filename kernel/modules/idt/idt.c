@@ -1,8 +1,8 @@
-#include <drivers/idt.h>
+#include <kernel/idt.h>
 #include <libmodule.h>
 #include <libvga.h>
 #include <libmem.h>
-#include <libssp.h>
+ 
 
 struct idt_entry {
 	unsigned short base_lo;

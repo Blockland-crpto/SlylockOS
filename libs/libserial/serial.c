@@ -23,29 +23,37 @@
 #include <libdebug.h>
 #include <libvga.h>
 #include <libdmgctrl.h>
-#include <drivers/irq.h>
+#include <kernel/irq.h>
 #include <libmodule.h>
-#include <libssp.h>
+#include <libfs.h>
 #include <string.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <libmem.h>
 
 //TODO: add COM2 support and input handling
 
 //serial port handler
 void serial_handler(struct regs *r) {
-	//not used here 
+	//ensure were getting OK interrupts
+	//lets validate the handler
+	if (r->int_no > 256) {
+		//got a weird ass interrupt number
+		panic("Got a strange interrupt number", INT_ERROR);
+	}
 }
 
 //serial port writer
 void serial_write_char(int8_t data) {
-	while(inb(COM1 + 5) & 0x20 == 0);
+	while(!(inb(COM1 + 5) & 0x20));
 	outb(COM1, data);
 }
 
 //serial port write string
-void serial_write_string(char *data) {
-	for(int i = 0; i < strlen(data); i++) {
+void serial_write_string(const char* data) {
+	for(size_t i = 0; i < strlen(data); i++) {
 		serial_write_char(data[i]);
 	}
 }
@@ -70,7 +78,7 @@ void set_serial_baud(uint8_t level) {
 	outb(COM1_DATA, level_lo);
 
 	//lets find the most significant bit of divisor
-	uint8_t level_hi = level & 0x10000000;
+	uint8_t level_hi = level & (uint8_t)0x10000000;
 
 	//lets send the most significant bit of the divisor to int enable
 	outb(COM1_INT_ENABLE, level_hi);
@@ -113,6 +121,10 @@ void serial_init() {
 
 	//lets enable the serial port
 	outb(COM1_MODEM_CTRL, 0x0F);
+
+	//now lets create a file for the terminal
+	uint8_t* buffer = (uint8_t*)kalloc(BUFSIZ);
+	create_file_fs("com1", buffer, BUFSIZ);
 
 	//were done!
 	DONE(modules_serial);

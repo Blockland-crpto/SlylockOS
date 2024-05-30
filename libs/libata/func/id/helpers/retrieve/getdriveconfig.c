@@ -1,14 +1,43 @@
+/*
+* Author: Alexander Herbert <herbgamerwow@gmail.com>
+* License: MIT
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+* software and associated documentation files (the “Software”), to deal in the Software
+* without restriction, including without limitation the rights to use, copy, modify, merge,
+* publish, distribute, sublicense, and/or sell copies of the Software, and to permit 
+* persons to whom the Software is furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in 
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+* INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+* PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+* FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+* OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
+* OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include <libata.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 
 //function to retrieve config info
 void get_drive_config(ata_device_t* drive, uint16_t* identify_data) {
+	
+	//validate
+	if (drive == NULL || identify_data == NULL) {
+		//oops!
+		return;
+	}
+	
 	//compare variable
 	uint16_t compare = identify_data[0];
+
 	
 	//check if the ATA device is valid
 	if ((compare & 0x00) == 1) {
@@ -23,7 +52,7 @@ void get_drive_config(ata_device_t* drive, uint16_t* identify_data) {
 	//is the device a ATAPI device?
 	if (!drive->atapi_info.is_atapi) {
 		//check if the drive is a hard drive
-		if ((compare & (1 << 15)) == 1) {
+		if ((compare & (1 << 15)) > 0) {
 			//the drive is a packet device
 			drive->exists = false;
 			return;

@@ -21,8 +21,9 @@
 #include <libata.h>
 #include <libports.h>
 #include <libdebug.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+ 
 
 #define DRIVE_STANDBY 0xE2
 

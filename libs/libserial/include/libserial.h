@@ -21,7 +21,8 @@
 #ifndef __LIBSERIAL_H__
 #define __LIBSERIAL_H__
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 //serial ports
 enum serial_ports {
@@ -70,7 +71,7 @@ extern "C" {
 	void set_serial_baud(uint8_t level);
 
 	//serial port writer
-	void serial_write_string(char *data);
+	void serial_write_string(const char *data);
 
 	//serial port write char
 	void serial_write_char(int8_t data);

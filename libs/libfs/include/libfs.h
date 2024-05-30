@@ -31,7 +31,11 @@
 #ifndef __LIBFS_H
 #define __LIBFS_H
 
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
+
+//patch to make the compiler shut up
+struct fs_node;
 
 /**
   \def FS_FILE
@@ -90,7 +94,7 @@ extern "C" {
 	  \typedef uint32_t (*rename_type_t)(struct fs_node*,char*)
 	  \brief This is equal to read_type_t.
 	*/
-	typedef uint32_t (*rename_type_t)(struct fs_node*,char*);
+	typedef uint32_t (*rename_type_t)(struct fs_node*,const char*);
 
 	/**
 	  \typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*)
@@ -119,7 +123,7 @@ extern "C" {
 
 	typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
 
-	typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char *name); 
+	typedef struct fs_node * (*finddir_type_t)(const char *name); 
 
 	/**
 	  \struct fs_node
@@ -182,6 +186,9 @@ extern "C" {
 
 	extern fs_node_t *fs_root; // The root of the filesystem.
 
+	//function to initalize the filesystem
+	void filesystem_init();
+	
 	uint32_t create_file_fs(char *name, uint8_t *buffer, uint32_t size);
 
 	uint32_t delete_file_fs(char *name);
@@ -190,19 +197,19 @@ extern "C" {
 
 	uint32_t delete_dir_fs(char *name);
 
-	uint32_t rename_fs(fs_node_t *node, char *name);
+	uint32_t rename_fs(fs_node_t *node, const char *name);
 
 	uint32_t read_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 
 	uint32_t write_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 
-	void open_fs(fs_node_t *node, uint8_t read, uint8_t write);
+	void open_fs(fs_node_t *node);
 
 	void close_fs(fs_node_t *node);
 
 	struct dirent *readdir_fs(fs_node_t *node, uint32_t index);
 
-	fs_node_t *finddir_fs(fs_node_t *node, char *name); 
+	fs_node_t *finddir_fs(fs_node_t *node, const char *name); 
 
 
 #if defined(__cplusplus)

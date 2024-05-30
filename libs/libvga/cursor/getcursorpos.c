@@ -20,7 +20,7 @@
 */
 #include <libvga.h>
 #include <libports.h>
-#include <libssp.h>
+ 
 
 unsigned short get_cursor_pos(){
 	unsigned short position = 0;

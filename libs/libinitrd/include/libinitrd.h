@@ -33,13 +33,17 @@
 #define LIBINITRD_H
 
 #include <libfs.h>
-#include <system/types.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #define MAX_INITRD_FILES 1000
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
+
+	int nroot_nodes;  
+	
 	fs_node_t *initrd_root;             // Our root directory node.
 
 	/**
@@ -123,7 +127,7 @@ extern "C" {
 	   \param{in}   name The directories new name.
 	   \returns 0 if successful.
 	*/
-	static uint32_t initrd_rename_file(fs_node_t *node, char *name);
+	uint32_t initrd_rename_file(fs_node_t *node, const char *name);
 
 	/**
 	   \brief       Directory renaming function
@@ -133,7 +137,7 @@ extern "C" {
 	   \param{in}   name The directories new name.
 	   \returns 0 if successful.
 	*/
-	static uint32_t initrd_rename_dir(fs_node_t *node, char *name);
+	uint32_t initrd_rename_dir(fs_node_t *node, const char *name);
 	/**
 	   \brief       Standard initrd write function
 
@@ -144,7 +148,7 @@ extern "C" {
 	   \param{in}   buffer The buffer of characters to be written, in uint8_t* form.
 	   \returns The size of the buffer.
 	*/
-	static uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
+	uint32_t initrd_write(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 
 	/**
 	   \brief       Standard initrd read function
@@ -156,7 +160,7 @@ extern "C" {
 	   \param{in}   buffer The buffer of characters to be read, in uint8_t* form.
 	   \returns The size of the buffer.
 	*/
-	static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
+	uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer);
 	/**
 	   \brief       Standard initrd readdir function
 
@@ -165,7 +169,7 @@ extern "C" {
 	   \param{in}   index The index of the directory.
 	   \returns The size of the buffer.
 	*/
-	static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index);
+	struct dirent *initrd_readdir(fs_node_t *node, uint32_t index);
 	/**
 	   \brief       Standard initrd finddir function
 
@@ -174,7 +178,9 @@ extern "C" {
 	   \param{in}   name The name of the directory.
 	   \returns The size of the buffer.
 	*/
-	static fs_node_t *initrd_finddir(fs_node_t *node, char *name);
+	//todo: the compiler loves to b*tch about the pointers
+	//so i need to fix that
+	fs_node_t *initrd_finddir(const char *name);
 
 	// Initialises the initial ramdisk. It gets passed the address of the multiboot module,
 	// and returns a completed filesystem node.

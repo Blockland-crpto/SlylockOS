@@ -19,37 +19,31 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <libmmio.h>
-#include <system/types.h>
-#include <libssp.h>
+#include <stdint.h>
+#include <stdbool.h>
+ 
 
-uint8_t mmioRead8 (uint64_t p_address) {
-	return *((volatile uint8_t*)(p_address));
+uint8_t mmioRead8 (uint32_t* p_address) {
+	return *p_address;
 }
 
-uint16_t mmioRead16 (uint64_t p_address) {
-	return *((volatile uint16_t*)(p_address));
+uint16_t mmioRead16 (uint32_t* p_address) {
+	return *p_address;
 }
 
-uint32_t mmioRead32 (uint64_t p_address) {
-	return *((volatile uint32_t*)(p_address));
+uint32_t mmioRead32 (uint32_t* p_address) {
+	return *p_address;
 }
 
-uint64_t mmioRead64 (uint64_t p_address) {
-	return *((volatile uint64_t*)(p_address));    
+//todo: ensure its not a null pointer to prevent undefined behavior
+void mmioWrite8 (uint32_t* p_address, uint8_t p_value) {
+	*p_address=p_value;
 }
 
-void mmioWrite8 (uint64_t p_address,uint8_t p_value) {
-	(*((volatile uint8_t*)(p_address)))=(p_value);
+void mmioWrite16 (uint32_t* p_address,uint16_t p_value) {
+	*p_address=p_value;    
 }
 
-void mmioWrite16 (uint64_t p_address,uint16_t p_value) {
-	(*((volatile uint16_t*)(p_address)))=(p_value);    
-}
-
-void mmioWrite32 (uint64_t p_address,uint32_t p_value) {
-	(*((volatile uint32_t*)(p_address)))=(p_value);
-}
-
-void mmioWrite64 (uint64_t p_address,uint64_t p_value) {
-	(*((volatile uint64_t*)(p_address)))=(p_value);    
+void mmioWrite32 (uint32_t* p_address,uint32_t p_value) {
+	*p_address=p_value;
 }

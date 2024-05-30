@@ -25,7 +25,7 @@
 extern "C" {
 #endif
 
-	void execute_program(char* filename);
+	int cmd_hello();
 
 #if defined(__cplusplus)
 } /* extern "C" */

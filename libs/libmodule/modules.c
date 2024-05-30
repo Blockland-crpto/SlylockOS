@@ -20,10 +20,7 @@
 */
 #include <libmodule.h>
 #include <libvga.h>
-#include <libssp.h>
-
-
-#define NULL 0
+ 
 
 module_t MODULE(char* name, char* description) {
 	module_t mod;
@@ -35,13 +32,13 @@ module_t MODULE(char* name, char* description) {
 	return mod;
 }
 
-int INIT(module_t module) {
+void INIT(module_t module) {
 	putstr("[", COLOR_WHT, COLOR_BLK);
 	putstr("MODULE",COLOR_DGY, COLOR_BLK);
 	putstr("]: Initializing module - ", COLOR_WHT, COLOR_BLK);
 	putstr(module.name, COLOR_WHT, COLOR_BLK);
 	modules[count] = module;
-	if(count == NULL) {
+	if(count == 0) {
 		count = 1;
 	} else {
 		count++;

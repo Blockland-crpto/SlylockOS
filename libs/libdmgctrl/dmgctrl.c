@@ -21,13 +21,13 @@
 //contains AbridOS code
 
 #include <libvga.h>
-#include <drivers/idt.h>
+#include <kernel/idt.h>
 #include <libdmgctrl.h>
 #include <libmodule.h>
-#include <drivers/nmi.h>
-#include <libssp.h>
+#include <libnmi.h>
 #include <libdebug.h>
 #include <libproc.h>
+#include <stddef.h>
 
 extern void _isr0();
 extern void _isr1();
@@ -99,7 +99,6 @@ void isr_install() {
 	idt_set_gate(29, (unsigned)_isr29, 0x08, 0x8E);
 	idt_set_gate(30, (unsigned)_isr30, 0x08, 0x8E);
 	idt_set_gate(31, (unsigned)_isr31, 0x08, 0x8E);
-	 
 }
 
 //function to initate damage control
@@ -155,33 +154,19 @@ char *exception_messages[] = {
 };
 
 void fault_handler(struct regs *r) {
-
-	
 	if (r->int_no < 32)	{
 
-		//lets get the current process
-		proc_control_block current_proc = task_queue[0];
-
 		//lets check if the entry is null because if it is we have to panic
-		if (current_proc.entry_point == NULL) {
+		if (task_queue[0].entry_point == NULL) {
 			panic("Kernel triggered a exception", r->int_no);
 		} else {
 			//a process triggered a exception
 			putstr(exception_messages[r->int_no], COLOR_RED, COLOR_BLK);
 			putstr(" Exception.\n", COLOR_RED, COLOR_BLK);
-
-			//lets skip to next process
-			//lets destory the current process
-			proc_destroy(current_proc.id);
-
-			//lets slide down the process pool
-			//lets slide it down!
-			for (int i = 0; i < 10; i++) {
-				task_queue[i] = task_queue[i + 1];
-			}
-
-			//now lets recall the schedualer
-			proc_scheduler();
+			
+			//good by process
+			proc_kill(PROC_EXIT_STATUS_ABORTED);
+			
 		}
 
 	}
