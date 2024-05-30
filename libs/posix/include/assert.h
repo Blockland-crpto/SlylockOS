@@ -18,20 +18,13 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef __MATH_H
-#define __MATH_H
+#ifndef __ASSERT_H
+#define __ASSERT_H
 
-#if defined(__cplusplus)
-extern "C" {
+#ifndef DEBUG 
+#define assert(ignore)((void) 0)
+#else
+void assert(int x);
 #endif
-
-	#define MATH_ERRNO 1
-	#define MATH_ERREXCEPT 2
-
-	double modf(double x, double *iptr);
-
-#if defined(__cplusplus)
-} /* extern "C" */
-#endif
-
+ 
 #endif
