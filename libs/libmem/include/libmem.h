@@ -70,10 +70,6 @@ extern "C" {
 	*/
 	int ram_size();
 
-
-
-
-
 	// unused, I think
 	void *sbrk(intptr_t incr);
 

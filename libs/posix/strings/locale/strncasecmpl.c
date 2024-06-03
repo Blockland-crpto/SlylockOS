@@ -18,35 +18,30 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <libata.h>
-#include <libports.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <libmodule.h>
- 
 
-//ATA initializer
-void ata_init() {
-	module_t modules_ata = MODULE("kernel.modules.ata", "Provides ATA support for the kernel, read/write (CORE)");
+#include <strings.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
-	//let the initalization begin!
-	INIT(modules_ata);
-
-	//lets register the master drive
-	ata_device_t master = ata_identify(SELECT_DEVICE_MASTER);
-	
-	//does the master exist?
-	if (!master.exists) {
-
-		//it doesn't error out
-		FAIL(modules_ata, "Master ATA drive does not exist");
-	} else {
-
-		//it does exist
-		ata_drives[0] = master;
-
-		//were done!
-		DONE(modules_ata);
+int strncasecmp_l(const char *s1, const char *s2, size_t n, locale_t locale) {	
+	printf(locale);
+	char* ls1 = (char*)malloc(strlen(s1) * sizeof(char));
+	if (ls1 == NULL) {
+		return -1;
 	}
+	char* ls2 = (char*)malloc(strlen(s2) * sizeof(char));
+	if (ls2 == NULL) {
+		free(ls1);
+		return -1;
+	}
+	strncpy(ls1, s1, n);
+	strncpy(ls2, s2, n);
 	
+	int ret = strcasecmp(ls1, ls2);
+
+	free(ls1);
+	free(ls2);
+
+	return ret;
 }

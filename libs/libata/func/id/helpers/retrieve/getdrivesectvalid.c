@@ -44,14 +44,14 @@ void get_drive_sect_valid(ata_device_t* drive, uint16_t* identify_data) {
 	}
 
 	//lets get the minimum mdma transfer per word
-	drive->min_mdma_transfer_time_per_word = identify_data[65];
+	drive->trans_time.min_mdma_transfer_time_per_word = identify_data[65];
 
 	//lets get the manufactures recommended min mda transfer time
-	drive->min_mdma_transfer_time_vendor = identify_data[66];
+	drive->trans_time.min_mdma_transfer_time_vendor = identify_data[66];
 
 	//lets get the minimum pio transfer time without flow control
-	drive->min_pio_transfer_time_no_flow_ctrl = identify_data[67];
+	drive->trans_time.min_pio_transfer_time_no_flow_ctrl = identify_data[67];
 
 	//lets get the minimum pio transfer time with flow control
-	drive->min_pio_transfer_time_iordy_flow_ctrl = identify_data[68];
+	drive->trans_time.min_pio_transfer_time_iordy_flow_ctrl = identify_data[68];
 }

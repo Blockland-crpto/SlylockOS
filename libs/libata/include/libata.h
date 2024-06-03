@@ -147,21 +147,23 @@ enum atapi_drq_set_times {
 extern "C" {
 #endif
 
+	#pragma pack(1)
+	
 	//a structure representing a UDMA mode
 	typedef struct {
-		int id;
+		int id :4;
 		bool supported :1;
 	} udma_mode_t;
 
 	//a structure representing a MDMA mode
 	typedef struct {
-		int id;
+		int id :3;
 		bool supported :1;
 	} mdma_mode_t;
 
 	//a structure representing a PIO mode
 	typedef struct {
-		int id;
+		int id :4;
 		bool supported :1;
 	} pio_mode_t;
 
@@ -182,7 +184,33 @@ extern "C" {
 		bool lba_supported :1;
 		bool lba48_enabled :1;
 		bool lba28_enabled :1;
+		uint32_t addressable_space_lba28 :28;
+		uint64_t addressable_space_lba48 :48;
 	} lba_info_t;
+
+	//manufacturer info
+	typedef struct {
+		uint16_t serial_number[8];
+		uint16_t firmware_revision[2];
+		uint16_t model_number[20];
+	} vendor_info_t;
+
+	//transfer
+	typedef struct {
+		uint16_t min_mdma_transfer_time_per_word;
+		uint16_t min_mdma_transfer_time_vendor;
+		uint16_t min_pio_transfer_time_no_flow_ctrl;
+		uint16_t min_pio_transfer_time_iordy_flow_ctrl;
+	} trans_info_t;
+
+	//security info
+	typedef struct {
+		uint16_t time_required_for_security_erase;
+		uint16_t time_required_secure_erase_enhanced;
+		uint16_t master_password_revision_code;
+	} secure_info_t;
+
+	#pragma pack()
 	
 	//a structure representing ATAPI information
 	typedef struct {
@@ -203,31 +231,29 @@ extern "C" {
 	//a structure representing a ATA harddrive
 	typedef struct {
 
-		//Does it exist?
+		//bit fields
 		bool exists :1;
-
+		bool removable :1;
+		bool dma_supported :1;
+		bool pin80_connector :1;
+		bool set_features_spinup_needed :1;
+		int major_ata_version :6;
+		uint16_t minor_ata_version :5;
+	
 		//The drivetype
 		enum ata_drive_type driveType;
 
 		//ATAPI info
 		atapi_info_t atapi_info;
 	
-		//Is it removable?
-		bool removable :1;
-
 		//Manufacturer information
-		uint16_t serial_number[8];
-		uint16_t firmware_revision[2];
-		uint16_t model_number[20];
+		vendor_info_t vendor_info;
 	
 		//Iordy information
 		iordy_info_t iordy_data;
 	
 		//LBA modes
 		lba_info_t lba_data;
-		
-		//DMA support
-		bool dma_supported :1;
 	
 		//UDMA modes
 		udma_mode_t supported_udma[7];
@@ -247,29 +273,15 @@ extern "C" {
 		standby_timer_info_t standby_timer_data;
 
 		//Transfer time information
-		uint16_t min_mdma_transfer_time_per_word;
-		uint16_t min_mdma_transfer_time_vendor;
-		uint16_t min_pio_transfer_time_no_flow_ctrl;
-		uint16_t min_pio_transfer_time_iordy_flow_ctrl;
+		trans_info_t trans_time;
 	
-		//Addressable space information
-		uint32_t addressable_space_lba28;
-		uint64_t addressable_space_lba48;
-
 		//Security information
-		uint16_t time_required_for_security_erase;
-		uint16_t time_required_secure_erase_enhanced;
-		uint16_t master_password_revision_code;
+		secure_info_t secure_info;
 	
 		//Misc information
-		int major_ata_version;
-		uint16_t minor_ata_version;
-		bool pin80_connector :1;
 		uint8_t max_queue_depth;
 		uint8_t sectors_per_interrupt_rw_multiple;
-		bool set_features_spinup_needed :1;
 		uint16_t current_apm_value;
-		uint16_t identify_data[256];
 
 	} ata_device_t;
 

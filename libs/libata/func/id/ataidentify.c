@@ -87,13 +87,10 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 
 	//lets get the capabilities
 	get_drive_capabilities(&drive, identify_data);
-	
-	//next lets look at 53 to see which are valid in the next few things
-	uint16_t validity_section = identify_data[53];
 
 	//we should also define some bools to check if the drives sections are valid
-	bool valid_sect_1 = ((1 << 1) & validity_section) ? true : false; // is 64-70 valid?
-	bool valid_sect_2 = ((1 << 2) & validity_section) ? true : false; // is 88 valid?
+	bool valid_sect_1 = ((1 << 1) & identify_data[53]) ? true : false; // is 64-70 valid?
+	bool valid_sect_2 = ((1 << 2) & identify_data[53]) ? true : false; // is 88 valid?
 
 	//lets get the ata specific data
 	if (!drive.atapi_info.is_atapi) {
@@ -105,7 +102,7 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 		if ((addressable_space_lba28 & 0x00)) {
 			drive.lba_data.lba28_enabled = false;
 		} else {
-			drive.addressable_space_lba28 = addressable_space_lba28;
+			drive.lba_data.addressable_space_lba28 = addressable_space_lba28;
 		}
 	}
 	
@@ -164,26 +161,19 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	}
 	
 	//lets get time required for security erase completion
-	drive.time_required_for_security_erase = identify_data[89];
+	drive.secure_info.time_required_for_security_erase = identify_data[89];
 
 	//lets get time required for erase completion enhanced
-	drive.time_required_secure_erase_enhanced = identify_data[90];
+	drive.secure_info.time_required_secure_erase_enhanced = identify_data[90];
 
 	//lets get current APM value
 	drive.current_apm_value = identify_data[91];
 
 	//lets get the master password rev code
-	drive.master_password_revision_code = identify_data[92];
+	drive.secure_info.master_password_revision_code = identify_data[92];
 	
 	//lets find out if it uses a 80-pin cable
-	uint16_t cable_type = identify_data[93];
-
-	//it a 80-pin cable
-	if ((cable_type & (1 << 11))) {
-		drive.pin80_connector = true;
-	} else {
-		drive.pin80_connector = false;
-	}
+	drive.pin80_connector = ((1 << 11) & identify_data[93]) ? true : false;
 
 	//lets find the number of 48 bit addressable space
 	uint16_t addressable_space_3 = identify_data[100];
@@ -195,13 +185,9 @@ ata_device_t ata_identify(enum ata_device_select dev) {
 	if ((addressable_space_lba48 & 0x00)) {
 		drive.lba_data.lba48_enabled = false;
 	} else {
-		drive.addressable_space_lba48 = addressable_space_lba48;
+		drive.lba_data.addressable_space_lba48 = addressable_space_lba48;
 	}
 	
 	drive.exists = true;
-	//lets copy the id data to ata dev t
-	for (int i = 0; i < 256; i++) {
-		drive.identify_data[i] = identify_data[i];
-	}
 	return drive;
 }

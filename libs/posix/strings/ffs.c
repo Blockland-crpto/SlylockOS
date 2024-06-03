@@ -30,4 +30,5 @@ int ffs(int i) {
 			return j;
 		}
 	}
+	return 0;
 }

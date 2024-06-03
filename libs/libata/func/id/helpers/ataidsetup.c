@@ -65,7 +65,7 @@ void ata_id_setup(ata_device_t* drive, enum ata_device_select dev) {
 	volatile uint8_t identify = inb(IO_PORT_STATUS);
 
 	//now we parse it
-	if ((identify & 0x0) == 1) {
+	if ((identify & 0x0) > 0) {
 		//the drive does not exist
 		drive->exists = false;
 		return;

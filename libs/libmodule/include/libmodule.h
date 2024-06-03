@@ -53,9 +53,9 @@ extern "C" {
 		VI. dependencies: List of strings of dependencies. Each dependency's name should follow the convention established by `name`.
 	*/
 	typedef struct module_t {
-		bool usermode;
-		bool enabled;
-		bool initialized;
+		bool usermode :1;
+		bool enabled :1;
+		bool initialized :1;
 		char* name;
 		char* description;
 		char** dependencies;

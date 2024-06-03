@@ -213,12 +213,12 @@ extern "C" {
 		uint32_t flags;	
 	};
 
-
+	#pragma pack()
 
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif
 
-#pragma pack()
+
 
 #endif

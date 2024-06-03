@@ -67,8 +67,8 @@ extern "C" {
 	
 	//the file structure
 	typedef struct {
-		int eof :1;
-		int error :1;
+		int eof;
+		int error;
 		int bufmod;
 		bool locked;
 		size_t length;

@@ -5,25 +5,23 @@
 #include <libdelegate.h>
 
 void *malloc(size_t numbytes) {
-	//lets first get the size of the heap amount for the proccess
-	proc_control_block current_task = task_queue[0];
 
 	//here it is
-	int heap_used = current_task.heap_used;
+	int heap_used = task_queue[0].heap_used;
 
-	if (heap_used + numbytes > current_task.memory_delegated) {
+	if (heap_used + numbytes > task_queue[0].memory_delegated) {
 
 		//lets send a request for more memory to be delegated
-		int request_result = delegate_request(RESOURCE_MEMORY, &current_task, numbytes);
+		int request_result = delegate_request(RESOURCE_MEMORY, &task_queue[0], numbytes);
 
 		//did it return successful?
 		if (request_result == 0) {
-			current_task.heap_used += numbytes;
+			task_queue[0].heap_used += numbytes;
 		} else {
 			return NULL;
 		}
 	} else {
-		current_task.heap_used += numbytes;
+		task_queue[0].heap_used += numbytes;
 	}
 
 	//todo: see if we can free anything before doing this
@@ -32,7 +30,7 @@ void *malloc(size_t numbytes) {
 	void* addr = kalloc((long)numbytes);
 
 	//next lets add it to its list
-	current_task.heap_allocations[current_task.heap_allocations_used++] = addr;
+task_queue[0].heap_allocations[task_queue[0].heap_allocations_used++] = addr;
 
 	//lets return the address
 	return addr;

@@ -35,7 +35,7 @@ export headers=$(echo "-I./kernel/include
 export debug=$(echo "-DDEBUG -Wextra -Wstack-protector -fanalyzer")
 #-Wno-discarded-qualifiers
 export security=$(echo "-fstack-protector-all -fstack-clash-protection")
-export optimize=$(echo "-Og -g -Wstack-usage=1100")
+export optimize=$(echo "-Og -g -Wstack-usage=400")
 ./build/libacpi_build.sh
 ./build/libapic_build.sh
 ./build/libata_build.sh

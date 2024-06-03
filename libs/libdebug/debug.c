@@ -51,7 +51,7 @@ void warn(char* reason) {
 int slog(const char *format, ...) {
 	va_list ap;
 	va_start(ap, format);
-	char buffer[256];
+	char* buffer = kalloc(get_tracked_seconds());
 
 	char* time = itoa(get_tracked_seconds(), buffer, 10);
 
@@ -59,12 +59,13 @@ int slog(const char *format, ...) {
 	serial_write_string(time);
 	serial_write_string("]: ");
 
+	kfree(buffer);
+
 	const char *ptr = format;
 	int len = 0;
 	while(*ptr) {
 		if (*ptr == '%') {
 			ptr++;
-			char buf[256];
 			int num;
 			char* str;
 			switch (*ptr++) {
@@ -73,13 +74,17 @@ int slog(const char *format, ...) {
 					break;
 				} case 'd': {
 					num = va_arg(ap, int);
+					char* buf = kalloc(num);
 					str = itoa(num, buf, 10);
 					serial_write_string(str);
+					kfree(buf);
 					break;
 				} case 'x':
 					num = va_arg(ap, int);
+					char* buf = kalloc(num);
 					str = itoa(num, buf, 16);
 					serial_write_string(str);
+					kfree(buf);
 					break;
 				default: {
 					return -1;
