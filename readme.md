@@ -4,6 +4,13 @@ Welcome to SlylockOS, a operating system for X86
 This OS is still in its pre-alpha stages
 So expect crashes, bugs, and missing features
 
+Commit requirements
+===========================
+Here are the guidelines for commits:
+- examined using wall
+- examined using -fanalyser
+- has a stack size less then 450
+
 Generating initial ramdisks
 ===========================
 You can use `./initrdgen <filename> <filename again>` 

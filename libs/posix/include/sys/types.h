@@ -33,6 +33,8 @@ extern "C" {
 	typedef int ssize_t;
 	typedef long off_t;
 	typedef unsigned int size_t;
+	typedef int gid_t;
+	typedef int uid_t;
 	
 #if defined(__cpluscplus)
 } /* extern "C" */
