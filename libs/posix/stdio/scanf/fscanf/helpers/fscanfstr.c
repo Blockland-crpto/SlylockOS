@@ -18,14 +18,34 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <ctype.h>
 
-//functions to run at exit
-extern void (*runAtExit[32])();
-extern int registeredFunctions;
+int fscanf_str(FILE *stream, char *result) {
+	int ch;
+	int count = 0;
+	int success = 0;
 
-int atexit(void (*func)(void)) { 
-	runAtExit[registeredFunctions] = func;
-	registeredFunctions++;
-	return 0;
+	// Skip leading whitespace
+	while ((ch = fgetc(stream)) != EOF && isspace(ch));
+
+	// Read characters until whitespace
+	while (ch != EOF && !isspace(ch)) {
+		*result++ = ch;
+		count++;
+		ch = fgetc(stream);
+		success = 1;
+	}
+
+	// Null-terminate the string
+	*result = '\0';
+
+	// Handle non-whitespace character
+	if (ch != EOF && !isspace(ch)) {
+		// Non-whitespace character encountered, reset stream position
+		fseek(stream, -1, SEEK_CUR);
+	}
+
+	return success;
 }

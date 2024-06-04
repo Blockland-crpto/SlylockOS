@@ -23,6 +23,8 @@
 #include <libvga.h>
 #include <libkeyboard.h>
 
+//functions to run at exit
+extern void (*runAtExit[32])();
 extern int registeredFunctions;
 
 void exit(int status) {

@@ -64,9 +64,6 @@ extern "C" {
 
 	typedef int wchar_t;
 	typedef unsigned int size_t;
-
-	//functions to run at exit
-	void (*runAtExit[32])();
 	
 	//_Exit implementation
 	void _Exit(int status);

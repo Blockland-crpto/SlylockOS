@@ -26,6 +26,8 @@
 #include <libmem.h>
 #include <libdebug.h>
 
+//functions to run at exit
+extern void (*runAtExit[32])();
 extern long int rnext;
 extern unsigned long int rrnext;
 extern char* cstr;

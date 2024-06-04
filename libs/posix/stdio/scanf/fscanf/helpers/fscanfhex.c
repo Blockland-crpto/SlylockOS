@@ -18,14 +18,53 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <ctype.h>
 
-//functions to run at exit
-extern void (*runAtExit[32])();
-extern int registeredFunctions;
+int fscanf_hex(FILE *stream, unsigned *result) {
+	int ch;
+	int value = 0;
+	int sign = 1;
+	int success = 0;
 
-int atexit(void (*func)(void)) { 
-	runAtExit[registeredFunctions] = func;
-	registeredFunctions++;
-	return 0;
+	// Skip leading whitespace
+	while ((ch = fgetc(stream)) != EOF && isspace(ch));
+
+	// Check for sign
+	if (ch == '-') {
+		sign = -1;
+		ch = fgetc(stream);
+	}
+	
+	// Check for x
+	if (ch == '0') {
+		ch = fgetc(stream);
+		if (ch == 'x' || ch == 'X') {
+			//we got a base 16 number
+			ch = fgetc(stream);
+		} else {
+			//oop
+			return -1;
+		}
+	}
+	//reset stream position
+	fseek(stream, -1, SEEK_CUR);
+	
+	// Read digits
+	while (ch != EOF && isdigit(ch)) {
+		value = value * 16 + (ch - '0');
+		ch = fgetc(stream);
+		success = 1;
+	}
+	
+	// Handle non-digit character
+	if (ch != EOF && !isspace(ch)) {
+		// Non-digit character encountered, reset stream position
+		fseek(stream, -1, SEEK_CUR);
+	}
+
+	
+	*result = value * sign;
+	return success;
 }

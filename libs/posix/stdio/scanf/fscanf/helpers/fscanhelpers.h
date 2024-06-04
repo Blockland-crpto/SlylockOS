@@ -18,14 +18,18 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdlib.h>
+#ifndef __FSCAN_HELPERS_H__
+#define __FSCAN_HELPERS_H__
 
-//functions to run at exit
-extern void (*runAtExit[32])();
-extern int registeredFunctions;
+enum types {
+	TYPE_CHAR,
+	TYPE_SHORT,
+	TYPE_LONG,
+	TYPE_LONGLONG,
+	TYPE_INTMAX,
+	TYPE_SIZET,
+	TYPE_PTRDIFF,
+	TYPE_LONGDOUBLE
+};
 
-int atexit(void (*func)(void)) { 
-	runAtExit[registeredFunctions] = func;
-	registeredFunctions++;
-	return 0;
-}
+#endif

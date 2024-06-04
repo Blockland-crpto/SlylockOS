@@ -18,14 +18,58 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <ctype.h>
 
-//functions to run at exit
-extern void (*runAtExit[32])();
-extern int registeredFunctions;
+int fscanf_uns(FILE *stream, unsigned *result) {
+	int ch;
+	int value = 0;
+	int sign = 1;
+	int success = 0;
 
-int atexit(void (*func)(void)) { 
-	runAtExit[registeredFunctions] = func;
-	registeredFunctions++;
-	return 0;
+	// Skip leading whitespace
+	while ((ch = fgetc(stream)) != EOF && isspace(ch));
+
+	// Check for sign
+	if (ch == '-') {
+		sign = -1;
+		ch = fgetc(stream);
+	}
+
+	unsigned decplace = 0;
+	
+	while (ch != EOF && ch != '.') {
+		if (isdigit(ch)) {
+			decplace++;
+		}
+	}
+
+	//reset stream position
+	fseek(stream, -1, SEEK_CUR);
+	
+	// Read digits
+	while ((ch != EOF && isdigit(ch)) || ch == '.') {
+		if (ch == '.') {
+			ch = fgetc(stream);
+			success = 1;
+			continue;
+		}
+		value = value * 10 + (ch - '0');
+		ch = fgetc(stream);
+		success = 1;
+	}
+	
+	// Handle non-digit character
+	if (ch != EOF && !isspace(ch)) {
+		// Non-digit character encountered, reset stream position
+		fseek(stream, -1, SEEK_CUR);
+	}
+
+	//lets divide
+	unsigned div = 10^decplace;
+	
+	*result = value * sign;
+	*result = *result / div;
+	return success;
 }
