@@ -27,11 +27,60 @@
 #define FMNAMESZ 128
 
 //i flush stuff
-#define FLUSHR 3
-#define FLUSHRW 3
-#define FLUSHW 4
+enum i_flush_data {
+	FLUSHR = 3,
+	FLUSHW = 4,
+	FLUSHRW = 3
+};
 
 //i setsig stuff
+enum i_setsig_data {
+	S_BANDURG,
+	S_ERROR,
+	S_HANGUP,
+	S_HIPRI,
+	S_INPUT,
+	S_MSG,
+	S_OUTPUT,
+	S_RDBAND,
+	S_RDNORM,
+	S_WRBAND,
+	S_WRNORM
+};
+
+enum i_peek_data {
+	RS_HIPRI
+};
+
+enum i_srdopt_data {
+	RMSGD,
+	RMSGN,
+	RNORM,
+	RPROTDAT,
+	RPROTDIS,
+	RPROTNORM
+};
+
+enum i_swopt_data {
+	SNDZERO
+};
+
+enum i_atmark_data {
+	ANYMARK,
+	LASTMARK
+};
+
+enum i_unlink_data {
+	MUXID_ALL
+};
+
+enum msg_data {
+	MORECTL,
+	MOREDATA,
+	MSG_ANY,
+	MSG_BAND,
+	MSG_HIPRI
+};
 
 enum {
 	I_ATMARK = 0,
