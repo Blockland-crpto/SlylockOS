@@ -35,6 +35,13 @@ int strncasecmp_l(const char *s1, const char *s2, size_t n, locale_t locale) {
 		free(ls1);
 		return -1;
 	}
+	
+	if (s1 == NULL || s2 == NULL) {
+		//null pointers
+		free(ls1);
+		free(ls2);
+		return -1;
+	}
 	strncpy(ls1, s1, n);
 	strncpy(ls2, s2, n);
 	

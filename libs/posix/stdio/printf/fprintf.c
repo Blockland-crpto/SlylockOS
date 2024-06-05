@@ -40,6 +40,8 @@ int fprintf(FILE* stream, const char *format, ...) {
 					fputs(va_arg(ap, const char *), stream);
 					break;
 				} case 'd': {
+					//its the same thing, fall through
+				} case 'i': {
 					int num = va_arg(ap, int);
 					str = itoa(num, buf, 10);
 					fputs(str, stream);

@@ -34,14 +34,30 @@ int strcasecmp(const char *s1, const char *s2) {
 		free(ls1);
 		return -1;
 	}
+
+	if (s1 == NULL || s2 == NULL) {
+		//null pointers
+		free(ls1);
+		free(ls2);
+		return -1;
+	}
+	
 	strcpy(ls1, s1);
 	strcpy(ls2, s2);
 	for (size_t i = 0; i < strlen(ls1); i++) {
-		ls1[i] = tolower(ls1[i]);
+		if (ls1[i] != '\0') {
+			ls1[i] = tolower(ls1[i]);
+		} else {
+			ls2[i] = '\0';
+		}
 	}
 
 	for (size_t i = 0; i < strlen(ls2); i++) {
-		ls2[i] = tolower(ls2[i]);
+		if (ls2[i] != '\0') {
+			ls2[i] = tolower(ls2[i]);
+		} else {
+			ls2[i] = '\0';
+		}
 	}
 
 	int ret = strcmp(ls1, ls2);

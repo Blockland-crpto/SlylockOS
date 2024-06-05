@@ -26,12 +26,21 @@ int fscanf_str(FILE *stream, char *result) {
 	int ch;
 	int count = 0;
 	int success = 0;
-
+	long offset = ftell(stream);
 	// Skip leading whitespace
-	while ((ch = fgetc(stream)) != EOF && isspace(ch));
+	while ((ch = fgetc(stream)) != EOF && isspace(ch)) {
+		offset = ftell(stream);
+		if (offset == BUFSIZ) {
+			return -1;
+		}
+	}
 
 	// Read characters until whitespace
 	while (ch != EOF && !isspace(ch)) {
+		offset = ftell(stream);
+		if (offset == BUFSIZ) {
+			return -1;
+		}
 		*result++ = ch;
 		count++;
 		ch = fgetc(stream);

@@ -43,6 +43,8 @@ char *gets(char *s) {
 	// Remove the newline character if it was read
 	if (len > 0 && s[len - 1] == '\n') {
 		s[len - 1] = '\0';
+	} else if (s[len - 1] != '\0') {
+		s[len - 1] = '\0';
 	}
 
 	return s;
