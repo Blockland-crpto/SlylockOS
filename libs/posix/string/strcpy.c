@@ -41,7 +41,7 @@ char *strcpy(char *restrict s1, const char *restrict s2) {
 
 	// copy the C-string pointed by source into the array
 	// pointed by destination
-	while (*s2 != '\0')
+	while (*s2 != '\0' || *s2 != '\n')
 	{
 		*s1 = *s2;
 		s1++;

@@ -23,15 +23,15 @@
 
 // From https://stackoverflow.com/a/4768189
 
-unsigned long int rnext;
+unsigned long int* rnext;
 
 void srand(unsigned int seed) {
-	rnext = seed;
+	*rnext = seed;
 }
 
 int rand(void) { // RAND_MAX assumed to be the max int number
-	rnext = rnext * 1103515245 + 12345;
-	uint32_t num = (uint32_t)(rnext/65536) % RAND_MAX;
+	*rnext = *rnext * 1103515245 + 12345;
+	uint32_t num = (uint32_t)(*rnext/65536) % RAND_MAX;
 	srand(num);
 	return num;
 }

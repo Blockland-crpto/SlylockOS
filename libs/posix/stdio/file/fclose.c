@@ -39,7 +39,7 @@ int fclose(FILE *stream) {
 	}
 	
 	if (stream->stream == NULL) {
-		errno = EIO;
+		errno = EBADF;
 		return EOF;
 	}
 
@@ -49,7 +49,7 @@ int fclose(FILE *stream) {
 	//lets see if we have enough space on initrd
 	if (test == NULL) {
 		//nope
-		errno = ENOSPC;
+		errno = ENOMEM;
 		return EOF;
 	}
 

@@ -20,8 +20,12 @@
 */
 
 #include <stdio.h>
- 
+#include <libdebug.h>
 
 int feof(FILE *stream) {
+	if (stream == NULL) {
+		warn("feof was called with a null stream");
+		return 0;
+	}
 	return stream->eof ? 1 : 0;
 }

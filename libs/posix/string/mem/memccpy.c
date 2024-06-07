@@ -21,9 +21,14 @@
 #include <string.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <libvalidate.h>
  
 
 void *memccpy(void *restrict s1, const void *restrict s2, int c, size_t n) {
+
+	if (s1 == NULL || s2 == NULL || n == 0) {
+		return NULL;
+	}
 	
 	size_t i = 0;
 	uint8_t* p1 = (uint8_t*)s1;

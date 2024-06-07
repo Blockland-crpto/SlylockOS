@@ -32,7 +32,8 @@ extern "C" {
 	void validate_init();
 
 	bool valid_check_char(char* test, const char** valid, size_t validlen, size_t arraylen);
-	
+
+	bool valid_mem_check(void* test, size_t len);
 #if defined(__cplusplus)
 } /* extern "C" */
 #endif

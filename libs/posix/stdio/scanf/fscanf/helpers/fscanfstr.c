@@ -28,7 +28,7 @@ int fscanf_str(FILE *stream, char *result) {
 	int success = 0;
 	long offset = ftell(stream);
 	// Skip leading whitespace
-	while ((ch = fgetc(stream)) != EOF && isspace(ch)) {
+	while (((ch = fgetc(stream)) != EOF) && (isspace(ch) == 1)) {
 		offset = ftell(stream);
 		if (offset == BUFSIZ) {
 			return -1;

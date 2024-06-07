@@ -19,10 +19,14 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
+#include <libdebug.h>
 
 void clearerr(FILE *stream) {
 	if (stream == NULL || stream->node == NULL) {
+		warn("clearerr was called with a null stream or node");
 		return;
 	}
 	stream->error = 0;
+	stream->eof = 0;
+	return;
 }

@@ -25,7 +25,7 @@
 
 size_t strlen(const char *s) {
 	size_t i = 0;
-	while (s[i] != '\0' || s[i] != '\n') ++i;
-	if (i == '\0') ++i;
+	while (s[i] != '\0' && s[i] != '\n') ++i;
+	if (i == '\0' || s[i] == '\n') ++i;
 	return i;
 }

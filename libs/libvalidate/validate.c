@@ -59,3 +59,15 @@ bool valid_check_char(char* test, const char** valid, size_t validlen, size_t ar
 	//if it doesn't work
 	return false;
 }
+
+//function to validate a memory block is free
+bool valid_mem_check(void* test, size_t len) {
+	uint8_t* s = (uint8_t*)test;
+	//lets iterate through the memory 
+	for (size_t i = 0; i < len; i++) {
+		if (s[i] != '0') {
+			return false;
+		}
+	}
+	return true;
+}

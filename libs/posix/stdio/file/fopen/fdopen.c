@@ -30,6 +30,7 @@
 
 #define MAX_FILE_SIZE 4096
 
+
 extern fs_node_t* root_nodes;
 
 FILE *fdopen(int fd, const char *mode) {
@@ -67,9 +68,8 @@ FILE *fdopen(int fd, const char *mode) {
 		errno = EBADF;
 		return NULL;
 	}
-
 	
-	if (strchr(mode, 'r') != NULL) {
+	if (strcmp(mode, "r") == 0 || strcmp(mode, "rb") == 0) {
 		uint32_t sz = read_fs(node, 0, node->length, file->stream);
 		if (sz == 0xFFFFFFFF) {
 			//File does not exist 
@@ -79,7 +79,7 @@ FILE *fdopen(int fd, const char *mode) {
 		}
 		fsetpos(file, (fpos_t*)0);
 		
-	} else if (strchr(mode, 'w') != NULL) {
+	} else if (strcmp(mode, "w") == 0 || strcmp(mode, "wb") == 0) {
 		uint32_t sz = read_fs(node, 0, node->length, file->stream);
 		if (sz == 0xFFFFFFFF) {
 			//File does not exist 
@@ -93,7 +93,7 @@ FILE *fdopen(int fd, const char *mode) {
 		pos.offset = 0;
 		fsetpos(file, &pos);
 		
-	} else if (strchr(mode, 'a') != NULL) {
+	} else if (strcmp(mode, "a") == 0 || strcmp(mode, "ab") == 0) {
 		// Append to the existing file content if opened in append mode
 		uint32_t sz = read_fs(node, 0, node->length, file->stream);
 		if (sz == 0xFFFFFFFF) {
@@ -109,6 +109,36 @@ FILE *fdopen(int fd, const char *mode) {
 		pos.offset = node->length;
 		fsetpos(file, &pos);
 		
+	} else if (strcmp(mode, "r+") == 0 || strcmp(mode, "rb+") == 0 || strcmp(mode, "r+b") == 0 || strcmp(mode, "w+") == 0 || strcmp(mode, "wb+") == 0 || strcmp(mode, "w+b") == 0) {
+		uint32_t sz = read_fs(node, 0, node->length, file->stream);
+		if (sz == 0xFFFFFFFF) {
+			//File does not exist 
+			free(file->stream);
+			free(file);
+			return NULL;
+		}
+		//lets make a fpos_t
+		fpos_t pos;
+		pos.file = file;
+		pos.offset = 0;
+		fsetpos(file, &pos);
+
+	} else if (strcmp(mode, "a+") == 0 || strcmp(mode, "ab+") == 0 || strcmp(mode, "a+b") == 0) {
+		// Append to the existing file content if opened in append mode
+		uint32_t sz = read_fs(node, 0, node->length, file->stream);
+		if (sz == 0xFFFFFFFF) {
+			//File does not exist 
+			free(file->stream);
+			free(file);
+			return NULL;
+		}
+
+		//lets make a fpos_t
+		fpos_t pos;
+		pos.file = file;
+		pos.offset = node->length;
+		fsetpos(file, &pos);
+
 	} else {
 		errno = EINVAL; // Invalid mode error
 		free(file->stream);

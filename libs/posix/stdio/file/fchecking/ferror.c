@@ -20,9 +20,13 @@
 */
 
 #include <stdio.h>
- 
+#include <libdebug.h>
 
 int ferror(FILE *stream) {
+	if (stream == NULL) {
+		warn("ferror was called with a null stream");
+		return 0;
+	}
 	// Check if the error indicator is set for the stream
 	return stream->error ? 1 : 0;
 }

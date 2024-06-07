@@ -28,8 +28,9 @@ int fscanf_hex(FILE *stream, unsigned *result) {
 	int sign = 1;
 	int success = 0;
 
+	
 	// Skip leading whitespace
-	while ((ch = fgetc(stream)) != EOF && isspace(ch));
+	while ((ch = fgetc(stream)) != EOF && (isspace(ch) == 1));
 
 	// Check for sign
 	if (ch == '-') {

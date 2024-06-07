@@ -23,13 +23,13 @@
 #include <stdint.h>
 #include "rstate.h"
 
-unsigned long int rrnext = 1;
+unsigned long int* rrnext;
 extern size_t rstate_size;
 extern char* rstate;
 
 
 void srandom(unsigned seed) {
-	rrnext = seed;
+	*rrnext = seed;
 }
 
 long random(void) {

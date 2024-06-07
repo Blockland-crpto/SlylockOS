@@ -21,6 +21,7 @@
 #include <libmem.h>
 #include <libmultiboot.h>
 #include <string.h>
+//#include <libvalidate.h>
  
 
 extern int has_initialized;
@@ -55,6 +56,11 @@ __attribute__ ((malloc, alloc_size(1))) void *kalloc(long numbytes) {
 
 	if (!memory_location) {
 		sbrk(numbytes);
+		/*
+		if (!valid_mem_check(last_valid_address, (size_t)numbytes)) {
+			return NULL;
+		}
+		*/
 		memory_location = last_valid_address;
 		last_valid_address = last_valid_address + numbytes;
 		current_location_mcb = memory_location;
@@ -62,6 +68,7 @@ __attribute__ ((malloc, alloc_size(1))) void *kalloc(long numbytes) {
 		current_location_mcb->size = numbytes;
 	}
 	memory_location = memory_location + asizeof(pmcb);
+	
 	return memory_location;
 }
 

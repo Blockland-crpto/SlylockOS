@@ -27,6 +27,11 @@
 #include <libfs.h>
 
 int fgetc(FILE *stream) {
+	
+	if (stream == NULL) {
+		return EOF;
+	}
+	
 	if (strchr(stream->mode, 'r') == NULL) {
 		errno = EBADF;
 		return EOF;
@@ -40,7 +45,7 @@ int fgetc(FILE *stream) {
 	uint32_t sz = read_fs(stream->node, (uint32_t)stream->position, 1, &buf);
 
 	
-	if (sz == 0xFFFFFFFF) {
+	if (sz == 0) {
 		return EOF; //File reading error
 	}
 

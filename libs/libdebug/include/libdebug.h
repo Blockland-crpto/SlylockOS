@@ -57,7 +57,7 @@ extern "C" {
 	__attribute__((noreturn)) void panic(char* reason, enum error_codes errno);
 
 	//warn function
-	void warn(char* reason);
+	void warn(const char *format, ...);
 
 	//function to log to serial
 	int slog(const char *format, ...);

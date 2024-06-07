@@ -28,8 +28,8 @@
 
 //functions to run at exit
 extern void (*runAtExit[32])();
-extern long int rnext;
-extern unsigned long int rrnext;
+extern long int* rnext;
+extern unsigned long int *rrnext;
 extern char* cstr;
 
 //it initalizes the OSes C runtime
@@ -38,13 +38,19 @@ void libc_init() {
 	INIT(modules_libc);
 	errno_init();
 
-	rnext = (long int)kalloc(sizeof(long int));
-	rrnext = (unsigned long int)kalloc(sizeof(unsigned long int));
+	rnext = (long int*)kalloc(sizeof(long int));
+
+	if (rnext == NULL) {
+		//libc failed
+		panic("LIBC failed to get enough ram to start (rnext)", INSUFFICIENT_RAM);
+	}
+	
+	rrnext = (unsigned long int*)kalloc(sizeof(unsigned long int));
 
 	//lets see if next worked
-	if (rnext == 0 || rrnext == 0) {
+	if (rrnext == NULL) {
 		//libc failed
-		panic("LIBC failed to get enough ram to start", INSUFFICIENT_RAM);
+		panic("LIBC failed to get enough ram to start (rrnext)", INSUFFICIENT_RAM);
 	}
 	
 	stdin = (FILE*)kalloc(sizeof(FILE));

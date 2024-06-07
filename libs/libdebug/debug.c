@@ -40,11 +40,46 @@ __attribute__((noreturn)) void panic(char* reason, enum error_codes errno) {
 	while(1);
 }
 
-void warn(char* reason) {
+void warn(const char* format, ...) {
+	va_list ap;
+	va_start(ap, format);
 	putstr("[", COLOR_WHT, COLOR_BLK);
 	putstr("WARN", COLOR_YEL, COLOR_BLK);
 	putstr("]: ", COLOR_WHT, COLOR_BLK);
-	putstr(reason, COLOR_WHT, COLOR_BLK);
+	const char *ptr = format;
+	int len = 0;
+	while(*ptr) {
+		if (*ptr == '%') {
+			ptr++;
+			int num;
+			char* str;
+			switch (*ptr++) {
+				case 's': {
+					kprintf(va_arg(ap, const char *));
+					break;
+				} case 'd': {
+					num = va_arg(ap, int);
+					char* buf = kalloc(num);
+					str = itoa(num, buf, 10);
+					kprintf(str);
+					kfree(buf);
+					break;
+				} case 'x':
+					num = va_arg(ap, int);
+					char* buf = kalloc(num);
+					str = itoa(num, buf, 16);
+					kprintf(str);
+					kfree(buf);
+					break;
+				default: {
+					return;
+				}
+			}
+		} else {
+			kprintc(*ptr++);
+		}
+		len++;
+	}
 }
 
 //function to log info to serial console

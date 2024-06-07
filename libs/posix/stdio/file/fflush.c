@@ -19,17 +19,18 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include <stddef.h>
 #include <errno.h>
- 
 #include <libfs.h>
 
 int fflush(FILE *stream) {
+	if (stream == NULL) {
+		errno = EBADF;
+		return EOF;
+	}
 	uint8_t* buff = stream->stream;
-	uint32_t size = (strlen((const char*)buff) * sizeof(char));
+	uint32_t size = strlen((const char*)buff);
 	if (!stream->node->length) {
 		errno = EBADF;
 		return EOF;
