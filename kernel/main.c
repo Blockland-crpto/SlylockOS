@@ -20,7 +20,6 @@
 */
 //Slylock OS Kernel
 
-
 #include <kernel/irq.h>
 #include <kernel/gdt.h>
 #include <kernel/idt.h>
@@ -93,7 +92,7 @@ int kmain(multiboot_info_t* mb_info, uint32_t magic){
   	irq_install();
 
 	acpi_init();
-
+	
 	pic_init();
 	
 	apic_init();

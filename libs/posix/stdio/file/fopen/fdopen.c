@@ -27,123 +27,91 @@
 #include <libproc.h>
 #include <libfs.h>
 #include <libinitrd.h>
+#include <libdebug.h>
 
 #define MAX_FILE_SIZE 4096
 
+#define fdopen_exit_prep() \
+		free(file->stream); \
+		free(file);
+
+#define fdopen_file_check(sz) \
+		if (!sz) { \
+			fdopen_exit_prep(); \
+			errnoset(EBADF, "attempted to open a non existent file", NULL); \
+		}
 
 extern fs_node_t* root_nodes;
+
 
 FILE *fdopen(int fd, const char *mode) {
 
 	//lets check if the process is allowed to
 	if (task_queue[0].file_stream_allocations_used == FOPEN_MAX) {
 		//if its used then we cant open any more
-		errno = EMFILE;
-		return NULL;
+		errnoset(EMFILE, "process attempted to access more file streams then allowed", NULL);
 	}
 	
 	FILE *file = (FILE *)malloc(sizeof(FILE));
-	if (file == NULL) {
+	if (!file) {
 		// Out of memory error
-		errno = ENOMEM;
-		return NULL;
+		errnoset(ENOMEM, "Not enought memory to create FILE", NULL);
 	}
 
 	file->stream = (uint8_t*)malloc(MAX_FILE_SIZE); // Allocate buffer for file content
-	if (file->stream == NULL) {
+	if (!file->stream) {
 		// Out of memory error
-		errno = ENOMEM;
 		free(file);
-		return NULL;
+		errnoset(ENOMEM, "Not enought memory to allocate a stream", NULL);
 	}
 
 	fs_node_t* node = (fs_node_t*)malloc(sizeof(fs_node_t));
 	
 	node = &root_nodes[fd];
 	
-	if (node->inode == 0) {
+	if (!node->inode) {
 		// Invalid file descriptor error
-		free(file->stream);
-		free(file);
-		errno = EBADF;
-		return NULL;
+		fdopen_exit_prep();
+		errnoset(EBADF, "Invalid file descriptor", NULL);
 	}
 	
-	if (strcmp(mode, "r") == 0 || strcmp(mode, "rb") == 0) {
+	if (!strcmp(mode, "r") || !strcmp(mode, "rb")) {
 		uint32_t sz = read_fs(node, 0, node->length, file->stream);
-		if (sz == 0xFFFFFFFF) {
-			//File does not exist 
-			free(file->stream);
-			free(file);
-			return NULL;
-		}
+		fdopen_file_check(sz);
 		fsetpos(file, (fpos_t*)0);
-		
-	} else if (strcmp(mode, "w") == 0 || strcmp(mode, "wb") == 0) {
+	} else if (!strcmp(mode, "w") || !strcmp(mode, "wb")) {
 		uint32_t sz = read_fs(node, 0, node->length, file->stream);
-		if (sz == 0xFFFFFFFF) {
-			//File does not exist 
-			free(file->stream);
-			free(file);
-			return NULL;
-		}
+		fdopen_file_check(sz);
 		//lets make a fpos_t
-		fpos_t pos;
-		pos.file = file;
-		pos.offset = 0;
+		fpos_t pos = { .file = file, .offset = 0 };
 		fsetpos(file, &pos);
-		
-	} else if (strcmp(mode, "a") == 0 || strcmp(mode, "ab") == 0) {
+	} else if (!strcmp(mode, "a") || !strcmp(mode, "ab")) {
 		// Append to the existing file content if opened in append mode
 		uint32_t sz = read_fs(node, 0, node->length, file->stream);
-		if (sz == 0xFFFFFFFF) {
-			//File does not exist 
-			free(file->stream);
-			free(file);
-			return NULL;
-		}
-
+		fdopen_file_check(sz);
 		//lets make a fpos_t
-		fpos_t pos;
-		pos.file = file;
-		pos.offset = node->length;
+		fpos_t pos = {.file = file, .offset = node->length};
 		fsetpos(file, &pos);
 		
-	} else if (strcmp(mode, "r+") == 0 || strcmp(mode, "rb+") == 0 || strcmp(mode, "r+b") == 0 || strcmp(mode, "w+") == 0 || strcmp(mode, "wb+") == 0 || strcmp(mode, "w+b") == 0) {
+	} else if (!strcmp(mode, "r+") || !strcmp(mode, "rb+") || !strcmp(mode, "r+b") || !strcmp(mode, "w+") || !strcmp(mode, "wb+") || !strcmp(mode, "w+b")) {
 		uint32_t sz = read_fs(node, 0, node->length, file->stream);
-		if (sz == 0xFFFFFFFF) {
-			//File does not exist 
-			free(file->stream);
-			free(file);
-			return NULL;
-		}
+		fdopen_file_check(sz);
 		//lets make a fpos_t
-		fpos_t pos;
-		pos.file = file;
-		pos.offset = 0;
+		fpos_t pos = { .file = file, .offset = 0 };
 		fsetpos(file, &pos);
 
-	} else if (strcmp(mode, "a+") == 0 || strcmp(mode, "ab+") == 0 || strcmp(mode, "a+b") == 0) {
+	} else if (!strcmp(mode, "a+") || !strcmp(mode, "ab+") || !strcmp(mode, "a+b")) {
 		// Append to the existing file content if opened in append mode
 		uint32_t sz = read_fs(node, 0, node->length, file->stream);
-		if (sz == 0xFFFFFFFF) {
-			//File does not exist 
-			free(file->stream);
-			free(file);
-			return NULL;
-		}
-
+		fdopen_file_check(sz);
 		//lets make a fpos_t
-		fpos_t pos;
-		pos.file = file;
-		pos.offset = node->length;
+		fpos_t pos = { .file = file, .offset = node->length };
 		fsetpos(file, &pos);
 
 	} else {
-		errno = EINVAL; // Invalid mode error
-		free(file->stream);
-		free(file);
-		return NULL;
+		// Invalid mode error
+		fdopen_exit_prep();
+		errnoset(EINVAL, "recieved a weird mode", NULL);
 	}
 
 	file->name = node->name;

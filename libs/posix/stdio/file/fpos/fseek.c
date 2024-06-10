@@ -19,30 +19,38 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
- 
+#include <libdebug.h>
 
 int fseek(FILE *stream, long offset, int whence) {
 	if (stream == NULL) {
 		//throw error, invalid stream
+		dlog("invalid stream for fseek");
 		return 1;
 	}
+
+	//lets try to lock it
+	flockfile(stream);
+	
 	switch (whence) {
 		case SEEK_SET:
 			//set the position to the offsetq
 			stream->position = offset;
-			return 0;
+			break;
 		case SEEK_CUR:
 			//set the position to the current position + offset
 			stream->position += offset;
-			return 0;
+			break;
 		case SEEK_END:
 			//set the position to the end of offset
 			stream->position = stream->length - offset;
-			return 0;
+			break;
 		default:
 			//oops, invalid whence
+			dlog("Invalid whence for fseek");
+			funlockfile(stream);
 			return 1;
 	}
 
-	return 1;
+	funlockfile(stream);
+	return 0;
 }

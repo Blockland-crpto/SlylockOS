@@ -25,7 +25,7 @@
 
 //todo: add more
 int system(const char* command) {
-	if (strcmp(command, "hello") != 0) {
+	if (strcmp(command, "hello") == 0) {
 		//lets spawn hello
 		 proc_create(cmd_hello, PROC_PRIORITY_NORMAL, CURRENT_PROC_ID);
 	}

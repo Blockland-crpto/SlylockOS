@@ -19,8 +19,17 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
- 
+#include <errno.h>
 
 long ftell(FILE *stream) {
+	if (stream == NULL) {
+		//null stream
+		errnoset(EBADF, "got a null stream", -1);
+	}
+	if (stream->position > BUFSIZ) {
+		//cant fit
+		errnoset(EOVERFLOW, "stream position is too big", -1);
+	}
+	
 	return stream->position;
 }

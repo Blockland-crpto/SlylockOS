@@ -20,7 +20,7 @@
 */
 #include <stdio.h>
 #include <libfs.h>
-
+#include <libdebug.h>
 
 FILE *fopen(const char *filename, const char *mode) {
 	fs_node_t *fsnode = finddir_fs(fs_root, filename);	

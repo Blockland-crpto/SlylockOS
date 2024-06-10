@@ -28,17 +28,12 @@
 
 int fgetc(FILE *stream) {
 	
-	if (stream == NULL) {
-		return EOF;
-	}
-	
-	if (strchr(stream->mode, 'r') == NULL) {
-		errno = EBADF;
-		return EOF;
+	if (stream == NULL || strchr(stream->mode, 'r') == NULL || strchr(stream->mode, '+') == NULL) {
+		errnoset(EBADF, "got a bad stream", EOF);
 	}
 
 	if ((uint32_t)stream->position >= stream->node->length) {
-		return EOF; // End of file
+		errnoset(EOVERFLOW, "attempted stream overflow", EOF); // End of file
 	}
 	
 	uint8_t buf;
@@ -46,7 +41,7 @@ int fgetc(FILE *stream) {
 
 	
 	if (sz == 0) {
-		return EOF; //File reading error
+		errnoset(EIO, "bad file read", EOF); //File reading error
 	}
 
 	stream->position++;

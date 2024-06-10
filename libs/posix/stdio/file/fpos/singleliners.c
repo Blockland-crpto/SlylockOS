@@ -19,11 +19,16 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
- 
+#include <errno.h>
+
+int fseeko(FILE *stream, off_t offset, int whence) {
+	return fseek(stream, (long)offset, whence);
+}
+
+int fsetpos(FILE *stream, const fpos_t *pos) {
+	return fseek(stream, pos->offset, SEEK_SET);
+}
 
 off_t ftello(FILE *stream) {
-	off_t offset = stream->position;
-	return offset;
+	return ftell(stream);
 }

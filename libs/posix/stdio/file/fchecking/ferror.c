@@ -24,9 +24,18 @@
 
 int ferror(FILE *stream) {
 	if (stream == NULL) {
-		warn("ferror was called with a null stream");
+		dlog("stream is null");
 		return 0;
 	}
+	//lets obtain the file
+	flockfile(stream);
+	
 	// Check if the error indicator is set for the stream
-	return stream->error ? 1 : 0;
+	int errind = stream->error ? 1 : 0;
+
+	//lets unlock the file
+	funlockfile(stream);
+
+	//return it
+	return errind;
 }

@@ -36,6 +36,7 @@ char *fgets(char *restrict s, int n, FILE *restrict stream) {
 	}
 
 	if (i == 0 && c == EOF) {
+		stream->eof = 1;
 		return NULL; // No characters read and EOF reached
 	}
 

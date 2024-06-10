@@ -180,7 +180,7 @@ extern "C" {
 	*/
 	//todo: the compiler loves to b*tch about the pointers
 	//so i need to fix that
-	fs_node_t *initrd_finddir(const char *name);
+	fs_node_t *initrd_find(const char *name);
 
 	// Initialises the initial ramdisk. It gets passed the address of the multiboot module,
 	// and returns a completed filesystem node.

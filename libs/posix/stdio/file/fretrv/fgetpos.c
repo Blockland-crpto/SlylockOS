@@ -25,8 +25,10 @@
 
 int fgetpos(FILE *restrict stream, fpos_t *restrict pos) {
 	if (stream == NULL || stream->node == NULL) {
-		errno = EBADF;
-		return 1; // Invalid stream
+		errnoset(EBADF, "bad stream", 1); // Invalid stream
+	}
+	if (sizeof(stream->position) > sizeof(size_t)) {
+		errnoset(EOVERFLOW, "attempted over flow", 1); // Overflow
 	}
 	pos->offset = stream->position;
 	pos->file = stream;

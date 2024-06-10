@@ -27,16 +27,20 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <errno.h>
 
 
-__attribute__((noreturn)) void panic(char* reason, enum error_codes errno) {
-	char buf[256];
+__attribute__((noreturn)) void panic(char* reason, enum error_codes serrno) {
+	char buf[128];
+	char buf2[128];
 	color_screen(3, 3);
 	putstr("KERNEL PANIC HAS OCCURED.\n", COLOR_WHT, COLOR_GRN);
 	putstr("ERROR CODE: 0x", COLOR_LBU, COLOR_GRN);
-	putstr(itoa(errno, buf, 10), COLOR_LBU, COLOR_GRN);
+	putstr(itoa(serrno, buf, 10), COLOR_LBU, COLOR_GRN);
 	putstr("\nREASON: ", COLOR_WHT, COLOR_GRN);
 	putstr(reason, COLOR_LBU, COLOR_GRN);
+	putstr("\nLIBC ERRNO: ", COLOR_WHT, COLOR_GRN);
+	putstr(itoa(errno, buf2, 10), COLOR_WHT, COLOR_GRN);
 	while(1);
 }
 

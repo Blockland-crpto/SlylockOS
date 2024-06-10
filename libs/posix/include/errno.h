@@ -21,6 +21,15 @@
 #ifndef __ERRNO_H
 #define __ERRNO_H
 
+#include <libdebug.h>
+
+//slylock only feature
+#define errnoset(erno, msg, ret) \
+	dlog(msg); \
+	errno = erno; \
+	return ret;
+
+#define EACCES 1
 #define EDOM 2
 #define EILSEQ 3
 #define ERANGE 4
@@ -32,6 +41,12 @@
 #define ENOSPC 10
 #define ENOMEM 11
 #define EMFILE 12
+#define EOVERFLOW 13
+#define EISDIR 14
+#define ENAMETOOLONG 15
+#define ENFILE 16
+#define ENOENT 17
+#define ENOTDIR 18
 
 int errno;
 

@@ -21,12 +21,17 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdbool.h>
- 
+#include <libdebug.h>
 
 void flockfile(FILE *file) {
 	if (file != NULL) {
 		if (!file->locked) {
 			file->locked = true;
+		} else {
+			//we tried to get a locked file
+			dlog("tried to get a locked file");
 		}
+	} else {
+		dlog("file is null");
 	}
 }

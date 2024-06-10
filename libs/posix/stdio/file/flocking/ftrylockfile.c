@@ -20,9 +20,13 @@
 */
 #include <stdio.h>
 #include <stdbool.h>
- 
+#include <libdebug.h>
 
 int ftrylockfile(FILE *file) {
+	if (file == NULL) {
+		dlog("file is null");
+		return 1;
+	}
 	if (!file->locked) {
 		file->locked = true;
 		return 0;

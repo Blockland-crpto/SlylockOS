@@ -20,8 +20,12 @@
 */
 #include <stdio.h>
 #include <stdbool.h>
- 
+#include <libdebug.h>
 
 void funlockfile(FILE *file) {
+	if (file == NULL) {
+		dlog("file is null");
+		return;
+	}
 	file->locked = false;
 }

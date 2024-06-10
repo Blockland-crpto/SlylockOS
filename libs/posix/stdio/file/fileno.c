@@ -19,11 +19,13 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
+#include <errno.h>
 #include <libfs.h>
  
 
 int fileno(FILE* stream) {
-	if (stream == NULL) {
+	if (stream == NULL || stream->node == NULL) {
+		errno = EBADF;
 		return -1;
 	}
 	return (int)stream->node->inode;

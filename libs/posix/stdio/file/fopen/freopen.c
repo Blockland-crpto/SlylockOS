@@ -21,12 +21,68 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
- 
+#include <errno.h>
+#include <string.h>
+#include <ctype.h>
+#include <libdebug.h>
+#include <libfs.h>
+#include <libinitrd.h>
 
 //add error handling
 FILE *freopen(const char *restrict pathname, const char *restrict mode, FILE *restrict stream) {
 	if (stream == NULL) {
-		return NULL;
+		errnoset(EBADF, "stream is null", NULL);
+	}
+
+	if (!strcmp("sys", pathname) || !strcmp("tmp", pathname)) {
+		errnoset(EACCES, "attempted to open /sys or /tmp", NULL);
+	}
+
+	if (stream->node->flags == FS_DIRECTORY) {
+		if (strchr(mode, 'w') != NULL || strchr(mode, 'a') != NULL || strchr(mode, '+') != NULL) {
+			//uh oh can't write on a directory
+			errnoset(EISDIR, "attemped to get write access to a directory", NULL);
+		}
+	}
+
+	if (task_queue[0].file_stream_allocations_used >= FOPEN_MAX) {
+		//to many files
+		errnoset(EMFILE, "process cant open anymore files", NULL);
+	}
+
+	if (strlen(pathname) > FILENAME_MAX) {
+		//pathname too long
+		errnoset(ENAMETOOLONG, "pathname is too long", NULL);
+	}
+
+	if (task_queue[0].file_stream_allocations_used == (FOPEN_MAX - 3)) {
+		//to many files for system
+		errnoset(ENFILE, "system cant open anymore files", NULL);
+	}
+
+	if (pathname == NULL || initrd_find(pathname) == NULL) {
+		//pathname is non exisitent
+		errnoset(ENOENT, "pathname is non exsistent", NULL);
+	}
+
+	if (strrchr(pathname, '/') != NULL) {
+		//lets iterate through the path name to see if theres a alpha numerical character
+		bool nonslash_char = false;
+		for (size_t i = 0; i < strlen(pathname); i++) {
+			if (isalnum(pathname[i]) == 1) {
+				nonslash_char = true;
+			}
+		}
+		if (nonslash_char) {
+			//we need to check if this is a actual file
+			if (initrd_find(pathname)->flags != FS_FILE) {
+				//this is not a file
+				errnoset(ENOENT, "pathname has trailing slashes", NULL);
+			} else if (initrd_find(pathname)->flags != FS_DIRECTORY) {
+				//this is not a directory
+				errnoset(ENOTDIR, "pathname has trailing slashes and is not a directory", NULL);
+			}
+		}
 	}
 	
 	int result = fflush(stream);
@@ -47,7 +103,17 @@ FILE *freopen(const char *restrict pathname, const char *restrict mode, FILE *re
 		FILE* newstream = fopen(pathname, mode);
 		
 		if (newstream == NULL) {
-			return NULL;
+			//lets check errno
+			if (errno == ENOMEM) {
+				// no space
+				errnoset(ENOSPC, "no space for new file", NULL);
+			}
+			
+		}
+
+		if (newstream->node->length > SIZE_MAX) {
+			//file too big
+			errnoset(EOVERFLOW, "new stream file length to big for off_t", NULL);
 		}
 		
 		return newstream;

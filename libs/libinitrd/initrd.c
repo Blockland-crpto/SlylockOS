@@ -149,7 +149,7 @@ void initrd_create_dir(char *name) {
 	root_nodes[nroot_nodes].write = 0;
 	root_nodes[nroot_nodes].rename = &initrd_rename_dir;
 	root_nodes[nroot_nodes].readdir = &initrd_readdir;
-	root_nodes[nroot_nodes].finddir = &initrd_finddir;
+	root_nodes[nroot_nodes].finddir = &initrd_find;
 	root_nodes[nroot_nodes].open = 0;
 	root_nodes[nroot_nodes].close = 0;
 	root_nodes[nroot_nodes].impl = 0;
@@ -224,7 +224,7 @@ struct dirent *initrd_readdir(fs_node_t *node, uint32_t index) {
    	return &dirent;
 }
 
-fs_node_t* initrd_finddir(const char *name) {
+fs_node_t* initrd_find(const char *name) {
    	for (int i = 0; i < nroot_nodes; i++)
        	if (!strcmp(name, root_nodes[i].name))
            	return &root_nodes[i];
@@ -249,7 +249,7 @@ fs_node_t *initialise_initrd(uint32_t location) {
    	initrd_root->open = 0;
    	initrd_root->close = 0;
    	initrd_root->readdir = &initrd_readdir;
-   	initrd_root->finddir = &initrd_finddir;
+   	initrd_root->finddir = &initrd_find;
    	initrd_root->ptr = 0;
    	initrd_root->impl = 0; 
    	
@@ -263,7 +263,7 @@ fs_node_t *initialise_initrd(uint32_t location) {
    	initrd_dev->open = 0;
    	initrd_dev->close = 0;
    	initrd_dev->readdir = &initrd_readdir;
-   	initrd_dev->finddir = &initrd_finddir;
+   	initrd_dev->finddir = &initrd_find;
    	initrd_dev->ptr = 0;
    	initrd_dev->impl = 0; 
    	root_nodes = (fs_node_t*)kalloc(sizeof(fs_node_t) * initrd_header->nfiles);

@@ -57,7 +57,6 @@
 #define putchar(c) putc(c, stdout)
 #define putchar_unlocked(c) putc_unlocked(c, stdout) 
 
-
 //redefinitons as POSIX demands
 #define NULL ((void*)0)
 

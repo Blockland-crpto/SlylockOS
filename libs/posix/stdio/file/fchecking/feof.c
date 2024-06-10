@@ -24,8 +24,18 @@
 
 int feof(FILE *stream) {
 	if (stream == NULL) {
-		warn("feof was called with a null stream");
+		dlog("stream is null");
 		return 0;
 	}
-	return stream->eof ? 1 : 0;
+	//lets obtain the file
+	flockfile(stream);
+
+	// Check if the error indicator is set for the stream
+	int eofind = stream->eof ? 1 : 0;
+
+	//lets unlock the file
+	funlockfile(stream);
+
+	//return it
+	return eofind;
 }
