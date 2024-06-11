@@ -32,14 +32,14 @@
 #define MAX_FILE_SIZE 4096
 
 #define fdopen_exit_prep() \
-		free(file->stream); \
-		free(file);
+		do {free(file->stream); \
+		free(file);}while(0)
 
 #define fdopen_file_check(sz) \
-		if (!sz) { \
+		do { if (!sz) { \
 			fdopen_exit_prep(); \
 			errnoset(EBADF, "attempted to open a non existent file", NULL); \
-		}
+		}} while(0)
 
 extern fs_node_t* root_nodes;
 

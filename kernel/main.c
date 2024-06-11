@@ -49,8 +49,8 @@
 #include <libtimer.h>
 #include <libvalidate.h>
 #include <libvga.h>
-
 #include <libc.h>
+#include <libcpp.h>
 
 #define MB_MAGIC 0x1BADB002
 
@@ -64,6 +64,7 @@ __attribute__ ((constructor)) void init_kernel() {
 	kalloc_init();
 	filesystem_init();
 	libc_init();
+	stdcpp_init();
 	set_cursor_pos(0,0);
 	clear(COLOR_WHT, COLOR_BLK);
 	return;

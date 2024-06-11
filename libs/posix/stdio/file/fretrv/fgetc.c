@@ -19,10 +19,7 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
-#include <stddef.h>
 #include <errno.h>
 #include <libfs.h>
 
@@ -45,6 +42,7 @@ int fgetc(FILE *stream) {
 	}
 
 	stream->position++;
+	
 	return (int)buf; 
 	
 }

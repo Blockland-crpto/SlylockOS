@@ -31,7 +31,8 @@ export headers=$(echo "-I./kernel/include
 						-I./libs/libtimer/include
 						-I./libs/libvalidate/include
 						-I./libs/libvga/include
-						-I./libs/posix/include")
+						-I./libs/posix/include
+						-I./libs/stdcpp/include")
 export debug=$(echo "-DDEBUG -Wextra -Wstack-protector -fanalyzer")
 export security=$(echo "-fstack-protector-all -fstack-clash-protection")
 export optimize=$(echo "-Og -g -Wstack-usage=400")
@@ -67,6 +68,7 @@ export optimize=$(echo "-Og -g -Wstack-usage=400")
 ./build/libvalidate_build.sh
 ./build/libvga_build.sh
 ./build/posix_build.sh
+./build/stdcpp_build.sh
 
 csources=$(find ./kernel/modules/* -type f -name "*.c")
 

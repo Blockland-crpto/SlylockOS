@@ -18,17 +18,12 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdio.h>
-#include <libdebug.h>
 
-void clearerr(FILE *stream) {
-	flockfile(stream);
-	if (stream == NULL || stream->node == NULL) {
-		warn("clearerr was called with a null stream or node");
-		return;
-	}
-	stream->error = 0;
-	stream->eof = 0;
-	funlockfile(stream);
-	return;
+#include <libmodule.h>
+#include <libcpp.h>
+
+void stdcpp_init() {
+	module_t modules_libcpp = MODULE("kernel.modules.libcpp", "Defines the C++ standard.");
+	INIT(modules_libcpp);
+	DONE(modules_libcpp);
 }

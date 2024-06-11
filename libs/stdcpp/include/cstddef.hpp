@@ -18,17 +18,9 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdio.h>
-#include <libdebug.h>
 
-void clearerr(FILE *stream) {
-	flockfile(stream);
-	if (stream == NULL || stream->node == NULL) {
-		warn("clearerr was called with a null stream or node");
-		return;
-	}
-	stream->error = 0;
-	stream->eof = 0;
-	funlockfile(stream);
-	return;
-}
+
+namespace std {
+	using ptrdiff_t = int;
+	using size_t = unsigned int;
+};

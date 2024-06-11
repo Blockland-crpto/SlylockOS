@@ -30,6 +30,11 @@ long ftell(FILE *stream) {
 		//cant fit
 		errnoset(EOVERFLOW, "stream position is too big", -1);
 	}
+
+	//lets lock it
+	flockfile(stream);
+	long sp = stream->position;
+	funlockfile(stream);
 	
-	return stream->position;
+	return sp;
 }

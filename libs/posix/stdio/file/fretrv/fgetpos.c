@@ -30,7 +30,10 @@ int fgetpos(FILE *restrict stream, fpos_t *restrict pos) {
 	if (sizeof(stream->position) > sizeof(size_t)) {
 		errnoset(EOVERFLOW, "attempted over flow", 1); // Overflow
 	}
+	//lets try to lock it
+	flockfile(stream);
 	pos->offset = stream->position;
 	pos->file = stream;
+	funlockfile(stream);
 	return 0;
 }

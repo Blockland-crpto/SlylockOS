@@ -21,9 +21,7 @@
 #ifndef __STDIO_H
 #define __STDIO_H
 
-#include <stdint.h>
 #include <stddef.h>
-#include <stdbool.h>
 #include <stdarg.h>
 #include <libfs.h>
 #include <stdint.h>
