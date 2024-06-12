@@ -5,6 +5,7 @@ SlylockOS is a Operating system designed to have efficenticy and security at its
 - input validation must take place as much as possible
 - stack protection is to be used as much as possible
 - security must also be compact to the utmost extent without compromise
+- 
 
 more are going to be added soon
 thanks Alex Herbert

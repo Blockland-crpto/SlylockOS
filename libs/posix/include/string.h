@@ -28,6 +28,7 @@
 
 #if defined(__cplusplus)
 extern "C" {
+	#define restrict __restrict__
 #endif
 
 	//memccpy implementation

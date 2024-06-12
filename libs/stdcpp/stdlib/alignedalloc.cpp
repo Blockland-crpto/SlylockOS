@@ -19,13 +19,15 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <cstdlib.hpp>
+#include <cstddef.hpp>
+#include <stdlib.h>
 
-namespace std {
-	using ptrdiff_t = int;
-	using size_t = unsigned int;
-	using nullptr_t = decltype(nullptr);
-
-	enum class byte : unsigned char {};
-};
-
-typedef std::size_t size_t;
+void* std::aligned_alloc(size_t alignment, size_t size) {
+	void* addr;
+	int result = posix_memalign(&addr, alignment, size);
+	if (result != 0) {
+		return nullptr;
+	}
+	return addr;
+}

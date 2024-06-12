@@ -18,14 +18,14 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+#include <new.hpp>
+#include <string.h>
+#include <stdlib.h>
 
+void operator delete(void* ptr, size_t sz) noexcept {
+	free(ptr);
+}
 
-namespace std {
-	using ptrdiff_t = int;
-	using size_t = unsigned int;
-	using nullptr_t = decltype(nullptr);
-
-	enum class byte : unsigned char {};
-};
-
-typedef std::size_t size_t;
+void operator delete [](void* ptr, size_t sz) noexcept {
+	free(ptr);
+}

@@ -23,6 +23,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 int strncasecmp_l(const char *s1, const char *s2, size_t n, locale_t locale) {	
 	printf(locale);

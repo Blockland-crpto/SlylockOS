@@ -26,7 +26,6 @@
 #include <libfs.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <sys/types.h>
 
 #define BUFSIZ 1024
 

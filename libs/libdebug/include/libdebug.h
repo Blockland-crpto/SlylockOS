@@ -31,40 +31,40 @@
 #ifndef __LIBDEBUG_H
 #define __LIBDEBUG_H
 
-#ifdef DEBUG 
-	#define dlog(msg) slog("At line %d, at file %s:[%s]: %s \n", __LINE__, __FILE__, __func__, msg)
-#else
-	#define dlog(msg) ()
-#endif 
 
-
-		
-
-enum error_codes {
-	INSUFFICIENT_RAM = 1,
-	UNKNOWN = 2,
-	MEMORY_MAP_INVALID = 3,
-	USER_CREATED_PANIC = 4,
-	ACPI_ERROR = 5,
-	ACPI_DSDT_ERROR = 6,
-	VIDEO_RETRIV_ERROR = 7,
-	APP_ERROR = 8,
-	SSP_ERROR = 9,
- 	SSP_LOCAL_ERROR = 10,
-	TASK_MAX = 11,
-	DELEGATE_ERROR = 12,
-	DEVMGR_ERROR = 13,
-	INT_ERROR = 14,
-	PROC_RET_INVALID = 15,
-#ifdef DEBUG
-	debug = 16,
-#endif
-};
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
+	#ifdef DEBUG 
+		#define dlog(msg) slog("At line %d, at file %s:[%s]: %s \n", __LINE__, __FILE__, __func__, msg)
+	#else
+		#define dlog(msg) ()
+	#endif 
+
+	enum error_codes {
+		INSUFFICIENT_RAM = 1,
+		UNKNOWN = 2,
+		MEMORY_MAP_INVALID = 3,
+		USER_CREATED_PANIC = 4,
+		ACPI_ERROR = 5,
+		ACPI_DSDT_ERROR = 6,
+		VIDEO_RETRIV_ERROR = 7,
+		APP_ERROR = 8,
+		SSP_ERROR = 9,
+		SSP_LOCAL_ERROR = 10,
+		TASK_MAX = 11,
+		DELEGATE_ERROR = 12,
+		DEVMGR_ERROR = 13,
+		INT_ERROR = 14,
+		PROC_RET_INVALID = 15,
+	#ifdef DEBUG
+		debug = 16,
+	#endif
+		UNCAUGHT_ERROR = 17,
+	};
+	
 	//panic function
 	__attribute__((noreturn)) void panic(char* reason, enum error_codes errno);
 

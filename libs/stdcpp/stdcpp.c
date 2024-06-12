@@ -22,6 +22,7 @@
 #include <libmodule.h>
 #include <libcpp.h>
 
+
 void stdcpp_init() {
 	module_t modules_libcpp = MODULE("kernel.modules.libcpp", "Defines the C++ standard.");
 	INIT(modules_libcpp);

@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
- 
+#include <libproc.h>
 
 char* getenv(const char *name) {
 	int i;

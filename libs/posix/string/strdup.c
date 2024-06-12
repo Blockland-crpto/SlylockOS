@@ -38,6 +38,7 @@
 #include <string.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 char* strdup(const char* s) {
 	static bool reuse;

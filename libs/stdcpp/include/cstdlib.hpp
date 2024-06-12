@@ -18,14 +18,22 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+#ifndef __CSTDLIB_HPP__
+#define __CSTDLIB_HPP__
 
+#include <stdlib.h>
 
 namespace std {
-	using ptrdiff_t = int;
-	using size_t = unsigned int;
-	using nullptr_t = decltype(nullptr);
+	using size_t = size_t;
+	using div_t = div_t;
+	using ldiv_t = ldiv_t;
+	using lldiv_t = lldiv_t;
+	void* aligned_alloc(size_t alignment, size_t size);
+	void quick_exit(int status);
+	int at_quick_exit(void (*func)(void));
+	
+}
 
-	enum class byte : unsigned char {};
-};
 
-typedef std::size_t size_t;
+
+#endif

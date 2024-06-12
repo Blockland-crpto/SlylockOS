@@ -27,6 +27,7 @@
 #include <libdebug.h>
 #include <libfs.h>
 #include <libinitrd.h>
+#include <libproc.h>
 
 //add error handling
 FILE *freopen(const char *restrict pathname, const char *restrict mode, FILE *restrict stream) {

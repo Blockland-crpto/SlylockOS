@@ -21,11 +21,8 @@
 #ifndef __STDLIB_H
 #define __STDLIB_H
 
-#include <libfs.h>
-#include <sys/wait.h>
 #include <stdint.h>
 #include <stddef.h>
-#include <libproc.h>
 
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
@@ -44,6 +41,7 @@
 
 #if defined(__cplusplus)
 extern "C" {
+	#define restrict __restrict__
 #endif
 
 	typedef struct {

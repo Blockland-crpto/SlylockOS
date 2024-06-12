@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <libproc.h>
 
 int unsetenv(const char *name) {
 	for (int i = 0; i < MAX_ENVS; i++) {

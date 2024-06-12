@@ -18,14 +18,16 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
+#include <cstdlib.hpp>
+#include <stdlib.h>
 
+extern void (*runAtQuickExit[32])();
+extern int registered_quick_Functions;
 
-namespace std {
-	using ptrdiff_t = int;
-	using size_t = unsigned int;
-	using nullptr_t = decltype(nullptr);
-
-	enum class byte : unsigned char {};
-};
-
-typedef std::size_t size_t;
+void std::quick_exit(int status) {
+	for (int i = registered_quick_Functions; i >= 0; i--) {
+		void (*func)() = runAtQuickExit[i];
+		func();
+	}
+	_Exit(status);
+}
