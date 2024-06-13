@@ -23,11 +23,11 @@
 #include <stdarg.h>
  
 
-int snprintf(char *restrict s, size_t size, const char *restrict template, ...) {
+int snprintf(char *restrict s, size_t size, const char *restrict temp, ...) {
 	va_list ap;
-	va_start(ap, template);
+	va_start(ap, temp);
 
-	const char *ptr = template;
+	const char *ptr = temp;
 	int len = 0;
 	while (*ptr && (unsigned)len <= size) {
 		if (*ptr == '%') {

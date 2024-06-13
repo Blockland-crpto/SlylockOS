@@ -59,6 +59,7 @@
 
 #if defined(__cplusplus)
 extern "C" {
+	#define restrict __restrict__
 #endif
 	
 	//the file structure
@@ -227,10 +228,10 @@ extern "C" {
 	int setvbuf(FILE *restrict stream, char *restrict buf, int type);
 
 	//snprintf implementation
-	int snprintf(char *restrict s, size_t size, const char *restrict template, ...);
+	int snprintf(char *restrict s, size_t size, const char *restrict temp, ...);
 
 	//sprintf implementation
-	int sprintf(char *restrict s, const char *restrict template, ...);
+	int sprintf(char *restrict s, const char *restrict temp, ...);
 
 	//sscanf implementation
 	int sscanf(const char *restrict str, const char *restrict format, ...);
@@ -263,10 +264,10 @@ extern "C" {
 	int vscanf(const char *restrict format, va_list args);
 
 	//vsnprintf implementation
-	int vsnprintf(char *restrict s, size_t size, const char *restrict template, va_list ap);
+	int vsnprintf(char *restrict s, size_t size, const char *restrict temp, va_list ap);
 
 	//vsprintf implementation
-	int vsprintf(char *restrict s, const char *restrict template, va_list ap);
+	int vsprintf(char *restrict s, const char *restrict temp, va_list ap);
 
 	//vsscanf implementation
 	int vsscanf(const char *restrict str, const char *restrict format, va_list args);

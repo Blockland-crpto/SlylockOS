@@ -1,3 +1,4 @@
+
 mkdir lib
 export headers=$(echo "-I./kernel/include
 						-I./libs/libacpi/include
@@ -104,7 +105,7 @@ for i in $(seq 1 $endp); do
 tap=$(echo ./bin/$(basename $(echo $cppobjects | cut -d" " -f$i )))
 tbp=$(echo $cppsources | cut -d" " -f$i)
 objbp="${objbp} ${tap}"
-g++ -m32 -elf_i386 $optimize $headers -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -fpermissive -fstack-protector-all -c -o $tap $tbp
+g++ -m32 -elf_i386 $optimize $headers  $debug $security -ffreestanding  -fno-exceptions -fno-rtti -fpermissive -c -o $tap $tbp
 
 done
 objbp="${objbp:1}"
@@ -159,4 +160,4 @@ objcopy --only-keep-debug kernel.bin kernel.sym
 
 rm -f kernel.bin
 
-qemu-system-i386 -cdrom SlylockOS.iso -m 256M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6
+qemu-system-i386 -cdrom SlylockOS.iso -m 256M -vga std -serial file:serial.log -drive file=floppy.img,format=raw,if=ide -device virtio-mouse -device sb16 -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=5 -device nec-usb-xhci,id=usb,bus=pci.0,addr=6 -curses

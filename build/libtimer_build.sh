@@ -25,7 +25,7 @@ for i in $(seq 1 $endp); do
 tap=$(echo ./libtimerbin/$(basename $(echo $cppobjects | cut -d" " -f$i )))
 tbp=$(echo $cppsources | cut -d" " -f$i)
 objbp="${objbp} ${tap}"
-g++ -m32 -elf_i386 $optimize $headers -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -fpermissive -fstack-protector-all -c -o $tap $tbp
+g++ -m32 -elf_i386 $optimize $headers  $debug $security -ffreestanding  -fno-exceptions -fno-rtti -fpermissive -c -o $tap $tbp
 
 done
 objbp="${objbp:1}"

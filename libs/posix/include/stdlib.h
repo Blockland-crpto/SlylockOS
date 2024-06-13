@@ -39,6 +39,8 @@
 #define WTERMSIG(status) (status)
 #define WUNTRACED 2
 
+
+
 #if defined(__cplusplus)
 extern "C" {
 	#define restrict __restrict__
@@ -59,7 +61,7 @@ extern "C" {
 		long long int rem;
 	} lldiv_t;
 
-
+	
 	typedef int wchar_t;
 	typedef unsigned int size_t;
 	

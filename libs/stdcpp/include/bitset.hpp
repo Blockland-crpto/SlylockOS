@@ -18,51 +18,18 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdio.h>
-#include <string.h>
-#include <stdarg.h>
- 
 
-int vsnprintf(char *restrict s, size_t size, const char *restrict temp, va_list ap) {
-	const char *ptr = temp;
-	int len = 0;
-	while (*ptr && (unsigned)len <= size) {
-		if (*ptr == '%') {
-			ptr++;
-			char buf[256];
-			switch (*ptr++) {
-				case 's': {
-					const char* str = va_arg(ap, const char *);
-					while (*str) {
-						*s++ = *str++;
-						len++;
-					}
-					break;
-				} case 'd': {
-					int num = va_arg(ap, int);
-					const char* str = itoa(num, buf, 10);
-					while (*str) {
-						*s++ = *str++;
-						len++;
-					}
-					break;
-				} case 'x': {
-					int num = va_arg(ap, int);
-					const char* str = itoa(num, buf, 16);
-					while (*str) {
-						*s++ = *str++;
-						len++;
-					}
-					break;
-				} default: {
-					return -1;
-				}
-			}
-		} else {
-			*s++ = *ptr++;
-			len++;
-		}
-	}
-	va_end(ap);
-	return len;
+#include <stddef.h>
+
+namespace std {
+	template<size_t N> class bitset {
+		public:
+			constexpr bitset() noexcept;
+			constexpr bitset(unsigned long long val) noexcept;
+		private:
+			unsigned long long val;
+	};
+	template<size_t N> constexpr bitset<N> operator&(const bitset<N>&, const bitset<N>&);
+	template<size_t N> constexpr bitset<N> operator|(const bitset<N>&, const bitset<N>&);
+	template<size_t N> constexpr bitset<N> operator^(const bitset<N>&, const bitset<N>&);
 }

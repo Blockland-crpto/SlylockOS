@@ -18,51 +18,32 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stdio.h>
-#include <string.h>
-#include <stdarg.h>
- 
+#include <bitset.hpp>
 
-int vsnprintf(char *restrict s, size_t size, const char *restrict temp, va_list ap) {
-	const char *ptr = temp;
-	int len = 0;
-	while (*ptr && (unsigned)len <= size) {
-		if (*ptr == '%') {
-			ptr++;
-			char buf[256];
-			switch (*ptr++) {
-				case 's': {
-					const char* str = va_arg(ap, const char *);
-					while (*str) {
-						*s++ = *str++;
-						len++;
-					}
-					break;
-				} case 'd': {
-					int num = va_arg(ap, int);
-					const char* str = itoa(num, buf, 10);
-					while (*str) {
-						*s++ = *str++;
-						len++;
-					}
-					break;
-				} case 'x': {
-					int num = va_arg(ap, int);
-					const char* str = itoa(num, buf, 16);
-					while (*str) {
-						*s++ = *str++;
-						len++;
-					}
-					break;
-				} default: {
-					return -1;
-				}
-			}
-		} else {
-			*s++ = *ptr++;
-			len++;
-		}
-	}
-	va_end(ap);
-	return len;
+
+template<size_t N> std::bitset<N> bitset() noexcept {
+	// return a bitset thats 0
+	std::bitset<N> result;
+	result.val = 0;
+	return result;
+}
+
+template<size_t N> std::bitset<N> bitset(unsigned long long val) noexcept {
+	//return a bitset that is the value
+	std::bitset<N> result;
+	result.val = val;
+	return result;
+	
+}
+
+template<size_t N> constexpr std::bitset<N> operator&(const std::bitset<N>& lhs, const std::bitset<N>& rhs) {
+	return (lhs.val &= rhs.val);
+}
+
+template<size_t N> constexpr std::bitset<N> operator|(const std::bitset<N>& lhs, const std::bitset<N>& rhs) {
+	return (lhs.val |= rhs.val);
+}
+
+template<size_t N> constexpr std::bitset<N> operator^(const std::bitset<N>& lhs, const std::bitset<N>& rhs) {
+	return (lhs.val ^= rhs.val);
 }

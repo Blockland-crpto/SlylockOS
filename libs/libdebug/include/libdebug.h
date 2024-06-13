@@ -62,7 +62,7 @@ extern "C" {
 	#ifdef DEBUG
 		debug = 16,
 	#endif
-		UNCAUGHT_ERROR = 17,
+		PROC_MEM_EXPLOIT = 17,
 	};
 	
 	//panic function

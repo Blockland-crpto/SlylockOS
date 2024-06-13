@@ -78,7 +78,6 @@ void proc_create(int (*entry_point)(), enum proc_priority priority, int parent) 
 	task_queue[task_count].heap_allocations_used = 0;
 	task_queue[task_count].acpi_allowed = false;
 	task_queue[task_count].file_stream_allocations_used = 0;
-	task_queue[task_count].memaligned_allocations_used = 0;
 }
 
 //function to remove a task
@@ -91,14 +90,6 @@ void proc_destroy(int id) {
 		kfree(task_queue[id].heap_allocations[i]);
 	}
 
-	//lets also free mem aligned stuff
-	for (size_t i = 0; i <= task_queue[id].memaligned_allocations_used; i++) {
-		kfree(task_queue[id].memaligned_allocations[i].mem_address);
-		if (task_queue[id].memaligned_allocations[i].pad_address != NULL) {
-			kfree(task_queue[id].memaligned_allocations[i].pad_address);
-		}
-	}
-
 	//lets destroy its subprocesses
 	for (int i = 0; i < MAX_PROCS_USABLE; i++) {
 		if (task_queue[i].parent_id == id) {
@@ -108,14 +99,6 @@ void proc_destroy(int id) {
 			//now lets free the memory
 			for (size_t i = 0; i <= task_queue[id].heap_allocations_used; i++) {
 				kfree(task_queue[id].heap_allocations[i]);
-			}
-
-			//lets also free mem aligned stuff
-			for (size_t i = 0; i <= task_queue[id].memaligned_allocations_used; i++) {
-				kfree(task_queue[id].memaligned_allocations[i].mem_address);
-				if (task_queue[id].memaligned_allocations[i].pad_address != NULL) {
-					kfree(task_queue[id].memaligned_allocations[i].pad_address);
-				}
 			}
 		} 
 	}

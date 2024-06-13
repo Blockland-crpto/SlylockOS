@@ -21,11 +21,79 @@
 #include <new.hpp>
 #include <string.h>
 #include <stdlib.h>
+#include <libproc.h>
+#include <libmem.h>
+#include <libdebug.h>
+
+void operator delete(void* ptr) noexcept {
+	if (task_queue[0].entry_point == NULL) {
+		//kernel called it
+		kfree(ptr);
+	} else {
+		//userspace called it
+		free(ptr);
+	}
+}
+
+void operator delete(void* ptr, std::align_val_t al) noexcept {
+	//lets check if this is a process or kernel doing this
+	if (task_queue[0].entry_point == NULL) {
+		//this is a kernel
+		kfree(ptr);
+	} else {
+		//lets see the processes usage to ensure its used
+		intptr_t ptrd = (intptr_t)ptr;
+		if (ptrd % (long)al != 0) {
+			//oops
+			panic("delete tried to delete a wrong alignment", PROC_MEM_EXPLOIT);
+		}
+		free(ptr);
+	}
+}
+
+void operator delete[](void* ptr, std::align_val_t al) noexcept {
+	//lets check if this is a process or kernel doing this
+	if (task_queue[0].entry_point == NULL) {
+		//this is a kernel
+		kfree(ptr);
+	} else {
+		//lets see the processes usage to ensure its used
+		intptr_t ptrd = (intptr_t)ptr;
+		if (ptrd % (long)al != 0) {
+			//oops
+			panic("delete tried to delete a wrong alignment", PROC_MEM_EXPLOIT);
+		}
+		free(ptr);
+	}
+}
 
 void operator delete(void* ptr, size_t sz) noexcept {
-	free(ptr);
+	//lets check if this is a process or kernel doing this
+	if (task_queue[0].entry_point == NULL) {
+		//this is a kernel
+		kfree(ptr);
+	} else {
+		//lets see the processes usage to ensure its used
+		if (task_queue[0].memory_delegated < sz) {
+			//oops
+			panic("delete tried to delete over its delegated memory", PROC_MEM_EXPLOIT);
+		}
+		free(ptr);
+	}
+	
 }
 
 void operator delete [](void* ptr, size_t sz) noexcept {
-	free(ptr);
+	//lets check if this is a process or kernel doing this
+	if (task_queue[0].entry_point == NULL) {
+		//this is a kernel
+		kfree(ptr);
+	} else {
+		//lets see the processes usage to ensure its used
+		if (task_queue[0].memory_delegated < sz) {
+			//oops
+			panic("delete tried to delete over its delegated memory", PROC_MEM_EXPLOIT);
+		}
+		free(ptr);
+	}
 }

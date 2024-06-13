@@ -23,8 +23,8 @@
 #include <stdarg.h>
  
 
-int vsprintf(char *restrict s, const char *restrict template, va_list ap) {
-	const char *ptr = template;
+int vsprintf(char *restrict s, const char *restrict temp, va_list ap) {
+	const char *ptr = temp;
 	int len = 0;
 	while (*ptr) {
 		if (*ptr == '%') {

@@ -50,7 +50,7 @@ void *malloc(size_t numbytes) {
 	void* addr = kalloc((long)numbytes);
 
 	//next lets add it to its list
-task_queue[0].heap_allocations[task_queue[0].heap_allocations_used++] = addr;
+	task_queue[0].heap_allocations[task_queue[0].heap_allocations_used++] = addr;
 
 	//lets return the address
 	return addr;

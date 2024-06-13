@@ -23,11 +23,11 @@
 #include <stdarg.h>
  
 
-int sprintf(char *restrict s, const char *restrict template, ...) {
+int sprintf(char *restrict s, const char *restrict temp, ...) {
 	va_list ap;
-	va_start(ap, template);
+	va_start(ap, temp);
 
-	const char *ptr = template;
+	const char *ptr = temp;
 	int len = 0;
 	while (*ptr) {
 		if (*ptr == '%') {

@@ -23,53 +23,39 @@
 #include <libmem.h>
 #include <libdebug.h>
 #include <libproc.h>
+#include <libdelegate.h>
 
 int posix_memalign(void **memptr, size_t alignment, size_t size) {
-	//lets first find the nearest address
-	int* memaddress = (int*)kalloc(1);
 
-	//lets turn memaddress to a value
-	intptr_t addr = (intptr_t)memaddress;
+	//here it is
+	int heap_used = task_queue[0].heap_used;
 
-	mem_aligned_ctrl_block block;
-	
-	//if its null we need to error out
-	if (memaddress == 0) {
-		//uh oh!
-		panic("not enough memory when posix_memalign was called", INSUFFICIENT_RAM);
+	if (heap_used + size > task_queue[0].memory_delegated) {
+
+		//lets send a request for more memory to be delegated
+		int request_result = delegate_request(RESOURCE_MEMORY, &task_queue[0], size);
+
+		//did it return successful?
+		if (request_result == 0) {
+			task_queue[0].heap_used += size;
+		} else {
+			return -1;
+		}
+	} else {
+		task_queue[0].heap_used += size;
+	}
+
+	//todo: see if we can free anything before doing this
+
+	void* ptr = kaligned_alloc((long)size, (long)alignment);
+
+	if (ptr == NULL) {
 		return -1;
+	} else {
+		*memptr = ptr;
+		//next lets add it to its list
+		task_queue[0].heap_allocations[task_queue[0].heap_allocations_used++] = ptr;
 	}
-
-	//okay now lets see if the address is aligned
-	if (addr % alignment != 0) {
-		//iterate to compare 
-		bool checking = true;
-		long dist = 0;
-		do {
-			//lets increment the address
-			addr++;
-			dist++;
-			if (addr % alignment != 0) {
-				//next!
-				continue;
-			} else {
-				checking = false;
-				break;
-			}
-		} while(checking);
-
-		//next lets get the padding
-		void* padding = kalloc(dist);
-
-		//add to the list of padded area
-		block.pad_address = padding;
-	} else {	
-		block.pad_address = NULL;
-	}
-
-	void* data = malloc(size);
-	block.mem_address = memaddress;
-	task_queue[0].memaligned_allocations[task_queue[0].memaligned_allocations_used++] = block;
-	*memptr = data;
+	
 	return 0;
 }

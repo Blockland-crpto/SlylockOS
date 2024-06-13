@@ -18,7 +18,14 @@
 * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
 * OTHER DEALINGS IN THE SOFTWARE.
 */
-#include <stddef.h>
+#include <cstddef.hpp>
 
+namespace std {
+	enum class align_val_t : std::size_t {};
+}
+
+void operator delete(void* ptr) noexcept;
+void operator delete(void* ptr, std::align_val_t al) noexcept;
+void operator delete[](void* ptr, std::align_val_t al) noexcept;
 void operator delete(void* ptr, size_t sz) noexcept;
-void operator delete [](void* ptr, size_t sz) noexcept;
+void operator delete[](void* ptr, size_t sz) noexcept;

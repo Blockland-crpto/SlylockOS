@@ -21,6 +21,8 @@
 #include <libmem.h>
 #include <libmultiboot.h>
 #include <string.h>
+#include <libdebug.h>
+#include <stdbool.h>
 //#include <libvalidate.h>
  
 
@@ -79,4 +81,54 @@ void kfree(void *firstbyte) {
 	mcb->is_available = 1;
 	memset(mcb, 0, size);
 	return;
+}
+
+__attribute__ ((malloc, alloc_size(1))) void *kaligned_alloc(long numbytes, long alignment) {
+	//lets first find the nearest address
+	int* memaddress = (int*)kalloc(1);
+
+	//lets turn memaddress to a value
+	intptr_t addr = (intptr_t)memaddress;
+
+	//if its null we need to error out
+	if (memaddress == 0) {
+		//uh oh!
+		panic("not enough memory when kaligned_alloc was called", INSUFFICIENT_RAM);
+		return NULL;
+	}
+
+	//okay now lets see if the address is aligned
+	void* padding;
+	if (addr % alignment != 0) {
+		//iterate to compare 
+		bool checking = true;
+		long dist = 0;
+		do {
+			//lets increment the address
+			addr++;
+			dist++;
+			if (addr % alignment != 0) {
+				//next!
+				continue;
+			} else {
+				checking = false;
+				break;
+			}
+		} while(checking);
+
+		//next lets get the padding
+		padding = kalloc(dist);
+
+	} else {
+		padding = NULL;
+	}
+	
+	void* data = kalloc(numbytes);
+
+	if (padding != NULL) {
+		kfree(padding);
+	}
+	kfree(memaddress);
+
+	return data;
 }
